@@ -2,7 +2,7 @@ const { usersDb } = require("../models/index");
 const getFileUpload = require("./file-upload");
 
 // read data controllers
-function getAllUsers(req, res)  {
+function getAll(req, res)  {
 
     res.setHeader("Content-type", "application/json");
 
@@ -20,7 +20,7 @@ function getAllUsers(req, res)  {
         });
 }
 
-function getUserById(req, res)  {
+function getOneById(req, res)  {
     res.setHeader("Content-type", "application/json");
 
     usersDb.getById(req.params.id)
@@ -45,7 +45,7 @@ function getByUrl(req, res) {
         });
 }
 
-function getAllFilteredUsers(req, res)  {
+function getAllFiltered(req, res)  {
     let filter = req.query;
     res.setHeader("Content-type", "application/json");
 
@@ -54,12 +54,27 @@ function getAllFilteredUsers(req, res)  {
             res.send(JSON.stringify(result, null, 4));
         })
         .catch(err => {
+            res.status(403).send(JSON.stringify({status : 403, message : err.message}, null, 4));
+        });
+}
+
+function getOneByFilter(req, res)  {
+    let filter = req.query;
+    res.setHeader("Content-type", "application/json");
+
+    usersDb.getOneByFilter(filter)
+        .then(result => {
+            if(!result)
+            res.send(JSON.stringify(result, null, 4));
+        })
+        .catch(err => {
             res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
         });
 }
 
+
 function getAllManagedUsers(req, res) {
-    let {userId, permissionLevel} = req.authUserDetails;
+    let { userId, permissionLevel } = req.authUserDetails;
 
     res.setHeader("Content-type", "application/json");
     usersDb.getAllFilteredData({permissionLevel : { "$lte": permissionLevel - 1 }})
@@ -72,19 +87,37 @@ function getAllManagedUsers(req, res) {
 }
 
 
+function getMangedUserById(req, res)    {
+    let { userId, permissionLevel } = req.authUserDetails;
+
+    res.setHeader("Content-type", "application/json");
+    usersDb.getById(req.params.id)
+        .then(result => {
+            if(!result) throw Error("User not found");
+            if(result.permissionLevel >= permissionLevel)   {
+                throw Error("Permission Denied : you are trying to access user's information with higher access level than that of yours.")
+            }
+            res.send(JSON.stringify(result, null, 4));
+        })
+        .catch(err => {
+            res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
+        });
+
+}
+
+
 // create data controllers
-function createUser(req, res)   {
+function create(req, res)   {
     res.setHeader("Content-type", "application/json");
     try{
-        let {userId, permissionLevel} = req.authUserDetails,
-        file = req.file;
+        let { userId, permissionLevel } = req.authUserDetails,
+            file = req.file;
 
         req.body.permissionLevel = permissionLevel < 5 && permissionLevel > 1 ? permissionLevel - 1 : 1;
         res.setHeader("Content-type", "application/json");
 
         
-
-        usersDb.create(req.body).
+        usersDb.create({...req.body, username : req.body.username.toLowerCase()}).
             then(result => {
                 res.send(JSON.stringify(result, null, 4));
             })
@@ -93,15 +126,12 @@ function createUser(req, res)   {
             });
     }
     catch(err)  {
-
+        res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
     }
-    
-
-    
 }
 
 
-function createMultipleUsers(req, res)  {
+function createMultiple(req, res)  {
     let {userId, permissionLevel} = req.authUserDetails;
 
     res.setHeader("Content-type", "application/json");
@@ -121,11 +151,11 @@ function createMultipleUsers(req, res)  {
 
 
 // update data controllers
-async function updateUser(req, res)   {
+async function update(req, res)   {
 
     res.setHeader("Content-type", "application/json");
 
-    let {userId, permissionLevel} = req.authUserDetails;
+    let { userId, permissionLevel } = req.authUserDetails;
 
     let foundUser =  await usersDb.getById(req.params.id);
     if(foundUser)   {
@@ -156,7 +186,7 @@ async function updateUser(req, res)   {
 
 
 // delete data controllers
-async function deleteUser(req, res)   {
+async function deleteById(req, res)   {
     res.setHeader("Content-type", "application/json");
     
     let {userId, permissionLevel} = req.authUserDetails,
@@ -175,7 +205,7 @@ async function deleteUser(req, res)   {
     }
 }
 
-function deleteMultipleUsers(req, res)  {
+function deleteMultiple(req, res)  {
     let filter = req.query;
     res.setHeader("Content-type", "application/json");
 
@@ -189,15 +219,17 @@ function deleteMultipleUsers(req, res)  {
 const fileUpload = getFileUpload(process.cwd(), "views", "uploads", "images", "users");
 
 module.exports = { 
-    getAllUsers,
-    getUserById,
-    getByUrl,
-    getAllFilteredUsers,
-    getAllManagedUsers,
-    createUser,
-    createMultipleUsers,
-    updateUser,
-    deleteUser,
-    deleteMultipleUsers,
+    getAll, 
+    getOneById, 
+    getOneByFilter, 
+    getAllFiltered, 
+    getAllManagedUsers, 
+    getMangedUserById,
+    getByUrl, 
+    create, 
+    update, 
+    deleteById,
+    deleteMultiple,
+    createMultiple,
     fileUpload,
 };

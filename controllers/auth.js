@@ -4,7 +4,7 @@ const crypto = require("crypto")
 
 module.exports = async function(req, res) {
     let { username, password } = req.body,
-    foundUser = await usersDb.getOneByFilter({username});
+    foundUser = await usersDb.getOneByFilter({username : username.toLowerCase()});
 
     res.setHeader("Content-type", "application/json");
     if(!foundUser)  {

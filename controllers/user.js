@@ -38,6 +38,7 @@ function getByUrl(req, res) {
 
     usersDb.getOneByFilter({friendlyUrl : req.params.friendlyUrl})
         .then(result => {
+            if(!result) throw Error("User not found");
             res.send(JSON.stringify(result, null, 4));
         })
         .catch(err => {
@@ -64,7 +65,7 @@ function getOneByFilter(req, res)  {
 
     usersDb.getOneByFilter(filter)
         .then(result => {
-            if(!result)
+            if(!result) throw Error("User not found");
             res.send(JSON.stringify(result, null, 4));
         })
         .catch(err => {

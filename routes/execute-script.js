@@ -14,6 +14,6 @@ router.get("/script/create-csv/:scriptId", createCsvFile); // we then return the
 
 router.post("/script/create-csv-saved-data/", createCsvSavedData); // we then return the created csv file along with the images...
 
-router.post("/script/remove-scraper-object/:scriptId", removeGlobalScaperObject)
+router.post("/script/remove-scraper-object/:scriptId", removeGlobalScaperObject) // delete some of the old scraper object
 
 module.exports = router;

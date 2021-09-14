@@ -9,7 +9,7 @@ let { getAll, getOneById, getOneByFilter, getAllFiltered, getAllManagedUsers, ge
 router.get("/users", getAll);
 
 // get single filtered
-router.get("/users/single", getOneByFilter);
+router.get("/users/single?", getOneByFilter);
 
 // get all by filter
 router.get("/users/all?", getAllFiltered); // uses req.query for filtering data

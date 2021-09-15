@@ -97,6 +97,7 @@ class StandardScraperScript {
         this.currentCount = 0;
         this.rescraping = false;
         this.showEvents();
+        this.scriptRunning = false;
     }
 
 
@@ -432,6 +433,7 @@ class StandardScraperScript {
 
     async executeEvaluators()   {
         
+        this.scriptRunning = true;
 
         for(let i = 0; i < this.evaluatorObjects.length; i++) {
             let evaluatorObject = this.evaluatorObjects[i];
@@ -556,6 +558,7 @@ class StandardScraperScript {
         };
 
         setTimeout(() => {
+            this.scriptRunning = false;
             this.currentEvent = {
                 message : `We have successfully scraped the data...`,
                 status : `success`,
@@ -595,7 +598,7 @@ class StandardScraperScript {
             if(this.currentEvent.phase !== "finished-scraping")   {
                 if(!isObjectInArray(this.currentEvent, emittedObjects)) {
                     emittedObjects.push(this.currentEvent);
-                    io.emit("current-process", this.currentEvent);
+                    io.local.emit("current-process", this.currentEvent);
                 }
                 timeout = setTimeout(() => getNewData(), 25);
             } else  {

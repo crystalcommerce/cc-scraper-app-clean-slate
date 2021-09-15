@@ -77,8 +77,6 @@ async function executeScraper(req, res) {
         let savedScript = await global.currentRuninngScripts.find(script => script.scriptId === req.params.scriptId);
         scraperScript = savedScript.instance;
 
-
-
         // sending back the response
         res.send(JSON.stringify({
             statusOk : true,
@@ -102,12 +100,45 @@ async function executeScraper(req, res) {
 
         // bulk image downloading...
         await scraperScript.downloadImagesByBulk();
-
-
-        
         
     }
 }
+
+
+async function checkRunningScript(req, res) {
+    res.setHeader("Content-type", "application/json");
+    let scraperScript = null;
+
+    try {
+        let savedScript = await global.currentRuninngScripts.find(script => script.scriptId === req.params.scriptId);
+            scraperScript = savedScript.instance;
+
+        if(scraperScript.scriptRunning)   {
+            res.send(JSON.stringify({
+                statusOk : true,
+                message : "Currently running the script.",
+                scriptRunning : scraperScript.scriptRunning,
+                data : {scrapedProducts : scraperScript.productObjects, unscrapedProducts : scraperScript.unscrapedData}
+            }, null, 4));
+        } else  {
+            res.send(JSON.stringify({
+                statusOk : true,
+                message : "Script has finished running.",
+                scriptRunning : false,
+                data : {scrapedProducts : scraperScript.productObjects, unscrapedProducts : scraperScript.unscrapedData}
+            }, null, 4));
+        }
+    }
+    catch(err)  {
+        let result = JSON.stringify({
+            message : err.message,
+            status : 404,
+            err,
+        }, null, 4);
+        res.status(404).send(result);
+    }
+}
+
 
 async function killProcess(req, res)    {
     res.setHeader("Content-type", "application/json");
@@ -371,4 +402,4 @@ async function createCsvSavedData(req, res) {
 }
 
 
-module.exports = { executeScraper, killProcess, createCsvFile, saveDataToDatabase, createScraperScript, createCsvSavedData, removeGlobalScaperObject };
+module.exports = { executeScraper, killProcess, createCsvFile, saveDataToDatabase, createScraperScript, createCsvSavedData, removeGlobalScaperObject, checkRunningScript };

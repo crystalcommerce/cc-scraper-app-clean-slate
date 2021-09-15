@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { executeScraper, killProcess, saveDataToDatabase, createCsvFile, createScraperScript, createCsvSavedData, removeGlobalScaperObject } = require("../controllers/scraper-script");
+const { executeScraper, killProcess, saveDataToDatabase, createCsvFile, createScraperScript, createCsvSavedData, removeGlobalScaperObject, checkRunningScript } = require("../controllers/scraper-script");
 
 router.post("/script/create-script/:id", createScraperScript);
 
@@ -15,5 +15,7 @@ router.get("/script/create-csv/:scriptId", createCsvFile); // we then return the
 router.post("/script/create-csv-saved-data/", createCsvSavedData); // we then return the created csv file along with the images...
 
 router.post("/script/remove-scraper-object/:scriptId", removeGlobalScaperObject) // delete some of the old scraper object
+
+router.get("/script/check-running-script/:scriptId", checkRunningScript) // check if a script is currently running..
 
 module.exports = router;

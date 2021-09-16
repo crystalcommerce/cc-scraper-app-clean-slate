@@ -93,7 +93,7 @@ mongoose.connect(process.env.PROD_DB_CONNECT, {
  app.use(express.json({extended : true}));
  app.use(cors({ origin: true }));
  app.use(cookieSession({keys : ["scraper", "cc-scraper"]}))
- app.use(express.static(path.join(__dirname, 'views')));
+//  app.use(express.static(path.join(__dirname, 'views')));
  // this dynamically finds the route object to be used from routes/dynamic/ 
  // these routes are created upon making a scraper script.
  app.use("/api", apiRouteObjectFinder); 

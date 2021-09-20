@@ -1,7 +1,7 @@
 const path = require("path");
 const { imagesDb } = require("../models");
 
-module.exports = function(modelInstanceDb, recordName) {
+module.exports = function(io, modelInstanceDb, recordName) {
 
     function getAll(req, res)   {
 

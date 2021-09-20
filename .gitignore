@@ -1,6 +1,5 @@
 node_modules/
 __test/
-scripts/
 data/
 users.json
 # Elastic Beanstalk Files

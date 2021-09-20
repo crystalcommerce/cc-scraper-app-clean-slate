@@ -1,6 +1,6 @@
 //  TODO : assign a dirPath where images will be stored or use an S3 bucket like type of storage...
 
-module.exports = function(modelInstanceDb, recordName) {
+module.exports = function(io, modelInstanceDb, recordName) {
 
     function getAll(req, res)   {
 

@@ -4,35 +4,40 @@ const productSetControllers = require("../controllers/generic.js");
 const productSetsDb = require('../models/product-set');
 
 
-const { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById } = productSetControllers(productSetsDb, "Product Set");
+module.exports = function(io)   {
+
+    const { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById } = productSetControllers(io, productSetsDb, "Product Set");
 
 
-// getAll Handler
-router.get("/product-sets/", getAll);
+    // getAll Handler
+    router.get("/product-sets/", getAll);
 
 
-// getOneByFilter hanlder
-router.get("/product-sets/single?", getOneByFilter);
+    // getOneByFilter hanlder
+    router.get("/product-sets/single?", getOneByFilter);
 
 
-// getAllFiltered hanlder
-router.get("/product-sets/all?", getAllFiltered);
+    // getAllFiltered hanlder
+    router.get("/product-sets/all?", getAllFiltered);
 
 
-// getOneById handler
-router.get("/product-sets/:id", getOneById);
+    // getOneById handler
+    router.get("/product-sets/:id", getOneById);
 
 
-// create
-router.post("/product-sets/", create);
+    // create
+    router.post("/product-sets/", create);
 
 
-// updateHandler
-router.put("/product-sets/:id", update);
+    // updateHandler
+    router.put("/product-sets/:id", update);
 
 
-// deleteHandler
-router.delete("/product-sets/:id", deleteById);
+    // deleteHandler
+    router.delete("/product-sets/:id", deleteById);
 
 
-module.exports = router;
+    return router;
+    
+}
+

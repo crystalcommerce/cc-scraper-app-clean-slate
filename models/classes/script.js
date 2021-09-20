@@ -128,10 +128,13 @@ class Script {
         let filePath = path.join(this.mainDirPath, "index.js"),
             content = "";
         if(this.scraperType === "standard") {
-            content += `const { StandardScraperScript } = require("../../../core");\n`;
+            content += `const getScript = require("../../../core");\n`;
             content += `const evaluatorObjects = require("./evaluators");\n`;
             content += `\n`;
-            content += `module.exports = function(scraperOptions)   {\n`;
+            content += `module.exports = function(io, scraperOptions)   {\n`;
+            content += `\n`;
+            content += `\tconst { StandardScraperScript } = getScript(io);\n`;
+            content += `\n`;
             content += `\treturn new StandardScraperScript({...scraperOptions, evaluatorObjects});\n`;
             content += `}`;
         } else  {

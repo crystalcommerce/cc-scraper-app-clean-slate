@@ -23,9 +23,6 @@ class Model  {
 
         let { models } = await Model.getModels();
 
-        console.log(models.find(model => model.fileName === this.fileName || `${model.fileName}s` === this.fileName));
-        console.log(this.fileName);
-        console.log(models);
         if(models.find(model => model.fileName === this.fileName || `${model.fileName}s` === this.fileName))  {
             return {statusOk : false, message : "You cannot use this model name 'cause this is part of the core models used by this application."};
         }
@@ -96,23 +93,35 @@ class Model  {
     }
 
     static async getModels()  {
-        let modelsFolder = path.join(process.cwd(), "models"),
-            dynamicModelsFolder = path.join(modelsFolder, "dynamic"),
-            modelFiles = await getAllFilesFromDirectory(modelsFolder),
-            dynamicModelFiles = await getAllFilesFromDirectory(dynamicModelsFolder),
-            models = await Model.getModelObject(modelFiles, "."),
-            dynamicModels = await Model.getModelObject(dynamicModelFiles, "./dynamic");
+        try {
+            let modelsFolder = path.join(process.cwd(), "models"),
+                dynamicModelsFolder = path.join(modelsFolder, "dynamic"),
+                modelFiles = await getAllFilesFromDirectory(modelsFolder),
+                dynamicModelFiles = await getAllFilesFromDirectory(dynamicModelsFolder),
+                models = await Model.getModelObject(modelFiles, "."),
+                dynamicModels = await Model.getModelObject(dynamicModelFiles, "./dynamic");
 
-        return {models, dynamicModels};
+            return {models, dynamicModels};
+        }
+        catch(err)  {
+            console.log(err);
+
+            return null;
+        }
     }
 
     static async getModelByName(modelName)   {
-        let modelsFolder = path.join(process.cwd(), "models"),
+        try {
+            let modelsFolder = path.join(process.cwd(), "models"),
             dynamicModelsFolder = path.join(modelsFolder, "dynamic"),
             dynamicModelFiles = await getAllFilesFromDirectory(dynamicModelsFolder),
             dynamicModels = await Model.getModelObject(dynamicModelFiles, "./dynamic");
         
-        return dynamicModels.find(item => item.fileName === modelName);        
+            return dynamicModels.find(item => item.fileName === modelName);
+        }
+        catch (err) {
+            return null;
+        }           
     }
 
     static async updateModelByName(modelName, schema, initializedProps, newModelName = null)  {

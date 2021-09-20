@@ -1,21 +1,29 @@
 const express = require("express");
 const router = express.Router();
-const { executeScraper, killProcess, saveDataToDatabase, createCsvFile, createScraperScript, createCsvSavedData, removeGlobalScaperObject, checkRunningScript } = require("../controllers/scraper-script");
+const executeScriptController = require("../controllers/scraper-script");
 
-router.post("/script/create-script/:id", createScraperScript);
+module.exports = function(io)   {
 
-router.post("/script/execute-script/:scriptId", executeScraper); 
+    const { executeScraper, killProcess, saveDataToDatabase, createCsvFile, createScraperScript, createCsvSavedData, removeGlobalScaperObject, checkRunningScript } = executeScriptController(io);
 
-router.post("/script/save-data/:scriptId", saveDataToDatabase); // we need to send the apiRoute back
+    router.post("/script/create-script/:id", createScraperScript);
 
-router.get("/script/kill-script-processes/:scriptId", killProcess); // we only need the script id; haven't tested this yet...
+    router.post("/script/execute-script/:scriptId", executeScraper); 
 
-router.get("/script/create-csv/:scriptId", createCsvFile); // we then return the created csv file along with the images...
+    router.post("/script/save-data/:scriptId", saveDataToDatabase); // we need to send the apiRoute back
 
-router.post("/script/create-csv-saved-data/", createCsvSavedData); // we then return the created csv file along with the images...
+    router.get("/script/kill-script-processes/:scriptId", killProcess); // we only need the script id; haven't tested this yet...
 
-router.post("/script/remove-scraper-object/:scriptId", removeGlobalScaperObject) // delete some of the old scraper object
+    router.get("/script/create-csv/:scriptId", createCsvFile); // we then return the created csv file along with the images...
 
-router.get("/script/check-running-script/:scriptId", checkRunningScript) // check if a script is currently running..
+    router.post("/script/create-csv-saved-data/", createCsvSavedData); // we then return the created csv file along with the images...
 
-module.exports = router;
+    router.post("/script/remove-scraper-object/:scriptId", removeGlobalScaperObject) // delete some of the old scraper object
+
+    router.get("/script/check-running-script/:scriptId", checkRunningScript) // check if a script is currently running..
+
+
+    return router;
+    
+}
+

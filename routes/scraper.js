@@ -1,29 +1,34 @@
 const express = require("express");
 const router = express.Router();
-const { create, getOneById, getOneByFilter, getAll, update, deleteOne } = require("../controllers/scraper");
+const scrapersController = require("../controllers/scraper");
 
+module.exports = function(io)   {
 
-/* +++++++ READ ++++++++ */
-router.get("/scrapers/", getAll);
+    const { create, getOneById, getOneByFilter, getAll, update, deleteOne } = scrapersController(io);
 
-router.get("/scrapers/single?", getOneByFilter);
+    /* +++++++ READ ++++++++ */
+    router.get("/scrapers/", getAll);
 
-router.get("/scrapers/:id", getOneById);
+    router.get("/scrapers/single?", getOneByFilter);
 
-
-
-/* +++++++ Create a Scraper ++++++++ */
-router.post("/scrapers/", create);
+    router.get("/scrapers/:id", getOneById);
 
 
 
-/* +++++++ Update a Scraper ++++++++ */
-// Note : this only allows updating the evaluator functions;
-router.put("/scrapers/:id", update);
+    /* +++++++ Create a Scraper ++++++++ */
+    router.post("/scrapers/", create);
 
 
-/* +++++++ delete a Scraper ++++++++ */
-router.delete("/scrapers/:id", deleteOne);
+
+    /* +++++++ Update a Scraper ++++++++ */
+    // Note : this only allows updating the evaluator functions;
+    router.put("/scrapers/:id", update);
 
 
-module.exports = router;
+    /* +++++++ delete a Scraper ++++++++ */
+    router.delete("/scrapers/:id", deleteOne);
+
+
+    return router;
+}
+

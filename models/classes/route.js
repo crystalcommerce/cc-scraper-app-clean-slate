@@ -24,48 +24,52 @@ class Route {
         content += `const express = require("express");\n`;
         content += `const router = express.Router();\n`;
         content += `const ${this.camelCasedName}Controllers = require("../../controllers/generic.js");\n`;
-        content += `const ${modelInstanceName} = require('../../models/dynamic/${this.fileName}');\n`
+        content += `const ${modelInstanceName} = require('../../models/dynamic/${this.fileName}');\n`;
         content += `\n`;
         content += `\n`;
-        content += `const { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById } = ${this.camelCasedName}Controllers(${modelInstanceName}, "${recordName}");\n`;
+        content += `module.exports = function(io)   {\n`;
+        content += `\n`;
+        content += `\tconst { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById } = ${this.camelCasedName}Controllers(io, ${modelInstanceName}, "${recordName}");\n`;
         content += `\n`;
         content += `\n`;
         content += `// getAll Handler\n`;
-        content += `router.get("/${routeName}/", getAll);\n`;
+        content += `\trouter.get("/${routeName}/", getAll);\n`;
 
         content += `\n`;
         content += `\n`;
         content += `// getOneByFilter hanlder\n`;
-        content += `router.get("/${routeName}/single?", getOneByFilter);\n`;
+        content += `\trouter.get("/${routeName}/single?", getOneByFilter);\n`;
 
         content += `\n`;
         content += `\n`;
         content += `// getAllFiltered hanlder\n`;
-        content += `router.get("/${routeName}/all?", getAllFiltered);\n`;
+        content += `\trouter.get("/${routeName}/all?", getAllFiltered);\n`;
 
         content += `\n`;
         content += `\n`;
         content += `// getOneById handler\n`;
-        content += `router.get("/${routeName}/:id", getOneById);\n`;
+        content += `\trouter.get("/${routeName}/:id", getOneById);\n`;
 
         content += `\n`;
         content += `\n`;
         content += `// create\n`;
-        content += `router.post("/${routeName}/", create);\n`;
+        content += `\trouter.post("/${routeName}/", create);\n`;
 
         content += `\n`;
         content += `\n`;
         content += `// updateHandler\n`;
-        content += `router.put("/${routeName}/:id", update);\n`;
+        content += `\trouter.put("/${routeName}/:id", update);\n`;
 
         content += `\n`;
         content += `\n`;
         content += `// deleteHandler\n`;
-        content += `router.delete("/${routeName}/:id", deleteById);\n`;
+        content += `\trouter.delete("/${routeName}/:id", deleteById);\n`;
 
         content += `\n`;
         content += `\n`;
-        content += `module.exports = router;`
+        content += `\treturn router;\n`;
+        content += `\n`;
+        content += `}`;
         
         let writeRouteResult = await writeFile(this.filePath, content);
 

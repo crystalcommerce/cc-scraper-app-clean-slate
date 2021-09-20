@@ -1,3 +1,12 @@
-const StandardScraperScript = require("./standard-scraper");
+const getStandardScraperScript = require("./standard-scraper");
 
-module.exports = { StandardScraperScript };
+module.exports = function(io)   {
+
+    const StandardScraperScript = getStandardScraperScript(io);
+
+    return { StandardScraperScript };
+    
+}
+
+
+

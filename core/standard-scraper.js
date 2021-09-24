@@ -68,7 +68,6 @@ module.exports = function(io)   {
             this.browserOptions = {
                 headless : true,
                 args: ['--no-sandbox'],
-                // headless : false,
             }
             this.pageOptions = {
                 height : 900,
@@ -77,7 +76,7 @@ module.exports = function(io)   {
             this.bulkScrapingOptions = {
                 bulkCount : 5,
                 maxBatchCount : 100,
-                timeDelay : 25000,
+                timeDelay : 70000,
                 maximumUnscrapedData : 5,
                 recursionTimes : 5,
                 recursive : true,
@@ -248,7 +247,9 @@ module.exports = function(io)   {
             }
     
             let productObjectProps = await page.evaluate(callback, ...args);
-    
+
+            console.log(productObjectProps);
+
             for(let key in productObjectProps)    {
                 productObject[key] = productObjectProps[key];
             }

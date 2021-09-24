@@ -1,5 +1,5 @@
 {
-  "name": "cc-new-scraper",
+  "name": "cc-scraper-app",
   "version": "1.0.0",
   "description": "A new scraper tool for Crystal Commerce.",
   "main": "index.js",

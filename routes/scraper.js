@@ -4,7 +4,7 @@ const scrapersController = require("../controllers/scraper");
 
 module.exports = function(io)   {
 
-    const { create, getOneById, getOneByFilter, getAll, update, deleteOne } = scrapersController(io);
+    const { create, getOneById, getOneByFilter, getAll, update, deleteOne, updateScraperDetails } = scrapersController(io);
 
     /* +++++++ READ ++++++++ */
     router.get("/scrapers/", getAll);
@@ -23,6 +23,8 @@ module.exports = function(io)   {
     /* +++++++ Update a Scraper ++++++++ */
     // Note : this only allows updating the evaluator functions;
     router.put("/scrapers/:id", update);
+
+    router.put("/scrapers/data/:id", updateScraperDetails);
 
 
     /* +++++++ delete a Scraper ++++++++ */

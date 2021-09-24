@@ -1,7 +1,12 @@
 node_modules/
 __test/
-data/
 users.json
+# scripts/*
+data/*
+# models/dynamic/*
+# routes/dynamic/*
+
+
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml

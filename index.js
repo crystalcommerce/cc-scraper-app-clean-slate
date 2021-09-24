@@ -70,7 +70,7 @@ const executeScriptSocketHandler = require("./sockets/execute-script-socket");
  *  Db Connection
  * 
 ***********************/
-// DB_CONNECT_ATLAS
+// DB_CONNECT_ATLAS PROD_DB_CONNECT
 mongoose.connect(process.env.PROD_DB_CONNECT, {
     useNewUrlParser : true, 
     useUnifiedTopology : true, 

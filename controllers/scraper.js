@@ -149,12 +149,40 @@ module.exports = function(io)   {
         
         // updating the scraper details in the db...    
         await scrapersDb.update(req.params.id, {evaluatorObjects})
-        .then(response => {
-            if(!response.ok)    {
-                throw Error("We couldn't change the data...");
+        .then(async response => {
+            if(!response.statusOk)  {
+                throw Error("We couldn't change the data.");
             }
-            scraperObject.updateScript(evaluatorObjects);  
+            await scraperObject.updateScript(evaluatorObjects);  
 
+            res.send(JSON.stringify({
+                statusOk : true, 
+                message : "We have successfully updated the scraper details.", 
+                data : scraperDetails
+            }, null, 4));          
+        })
+        .catch(err => {
+            res.send(JSON.stringify({
+                statusOk : false, 
+                message : err.message, 
+            }, null, 4)); 
+        }); 
+        
+    }
+
+
+    async function updateScraperDetails(req, res) {
+
+        res.setHeader("Content-type", "application/json");
+
+        let scraperDetails = req.body;
+
+        
+        // updating the scraper details in the db...    
+        scrapersDb.update(req.params.id, scraperDetails)
+        .then(response => {
+            console.log(response);
+            
             res.send(JSON.stringify({
                 statusOk : true, 
                 message : "We have successfully updated the scraper details.", 
@@ -223,5 +251,6 @@ module.exports = function(io)   {
         create,
         update,
         deleteOne,
+        updateScraperDetails,
     }
 }

@@ -59,6 +59,16 @@ const scraperSchema = new Schema({
         required : true,
         default : 2,
     },
+
+    modelObjectOptions : {
+        type : Object,
+        required : true,
+    },
+    routeObjectOptions : {
+        type : Object,
+        required : true,
+    },
+
     friendlyUrl : {
         type : String,
         required  : true,

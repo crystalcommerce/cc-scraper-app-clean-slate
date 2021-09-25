@@ -71,7 +71,7 @@ const executeScriptSocketHandler = require("./sockets/execute-script-socket");
  * 
 ***********************/
 // DB_CONNECT_ATLAS PROD_DB_CONNECT
-mongoose.connect(process.env.PROD_DB_CONNECT, {
+mongoose.connect(process.env.DB_CONNECT_ATLAS, {
     useNewUrlParser : true, 
     useUnifiedTopology : true, 
     useCreateIndex : true, 

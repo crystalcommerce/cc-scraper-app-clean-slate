@@ -1,7 +1,7 @@
 {
   "name": "cc-scraper-app",
   "version": "1.0.0",
-  "description": "A new scraper tool for Crystal Commerce.",
+  "description": "A new scraper application for Crystal Commerce.",
   "main": "index.js",
   "scripts": {
     "dev2": "nodemon --ignore models/ --ignore routes/ --ignore scripts/ --signal RESTART index.js",

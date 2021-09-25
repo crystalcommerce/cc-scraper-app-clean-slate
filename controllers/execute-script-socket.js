@@ -1,12 +1,5 @@
 const crypto = require("crypto");
-const { scrapersDb, productSetsDb } = require("../models");
-const fileZipper = require("../core/file-zipper");
-const { fileExists, createDirPath } = require("../utilities/file-system");
-const path = require("path");
-const csvDataWriter = require("../core/csv-data-writer");
-const Model = require("../models/classes/model");
-const allModels = require("../models");
-const { toUrl } = require("../utilities/string");
+const { scrapersDb } = require("../models");
 
 module.exports = function(io)   {
 
@@ -87,41 +80,6 @@ module.exports = function(io)   {
             });
         }
         
-    }
-    
-    
-    async function checkRunningScript(req, res) {
-        res.setHeader("Content-type", "application/json");
-        let scraperScript = null;
-    
-        try {
-            let savedScript = await global.currentRuninngScripts.find(script => script.scriptId === req.params.scriptId);
-                scraperScript = savedScript.instance;
-    
-            if(scraperScript.scriptRunning)   {
-                res.send(JSON.stringify({
-                    statusOk : true,
-                    message : "Currently running the script.",
-                    scriptRunning : scraperScript.scriptRunning,
-                    data : {scrapedProducts : scraperScript.productObjects, unscrapedProducts : scraperScript.unscrapedData}
-                }, null, 4));
-            } else  {
-                res.send(JSON.stringify({
-                    statusOk : true,
-                    message : "Script has finished running.",
-                    scriptRunning : false,
-                    data : {scrapedProducts : scraperScript.productObjects, unscrapedProducts : scraperScript.unscrapedData}
-                }, null, 4));
-            }
-        }
-        catch(err)  {
-            let result = JSON.stringify({
-                message : err.message,
-                status : 404,
-                err,
-            }, null, 4);
-            res.status(404).send(result);
-        }
     }
     
     return { executeScraper };

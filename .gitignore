@@ -1,10 +1,10 @@
 node_modules/
 __test/
 users.json
-# scripts/*
+scripts/*
 data/*
-# models/dynamic/*
-# routes/dynamic/*
+models/dynamic/*
+routes/dynamic/*
 
 
 # Elastic Beanstalk Files

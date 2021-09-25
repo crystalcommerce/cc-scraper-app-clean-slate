@@ -117,7 +117,9 @@ module.exports = function(io)   {
             scriptFilePath,
             usage,
             apiRoute,
-            groupIdentifierKey
+            groupIdentifierKey,
+            modelObjectOptions,
+            routeObjectOptions,
         })
             .then(result => {
                 try {   
@@ -134,6 +136,76 @@ module.exports = function(io)   {
             .catch(err => {
                 res.status(403).send(JSON.stringify({status : 403, message : err.message}, null, 4));
             });
+    }
+
+    async function scraperRewriteAll(req, res) {
+        res.setHeader("Content-type", "application/json");
+
+        try {
+            let scrapers = await scrapersDb.getAll();
+            if(!scrapers)   {
+                throw Error("We couldn't rewrite all the scrapers data.")
+            }
+            if(scrapers.length) {
+                await Promise.all(scrapers.map(async scraper => {
+                    try {
+                        let { siteName, siteUrl, productBrand, modelObjectOptions, routeObjectOptions, evaluatorObjects } = scraper,
+                            siteResource = {siteName, siteUrl},
+                            scraperObject = new Scraper(siteResource, productBrand);
+                        
+                        await Scraper.deleteScraper(siteName, productBrand);
+
+                        await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, evaluatorObjects);
+                    }
+                    catch(err)  {
+                        console.log(err);
+                    }
+                }));
+
+                res.send(JSON.stringify({
+                    status : 200,
+                    message : "We have re-written all the scrapers needed.",
+                }, null, 4));
+            } else  {
+                res.send(JSON.stringify({
+                    status : 200,
+                    message : "There are no scrapers to be rewritten.",
+                }, null, 4));
+            }
+            
+        }
+        catch(err)  {
+            res.send(JSON.stringify({
+                status : 404,
+                message : err.message,
+            }, null, 4));
+        }
+    }
+
+    async function scraperRewrite(req, res) {
+        res.setHeader("Content-type", "application/json");
+        try {
+            let { scraperId } = req.body,
+                scraperData = await scrapersDb.getById(scraperId),
+                { siteName, siteUrl, productBrand, modelObjectOptions, routeObjectOptions, evaluatorObjects } = scraperData,
+                scraperObject = new Scraper({siteName, siteUrl}, productBrand);
+
+            await Scraper.deleteScraper(siteName, productBrand);
+
+            await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, evaluatorObjects);
+
+            res.send(JSON.stringify({
+                status : 200,
+                message : "We have re-written the scraper.",
+            }, null, 4));
+
+        }
+        catch(err)  {
+            res.status(403).send(JSON.stringify({
+                status : 403,
+                message : "We were not able to rewrite the scraper.",
+            }, null, 4));
+        }
     }
 
     // updating is as simple as overwriting the evaluator objects;
@@ -252,5 +324,7 @@ module.exports = function(io)   {
         update,
         deleteOne,
         updateScraperDetails,
+        scraperRewriteAll,
+        scraperRewrite,
     }
 }

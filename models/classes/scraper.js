@@ -54,7 +54,7 @@ class Scraper {
 
 
     async updateScript(evaluatorObjects) {
-        // await Script.deleteScript(this.siteName, this.productBrand);
+        await Script.deleteScript(this.siteName, this.productBrand);
 
         // create the script;
         await this.createScript(evaluatorObjects);

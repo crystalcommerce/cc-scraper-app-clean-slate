@@ -49,6 +49,7 @@ class Scraper {
 
         // create the script;
         await this.createScript(evaluatorObjects);
+        console.log("We have re wrtten the evaluatorObjects")
 
     }
 

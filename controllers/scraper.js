@@ -185,14 +185,15 @@ module.exports = function(io)   {
     async function scraperRewrite(req, res) {
         res.setHeader("Content-type", "application/json");
         try {
-            let { scraperId } = req.body,
+            let { id : scraperId } = req.params,
                 scraperData = await scrapersDb.getById(scraperId),
                 { siteName, siteUrl, productBrand, modelObjectOptions, routeObjectOptions, evaluatorObjects } = scraperData,
                 scraperObject = new Scraper({siteName, siteUrl}, productBrand);
 
-            await Scraper.deleteScraper(siteName, productBrand);
+            // await Scraper.deleteScraper(siteName, productBrand);
 
             await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, evaluatorObjects);
+
 
             res.send(JSON.stringify({
                 status : 200,

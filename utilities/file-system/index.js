@@ -107,7 +107,7 @@ function mkdirSync(dirPath, options = {recursive : true})    {
 
 async function deleteDir(dirPath, options = {recursive : false})  {
     let reason = null;
-    await fs.promises.rmdir(dirPath, options).catch(err => reason = err.message);
+    await fs.promises.rm(dirPath, options).catch(err => reason = err.message);
     return !reason ? {
             status : "success",
             result : true,
@@ -122,7 +122,7 @@ async function deleteDir(dirPath, options = {recursive : false})  {
 
 function deleteDirSync(dirPath, options = {recursive : false})    {
     try {
-        fs.rmdirSync(dirPath, options);
+        fs.rmSync(dirPath, options);
         return {
             status : "success",
             result : true,

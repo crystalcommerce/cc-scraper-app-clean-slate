@@ -73,10 +73,9 @@ module.exports = function(io)   {
         } 
         catch(err) {    
             // return data here;
-            console.log(err);
-            io.emit("script-initialization-ready", {
-                message : "Script initialization ready.",
-                status : 200,
+            io.emit("script-initialization-error", {
+                message : err.message,
+                status : 404,
             });
         }
         

@@ -63,8 +63,8 @@ class Scraper {
     // reading and updating shall be done in the scrapersDB model with its controller.
 
     static async deleteScraper(siteName, productBrand)  {
-        await Route.deleteRouteByName(toNormalString(toUrl(`${siteName} ${productBrand}`), "url"));
-        await Model.deleteModelByName(toUrl(`${siteName} ${productBrand}`));
+        // await Route.deleteRouteByName(toNormalString(toUrl(`${siteName} ${productBrand}`), "url"));
+        // await Model.deleteModelByName(toUrl(`${siteName} ${productBrand}`));
         await Script.deleteScript(siteName, productBrand);
     }
 

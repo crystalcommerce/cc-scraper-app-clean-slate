@@ -32,37 +32,42 @@ class Route {
         content += `\tconst { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById } = ${this.camelCasedName}Controllers(io, ${modelInstanceName}, "${recordName}");\n`;
         content += `\n`;
         content += `\n`;
-        content += `// getAll Handler\n`;
+        content += `\t// getAll Handler\n`;
         content += `\trouter.get("/${routeName}/", getAll);\n`;
 
         content += `\n`;
         content += `\n`;
-        content += `// getOneByFilter hanlder\n`;
+        content += `\t// getOneByFilter hanlder\n`;
         content += `\trouter.get("/${routeName}/single?", getOneByFilter);\n`;
 
         content += `\n`;
         content += `\n`;
-        content += `// getAllFiltered hanlder\n`;
+        content += `\t// getAllFiltered hanlder\n`;
         content += `\trouter.get("/${routeName}/all?", getAllFiltered);\n`;
 
         content += `\n`;
         content += `\n`;
-        content += `// getOneById handler\n`;
+        content += `\t// getOneById handler\n`;
         content += `\trouter.get("/${routeName}/:id", getOneById);\n`;
 
         content += `\n`;
         content += `\n`;
-        content += `// create\n`;
+        content += `\t// create\n`;
         content += `\trouter.post("/${routeName}/", create);\n`;
 
         content += `\n`;
         content += `\n`;
-        content += `// updateHandler\n`;
+        content += `\t// updateHandler\n`;
         content += `\trouter.put("/${routeName}/:id", update);\n`;
 
         content += `\n`;
         content += `\n`;
-        content += `// deleteHandler\n`;
+        content += `// deleteAllFilteredHandler\n`;
+        content += `\trouter.delete("/${routeName}/all?", deleteAllFiltered);\n`;
+
+        content += `\n`;
+        content += `\n`;
+        content += `\t// deleteHandler\n`;
         content += `\trouter.delete("/${routeName}/:id", deleteById);\n`;
 
         content += `\n`;

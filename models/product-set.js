@@ -36,6 +36,10 @@ const productSetSchema = new Schema({
         type : Date,
         default : Date.now(),
     },
+    csvExcludedProps : {
+        type : Array,
+        default : [],
+    }
 }, {strict : true});
 
 

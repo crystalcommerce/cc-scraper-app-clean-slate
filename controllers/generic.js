@@ -93,6 +93,36 @@ module.exports = function(io, modelInstanceDb, recordName) {
             .catch(err => res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4)));
     }
 
+    async function deleteAllFiltered(req, res) {
+
+        res.setHeader("Content-type", "application/json");
+        try {
+            let products = await modelInstanceDb.getAllFilteredData(req.query);
+
+            await Promise.all(products.map(async item => {
+                await modelInstanceDb.delete(item._id);
+            }));
+
+            products = await modelInstanceDb.getAllFilteredData(req.query);
+
+            let result = {
+                statusOk : products.length === 0 ? true : false,
+                message : "We have successfully deleted all filtered products.",
+                status : 200,
+            }
+            res.send(JSON.stringify(result, null, 4));
+        }
+        catch(err)  {
+            res.send(JSON.stringify({
+                statusOk : false,
+                status : 403,
+                message : err.message,
+            }, null, 4));
+        }
+        
+
+    }
+
     return {
         getAll,
         getOneById,
@@ -101,6 +131,7 @@ module.exports = function(io, modelInstanceDb, recordName) {
         create,
         update,
         deleteById,
+        deleteAllFiltered,
     }
 
 }

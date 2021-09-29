@@ -30,7 +30,7 @@ module.exports = function(io)   {
                 scraperOptions = { ...req.body, productSet : groupIdentifier, siteName, siteUrl, productBrand, imagePropName, imageNameObject, csvExcludedProps },
                 getScraperObject = require(`../${scriptFilePath}`),
                 scraperScript = getScraperObject(io, scraperOptions);
-            console.log(scraperScript);
+
 
             let scriptId = crypto.randomBytes(4).toString("hex");
                 
@@ -52,6 +52,7 @@ module.exports = function(io)   {
                     apiRoute,
                     dataDirPath : scraperScript.dataDirPath,
                     startingUrl : req.body.productsListEvaluatorUris[0].url,
+                    csvExcludedProps,
                 }
             });
     
@@ -60,7 +61,6 @@ module.exports = function(io)   {
             }, null, 4));
         } 
         catch(err) {    
-            console.log(err);
             let result = JSON.stringify({
                 message : err.message,
                 status : 404,
@@ -308,7 +308,6 @@ module.exports = function(io)   {
                     }, null, 4));
                 } 
                 catch(err)  {
-                    console.log(err);
                     res.status(403).send(JSON.stringify({
                         statusOk : false,
                         message : err.message,

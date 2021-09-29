@@ -285,24 +285,28 @@ module.exports = function(io)   {
             
             scrapersDb.delete(req.params.id)
                 .then(async result => {
-                    if(!foundModel)  {
-                        throw Error(`Collection Model does not exist.`);
-                    }
-                    await new Promise(resolve => setTimeout(() => {
-                        mongoose.connection.db.dropCollection(`${foundModel.camelCaseName.toLowerCase()}s`, function(err, result2)    {
-                            Scraper.deleteScraper(siteName, productBrand);
-                            resolve();
-                        });
-                    }, 1500));
-                    for(let productSet of productSets)  {
-                        await productSetsDb.delete(productSet._id);
-                    }
+
+
+                    await Scraper.deleteScraper(siteName, productBrand);
+
+                    // if(!foundModel)  {
+                    //     throw Error(`Collection Model does not exist.`);
+                    // }
+                    // await new Promise(resolve => setTimeout(() => {
+                    //     mongoose.connection.db.dropCollection(`${foundModel.camelCaseName.toLowerCase()}s`, function(err, result2)    {
+                    //         Scraper.deleteScraper(siteName, productBrand);
+                    //         resolve();
+                    //     });
+                    // }, 1500));
+                    // for(let productSet of productSets)  {
+                    //     await productSetsDb.delete(productSet._id);
+                    // }
             
-                    // we need to delete the data first so we can also delete the images...
-                    // we can delete the entire data in the productsBrand folder
-                    if(fileExists(scrapedFilesPath))  {
-                        await deleteAllInDirPath(scrapedFilesPath);
-                    }
+                    // // we need to delete the data first so we can also delete the images...
+                    // // we can delete the entire data in the productsBrand folder
+                    // if(fileExists(scrapedFilesPath))  {
+                    //     await deleteAllInDirPath(scrapedFilesPath);
+                    // }
 
                     res.send(JSON.stringify({message : "We have successfully deleted the scraper.", statusOk : true, status : 200}));
                 })

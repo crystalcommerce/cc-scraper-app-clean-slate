@@ -49,6 +49,7 @@ module.exports = function(io)   {
                     apiRoute,
                     dataDirPath : scraperScript.dataDirPath,
                     startingUrl : data.productsListEvaluatorUris[0].url,
+                    csvExcludedProps,
                 }
             });
             

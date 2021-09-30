@@ -192,7 +192,7 @@ module.exports = function(io)   {
 
             // await Scraper.deleteScraper(siteName, productBrand);
 
-            await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, evaluatorObjects);
+            
 
 
             res.send(JSON.stringify({
@@ -215,24 +215,20 @@ module.exports = function(io)   {
         res.setHeader("Content-type", "application/json");
 
         let scraperDetails = req.body,
-            { evaluatorObjects } = scraperDetails,
+            { evaluatorObjects, usage, groupIdentifierKey, csvExcludedProps, modelObjectOptions, routeObjectOptions } = scraperDetails,
             { siteName, siteUrl, productBrand } = scraperDetails;
             scraperObject = new Scraper({siteName, siteUrl}, productBrand);
 
         
         // updating the scraper details in the db...    
-        await scrapersDb.update(req.params.id, {evaluatorObjects})
+        await scrapersDb.update(req.params.id, { evaluatorObjects, usage, groupIdentifierKey, csvExcludedProps })
         .then(async response => {
-            if(!response.statusOk)  {
-                throw Error("We couldn't change the data.");
-            }
-            await scraperObject.updateScript(evaluatorObjects);  
-
-            res.send(JSON.stringify({
-                statusOk : true, 
-                message : "We have successfully updated the scraper details.", 
-                data : scraperDetails
-            }, null, 4));          
+            await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, evaluatorObjects);
+            res.send({
+                message : "We have successfully updated the evaluators of this scraper script.",
+                statusOk : true,
+                status : 200,
+            });         
         })
         .catch(err => {
             res.send(JSON.stringify({

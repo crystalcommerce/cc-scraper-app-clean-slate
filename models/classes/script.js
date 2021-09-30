@@ -160,10 +160,11 @@ class Script {
 
     // delete script;
     static async deleteScript(siteName, productBrand)  {
-        //
+
         let script = new Script(siteName, productBrand);
         await script.getScriptFilePath();
         await deleteAllInDirPath(script.scriptFilePath, true);
+
     }
 
 

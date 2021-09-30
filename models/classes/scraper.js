@@ -49,15 +49,11 @@ class Scraper {
 
         // create the script;
         await this.createScript(evaluatorObjects);
-        console.log("We have re wrtten the evaluatorObjects")
 
     }
 
 
     async updateScript(evaluatorObjects) {
-        await Script.deleteScript(this.siteName, this.productBrand);
-
-        // create the script;
         await this.createScript(evaluatorObjects);
     }
     // reading and updating shall be done in the scrapersDB model with its controller.

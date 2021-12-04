@@ -4,4 +4,5 @@ phases:
   install:
     commands:
       # Install dependencies needed for running the app
+      - curl https://intoli.com/install-google-chrome.sh | bash
       - npm install

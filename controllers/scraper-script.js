@@ -41,7 +41,7 @@ module.exports = function(io)   {
             scraperScript.scriptId = scriptId;
               
             // we save the current running scraperScript in the global variables;
-            await global.currentRuninngScripts.push({
+            await global.currentRunningScripts.push({
                 instance : scraperScript, 
                 scriptId, 
                 productSet : {
@@ -76,7 +76,7 @@ module.exports = function(io)   {
         res.setHeader("Content-type", "application/json");
         let scraperScript = null;
         try {
-            let savedScript = await global.currentRuninngScripts.find(script => script.scriptId === req.params.scriptId);
+            let savedScript = await global.currentRunningScripts.find(script => script.scriptId === req.params.scriptId);
             scraperScript = savedScript.instance;
     
             // sending back the response
@@ -112,7 +112,7 @@ module.exports = function(io)   {
         let scraperScript = null;
     
         try {
-            let savedScript = await global.currentRuninngScripts.find(script => script.scriptId === req.params.scriptId);
+            let savedScript = await global.currentRunningScripts.find(script => script.scriptId === req.params.scriptId);
                 scraperScript = savedScript.instance;
     
             if(scraperScript.scriptRunning)   {
@@ -146,7 +146,7 @@ module.exports = function(io)   {
         res.setHeader("Content-type", "application/json");
     
         try {
-            let savedScript = await global.currentRuninngScripts.find(script => script.scriptId === req.params.scriptId);
+            let savedScript = await global.currentRunningScripts.find(script => script.scriptId === req.params.scriptId);
                 scraperScript = savedScript.instance;
     
             if(scraperScript)   {
@@ -176,7 +176,7 @@ module.exports = function(io)   {
         res.setHeader("Content-type", "application/json");
     
         try {
-            let savedScript = await global.currentRuninngScripts.find(script => script.scriptId === req.params.scriptId),
+            let savedScript = await global.currentRunningScripts.find(script => script.scriptId === req.params.scriptId),
                 scraperScript = savedScript.instance;
     
             if(scraperScript)   {
@@ -231,10 +231,10 @@ module.exports = function(io)   {
     
     async function removeGlobalScaperObject(req, res)   {
         try {
-            let savedScript = await global.currentRuninngScripts.find(script => script.scriptId === req.params.scriptId),
+            let savedScript = await global.currentRunningScripts.find(script => script.scriptId === req.params.scriptId),
             scraperScript = savedScript.instance;
     
-            global.currentRuninngScripts = await global.currentRuninngScripts.filter(script => script.scriptId !== req.params.scriptId);
+            global.currentRunningScripts = await global.currentRunningScripts.filter(script => script.scriptId !== req.params.scriptId);
     
             delete(scraperScript);
         }
@@ -253,7 +253,7 @@ module.exports = function(io)   {
         try {
             let { scriptId } = req.params,
                 { apiRoute, scraperId } = req.body,
-                savedScript = await global.currentRuninngScripts.find(script => script.scriptId === scriptId),
+                savedScript = await global.currentRunningScripts.find(script => script.scriptId === scriptId),
                 scraperScript = savedScript.instance,
                 productSet = savedScript.productSet,
                 { groupIdentifier, siteName, productBrand, dataDirPath, groupIdentifierKey } = productSet,
@@ -277,13 +277,11 @@ module.exports = function(io)   {
                         return async () => {
                             let foundModel = await Model.getModelByName(apiRoute.replace("/api/", "")),
                                 modelInstance = require(path.join(process.cwd(), "models", "dynamic", foundModel.fileName)),
-                                foundScraper = await scrapersDb.getById(scraperId),
-                                productUrlProp = foundScraper ? foundScraper.evaluatorObjects.find(item => item.type === "single").productUrlProp : null,
-                                foundProduct = productUrlProp ? await modelInstance.getOneByFilter({[groupIdentifierKey] : groupIdentifier, [productUrlProp] : product[productUrlProp]}) : null,
+                                foundProduct = await modelInstance.getOneByFilter(product),
                                 result;
-                            
-                            if(foundProduct)    {
-    
+                        
+                            if(foundProduct)        {
+                                
                                 for(let key in product)    {
                                     if(!product[key])   {
                                         delete(product[key]);
@@ -292,8 +290,10 @@ module.exports = function(io)   {
     
                                 result = await modelInstance.update(foundProduct.id, product);
                             } else  {
+                                
                                 result = await modelInstance.create(product);
-                            }      
+                            }
+                            console.log(result);
                             return result;
                         }
                     });
@@ -308,6 +308,7 @@ module.exports = function(io)   {
                     }, null, 4));
                 } 
                 catch(err)  {
+                    
                     res.status(403).send(JSON.stringify({
                         statusOk : false,
                         message : err.message,
@@ -320,12 +321,12 @@ module.exports = function(io)   {
             
             // remove the saved script from global;
     
-            // global.currentRuninngScripts = await global.currentRuninngScripts.filter(script => script.scriptId !== req.params.scriptId);
+            // global.currentRunningScripts = await global.currentRunningScripts.filter(script => script.scriptId !== req.params.scriptId);
             // delete(scraperScript);
     
         }
         catch(err) {
-    
+            console.log(err);
             res.send(JSON.stringify({
                 statusOk : false,
                 message : err.message,

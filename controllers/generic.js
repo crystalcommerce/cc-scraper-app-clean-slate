@@ -78,6 +78,7 @@ module.exports = function(io, modelInstanceDb, recordName) {
     }
 
     function update(req, res)   {
+        res.setHeader("Content-type", "application/json");
         modelInstanceDb.update(req.params.id, req.body).
             then(result => {
                 res.send(JSON.stringify(result, null, 4));
@@ -88,6 +89,7 @@ module.exports = function(io, modelInstanceDb, recordName) {
     }
 
     async function deleteById(req, res)   {
+        res.setHeader("Content-type", "application/json");
         modelInstanceDb.delete(req.params.id)
             .then(result => res.send(JSON.stringify(result, null, 4)))
             .catch(err => res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4)));

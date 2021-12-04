@@ -74,7 +74,7 @@ module.exports = function(io)   {
                 width : 1440,
             };
             this.bulkScrapingOptions = {
-                bulkCount : 5,
+                bulkCount : 1,
                 maxBatchCount : 100,
                 timeDelay : 70000,
                 maximumUnscrapedData : 5,
@@ -246,12 +246,15 @@ module.exports = function(io)   {
                 }
             }
     
-            let productObjectProps = await page.evaluate(callback, ...args);
+            let productObjectProps = await page.evaluate(callback, ...args),
+                keys = Object.keys(productObject);
 
             console.log(productObjectProps);
 
             for(let key in productObjectProps)    {
-                productObject[key] = productObjectProps[key];
+                if(keys.includes(key))  {
+                    productObject[key] = productObjectProps[key];
+                }
             }
         }
     

@@ -28,17 +28,21 @@ module.exports = function(io)   {
                 scraperScript = getScraperObject(io, scraperOptions);
 
             let scriptId = crypto.randomBytes(4).toString("hex");
-                
+            
     
             // CREATE THE DIRPATH 
             await scraperScript.createDataDirPath();
     
             scraperScript.scriptId = scriptId;
-            
-            console.log(scraperScript);
+
+            if(!global.currentRunningScripts)   {
+                global.currentRunningScripts = [];
+            }
+
+            console.log(global.currentRunningScripts, "from socket controller");
 
             // we save the current running scraperScript in the global variables;
-            await global.currentRuninngScripts.push({
+            await global.currentRunningScripts.push({
                 instance : scraperScript, 
                 scriptId, 
                 productSet : {
@@ -53,8 +57,6 @@ module.exports = function(io)   {
                 }
             });
             
-
-            console.log(scriptId);
             
 
             io.emit("script-initialization-ready", {
@@ -74,6 +76,7 @@ module.exports = function(io)   {
         } 
         catch(err) {    
             // return data here;
+            console.log(err);
             io.emit("script-initialization-error", {
                 message : err.message,
                 status : 404,

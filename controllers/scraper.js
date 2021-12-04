@@ -11,6 +11,9 @@ const Scraper = require("../models/classes/scraper");
 const Model = require("../models/classes/model");
 const { deleteAllInDirPath, fileExists } = require("../utilities/file-system");
 
+// utility
+const { nodeRestart } = require("../utilities");
+
 
 module.exports = function(io)   {
     // variable
@@ -147,25 +150,35 @@ module.exports = function(io)   {
                 throw Error("We couldn't rewrite all the scrapers data.")
             }
             if(scrapers.length) {
-                await Promise.all(scrapers.map(async scraper => {
+
+                for(let scraper of scrapers)    {
                     try {
                         let { siteName, siteUrl, productBrand, modelObjectOptions, routeObjectOptions, evaluatorObjects } = scraper,
                             siteResource = {siteName, siteUrl},
                             scraperObject = new Scraper(siteResource, productBrand);
                         
-                        await Scraper.deleteScraper(siteName, productBrand);
-
+                        console.log("we don't delete anymore...");
                         await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, evaluatorObjects);
+                        // Scraper.deleteScraper(siteName, productBrand)
+                        //     .then(async res => {
+                        //         await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, evaluatorObjects);
+                        //     })
+                        //     .catch(err => {
+                        //         console.log(err);
+                        //     });
                     }
                     catch(err)  {
                         console.log(err);
                     }
-                }));
+                }
 
                 res.send(JSON.stringify({
                     status : 200,
                     message : "We have re-written all the scrapers needed.",
                 }, null, 4));
+
+                nodeRestart();
+
             } else  {
                 res.send(JSON.stringify({
                     status : 200,
@@ -192,13 +205,15 @@ module.exports = function(io)   {
 
             // await Scraper.deleteScraper(siteName, productBrand);
 
-            
+            await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, evaluatorObjects);
 
 
             res.send(JSON.stringify({
                 status : 200,
                 message : "We have re-written the scraper.",
             }, null, 4));
+
+            nodeRestart();
 
         }
         catch(err)  {
@@ -221,22 +236,23 @@ module.exports = function(io)   {
 
         
         // updating the scraper details in the db...    
-        await scrapersDb.update(req.params.id, { evaluatorObjects, usage, groupIdentifierKey, csvExcludedProps })
-        .then(async response => {
+        try {
+            await scrapersDb.update(req.params.id, { evaluatorObjects, usage, groupIdentifierKey, csvExcludedProps, modelObjectOptions });
             await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, evaluatorObjects);
+
             res.send({
                 message : "We have successfully updated the evaluators of this scraper script.",
                 statusOk : true,
                 status : 200,
-            });         
-        })
-        .catch(err => {
+            });  
+            
+            nodeRestart();
+        } catch(err)    {
             res.send(JSON.stringify({
                 statusOk : false, 
                 message : err.message, 
             }, null, 4)); 
-        }); 
-        
+        }
     }
 
 
@@ -256,7 +272,10 @@ module.exports = function(io)   {
                 statusOk : true, 
                 message : "We have successfully updated the scraper details.", 
                 data : scraperDetails
-            }, null, 4));          
+            }, null, 4));      
+            
+            nodeRestart();
+
         })
         .catch(err => {
             res.send(JSON.stringify({
@@ -305,6 +324,59 @@ module.exports = function(io)   {
                     // }
 
                     res.send(JSON.stringify({message : "We have successfully deleted the scraper.", statusOk : true, status : 200}));
+
+                    nodeRestart();
+                })
+                .catch(err => {
+                    res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4))
+                });
+            
+        }
+        catch(err)  {
+
+            res.status(403).send(JSON.stringify({status : 403, message : err.message}, null, 4));
+        }
+    }
+
+    async function deleteSMR()  {
+        res.setHeader("Content-type", "application/json");
+        try{
+            let scraperObject = await scrapersDb.getById(req.params.id),
+                {siteName, productBrand} = scraperObject,
+                collectionName = `${siteName} ${productBrand}`,
+                foundModel = await Model.getModelByName(toUrl(collectionName)),
+                productSets = await productSetsDb.getAllFilteredData({productBrand}),
+                scrapedFilesPath = path.join(process.cwd(), "data", toUrl(siteName), toUrl(productBrand));
+            
+            
+            scrapersDb.delete(req.params.id)
+                .then(async result => {
+
+
+                    await Scraper.deleteScraperSMR(siteName, productBrand);
+
+                    if(!foundModel)  {
+                        throw Error(`Collection Model does not exist.`);
+                    }
+                    await new Promise(resolve => setTimeout(() => {
+                        mongoose.connection.db.dropCollection(`${foundModel.camelCaseName.toLowerCase()}s`, function(err, result2)    {
+                            Scraper.deleteScraperSMR(siteName, productBrand);
+                            resolve();
+                        });
+                    }, 1500));
+                    for(let productSet of productSets)  {
+                        await productSetsDb.delete(productSet._id);
+                    }
+            
+                    // we need to delete the data first so we can also delete the images...
+                    // we can delete the entire data in the productsBrand folder
+                    if(fileExists(scrapedFilesPath))  {
+                        await deleteAllInDirPath(scrapedFilesPath);
+                    }
+
+                    res.send(JSON.stringify({message : "We have successfully deleted the scraper.", statusOk : true, status : 200}));
+
+                    nodeRestart();
                 })
                 .catch(err => {
                     res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4))
@@ -324,6 +396,7 @@ module.exports = function(io)   {
         create,
         update,
         deleteOne,
+        deleteSMR,
         updateScraperDetails,
         scraperRewriteAll,
         scraperRewrite,

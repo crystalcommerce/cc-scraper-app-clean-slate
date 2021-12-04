@@ -5,9 +5,12 @@ scripts/*
 data/*
 models/dynamic/*
 routes/dynamic/*
+middlewares/rewritten.txt
+another/
 
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+

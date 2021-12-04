@@ -132,7 +132,7 @@ module.exports = function(io)   {
                 foundModel = await Model.getModelByName(collectionName),
                 foundRoute = await Route.getRouteByName(toNormalString(collectionName, "url"));
 
-            if(!modelObjects && !routeObjects)    {
+            if(!foundModel && !foundRoute)    {
                 throw Error("We weren't able to find a collection with that name");
             }
 

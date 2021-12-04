@@ -5,6 +5,7 @@ const { toNormalString, toCapitalizeAll } = require("../utilities/string");
 
 
 module.exports = async function(req, res, next)   {
+
     try {
         let fileName = function(){
                 let url;

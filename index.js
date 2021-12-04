@@ -45,6 +45,7 @@ const io = socket(server, socketOptions);
 const auth = require("./middlewares/auth");
 const runningScripts = require("./middlewares/runnning-scripts");
 const apiRouteObjectFinder = require("./middlewares/route-object-finder");
+const autoSmrRewrite = require("./middlewares/auto-smr-rewrite");
 
 
 /**********************
@@ -70,8 +71,8 @@ const executeScriptSocketHandler = require("./sockets/execute-script-socket");
  *  Db Connection
  * 
 ***********************/
-// DB_CONNECT_ATLAS PROD_DB_CONNECT
-mongoose.connect(process.env.DB_CONNECT_ATLAS, {
+// PROD_DB_CONNECT = this deserves payment.DB_CONNECT_ATLAS
+mongoose.connect(process.env.PROD_DB_CONNECT, {
     useNewUrlParser : true, 
     useUnifiedTopology : true, 
     useCreateIndex : true, 
@@ -97,6 +98,11 @@ app.use(express.json({extended : true}));
 app.use(cors({ origin: true }));
 app.use(cookieSession({keys : ["scraper", "cc-scraper"]}))
 app.use(express.static(path.join(__dirname, 'views')));
+
+
+app.use(autoSmrRewrite);
+
+
 // this dynamically finds the route object to be used from routes/dynamic/ 
 // these routes are created upon making a scraper script.
 // it allows creation and inclusion of files within this app, without the need to restart the server.

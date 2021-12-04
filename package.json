@@ -1,12 +1,12 @@
 {
-  "name": "cc-scraper-app",
+  "name": "cc-new-scraper",
   "version": "1.0.0",
   "description": "A new scraper application for Crystal Commerce.",
   "main": "index.js",
   "scripts": {
     "dev2": "nodemon --ignore models/ --ignore routes/ --ignore scripts/ --signal RESTART index.js",
     "dev": "nodemon --signal RESTART index.js",
-    "start": "node index.js"
+    "start": "forever index.js"
   },
   "author": "Michael Norward Miranda",
   "license": "ISC",

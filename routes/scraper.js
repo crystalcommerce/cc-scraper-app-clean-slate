@@ -4,7 +4,7 @@ const scrapersController = require("../controllers/scraper");
 
 module.exports = function(io)   {
 
-    const { create, getOneById, getOneByFilter, getAll, update, deleteOne, updateScraperDetails, scraperRewrite, scraperRewriteAll } = scrapersController(io);
+    const { create, getOneById, getOneByFilter, getAll, update, deleteOne, updateScraperDetails, scraperRewrite, scraperRewriteAll, deleteSMR } = scrapersController(io);
 
     /* +++++++ READ ++++++++ */
     router.get("/scrapers/", getAll);
@@ -35,6 +35,8 @@ module.exports = function(io)   {
 
     /* +++++++ delete a Scraper ++++++++ */
     router.delete("/scrapers/:id", deleteOne);
+
+    router.delete("/scrapers/smr:id", deleteSMR);
 
 
     return router;

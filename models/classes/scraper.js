@@ -64,6 +64,12 @@ class Scraper {
         await Script.deleteScript(siteName, productBrand);
     }
 
+    static async deleteScraperSMR(siteName, productBrand)   {
+        await Route.deleteRouteByName(toNormalString(toUrl(`${siteName} ${productBrand}`), "url"));
+        await Model.deleteModelByName(toUrl(`${siteName} ${productBrand}`));
+        await Script.deleteScript(siteName, productBrand);
+    }
+
 }
 
 module.exports = Scraper;

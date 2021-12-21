@@ -74,7 +74,7 @@ module.exports = function(io)   {
                 width : 1440,
             };
             this.bulkScrapingOptions = {
-                bulkCount : 1,
+                bulkCount : 5,
                 maxBatchCount : 100,
                 timeDelay : 70000,
                 maximumUnscrapedData : 5,

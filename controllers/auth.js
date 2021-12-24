@@ -4,7 +4,7 @@ const crypto = require("crypto")
 
 module.exports = async function(req, res) {
     let { username, password } = req.body,
-    foundUser = await usersDb.getOneByFilter({username : username.toLowerCase()});
+        foundUser = await usersDb.getOneByFilter({username : username.toLowerCase()});
 
     res.setHeader("Content-type", "application/json");
     if(!foundUser)  {
@@ -13,7 +13,7 @@ module.exports = async function(req, res) {
         let passwordVerified = await usersDb.hashCompare(password, foundUser.password),
             {firstName, lastName, username, } = foundUser;
         if(passwordVerified)    {
-            let timeCount = 60 * 60 * 24 * 7
+            let timeCount = 60 * 60 * 24 * 7,
                 authToken = jwt.sign({
                         userId : foundUser._id,
                         permissionLevel : foundUser.permissionLevel,

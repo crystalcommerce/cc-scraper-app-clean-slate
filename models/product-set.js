@@ -50,6 +50,7 @@ const ProductSet = mongoose.model("ProductSet", productSetSchema);
 const productSetsDb = db(ProductSet);
 productSetsDb.recordName = "ProductSet";
 productSetsDb.addProps("immutableProps", "_id", "startingUrl", "siteName", "productBrand");
+productSetsDb.addProps("uniqueProps", "startingUrl");
 productSetsDb.addProps("friendlyUrlProps", "siteName", "productBrand");
 productSetsDb.addProps("defaultValuedProps", { permissionLevel : 2 }, { dateCreated : Date.now() });
 

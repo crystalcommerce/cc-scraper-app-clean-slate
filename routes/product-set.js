@@ -6,7 +6,7 @@ const productSetsDb = require('../models/product-set');
 
 module.exports = function(io)   {
 
-    const { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById } = productSetControllers(io, productSetsDb, "Product Set");
+    const { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById, deleteAllFiltered } = productSetControllers(io, productSetsDb, "Product Set");
 
 
     // getAll Handler
@@ -31,6 +31,10 @@ module.exports = function(io)   {
 
     // updateHandler
     router.put("/product-sets/:id", update);
+
+
+    // deleteAllFilteredHandler
+	router.delete("/product-sets/all?", deleteAllFiltered);
 
 
     // deleteHandler

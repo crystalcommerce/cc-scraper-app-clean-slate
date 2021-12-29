@@ -62,7 +62,7 @@ class Route {
 
         content += `\n`;
         content += `\n`;
-        content += `// deleteAllFilteredHandler\n`;
+        content += `\t// deleteAllFilteredHandler\n`;
         content += `\trouter.delete("/${routeName}/all?", deleteAllFiltered);\n`;
 
         content += `\n`;

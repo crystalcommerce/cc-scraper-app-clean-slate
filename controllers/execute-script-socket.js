@@ -7,7 +7,7 @@ module.exports = function(io)   {
 
         let { scraperId } = data;
 
-        console.log(scraperId);
+        console.log(data);
 
         try {
             let scraperData = await scrapersDb.getById(scraperId),
@@ -57,7 +57,8 @@ module.exports = function(io)   {
                 }
             });
             
-            
+            console.log(scriptId);
+            console.log(global.currentRunningScripts)
 
             io.emit("script-initialization-ready", {
                 scriptId,

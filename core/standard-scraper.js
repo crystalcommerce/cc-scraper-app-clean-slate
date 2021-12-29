@@ -139,10 +139,14 @@ module.exports = function(io)   {
                 await page.goto(url, {waitUntil : "networkidle0", timeout : 0});
                 if(waitMethods.length)  {
                     for(let waitMethod of waitMethods)    {
+                        if(!this.scriptRunning) {
+                            page.close();
+                            break;
+                        }
                         await page[waitMethod.name](waitMethod.args);
                     }
                 }
-        
+                
         
                 let { productObjects, newUrl } = await page.evaluate(callback, ...args);
                 
@@ -154,7 +158,10 @@ module.exports = function(io)   {
                     await getProductObjects(page, newUrl);
                 }
             }
-                
+            if(!this.scriptRunning) {
+                browser.close();
+                return;
+            }
             await getProductObjects(page, url);
     
             this.runningBrowsers = this.runningBrowsers.filter(runningBrowser => runningBrowser.browserId !== browserId);
@@ -189,11 +196,20 @@ module.exports = function(io)   {
             await page.goto(url, {waitUntil : "networkidle0", timeout : 0});
             if(waitMethods.length)  {
                 for(let i = 0; i < waitMethods.length; i++)    {
+                    if(!this.scriptRunning) {
+                        page.close();
+                        break;
+                    }
                     let waitMethod = waitMethods[i];
                     await page[waitMethod.name](waitMethod.args);
                 }
             }
-    
+
+            if(!this.scriptRunning) {
+                browser.close();
+                return;
+            }
+
             let productObjects = await page.evaluate(callback, ...args);
     
             this.runningBrowsers = this.runningBrowsers.filter(runningBrowser => runningBrowser.browserId !== browserId);
@@ -227,33 +243,35 @@ module.exports = function(io)   {
     
     
         async evaluateSingleProductPage(page, productObject, evaluatorObject)   {
-            let {callback, waitMethods, objPropArgs, productUrlProp} = evaluatorObject,
-                args = function()   {
-                    let args = [];
-    
-                    for(let prop of objPropArgs)    {
-                        args.push(productObject[prop]);
+            if(this.scriptRunning)  {
+                let {callback, waitMethods, objPropArgs, productUrlProp} = evaluatorObject,
+                    args = function()   {
+                        let args = [];
+        
+                        for(let prop of objPropArgs)    {
+                            args.push(productObject[prop]);
+                        }
+        
+                        return args;
+                    }();
+        
+                await page.setViewport(this.pageOptions);
+                await page.goto(productObject[productUrlProp], {waitUntil : "networkidle0", timeout : 0});
+                if(waitMethods.length)  {
+                    for(let waitMethod of waitMethods)    {
+                        await page[waitMethod.name](waitMethod.args);
                     }
-    
-                    return args;
-                }();
-    
-            await page.setViewport(this.pageOptions);
-            await page.goto(productObject[productUrlProp], {waitUntil : "networkidle0", timeout : 0});
-            if(waitMethods.length)  {
-                for(let waitMethod of waitMethods)    {
-                    await page[waitMethod.name](waitMethod.args);
                 }
-            }
-    
-            let productObjectProps = await page.evaluate(callback, ...args),
-                keys = Object.keys(productObject);
+        
+                let productObjectProps = await page.evaluate(callback, ...args),
+                    keys = Object.keys(productObject);
 
-            console.log(productObjectProps);
+                console.log(productObjectProps);
 
-            for(let key in productObjectProps)    {
-                if(keys.includes(key))  {
-                    productObject[key] = productObjectProps[key];
+                for(let key in productObjectProps)    {
+                    if(keys.includes(key))  {
+                        productObject[key] = productObjectProps[key];
+                    }
                 }
             }
         }
@@ -545,7 +563,7 @@ module.exports = function(io)   {
             
             await downloadByBulk(bulkCount, i);
     
-    
+            this.scriptRunning = false;
             io.emit("finished-scraping", {
                 message : `We have successfully scraped the data...`,
                 status : `success`,
@@ -558,9 +576,7 @@ module.exports = function(io)   {
         }
     
         async cancelScraper()    {
-            for(let browser of this.runningBrowsers)    {
-                browser.close();
-            }
+            this.scriptRunning = false;
         }
     
         async writeProductObjectsToCsv(subDirName = null)    {

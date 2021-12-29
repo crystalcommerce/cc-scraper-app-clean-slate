@@ -148,9 +148,12 @@ module.exports = function(io)   {
         try {
             let savedScript = await global.currentRunningScripts.find(script => script.scriptId === req.params.scriptId);
                 scraperScript = savedScript.instance;
+
     
             if(scraperScript)   {
                 // need to kill the process here... // currently not working
+
+                scraperScript.cancelScraper();
     
                 res.status(200).send(JSON.stringify({
                     statusOk : true,
@@ -208,7 +211,6 @@ module.exports = function(io)   {
                         }));
                     } catch(err)    {
     
-                        res.setHeader("Content-type", "application/json");
                         res.status(404).send(JSON.stringify({statusOk : false, status : 404, message : `File Not Found : ${err.message}`}, null, 4));
                     }
                 });
@@ -230,6 +232,7 @@ module.exports = function(io)   {
     
     
     async function removeGlobalScaperObject(req, res)   {
+        res.setHeader("Content-type", "application/json");
         try {
             let savedScript = await global.currentRunningScripts.find(script => script.scriptId === req.params.scriptId),
             scraperScript = savedScript.instance;
@@ -237,6 +240,10 @@ module.exports = function(io)   {
             global.currentRunningScripts = await global.currentRunningScripts.filter(script => script.scriptId !== req.params.scriptId);
     
             delete(scraperScript);
+            res.send(JSON.stringify({
+                statusOk : true,
+                message : `We have successfully deleted the script id : ${scraperScript.scriptId}, from the current running scripts`,
+            }));
         }
         catch(err)  {
             res.send(JSON.stringify({

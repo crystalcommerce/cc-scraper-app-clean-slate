@@ -157,7 +157,6 @@ module.exports = function(io)   {
                             siteResource = {siteName, siteUrl},
                             scraperObject = new Scraper(siteResource, productBrand);
                         
-                        console.log("we don't delete anymore...");
                         await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, evaluatorObjects);
                         // Scraper.deleteScraper(siteName, productBrand)
                         //     .then(async res => {
@@ -172,11 +171,16 @@ module.exports = function(io)   {
                     }
                 }
 
-                res.send(JSON.stringify({
-                    status : 200,
-                    message : "We have re-written all the scrapers needed.",
-                }, null, 4));
+                
 
+                await new Promise((resolve, reject) => {
+                    res.send(JSON.stringify({
+                        status : 200,
+                        message : "We have re-written all the scrapers needed.",
+                    }, null, 4));
+                    resolve();
+                });
+                
                 nodeRestart();
 
             } else  {
@@ -338,7 +342,7 @@ module.exports = function(io)   {
         }
     }
 
-    async function deleteSMR()  {
+    async function deleteSMR(req, res)  {
         res.setHeader("Content-type", "application/json");
         try{
             let scraperObject = await scrapersDb.getById(req.params.id),

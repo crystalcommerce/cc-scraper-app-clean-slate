@@ -34,9 +34,11 @@ module.exports = function(io)   {
 
 
     /* +++++++ delete a Scraper ++++++++ */
+
+    router.delete("/scrapers/smr/:id", deleteSMR);
+
     router.delete("/scrapers/:id", deleteOne);
 
-    router.delete("/scrapers/smr:id", deleteSMR);
 
 
     return router;

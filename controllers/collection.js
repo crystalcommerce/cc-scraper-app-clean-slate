@@ -26,9 +26,8 @@ module.exports = function(io)   {
             let model = new Model(modelName),
                 route = new Route(modelName),
                 createModelResult = await model.createModel(schema, initializedProps);
-            
 
-            if(!createModelResult.statusOk)  {
+            if(!createModelResult.writeModelResult.result)  {
                 throw Error(`We already have a database collection (table) with the same model name. Please try to update that or delete the collection first before creating one.`);
             }  
 

@@ -212,7 +212,7 @@ module.exports = function(io)   {
         res.setHeader("Content-type", "application/json");
 
         usersDb.deleteMultiple(filter)
-            .then(result => res.send(JSON.stringify(result)))
+            .then(result => res.send(JSON.stringify(result, null, 4)))
             .catch(err => res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4)));
     }
 

@@ -7,7 +7,7 @@ models/dynamic/*
 routes/dynamic/*
 middlewares/rewritten.txt
 another/
-
+.env
 
 
 # Elastic Beanstalk Files

@@ -69,7 +69,7 @@ module.exports = function(io)   {
 
             // executing all remaining evaluators;
             // Scraping all data recursively up until 5 times of recursive scraping or at least 5 unscraped data left;
-            await scraperScript.executeEvaluators();
+            await scraperScript.executeScripts();
     
             // bulk image downloading...
             await scraperScript.downloadImagesByBulk();

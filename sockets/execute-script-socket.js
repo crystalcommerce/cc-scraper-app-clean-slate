@@ -1,9 +1,9 @@
 const executeScriptSocketController = require("../controllers/execute-script-socket");
 
-module.exports = function(io)   {
+module.exports = function(socket)   {
 
 
-    const { executeScraper } = executeScriptSocketController(io);
+    const { executeScraper } = executeScriptSocketController(socket);
 
     io.on("connection", async function(socket)    {
 

@@ -1,0 +1,1306 @@
+[
+    {
+        "scraperType": "standard",
+        "csvExcludedProps": [
+            "imageUris",
+            "imagePaths",
+            "multiFaced",
+            "_id",
+            "dateCreated",
+            "__v",
+            "friendlyUrl",
+            "setName",
+            "cardUri"
+        ],
+        "permissionLevel": 2,
+        "dateCreated": "2021-09-30T11:42:30.474Z",
+        "_id": "6155a64c5bc54c4e3411273d",
+        "siteResource" : {
+            "siteUrl": "https://www.tcgplayer.com/",
+            "siteName": "TCG Player"
+        },
+        "productBrand": "Cardfight Vanguard",
+        "imagePropName": "productImage",
+        "imageNameObject": {
+            "shared": [],
+            "split": [
+                "cardName",
+                "cardNumber"
+            ]
+        },
+        "evaluatorObjects": [
+            {
+                "callback": "() => {\n\n    let setName = Array.from(document.querySelector(\"select#set\").options).find(item => item.hasAttribute(\"selected\")).innerText.trim(),\n        set = setName.split(\":\").pop().trim();\n\n    return Array.from(document.querySelectorAll(\".priceGuideTable tbody tr\"))\n        .map(item => {\n            let cardName = `${item.querySelector(\"td:first-child\").innerText.trim()}`,\n                multiFaced = cardName.includes(\" // \") ? true : false,\n                cardUri = item.querySelector(\"td:first-child .productDetail a\").href + \"?Language=English&Printing=Normal%7CFoil\";                    \n                \n\n            return {    \n                imagePaths : [],\n                cardName,\n                cardNumber : null,  \n                productImage : '',\n\n                cardEffect : null,\n                clan : null,\n                critical : null,\n                finish : null,\n\n                [`Grade / Skill`] : null,\n                nation : null,\n                power : null,\n                shield : null,\n                race : null,\n                rarity : null,\n                set,\n                setName,\n                trigger : null,\n                unit : null,\n\n                multiFaced,\n                imageUris : [],\n                cardUri,\n            };\n        });\n}",
+                "type": "list",
+                "waitMethods": [],
+                "paginated": false
+            },
+            {
+                "callback": "(multiFaced, cardName) => {\n\n    function toCapitalize(str)  {\n        return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;\n    }\n\n    function toCamelCase(str, url=false, initialCap=false)  {\n        let separator = url ? \"-\" : \" \";\n        return str.toLowerCase().split(`${separator}`).map((item, index) => index === 0 && !initialCap ? item : toCapitalize(item)).join(\"\");\n    }\n\n    function getObject(item)    {\n        let object = {},\n            initialKeys = item.querySelector(\"strong\").innerText.trim().split(\"/\").map(item => toCamelCase(item.trim().replace(/:/, \"\"))),\n            keys,\n            values;\n\n        let [key] = initialKeys;\n\n        if(key === \"number-Rarity\")   {\n            keys = item.querySelector(\"strong\").innerText.trim().split(\" - \").map(item => toCamelCase(item.trim().replace(/:/, \"\")));\n            values = item.querySelector(\"span\").innerText.trim().split(\" - \").map(item => item.trim().replace(/\\n/g, \" <br />\"));\n        } else  {\n            keys = initialKeys;\n            values = item.querySelector(\"span\").innerText.trim().split(\"/\").map(item => item.trim().replace(/\\n/g, \" <br />\"));\n        }\n\n        for(let i = 0; i < keys.length; i++)    {\n            let objKey = keys[i] === \"number\" ? \"cardNumber\" : keys[i];\n            object[objKey] = values[i];\n        }\n\n        \n\n        return object;\n    }\n\n    function getImages()    {\n        return Array.from(document.querySelectorAll(\".image-set__grid .image-set__main .progressive-image\")).map(item => {\n            let imageUri = item.getAttribute(\"style\").split(\"--placeholder:url(\").pop().split(\");\").shift();\n                return imageUri.replace(/\"/g, \"\").replace(\"/filters:quality(10)\", \"\");\n            });\n    }\n\n    function findFinish() {\n        let foiledFinish = Array.from(document.querySelectorAll(\".search-layout .listing-item\")).map(item => {\n                return item.querySelector(\".listing-item__condition\").innerText.trim();\n            }).find(item => item.includes(\"Foil\") === \"\"),\n            priceHeader = document.querySelector(\".price-points__header\");\n    \n        if(cardName.toLowerCase().includes(\"foil\") || priceHeader.innerText.toLowerCase().includes(\"foil\"))   {\n            return \"Foil\";\n        } else  {\n            return foiledFinish ? foiledFinish : \"Regular\";\n        }\n    }\n\n\n    let cardEffect = function()    {\n            if(multiFaced)  {\n                let [cardName1, cardName2] = cardName.split(\" // \");\n                return document.querySelector(\".pd-description__description\").innerText.trim().split(`${cardName2}\\n`).map(item => item.trim().replace(/\\n+/g, \" <br />\")).join(` // ${cardName2} <br />`);\n            } else  {\n                return document.querySelector(\".pd-description__description\").innerText.trim().replace(/\\n+/g, \" <br />\");\n            }\n        }(),\n        detailsList = Array.from(document.querySelectorAll(\".pd-description__attributes > li\")),\n        additionalCardObject = {};\n\n    for(let list of detailsList)    {\n        Object.assign(additionalCardObject, getObject(list));\n    }\n\n    additionalCardObject[`Grade / Skill`] = function()  {\n        let {grade, skill} = additionalCardObject;\n        return `${grade} / ${skill}`;\n    }();\n    additionalCardObject.cardEffect = cardEffect;\n    additionalCardObject.imageUris = getImages();\n\n    additionalCardObject.finish = findFinish();\n\n    delete(additionalCardObject.grade);\n    delete(additionalCardObject.skill);\n\n    return additionalCardObject;\n\n}\n\n",
+                "type": "single",
+                "waitMethods": [
+                    {
+                        "name": "waitForSelector",
+                        "args": ".product-details__listings-container"
+                    }
+                ],
+                "objPropArgs": [
+                    "multiFaced",
+                    "cardName"
+                ],
+                "productUrlProp": "cardUri"
+            }
+        ],
+        "scriptFilePath": "scripts/tcg-player/cardfight-vanguard",
+        "usage": "Go to \"https://prices.tcgplayer.com/price-guide/cardfight-vanguard\", select the card set you'd like to scrape, then copy the URL from the address bar and use it here as a starting point URL. Please make sure to OMIT the first part of the setname up until colon and use that as the set name. Example : Instead of using \"D-LTD01: Ahoy! Lyrical Monasterio\", use \"Ahoy! Lyrical Monasterio\".",
+        "apiRoute": "/api/tcg-player-cardfight-vanguard",
+        "groupIdentifierKey": "set",
+        "modelObjectOptions": {
+            "schema": {
+                "imagePaths": {
+                    "type": "Array",
+                    "required": "false"
+                },
+                "imageUris": {
+                    "type": "Array",
+                    "required": "false"
+                },
+                "cardName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardNumber": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "productImage": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardEffect": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "clan": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "critical": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "finish": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "[`Grade / Skill`]": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "nation": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "power": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "shield": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "race": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "rarity": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "set": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "setName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "trigger": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "unit": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "multiFaced": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardUri": {
+                    "type": "String",
+                    "required": "false"
+                }
+            },
+            "initializedProps": [
+                {
+                    "friendlyUrlProps": []
+                },
+                {
+                    "immutableProps": []
+                },
+                {
+                    "uniqueProps": [
+                        "cardUri"
+                    ]
+                }
+            ]
+        },
+        "routeObjectOptions": {
+            "recordName": "Cardfight Vanguard",
+            "pluralized": false
+        },
+        "friendlyUrl": "tcg-player-cardfight-vanguard",
+        "__v": 0
+    },
+    {
+        "scraperType": "standard",
+        "csvExcludedProps": [
+            "imageUris",
+            "imagePaths",
+            "multiFaced",
+            "_id",
+            "dateCreated",
+            "__v",
+            "friendlyUrl",
+            "cardUri"
+        ],
+        "permissionLevel": 2,
+        "dateCreated": "2021-09-30T12:11:43.280Z",
+        "_id": "6155ae693981796cc158a980",
+        "siteResource" : {
+            "siteUrl": "https://www.tcgplayer.com/",
+            "siteName": "TCG Player"
+        },
+        "productBrand": "Dragon Ball Super CCG",
+        "imagePropName": "productImage",
+        "imageNameObject": {
+            "shared": [],
+            "split": [
+                "cardName"
+            ]
+        },
+        "evaluatorObjects": [
+            {
+                "callback": "() => {\n\n    let setName = Array.from(document.querySelector(\"select#set\").options).find(item => item.hasAttribute(\"selected\")).innerText.trim();\n\n    return Array.from(document.querySelectorAll(\".priceGuideTable tbody tr\"))\n        .map(item => {\n\n            let cardName = `${item.querySelector(\"td:first-child\").innerText.trim()}`,\n                cardNumber = `${item.querySelector(\"td:nth-child(3)\").innerText.trim()}`,\n                productName = cardName.split(\"//\").map(item => `${item.trim()} - ${cardNumber} - ${cardNumber.replace(/[\\d .-]+/g, '')}`).join(\" // \"),\n                multiFaced = productName.includes(\" // \") ? true : false,\n                cardUri = item.querySelector(\"td:first-child .productDetail a\").href + \"?Language=English&Printing=Normal%7CFoil\";\n\n            return {    \n                imagePaths : [],\n                productName,\n                productImage : null,\n                cardName,\n                cardNumber,\n                character : null,\n                color : null,\n                comboEnergy : null,\n                comboPower : null,\n                energyColorCost : null,\n                era : null,\n                finish : null,\n                power : null,\n                rarity : null,\n                setName,\n                type : null,\n                skill : null,\n                specialTrait : null,\n\n                multiFaced,\n                imageUris : [],\n                cardUri,\n            };\n        });\n\n}",
+                "type": "list",
+                "waitMethods": [],
+                "paginated": false
+            },
+            {
+                "callback": "(multiFaced, cardName) => {\n\n    function toCapitalize(str)  {\n        return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;\n    }\n\n    function toCamelCase(str, url=false, initialCap=false)  {\n        let separator = url ? \"-\" : \" \";\n        return str.toLowerCase().split(`${separator}`).map((item, index) => index === 0 && !initialCap ? item : toCapitalize(item)).join(\"\");\n    }\n\n    function getObject(item)    {\n        let object = {},\n            key = item.querySelector(\"strong\").innerText.trim().replace(/:/g, \"\"),\n            value = item.querySelector(\"span\").innerText.trim().replace(/\\n/g, \" <br />\");\n        \n        if(key === \"Number\")    {\n            key = \"Card Number\";\n        } else if(key === \"Card Type\")  {\n            key = \"Type\";\n        } else if(key === \"Energy(Color Cost)\") {\n            key = \"Energy Color Cost\";\n        }\n        object[toCamelCase(key)] = value;\n\n        return object;\n    }\n\n    function getImages()    {\n        return Array.from(document.querySelectorAll(\".image-set__grid .image-set__main .progressive-image\")).map(item => {\n            let imageUri = item.getAttribute(\"style\").split(\"--placeholder:url(\").pop().split(\");\").shift();\n                return imageUri.replace(/\"/g, \"\").replace(\"/filters:quality(10)\", \"\");\n            });\n    }\n\n\n    function findFinish() {\n        let foiledFinish = Array.from(document.querySelectorAll(\".search-layout .listing-item\")).map(item => {\n                return item.querySelector(\".listing-item__condition\").innerText.trim();\n            }).find(item => item.includes(\"Foil\") === \"\"),\n            priceHeader = document.querySelector(\".price-points__header\");\n    \n        if(cardName.toLowerCase().includes(\"foil\") || priceHeader.innerText.toLowerCase().includes(\"foil\"))   {\n            return \"Foil\";\n        } else  {\n            return foiledFinish ? foiledFinish : \"Regular\";\n        }\n    }\n\n    let additionalCardObject = {},\n        detailsList = Array.from(document.querySelectorAll(\".pd-description__attributes > li\"));\n    \n    \n    for(let list of detailsList)    {\n        Object.assign(additionalCardObject, getObject(list));\n    }\n\n    additionalCardObject.imageUris = getImages();\n    additionalCardObject.skill = function()    {\n        if(multiFaced)  {\n            let [name1, name2] = cardName.split(\" // \");\n            return `${name1} <br />${document.querySelector(\".pd-description__description\").innerText.trim().split(name2).map(item => item.trim().replace(/\\n+/g, \" <br />\")).join(` // ${name2} <br />`)}`;\n        } else  {\n            return document.querySelector(\".pd-description__description\").innerText.trim().replace(/\\n+/g, \" <br />\");\n        }\n    }();\n    additionalCardObject.finish = findFinish();\n\n    \n    return additionalCardObject;\n\n}",
+                "type": "single",
+                "waitMethods": [
+                    {
+                        "name": "waitForSelector",
+                        "args": ".product-details__listings-container"
+                    }
+                ],
+                "objPropArgs": [
+                    "multiFaced",
+                    "cardName"
+                ],
+                "productUrlProp": "cardUri"
+            }
+        ],
+        "scriptFilePath": "scripts/tcg-player/dragon-ball-super-ccg",
+        "usage": "Go to \"https://prices.tcgplayer.com/price-guide/dragon-ball-super-ccg\", select the card set you'd like to scrape, then copy the URL from the address bar and use it here as a starting point URL. Please make sure to copy the exact set name shown on the dropdown/select menu. Example : \"Rise of the Unison Warrior\".",
+        "apiRoute": "/api/tcg-player-dragon-ball-super-ccg",
+        "groupIdentifierKey": "setName",
+        "modelObjectOptions": {
+            "schema": {
+                "imagePaths": {
+                    "type": "Array",
+                    "required": "false"
+                },
+                "imageUris": {
+                    "type": "Array",
+                    "required": "false"
+                },
+                "productName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "productImage": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardNumber": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "character": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "color": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "comboEnergy": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "comboPower": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "energyColorCost": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "era": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "finish": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "power": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "rarity": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "setName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "type": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "skill": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "specialTrait": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "multiFaced": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardUri": {
+                    "type": "String",
+                    "required": "false"
+                }
+            },
+            "initializedProps": [
+                {
+                    "friendlyUrlProps": []
+                },
+                {
+                    "immutableProps": []
+                },
+                {
+                    "uniqueProps": [
+                        "cardUri"
+                    ]
+                }
+            ]
+        },
+        "routeObjectOptions": {
+            "recordName": "Dragon Ball Super CCG",
+            "pluralized": false
+        },
+        "friendlyUrl": "tcg-player-dragon-ball-super-ccg",
+        "__v": 0
+    },
+    {
+        "scraperType": "standard",
+        "csvExcludedProps": [
+            "imageUris",
+            "imagePaths",
+            "multiFaced",
+            "_id",
+            "dateCreated",
+            "__v",
+            "friendlyUrl",
+            "cardUri"
+        ],
+        "permissionLevel": 2,
+        "dateCreated": "2021-09-30T13:36:46.477Z",
+        "_id": "6155c5bbf95dbb0720226b07",
+        "siteResource" : {
+            "siteUrl": "https://www.tcgplayer.com/",
+            "siteName": "TCG Player"
+        },
+        "productBrand": "Final Fantasy",
+        "imagePropName": "productImage",
+        "imageNameObject": {
+            "shared": [],
+            "split": [
+                "cardName",
+                "cardNumber"
+            ]
+        },
+        "evaluatorObjects": [
+            {
+                "callback": "() => {\n\n\n    let setName = Array.from(document.querySelector(\"select#set\").options).find(item => item.hasAttribute(\"selected\")).innerText.trim();\n\n    return Array.from(document.querySelectorAll(\".priceGuideTable tbody tr\"))\n        .map(item => {\n\n            let cardName = `${item.querySelector(\"td:first-child\").innerText.trim()}`,\n                cardNumber = `${item.querySelector(\"td:nth-child(3)\").innerText.trim()}`,\n                productName = cardName.split(\"//\").map(item => `${item.trim()} - ${cardNumber}`).join(\" // \"),\n                multiFaced = productName.includes(\" // \") ? true : false,\n                cardUri = item.querySelector(\"td:first-child .productDetail a\").href + \"?Language=English&Printing=Normal%7CFoil\";\n\n            return {    \n                imagePaths : [],\n                productName,\n                productImage : null,\n                cardName,\n                cardNumber,\n                \n                [\"CP\"] : null,\n                element : null,\n                finish : null,\n                position : null,\n                rarity : null,\n                power : null,\n                job : null,\n                category : null,\n                cardText : null,\n                setName,\n\n\n                multiFaced,\n                imageUris : [],\n                cardUri,\n            };\n        });\n\n}",
+                "type": "list",
+                "waitMethods": [],
+                "paginated": false
+            },
+            {
+                "callback": "(multiFaced, cardName) => {\n\n    function toCapitalize(str)  {\n        return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;\n    }\n\n    function toCamelCase(str, url=false, initialCap=false)  {\n        let separator = url ? \"-\" : \" \";\n        return str.toLowerCase().split(`${separator}`).map((item, index) => index === 0 && !initialCap ? item : toCapitalize(item)).join(\"\");\n    }\n\n    function getObject(item)    {\n        let object = {},\n            key = item.querySelector(\"strong\").innerText.trim().replace(/:/g, \"\"),\n            value = item.querySelector(\"span\").innerText.trim().replace(/\\n/g, \" <br />\");\n        \n        \n        if(key === \"Number\")    {\n            key = toCamelCase(\"Card Number\");\n        } else if(key === \"Element\") {\n            key = toCamelCase(key);\n            if(value.split(\";\").length > 1)    {\n                value = \"Multi-Color\";\n            }\n        } else if(key === \"Rarity\") {\n            key = toCamelCase(key);\n            value = value.charAt(0).toUpperCase();\n        } else if(key === \"Cost\")   {\n            key = \"CP\";\n        } else if(key === \"Card Type\")  {\n            key = \"position\";\n        } else  {\n            key = toCamelCase(key);\n        }\n\n        object[key] = value;\n\n        return object;\n    }\n\n    function getImages()    {\n        return Array.from(document.querySelectorAll(\".image-set__grid .image-set__main .progressive-image\")).map(item => {\n            let imageUri = item.getAttribute(\"style\").split(\"--placeholder:url(\").pop().split(\");\").shift();\n                return imageUri.replace(/\"/g, \"\").replace(\"/filters:quality(10)\", \"\");\n            });\n    }\n\n    function findFinish() {\n        let foiledFinish = Array.from(document.querySelectorAll(\".search-layout .listing-item\")).map(item => {\n                return item.querySelector(\".listing-item__condition\").innerText.trim();\n            }).find(item => item.includes(\"Foil\") === \"\"),\n            priceHeader = document.querySelector(\".price-points__header\");\n    \n        if(cardName.toLowerCase().includes(\"foil\") || priceHeader.innerText.toLowerCase().includes(\"foil\"))   {\n            return \"Foil\";\n        } else  {\n            return foiledFinish ? foiledFinish : \"Regular\";\n        }\n    }\n\n    let additionalCardObject = {},\n        detailsList = Array.from(document.querySelectorAll(\".pd-description__attributes > li\"));\n    \n    \n    for(let list of detailsList)    {\n        Object.assign(additionalCardObject, getObject(list));\n    }\n\n    additionalCardObject.imageUris = getImages();\n    additionalCardObject.cardText = function()    {\n        if(multiFaced)  {\n            let [name1, name2] = cardName.split(\" // \");\n            return `${name1} <br />${document.querySelector(\".pd-description__description\").innerText.trim().split(name2).map(item => item.trim().replace(/\\n+/g, \" <br />\")).join(` // ${name2} <br />`)}`;\n        } else  {\n            return document.querySelector(\".pd-description__description\").innerText.trim().replace(/\\n+/g, \" <br />\");\n        }\n    }();\n    additionalCardObject.finish = findFinish();\n\n    \n\n    return additionalCardObject;\n\n}",
+                "type": "single",
+                "waitMethods": [
+                    {
+                        "name": "waitForSelector",
+                        "args": ".product-details__listings-container"
+                    }
+                ],
+                "objPropArgs": [
+                    "multiFaced",
+                    "cardName"
+                ],
+                "productUrlProp": "cardUri"
+            }
+        ],
+        "scriptFilePath": "scripts/tcg-player/final-fantasy",
+        "usage": "Go to \"https://prices.tcgplayer.com/price-guide/final-fantasy-tcg/\", select the card set you'd like to scrape, then copy the URL from the address bar and use it here as a starting point URL. Please make sure to copy the exact set name shown on the dropdown/select menu. Example : \"Opus XII\".",
+        "apiRoute": "/api/tcg-player-final-fantasy",
+        "groupIdentifierKey": "setName",
+        "modelObjectOptions": {
+            "schema": {
+                "imagePaths": {
+                    "type": "Array",
+                    "required": "false"
+                },
+                "imageUris": {
+                    "type": "Array",
+                    "required": "false"
+                },
+                "productName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "productImage": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardNumber": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "[\"CP\"]": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "element": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "finish": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "position": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "rarity": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "power": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "job": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "category": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardText": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "setName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "multiFaced": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardUri": {
+                    "type": "String",
+                    "required": "false"
+                }
+            },
+            "initializedProps": [
+                {
+                    "friendlyUrlProps": []
+                },
+                {
+                    "immutableProps": []
+                },
+                {
+                    "uniqueProps": [
+                        "cardUri"
+                    ]
+                }
+            ]
+        },
+        "routeObjectOptions": {
+            "recordName": "Final Fantasy",
+            "pluralized": false
+        },
+        "friendlyUrl": "tcg-player-final-fantasy",
+        "__v": 0
+    },
+    {
+        "scraperType": "standard",
+        "csvExcludedProps": [
+            "imageUris",
+            "imagePaths",
+            "multiFaced",
+            "_id",
+            "dateCreated",
+            "__v",
+            "friendlyUrl",
+            "cardUri"
+        ],
+        "permissionLevel": 2,
+        "dateCreated": "2021-09-30T13:36:46.477Z",
+        "_id": "6155c817f95dbb0720226ea5",
+        "siteResource" : {
+            "siteUrl": "https://www.tcgplayer.com/",
+            "siteName": "TCG Player"
+        },
+        "productBrand": "Flesh and Blood",
+        "imagePropName": "productImage",
+        "imageNameObject": {
+            "shared": [],
+            "split": [
+                "cardName",
+                "cardNumber"
+            ]
+        },
+        "evaluatorObjects": [
+            {
+                "callback": "() => {\n\n\n    let set = Array.from(document.querySelector(\"select#set\").options).find(item => item.hasAttribute(\"selected\")).innerText.trim(),\n        setName = set.split(\":\").pop().trim()\n\n    return Array.from(document.querySelectorAll(\".priceGuideTable tbody tr\"))\n        .map(item => {\n\n            let cardName = `${item.querySelector(\"td:first-child\").innerText.trim()}`,\n                multiFaced = cardName.includes(\" // \") ? true : false,\n                cardUri = item.querySelector(\"td:first-child .productDetail a\").href + \"?Language=English&Printing=Normal%7CFoil\";\n\n            return {    \n                imagePaths : null,\n                productName : null,\n                productImage : '',\n                cardEffect : null,  \n                cardName,\n                cardNumber : null,\n                cardType : null,\n                cardSubtype : null,\n                class : null,\n                cost : null,\n                defenseValue : null,\n                finish : \"Regular\",\n                intellect : null,\n                life : null,\n                pitchValue : null,\n                power : null,\n                rarity : null,\n                setName : set,\n\n                multiFaced,\n                imageUris : [],\n                cardUri,\n            };\n        });\n\n};",
+                "type": "list",
+                "waitMethods": [],
+                "paginated": false
+            },
+            {
+                "callback": "(multiFaced, cardName) => {\n\n    function toCapitalize(str)  {\n        return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;\n    }\n\n    function toCamelCase(str, url=false, initialCap=false)  {\n        let separator = url ? \"-\" : \" \";\n        return str.toLowerCase().split(`${separator}`).map((item, index) => index === 0 && !initialCap ? item : toCapitalize(item)).join(\"\");\n    }\n\n    function getObject(item)    {\n        let object = {},\n            key = item.querySelector(\"strong\").innerText.trim().replace(/:/g, \"\"),\n            value = item.querySelector(\"span\").innerText.trim().replace(/\\n/g, \" <br />\");\n\n        if(key !== \"Flavor Text\") {\n            if(key === \"Number\")    {\n                key = \"Card Number\";\n            }\n\n            object[toCamelCase(key)] = value;\n        }\n        \n        return object;\n    }\n\n    function getProductName(multiFaced, cardName)   {\n        if(multiFaced)  {\n            let spotlight = document.querySelector(\".spotlight__condition\");\n            return cardName.split(\" // \").map(item => {\n                return spotlight && spotlight.innerText.trim() !== \"\" ? `${item} ${spotlight.innerText.trim().replace(\"Near Mint\", \"\").trim()}` : `${item} - 1st Edition`;\n            }).join(` // `);\n        } else  {\n            let spotlight = document.querySelector(\".spotlight__condition\");\n            \n            return spotlight ? `${cardName} ${spotlight.innerText.trim().replace(\"Near Mint\", \"\").trim()}` : `${cardName} - 1st Edition`;\n        }\n    }\n\n    function getImages()    {\n        return Array.from(document.querySelectorAll(\".image-set__grid .image-set__main .progressive-image\")).map(item => {\n            let imageUri = item.getAttribute(\"style\").split(\"--placeholder:url(\").pop().split(\");\").shift();\n                return imageUri.replace(/\"/g, \"\").replace(\"/filters:quality(10)\", \"\");\n            });\n    }\n\n\n    function findFinish() {\n        let foiledFinish = Array.from(document.querySelectorAll(\".search-layout .listing-item\")).map(item => {\n                return item.querySelector(\".listing-item__condition\").innerText.trim();\n            }).find(item => item.includes(\"Foil\") === \"\"),\n            priceHeader = document.querySelector(\".price-points__header\");\n    \n        if(cardName.toLowerCase().includes(\"foil\") || priceHeader.innerText.toLowerCase().includes(\"foil\"))   {\n            return \"Foil\";\n        } else  {\n            return foiledFinish ? foiledFinish : \"Regular\";\n        }\n    }\n\n    let additionalCardObject = {},\n        detailsList = Array.from(document.querySelectorAll(\".pd-description__attributes > li\"));\n    \n    \n    for(let list of detailsList)    {\n        Object.assign(additionalCardObject, getObject(list));\n    }\n\n    additionalCardObject.productName = getProductName(multiFaced, cardName);\n    additionalCardObject.imageUris = getImages();\n    \n    // card Effect / product description\n    additionalCardObject.cardEffect = function()    {\n        \n        if(multiFaced)  {\n            let [cardName1, cardName2] = cardName.split(\" // \");\n            return document.querySelector(\".pd-description__description\").innerText.trim().split(`${cardName2}\\n`).map(item => item.trim().replace(/\\n+/g, \" <br />\")).join(` // ${cardName2} <br />`);\n        } else  {\n            return document.querySelector(\".pd-description__description\").innerText.trim().replace(/\\n+/g, \" <br />\");\n        }\n    }();\n\n\n    // finish\n    additionalCardObject.finish = findFinish();\n\n    \n\n    return additionalCardObject;\n\n};",
+                "type": "single",
+                "waitMethods": [
+                    {
+                        "name": "waitForSelector",
+                        "args": ".product-details__listings-container"
+                    }
+                ],
+                "objPropArgs": [
+                    "multiFaced",
+                    "cardName"
+                ],
+                "productUrlProp": "cardUri"
+            }
+        ],
+        "scriptFilePath": "scripts/tcg-player/flesh-and-blood",
+        "usage": "Go to \"https://prices.tcgplayer.com/price-guide/flesh-and-blood-tcg/\", select the card set you'd like to scrape, then copy the URL from the address bar and use it here as a starting point URL. Please make sure to copy the exact set name shown on the dropdown/select menu. Example : \"Blitz Deck: Monarch - Boltyn\".",
+        "apiRoute": "/api/tcg-player-flesh-and-blood",
+        "groupIdentifierKey": "setName",
+        "modelObjectOptions": {
+            "schema": {
+                "imagePaths": {
+                    "type": "Array",
+                    "required": "false"
+                },
+                "imageUris": {
+                    "type": "Array",
+                    "required": "false"
+                },
+                "productName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "productImage": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardEffect": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardNumber": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardType": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardSubtype": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "class": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cost": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "defenseValue": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "finish": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "intellect": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "life": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "pitchValue": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "power": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "rarity": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "setName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "multiFaced": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardUri": {
+                    "type": "String",
+                    "required": "false"
+                }
+            },
+            "initializedProps": [
+                {
+                    "friendlyUrlProps": []
+                },
+                {
+                    "immutableProps": []
+                },
+                {
+                    "uniqueProps": [
+                        "cardUri"
+                    ]
+                }
+            ]
+        },
+        "routeObjectOptions": {
+            "recordName": "Flesh and Blood",
+            "pluralized": false
+        },
+        "friendlyUrl": "tcg-player-flesh-and-blood",
+        "__v": 0
+    },
+    {
+        "scraperType": "standard",
+        "csvExcludedProps": [
+            "imageUris",
+            "imagePaths",
+            "multiFaced",
+            "_id",
+            "dateCreated",
+            "__v",
+            "friendlyUrl",
+            "cardUri"
+        ],
+        "permissionLevel": 2,
+        "dateCreated": "2021-09-30T13:36:46.477Z",
+        "_id": "6155ca7bf95dbb0720226f78",
+        "siteResource" : {
+            "siteUrl": "https://www.tcgplayer.com/",
+            "siteName": "TCG Player"
+        },
+        "productBrand": "MetaZoo",
+        "imagePropName": "productImage",
+        "imageNameObject": {
+            "shared": [],
+            "split": [
+                "cardName"
+            ]
+        },
+        "evaluatorObjects": [
+            {
+                "callback": "() => {\n\n    let setName = Array.from(document.querySelector(\"select#set\").options).find(item => item.hasAttribute(\"selected\")).innerText.trim(),\n        set = setName.split(\":\").pop().trim();\n\n    return Array.from(document.querySelectorAll(\".priceGuideTable tbody tr\"))\n        .map(item => {\n            let cardName = `${item.querySelector(\"td:first-child\").innerText.trim()}`,\n                multiFaced = cardName.includes(\" // \") ? true : false,\n                cardNumber = item.querySelector(\"td:nth-child(3)\").innerText.trim(),\n                cardUri = item.querySelector(\"td:first-child .productDetail a\").href + \"?Language=English&Printing=Normal%7CFoil\",\n                productName = `${item.querySelector(\"td:first-child\").innerText.trim()} ${item.querySelector(\"td:nth-child(3)\").innerText.trim()} ${item.querySelector(\"td:nth-child(2)\").innerText.trim()}`;                    \n                \n\n            return {    \n                imagePaths : [],\n                productName,\n                productImage : '',\n                cardName,\n                cardNumber,  \n                \n\n                rarity : null,\n                pageType : null,\n                tribe : null,\n                spellbookLimit : null,\n                auraType : null,\n                totalAuraCost : null,\n                [\"LP\"] : null,\n                traits : null,\n                ability : null,\n                finish : null,\n                attack : null, \n                setName,\n\n                multiFaced,\n                imageUris : [],\n                cardUri,\n            };\n        });\n}",
+                "type": "list",
+                "waitMethods": [],
+                "paginated": false
+            },
+            {
+                "callback": "(cardName) => {\n\n    function toCapitalize(str)  {\n        return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;\n    }\n\n    function toCamelCase(str, url=false, initialCap=false)  {\n        let separator = url ? \"-\" : \" \";\n        return str.toLowerCase().split(`${separator}`).map((item, index) => index === 0 && !initialCap ? item : toCapitalize(item)).join(\"\");\n    }\n\n    function getObject(item)    {\n        let object = {},\n            key = item.querySelector(\"strong\").innerText.trim().replace(/:/g, \"\"),\n            value = item.querySelector(\"span\").innerText.trim().replace(/\\n/g, \" <br />\");\n\n        if(key !== 'Number' && key !== \"Meta-Data\" && key !== \"Flavor Text\") {\n            key = key === \"LP\" ? key.toUpperCase() : toCamelCase(key);\n        }\n        \n        object[key] = value;\n        return object;\n    }\n\n    \n\n    function getImages()    {\n        return Array.from(document.querySelectorAll(\".image-set__grid .image-set__main .progressive-image\")).map(item => {\n            let imageUri = item.getAttribute(\"style\").split(\"--placeholder:url(\").pop().split(\");\").shift();\n                return imageUri.replace(/\"/g, \"\").replace(\"/filters:quality(10)\", \"\");\n            });\n    }\n\n    function findFinish() {\n        let foiledFinish = Array.from(document.querySelectorAll(\".search-layout .listing-item\")).map(item => {\n                return item.querySelector(\".listing-item__condition\").innerText.trim();\n            }).find(item => item.includes(\"Foil\") === \"\"),\n            priceHeader = document.querySelector(\".price-points__header\");\n    \n        if(cardName.toLowerCase().includes(\"foil\") || priceHeader.innerText.toLowerCase().includes(\"foil\"))   {\n            return \"Foil\";\n        } else  {\n            return foiledFinish ? foiledFinish : \"Regular\";\n        }\n    }\n\n\n    let detailsList = Array.from(document.querySelectorAll(\".pd-description__attributes > li\"));\n        \n    let additionalCardObject = {};\n    for(let list of detailsList)    {\n        Object.assign(additionalCardObject, getObject(list));\n    }\n\n    additionalCardObject.imageUris = getImages();\n\n    additionalCardObject.finish = findFinish();\n\n    return additionalCardObject;\n\n}",
+                "type": "single",
+                "waitMethods": [
+                    {
+                        "name": "waitForSelector",
+                        "args": ".product-details__listings-container"
+                    }
+                ],
+                "objPropArgs": [
+                    "cardName"
+                ],
+                "productUrlProp": "cardUri"
+            }
+        ],
+        "scriptFilePath": "scripts/tcg-player/metazoo",
+        "usage": "Go to \"https://prices.tcgplayer.com/price-guide/metazoo/\", select the card set you'd like to scrape, then copy the URL from the address bar and use it here as a starting point URL. Please make sure to copy the exact set name shown on the dropdown/select menu. Example : \"Cryptid Nation: First Edition\".",
+        "apiRoute": "/api/tcg-player-metazoo",
+        "groupIdentifierKey": "setName",
+        "modelObjectOptions": {
+            "schema": {
+                "imagePaths": {
+                    "type": "Array",
+                    "required": "false"
+                },
+                "imageUris": {
+                    "type": "Array",
+                    "required": "false"
+                },
+                "productName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "productImage": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardNumber": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "rarity": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "pageType": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "tribe": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "spellbookLimit": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "auraType": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "totalAuraCost": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "[\"LP\"]": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "traits": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "ability": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "attack": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "setName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "finish": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "multiFaced": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardUri": {
+                    "type": "String",
+                    "required": "false"
+                }
+            },
+            "initializedProps": [
+                {
+                    "friendlyUrlProps": []
+                },
+                {
+                    "immutableProps": []
+                },
+                {
+                    "uniqueProps": [
+                        "cardUri"
+                    ]
+                }
+            ]
+        },
+        "routeObjectOptions": {
+            "recordName": "MetaZoo",
+            "pluralized": false
+        },
+        "friendlyUrl": "tcg-player-metazoo",
+        "__v": 0
+    },
+    {
+        "scraperType": "standard",
+        "csvExcludedProps": [
+            "imageUris",
+            "imagePaths",
+            "multiFaced",
+            "_id",
+            "dateCreated",
+            "__v",
+            "friendlyUrl",
+            "cardUri",
+            "setName"
+        ],
+        "permissionLevel": 2,
+        "dateCreated": "2021-10-05T14:05:05.829Z",
+        "_id": "615c5d1ae0cac72b0c36f285",
+        "siteResource" : {
+            "siteUrl": "https://www.tcgplayer.com/",
+            "siteName": "TCG Player"
+        },
+        "productBrand": "Digimon Card Game",
+        "imagePropName": "productImage",
+        "imageNameObject": {
+            "shared": [],
+            "split": [
+                "cardName",
+                "cardNumber"
+            ]
+        },
+        "evaluatorObjects": [
+            {
+                "callback": "() => {\n\n    let setName = Array.from(document.querySelector(\"select#set\").options).find(item => item.hasAttribute(\"selected\")).innerText.trim(),\n        set = setName.split(\":\").pop().trim();\n\n    return Array.from(document.querySelectorAll(\".priceGuideTable tbody tr\"))\n        .map(item => {\n            let cardName = `${item.querySelector(\"td:first-child\").innerText.trim()}`.split(\" // \"),\n                rarity = `${item.querySelector(\"td:nth-child(2)\").innerText.trim()}`.split(\" // \"),\n                cardNumber = `${item.querySelector(\"td:nth-child(3)\").innerText.trim()}`.split(\" // \"),\n                productName = cardName.map((item, index) => {\n                    return `${item} - ${cardNumber[index].split(\" \").shift()} - ${rarity[index].split(\" \").map(item => item.charAt(0).toUpperCase()).join(\"\")}`;\n                }),\n                multiFaced = cardName.includes(\" // \") ? true : false,\n                cardUri = item.querySelector(\"td:first-child .productDetail a\").href + \"?Language=English&Printing=Normal%7CFoil\";                    \n                \n\n            return {    \n                imagePaths : [],\n                cardName : cardName.join(\" // \"),\n                productName : productName.join(\" // \"),\n                productImage : '',\n                cardNumber : cardNumber.join(\" // \"),  \n                \n                rarity : rarity.map(item => item.trim().split(\" \").map(item => item.charAt(0).toUpperCase()).join(\"\")).join(\" // \"),\n                cardType : null,\n                level : null,\n                form : null,\n                attribute : null, // digimon attribute\n                digimonType : null,\n                [\"DP\"] : null, // Digimon Power\n                playCost : null,\n                [\"Digivolve 1 Cost\"] : null,\n                [\"Digivolve 2 Cost\"] : null,\n                effect : null, // product description\n                [\"Digivolve Effect\"] : null, // Inherited Effect\n                securityEffect : null,\n\n                finish : null,\n                artStyle : \"Normal\",\n                color : null, // captial initials...\n\n                multiFaced,\n                imageUris : [],\n                cardUri,\n\n\n                setName,\n            };\n        });\n}",
+                "type": "list",
+                "waitMethods": [],
+                "paginated": false
+            },
+            {
+                "callback": "(multiFaced, cardName) => {\n\n    function toCapitalize(str)  {\n        return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;\n    }\n\n    function toCamelCase(str, url=false, initialCap=false)  {\n        let separator = url ? \"-\" : \" \";\n        return str.toLowerCase().split(`${separator}`).map((item, index) => index === 0 && !initialCap ? item : toCapitalize(item)).join(\"\");\n    }\n\n    function getObject(item)    {\n        let object = {},\n            initialKeys = item.querySelector(\"strong\").innerText.trim().replace(/:/, \"\").split(\"/\"),\n            keys,\n            values;\n\n        keys = initialKeys;\n        values = item.querySelector(\"span\").innerText.trim().split(\"/\").map(item => item.trim().replace(/\\n/g, \" <br />\"));\n\n        let formattedKeys = [\"Digivolve Effect\", \"Digivolve 1 Cost\", \"Digivolve 2 Cost\", \"DP\"];\n\n\n        for(let i = 0; i < keys.length; i++)    {\n            let key = keys[i].trim(),\n                objKey;\n\n            if(key === \"Digimon Power (DP)\")    {\n                objKey = \"DP\";\n            } else if(key === \"Digimon Attribute\")  {\n                objKey = \"Attribute\";\n            } else if(key === \"Inherited Effect\")   {\n                objKey = \"Digivolve Effect\";\n            } else if(key === \"Level (Lv.)\")   {\n                objKey = \"Level\";\n            } else if(key === \"Digimon Form\")   {\n                objKey = \"Form\";\n            } else if(key === \"Digimon Attribute\")   {\n                objKey = \"Attribute\";\n            } else if(key === \"Color\" || key === \"Rarity\")  {\n                values[i] = values[i].charAt(0).toUpperCase();\n                objKey = key;\n            } else  {\n                objKey = key;\n            }\n\n            console.log(objKey);\n            if(!formattedKeys.includes(objKey)) {\n                objKey = toCamelCase(objKey);\n            }\n\n\n            object[objKey] = values[i];\n        }\n\n        \n\n        return object;\n    }\n\n    function getImages()    {\n        return Array.from(document.querySelectorAll(\".image-set__grid .image-set__main .progressive-image\")).map(item => {\n            let imageUri = item.getAttribute(\"style\").split(\"--placeholder:url(\").pop().split(\");\").shift();\n                return imageUri.replace(/\"/g, \"\").replace(\"/filters:quality(10)\", \"\");\n            });\n    }\n\n    function findFinish() {\n        let foiledFinish = Array.from(document.querySelectorAll(\".search-layout .listing-item\")).map(item => {\n                return item.querySelector(\".listing-item__condition\").innerText.trim();\n            }).find(item => item.includes(\"Foil\") === \"\"),\n            priceHeader = document.querySelector(\".price-points__header\");\n    \n        if(cardName.toLowerCase().includes(\"foil\") || priceHeader.innerText.toLowerCase().includes(\"foil\"))   {\n            return \"Foil\";\n        } else  {\n            return foiledFinish ? foiledFinish : \"Regular\";\n        }\n    }\n\n\n    let effect = function()    {\n            if(multiFaced)  {\n                let [cardName1, cardName2] = cardName.split(\" // \");\n                return document.querySelector(\".pd-description__description\").innerText.trim().split(`${cardName2}\\n`).map(item => item.trim().replace(/\\n+/g, \" <br />\")).join(` // ${cardName2} <br />`);\n            } else  {\n                return document.querySelector(\".pd-description__description\").innerText.trim().replace(/\\n+/g, \" <br />\");\n            }\n        }(),\n        detailsList = Array.from(document.querySelectorAll(\".pd-description__attributes > li\")),\n        additionalCardObject = {};\n\n    for(let list of detailsList)    {\n        Object.assign(additionalCardObject, getObject(list));\n    }\n\n    additionalCardObject.effect = effect;\n    additionalCardObject.imageUris = getImages();\n\n    additionalCardObject.finish = findFinish();\n\n\n    return additionalCardObject;\n\n}\n",
+                "type": "single",
+                "waitMethods": [
+                    {
+                        "name": "waitForSelector",
+                        "args": ".product-details__listings-container"
+                    }
+                ],
+                "objPropArgs": [
+                    "multiFaced",
+                    "cardName"
+                ],
+                "productUrlProp": "cardUri"
+            }
+        ],
+        "scriptFilePath": "scripts/tcg-player/digimon-card-game",
+        "usage": "Go to \"https://prices.tcgplayer.com/price-guide/digimon-card-game\", select the card set you'd like to scrape, then copy the URL from the address bar and use it here as a starting point URL. Please make sure to copy the exact set name shown on the dropdown/select menu. Example : \"Starter Deck 08: Ulforce Veedramon\".",
+        "apiRoute": "/api/tcg-player-digimon-card-game",
+        "groupIdentifierKey": "setName",
+        "modelObjectOptions": {
+            "schema": {
+                "imagePaths": {
+                    "type": "Array",
+                    "required": "false"
+                },
+                "imageUris": {
+                    "type": "Array",
+                    "required": "false"
+                },
+                "cardName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "productName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "productImage": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardNumber": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "rarity": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardType": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "level": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "form": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "attribute": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "digimonType": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "[\"DP\"]": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "playCost": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "[\"Digivolve 1 Cost\"]": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "[\"Digivolve 2 Cost\"]": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "effect": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "[\"Digivolve Effect\"]": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "securityEffect": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "finish": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "artStyle": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "color": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "multiFaced": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardUri": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "setName": {
+                    "type": "String",
+                    "required": "false"
+                }
+            },
+            "initializedProps": [
+                {
+                    "friendlyUrlProps": []
+                },
+                {
+                    "immutableProps": []
+                },
+                {
+                    "uniqueProps": [
+                        "cardUri"
+                    ]
+                }
+            ]
+        },
+        "routeObjectOptions": {
+            "recordName": "Digimon Card Game",
+            "pluralized": false
+        },
+        "friendlyUrl": "tcg-player-digimon-card-game",
+        "__v": 0
+    },
+    {
+        "scraperType": "standard",
+        "csvExcludedProps": [
+            "imageUris",
+            "imagePaths",
+            "multiFaced",
+            "_id",
+            "dateCreated",
+            "__v",
+            "friendlyUrl",
+            "cardUri"
+        ],
+        "permissionLevel": 2,
+        "dateCreated": "2021-10-07T12:51:03.350Z",
+        "_id": "615eefd6a46d592c1f2538d0",
+        "siteResource" : {
+            "siteUrl": "https://www.tcgplayer.com/",
+            "siteName": "TCG Player"
+        },
+        "productBrand": "Pokemon",
+        "imagePropName": "cardImage",
+        "imageNameObject": {
+            "shared": [],
+            "split": [
+                "cardName"
+            ]
+        },
+        "evaluatorObjects": [
+            {
+                "callback": "() => {\n\n    let setName = Array.from(document.querySelector(\"select#set\").options).find(item => item.hasAttribute(\"selected\")).innerText.trim(),\n        set = setName.split(\":\").pop().trim();\n\n    return Array.from(document.querySelectorAll(\".priceGuideTable tbody tr\"))\n        .map(item => {\n            let cardName = item.querySelector(\"td:first-child\").innerText.trim(),\n                productName = cardName.split(\" // \").map(item => `${item} - ${set}`).join(\" // \"),\n                multiFaced = cardName.includes(\" // \") ? true : false,\n                cardUri = item.querySelector(\"td:first-child .productDetail a\").href + \"?Language=English&Printing=Normal%7CFoil\";     \n\n            return {    \n                imagePaths : [],\n                productName, \n                cardImage : '',\n\n                ability : null,\n                [\"attack # 1\"] : null,\n                [\"attack # 2\"] : null,\n                [\"attack # 3\"] : null,\n\n                cardNumber : null, \n\n                cardType : null,\n\n                finish : null,\n\n                hp : null,\n\n                name : cardName,\n\n                rarity : null,\n                resistance : null,\n                retreatCost : null,\n\n                set,\n\n                stage : null,\n                weakness : null,\n\n\n                imageUris : [],\n                multiFaced, \n                cardUri\n            };\n        });\n}",
+                "type": "list",
+                "waitMethods": [],
+                "paginated": false
+            },
+            {
+                "callback": "(cardName) => {\n\n    function toCapitalize(str)  {\n        return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;\n    }\n\n    function toCamelCase(str, url=false, initialCap=false)  {\n        let separator = url ? \"-\" : \" \";\n        return str.toLowerCase().split(`${separator}`).map((item, index) => index === 0 && !initialCap ? item : toCapitalize(item)).join(\"\");\n    }\n\n    function getObject(item)    {\n        let object = {},\n            keys = item.querySelector(\"strong\").innerText.trim().split(\" / \").map(item => toCamelCase(item.trim().replace(/:/, \"\"))),\n            values = function(){\n                if(keys.includes(\"cardText\"))   {\n                    // special handler for cardText or ability;\n                    let abilityContainer = item.querySelector(\"span strong\"),\n                        hasAbility = abilityContainer && abilityContainer.innerText.includes(\"Ability\") ? true : false;\n                    if(hasAbility)  {\n                        let index = keys.findIndex(item => item === \"cardText\");\n                        keys.splice(index, 1, \"ability\");\n                    }\n                    console.log(item.querySelector(\"span\").innerText.trim());\n                    return [item.querySelector(\"span\").innerText.trim().replace(/\\n/g, \" <br />\")];\n                } else  {\n                    return item.querySelector(\"span\").innerText.trim().split(\" / \").map(item => item.trim().replace(/\\n/g, \" <br />\"));\n                }\n            }();\n\n        for(let i = 0; i < keys.length; i++)    {\n            if(keys[i] === \"attack1\")   {\n                keys[i] = `attack # 1`;\n            } else if(keys[i] === \"attack2\")    {\n                keys[i] = `attack # 2`;\n            } else if(keys[i] === 'attack3')    {\n                keys[i] = `attack # 3`;\n            }\n\n            object[keys[i]] = values[i];\n        }\n        return object;\n    }\n\n    function getImages()    {\n        return Array.from(document.querySelectorAll(\".image-set__grid .image-set__main .progressive-image\")).map(item => {\n            let imageUri = item.getAttribute(\"style\").split(\"--placeholder:url(\").pop().split(\");\").shift();\n                return imageUri.replace(/\"/g, \"\").replace(\"/filters:quality(10)\", \"\");\n            });\n    }\n\n    function findFinish() {\n        let foiledFinish = Array.from(document.querySelectorAll(\".search-layout .listing-item\")).map(item => {\n                return item.querySelector(\".listing-item__condition\").innerText.trim();\n            }).find(item => item.includes(\"Foil\") === \"\"),\n            priceHeader = document.querySelector(\".price-points__header\");\n    \n        if(cardName.toLowerCase().includes(\"foil\") || priceHeader.innerText.toLowerCase().includes(\"foil\"))   {\n            return \"Foil\";\n        } else  {\n            return foiledFinish ? foiledFinish : \"Regular\";\n        }\n    }\n\n\n    let detailsList = Array.from(document.querySelectorAll(\".pd-description__attributes > li\"));\n        \n    let additionalCardObject = {};\n    for(let list of detailsList)    {\n        Object.assign(additionalCardObject, getObject(list));\n    }\n\n    additionalCardObject.imageUris = getImages();\n\n    additionalCardObject.finish = findFinish();\n\n    return additionalCardObject;\n\n}",
+                "type": "single",
+                "waitMethods": [
+                    {
+                        "name": "waitForSelector",
+                        "args": ".product-details__listings-container"
+                    }
+                ],
+                "objPropArgs": [
+                    "cardName"
+                ],
+                "productUrlProp": "cardUri"
+            }
+        ],
+        "scriptFilePath": "scripts/tcg-player/pokemon",
+        "usage": "Go to \"https://prices.tcgplayer.com/price-guide/pokemon/\", select the card set you'd like to scrape, then copy the URL from the address bar and use it here as a starting point URL. Please make sure to OMIT the first part of the setname up until colon and use that as the set name. Example : Instead of using \"SWSH07: Evolving Skies\", use \"Evolving Skies\".",
+        "apiRoute": "/api/tcg-player-pokemon",
+        "groupIdentifierKey": "set",
+        "modelObjectOptions": {
+            "schema": {
+                "imagePaths": {
+                    "type": "Array",
+                    "required": "false"
+                },
+                "imageUris": {
+                    "type": "Array",
+                    "required": "false"
+                },
+                "productName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardImage": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "ability": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "[\"attack # 1\"]": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "[\"attack # 2\"]": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "[\"attack # 3\"]": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardNumber": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardType": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "finish": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "hp": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "name": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "rarity": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "resistance": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "retreatCost": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "set": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "stage": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "weakness": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "multiFaced": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardUri": {
+                    "type": "String",
+                    "required": "false"
+                }
+            },
+            "initializedProps": [
+                {
+                    "friendlyUrlProps": []
+                },
+                {
+                    "immutableProps": []
+                },
+                {
+                    "uniqueProps": [
+                        "cardUri"
+                    ]
+                }
+            ]
+        },
+        "routeObjectOptions": {
+            "recordName": "Pokemon",
+            "pluralized": false
+        },
+        "friendlyUrl": "tcg-player-pokemon",
+        "__v": 0
+    },
+    {
+        "scraperType": "standard",
+        "csvExcludedProps": [
+            "imageUris",
+            "imagePaths",
+            "multiFaced",
+            "_id",
+            "dateCreated",
+            "__v",
+            "friendlyUrl",
+            "cardUri"
+        ],
+        "permissionLevel": 2,
+        "dateCreated": "2021-10-08T13:30:57.202Z",
+        "_id": "6160ae731775a04a00c9eabc",
+        "siteResource" : {
+            "siteUrl": "https://www.tcgplayer.com/",
+            "siteName": "TCG Player"
+        },
+        "productBrand": "YuGiOh",
+        "imagePropName": "productImage",
+        "imageNameObject": {
+            "shared": [],
+            "split": [
+                "cardName"
+            ]
+        },
+        "evaluatorObjects": [
+            {
+                "callback": "() => {\n\n    let setName = Array.from(document.querySelector(\"select#set\").options).find(item => item.hasAttribute(\"selected\")).innerText.trim(),\n        set = setName.split(\":\").pop().trim();\n\n    return Array.from(document.querySelectorAll(\".priceGuideTable tbody tr\"))\n        .map(item => {\n            let cardName = `${item.querySelector(\"td:first-child\").innerText.trim()}`.split(\" // \"),\n                rarity = `${item.querySelector(\"td:nth-child(2)\").innerText.trim()}`.split(\" // \"),\n                cardNumber = `${item.querySelector(\"td:nth-child(3)\").innerText.trim()}`.split(\" // \"),\n                productName = cardName.map((item, index) => {\n                    return `${item} - ${cardNumber[index]} - ${rarity[index]}`;\n                }),\n                multiFaced = cardName.includes(\" // \") ? true : false,\n                cardUri = item.querySelector(\"td:first-child .productDetail a\").href + \"?Language=English&Printing=Normal%7CFoil\";                    \n                \n            \n            return {    \n                imagePaths : [],\n                productName,\n                cardNumber : cardNumber.join(\" // \"),  \n                cardFullName : cardName.join(\" // \"),\n                cardName : cardName.join(\" // \"),\n                productImage : \"\",\n                cardText : null,\n                cardType : null,\n                attribute : null,\n                monsterType : null,\n                level : null,\n                [\"ATK/DEF\"] : null,\n                passCode : null,\n                effectTypes : null,\n                edition : \"1st Edition\",\n                rarity : rarity.join(\" // \"),\n                set : setName,\n                \n                property : null,\n                otherNames : null,\n\n                \n                multiFaced,\n                imageUris : [],\n                cardUri\n            };\n        });\n}",
+                "type": "list",
+                "waitMethods": [],
+                "paginated": false
+            },
+            {
+                "callback": "(multiFaced, cardName) => {\n\n    function toCapitalize(str)  {\n        return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;\n    }\n\n    function toCamelCase(str, url=false, initialCap=false)  {\n        let separator = url ? \"-\" : \" \";\n        return str.toLowerCase().split(`${separator}`).map((item, index) => index === 0 && !initialCap ? item : toCapitalize(item)).join(\"\");\n    }\n\n    function getObject(item)    {\n        let object = {},\n            keys = item.querySelector(\"strong\").innerText.trim().split(\"/\").map(item => item.replace(/:/g, \"\")),\n            values = item.querySelector(\"span\").innerText.trim().split(\"/\").map(item => item.trim().replace(/\\n/g, \" <br />\")),\n            excludedKeys = [\"ATK/DEF\"];\n\n\n        if(keys.includes(\"Attribute Monster Type\"))    {\n            \n            let lastValue = values.pop(),\n                initialValues = values.join(\"/\").split(\" \");\n            if(initialValues.length === 1)  {\n                initialValues.push(null);\n            }\n            \n            keys = [\"Attribute\", \"Monster Type\", \"Card Type\"];\n            values = [...initialValues, lastValue];   \n        }\n        if(keys.join(\"/\") === \"A / D\")    {\n            console.log(\"this happened\")\n            keys = [\"ATK/DEF\"];\n            values = [values.join(\"/\")];\n        }\n\n\n        for(let i = 0; i < keys.length; i++)    {\n            \n            if(keys[i] === \"Number\")   {\n                keys[i] = `cardNumber`;\n            } else if(!excludedKeys.includes(keys[i])) {\n                keys[i] = toCamelCase(keys[i]);\n            }\n            object[keys[i]] = values[i];\n            \n        }\n        return object;\n    }\n\n    function getImages()    {\n        return Array.from(document.querySelectorAll(\".image-set__grid .image-set__main .progressive-image\")).map(item => {\n            let imageUri = item.getAttribute(\"style\").split(\"--placeholder:url(\").pop().split(\");\").shift();\n                return imageUri.replace(/\"/g, \"\").replace(\"/filters:quality(10)\", \"\");\n            });\n    }\n\n    function findFinish() {\n        let foiledFinish = Array.from(document.querySelectorAll(\".search-layout .listing-item\")).map(item => {\n                return item.querySelector(\".listing-item__condition\").innerText.trim();\n            }).find(item => item.includes(\"Foil\") === \"\"),\n            priceHeader = document.querySelector(\".price-points__header\");\n    \n        if(cardName.toLowerCase().includes(\"foil\") || priceHeader.innerText.toLowerCase().includes(\"foil\"))   {\n            return \"Foil\";\n        } else  {\n            return foiledFinish ? foiledFinish : \"Regular\";\n        }\n    }\n\n    let cardText = function()    {\n            if(multiFaced)  {\n                let [cardName1, cardName2] = cardName.split(\" // \");\n                return document.querySelector(\".pd-description__description\").innerText.trim().split(`${cardName2}\\n`).map(item => item.trim().replace(/\\n+/g, \" <br />\")).join(` // ${cardName2} <br />`);\n            } else  {\n                return document.querySelector(\".pd-description__description\").innerText.trim().replace(/\\n+/g, \" <br />\");\n            }\n        }(),\n        detailsList = Array.from(document.querySelectorAll(\".pd-description__attributes > li\")),\n        additionalCardObject = {};\n\n    for(let list of detailsList)    {\n        Object.assign(additionalCardObject, getObject(list));\n    }\n\n    additionalCardObject.cardText = cardText;\n    additionalCardObject.imageUris = getImages();\n\n    additionalCardObject.finish = findFinish();\n\n\n    return additionalCardObject;\n\n}\n\n\"\";",
+                "type": "single",
+                "waitMethods": [
+                    {
+                        "name": "waitForSelector",
+                        "args": ".product-details__listings-container"
+                    }
+                ],
+                "objPropArgs": [
+                    "multiFaced",
+                    "cardName"
+                ],
+                "productUrlProp": "cardUri"
+            }
+        ],
+        "scriptFilePath": "scripts/tcg-player/yugioh",
+        "usage": "Go to \"https://prices.tcgplayer.com/price-guide/yugioh/\", select the card set you'd like to scrape, then copy the URL from the address bar and use it here as a starting point URL. Please make sure to copy the exact set name shown on the dropdown/select menu. Example : \"King's Court\".",
+        "apiRoute": "/api/tcg-player-yugioh",
+        "groupIdentifierKey": "set",
+        "modelObjectOptions": {
+            "schema": {
+                "imagePaths": {
+                    "type": "Array",
+                    "required": "false"
+                },
+                "imageUris": {
+                    "type": "Array",
+                    "required": "false"
+                },
+                "productName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardNumber": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardFullName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardName": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "productImage": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardText": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardType": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "attribute": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "monsterType": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "level": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "[\"ATK/DEF\"]": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "passCode": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "effectTypes": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "edition": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "rarity": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "set": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "property": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "otherNames": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "multiFaced": {
+                    "type": "String",
+                    "required": "false"
+                },
+                "cardUri": {
+                    "type": "String",
+                    "required": "false"
+                }
+            },
+            "initializedProps": [
+                {
+                    "friendlyUrlProps": []
+                },
+                {
+                    "immutableProps": []
+                },
+                {
+                    "uniqueProps": [
+                        "cardUri"
+                    ]
+                }
+            ]
+        },
+        "routeObjectOptions": {
+            "recordName": "YuGiOh",
+            "pluralized": false
+        },
+        "friendlyUrl": "tcg-player-yugioh",
+        "__v": 0
+    }
+]

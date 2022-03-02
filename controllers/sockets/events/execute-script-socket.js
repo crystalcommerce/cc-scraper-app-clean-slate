@@ -1,7 +1,7 @@
 const crypto = require("crypto");
-const { scrapersDb } = require("../models");
+const { scrapersDb } = require("../../../models");
 
-module.exports = function(io)   {
+module.exports = function(clientSocket)   {
 
     async function executeScraper(data)    {
 
@@ -25,13 +25,12 @@ module.exports = function(io)   {
                 groupIdentifier = data.groupIdentifier ? data.groupIdentifier : "",
                 scraperOptions = { ...data, productSet : groupIdentifier, siteName, siteUrl, productBrand, imagePropName, imageNameObject, csvExcludedProps },
                 getScraperObject = require(`../${scriptFilePath}`),
-                scraperScript = getScraperObject(io, scraperOptions);
+                scraperScript = getScraperObject(clientSocket, scraperOptions);
 
             let scriptId = crypto.randomBytes(4).toString("hex");
             
     
-            // CREATE THE DIRPATH 
-            await scraperScript.createDataDirPath();
+            
     
             scraperScript.scriptId = scriptId;
 
@@ -60,17 +59,21 @@ module.exports = function(io)   {
             console.log(scriptId);
             console.log(global.currentRunningScripts)
 
-            io.emit("script-initialization-ready", {
-                scriptId,
-                message : "Script initialization ready.",
-                status : 200,
-            });
+            // clientSocket.emit("script-initialization-ready", {
+            //     scriptId,
+            //     message : "Script initialization ready.",
+            //     status : 200,
+            // });
             
 
             // executing all remaining evaluators;
             // Scraping all data recursively up until 5 times of recursive scraping or at least 5 unscraped data left;
-            await scraperScript.executeScripts();
-    
+            await scraperScript.executeScript();
+            
+
+            // CREATE THE DIRPATH 
+            await scraperScript.createDataDirPath();
+
             // bulk image downloading...
             await scraperScript.downloadImagesByBulk();
             
@@ -78,10 +81,10 @@ module.exports = function(io)   {
         catch(err) {    
             // return data here;
             console.log(err);
-            io.emit("script-initialization-error", {
-                message : err.message,
-                status : 404,
-            });
+            // clientSocket.emit("script-initialization-error", {
+            //     message : err.message,
+            //     status : 404,
+            // });
         }
         
     }

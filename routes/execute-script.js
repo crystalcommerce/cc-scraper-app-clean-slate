@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const executeScriptController = require("../controllers/scraper-script");
 
-module.exports = function(io)   {
+module.exports = function()   {
 
-    const { executeScraper, killProcess, saveDataToDatabase, createCsvFile, createScraperScript, createCsvSavedData, removeGlobalScaperObject, checkRunningScript } = executeScriptController(io);
+    const { executeScraper, killProcess, saveDataToDatabase, createCsvFile, createScraperScript, createCsvSavedData, removeGlobalScaperObject, checkRunningScript } = executeScriptController();
 
     router.post("/script/create-script/:id", createScraperScript);
 

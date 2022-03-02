@@ -265,20 +265,6 @@
                     - this part is responsible for editing the any of the scripts that we have. again some of the input fiels required to edit a scraper will have to be changed.
 
 
-    Since we are doing these changes, I just want to inform you ahead of time that part of the changes will also take place on how we would create future scripts. Unlike puppeteer where it has the capability of scraping any webpage, which could either be server-side rendered (meaning the page and its contents are served synchronously) or client-side rendered (meaning the page is loaded asynchronously, parts or sometimes the entirety of the page's contents are loaded by JS) -- BTW puppeteer also gives the ability to programmatically wait for the entirety of the page's contents to load first before we start scraping; with AXIOS as our maing tool for fetching the contents, it could only get the pages that are loaded SYNCHRONOUSLY (server-side rendered pages).
-
-    And the process is to get the html text through axios... and use cheerio to parse the text into HTML tags, and use cheerios built-in jQuery-like methods to query the HTML elements to get the data we want to scrape. 
-    
-    For Pages that have the data loaded synchronously (server-side rendered pages), we won't run into any problems, scraping data from them. However, the problem is that some websites, do not have their contents get served synchronously with the initial HTML page. They would just serve an almost empty HTML with JS, and have the JS populate the contents of that page. A very good example of that is TCG Player (www.tcgplayer.com). 
-    
-    In the past days that I was trying out cheerio and axios... I ran into this problem of having just the html without contents but it does have a lot of script tags in it, which meant the contents of that page are being loaded asynchronously by JS attached onto that webpage. And as for axios, being used for fetching the data or HTML in text, it doesn't have the capability to wait for everything to be loaded first before it returns with the string of HTML, it will only return that initial and bare HTML page with its JS, and even if we use Cheerio to parse the string of text into HTML, it will have nothing to scrape from.
-
-    However, even if that's the case, SCRAPING DATA WILL STILL BE POSSIBLE on ASYNCHROUSLY LOADED PAGES. This only means that pages like these, are using JS to fetch data from an API asynchronously. The challenge will lie in finding that script especially when there are a lot of scripts attached on that webpage, and reading through the scripts to find the correct API url/endpoint they used, and the parameters needed to get the data, hundreds of lines of code in a single file (sometimes even thousands). Take a look at this image below, as this is just one of the scripts attached on a webpage from tcg player, and it had 12k lines of codes:
-
-    (image of the script from tcg player)
-    
-    Luckily for me, I now have the API of TCGPlayer for all the products that they have in their website... I now learned how I can retrieve all of them, and even the URL of the images for a product... In the API I also found how many images a product will have, and I can use their ids to retrieve them. But this is the case for TCG player, as for the other websites, I haven't tried yet, 'cause I know I will have to make the changes to the codebase of the app first before doing this. I'm just telling you ahead of time, that creating scripts next time might take more or maybe less time as compared to how it was, when we're using the scraper with puppeteer.
-
 
 
 

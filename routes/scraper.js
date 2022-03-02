@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const scrapersController = require("../controllers/scraper");
 
-module.exports = function(io)   {
+module.exports = function()   {
 
-    const { create, getOneById, getOneByFilter, getAll, update, deleteOne, updateScraperDetails, scraperRewrite, scraperRewriteAll, deleteSMR } = scrapersController(io);
+    const { create, getOneById, getOneByFilter, getAll, update, deleteOne, updateScraperDetails, scraperRewrite, scraperRewriteAll, deleteSMR } = scrapersController();
 
     /* +++++++ READ ++++++++ */
     router.get("/scrapers/", getAll);

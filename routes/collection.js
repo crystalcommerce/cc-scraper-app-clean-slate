@@ -3,9 +3,9 @@ const router = express.Router();
 const collectionsController = require("../controllers/collection")
 
 
-module.exports = function(io)   {
+module.exports = function()   {
 
-    const { create, getOneByName, getAll, update, deleteOne } = collectionsController(io);
+    const { create, getOneByName, getAll, update, deleteOne } = collectionsController();
 
     /* +++++++ READ ++++++++ */
     router.get("/collections/", getAll);

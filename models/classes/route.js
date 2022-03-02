@@ -27,9 +27,9 @@ class Route {
         content += `const ${modelInstanceName} = require('../../models/dynamic/${this.fileName}');\n`;
         content += `\n`;
         content += `\n`;
-        content += `module.exports = function(io)   {\n`;
+        content += `module.exports = function()   {\n`;
         content += `\n`;
-        content += `\tconst { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById, deleteAllFiltered } = ${this.camelCasedName}Controllers(io, ${modelInstanceName}, "${recordName}");\n`;
+        content += `\tconst { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById, deleteAllFiltered } = ${this.camelCasedName}Controllers(${modelInstanceName}, "${recordName}");\n`;
         content += `\n`;
         content += `\n`;
         content += `\t// getAll Handler\n`;

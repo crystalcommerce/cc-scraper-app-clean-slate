@@ -11,20 +11,20 @@ const dynamicApiRouter = require("./dynamic")
 const productSetApiRouter = require("./product-set");
 const error404 = require('./error404');
 
-module.exports = function(io)   {
+module.exports = function()   {
 
     // router middlewares
-    router.use("/api", usersApiRouter(io));
-    router.use("/api", collectionsApiRouter(io));
-    router.use("/api", siteResourcesApiRouter(io));
-    router.use("/api", imagesApiRouter(io));
-    router.use("/api", scrapersApiRouter(io));
-    router.use("/api", executeScriptRouter(io));
-    router.use("/api", productSetApiRouter(io));
+    router.use("/api", usersApiRouter());
+    router.use("/api", collectionsApiRouter());
+    router.use("/api", siteResourcesApiRouter());
+    router.use("/api", imagesApiRouter());
+    router.use("/api", scrapersApiRouter());
+    router.use("/api", executeScriptRouter());
+    router.use("/api", productSetApiRouter());
 
 
     // dynamically created routes; dynamic reading of routes objects
-    router.use("/api", dynamicApiRouter(io));
+    router.use("/api", dynamicApiRouter());
 
 
     // 404 handler route

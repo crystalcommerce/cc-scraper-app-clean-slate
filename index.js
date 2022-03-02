@@ -2,11 +2,11 @@ const path = require("path");
 const express = require("express");
 const mongoose = require('mongoose');
 const cors = require('cors');
+const { Server } = require("socket.io");
 const port = process.env.PORT || 8080;
 const dotenv = require("dotenv");
 const cookieSession = require("cookie-session");
-const socket = require("socket.io");
-
+const createSocketObject = require("./models/classes/socket-io");
 
 /**********************
  * 
@@ -33,7 +33,8 @@ const socketOptions = {
     }
 };
 const server = http.createServer(app);
-const io = socket(server, socketOptions);
+const socket = new Server(server, socketOptions);
+const socketInstance = createSocketObject(socket);
 
 
 
@@ -63,7 +64,8 @@ const filesRouter = require("./routes/files");
  *  Socket Handlers
  * 
 ***********************/
-const executeScriptSocketHandler = require("./sockets/execute-script-socket");
+// TODO: create a socket controller to add all native socket event listeners and emitters;
+//
 
 
 /**********************
@@ -137,7 +139,7 @@ app.use(runningScripts);
 
 
 /* api route middlewares */
-app.use(apiRouter(io));
+app.use(apiRouter());
 
 
 // /* Views Routes... */
@@ -151,4 +153,4 @@ app.get("*", (req, res) => {
  *  Sockets Instances
  * 
  ***********************/
-executeScriptSocketHandler(io);
+socketInstance.setEvents();

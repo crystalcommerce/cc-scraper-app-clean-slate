@@ -8,7 +8,7 @@ const path = require("path");
 
 class Script {
 
-    constructor(siteName, productBrand, scraperType)   {
+    constructor(siteName, productBrand, scraperType = "standard")   {
         this.siteName = siteName;
         this.productBrand = productBrand;
         this.scriptsFolderName = "scripts";

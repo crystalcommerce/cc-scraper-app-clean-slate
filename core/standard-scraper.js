@@ -5,7 +5,7 @@ const { fileDownloader } = require("./file-downloader");
 const csvDataWriter = require("./csv-data-writer");
 
 
-module.exports = function(socket)   {
+module.exports = function(socketInstance)   {
 
     class StandardScraperScript {
 
@@ -25,7 +25,7 @@ module.exports = function(socket)   {
                 startingPointUrl,
                 
                 // evaluatorObjects saved on to our scripts folder;
-                uploadedScript,
+                scriptObject,
             } = scraperOptions;
                 
             // site Resource object
@@ -34,16 +34,18 @@ module.exports = function(socket)   {
             
             // scrapersDb data object
             this.productBrand = productBrand;
+            this.productSet;
             this.imageNameObject = imageNameObject;
             this.imagePropName = imagePropName;
             this.csvExcludedProps = csvExcludedProps;
+            
             
             // userInputObjects;
             this.startingPointUrl = startingPointUrl;
             // this.productsPageListType = productsPageListType;
             
             // scripts uploaded and written in the app;
-            this.uploadedScript = uploadedScript;
+            this.scriptObject = scriptObject;
             
             
             // scraper-generated properties
@@ -87,13 +89,15 @@ module.exports = function(socket)   {
         }
     
         async executeScript()   {
-
-            let {productObjects, unscrapedData} = await this.uploadedScript();
+            
+            let { args, callback } = this.scriptObject,
+                requiredArgs = args.map(key => this[key]),
+                { productObjects, unscrapedData, productSet } = await callback(...requiredArgs);
 
             this.productObjects = productObjects;
             this.unscrapedData = unscrapedData;
+            this.productSet = productSet;
 
-            // we may want to call scraping again on the unscraped data.
         }
     
     

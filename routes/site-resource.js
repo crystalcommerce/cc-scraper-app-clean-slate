@@ -4,7 +4,7 @@ const siteResourceControllers = require("../controllers/generic.js");
 const siteResourcesDb = require('../models/site-resource');
 
 
-module.exports = function(io)   {
+module.exports = function()   {
     const { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById } = siteResourceControllers(io, siteResourcesDb, "Site Resource");
 
 

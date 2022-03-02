@@ -1,9 +1,9 @@
 const router = require("express").Router();
 
-module.exports = function(io)   {
+module.exports = function()   {
     const usersController = require("../controllers/user");
 
-    let { getAll, getOneById, getOneByFilter, getAllFiltered, getAllManagedUsers, getMangedUserById, getByUrl, create, update, deleteById, deleteMultiple, createMultiple, fileUpload } = usersController(io);
+    let { getAll, getOneById, getOneByFilter, getAllFiltered, getAllManagedUsers, getMangedUserById, getByUrl, create, update, deleteById, deleteMultiple, createMultiple, fileUpload } = usersController();
 
 
     /* +++++++ READ ++++++++ */

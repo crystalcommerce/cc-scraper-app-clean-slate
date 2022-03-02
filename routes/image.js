@@ -1,11 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const imagesControllers = require("../controllers/image.js");
-const imagesDb = require('../models/image');
 
-
-module.exports = function(io)   {
-    const { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById } = imagesControllers(io, imagesDb, "Image");
+module.exports = function()   {
+    const { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById } = imagesControllers();
 
 
     // getAll Handler

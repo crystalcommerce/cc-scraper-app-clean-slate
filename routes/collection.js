@@ -1,29 +1,27 @@
 const express = require("express");
 const router = express.Router();
 const collectionsController = require("../controllers/collection")
+const { create, getOneByName, getAll, update, deleteOne } = collectionsController();
 
-
-module.exports = function()   {
-
-    const { create, getOneByName, getAll, update, deleteOne } = collectionsController();
+module.exports = function(...middleWares)   {
 
     /* +++++++ READ ++++++++ */
-    router.get("/collections/", getAll);
+    router.get("/", getAll, ...middleWares);
 
 
-    router.get("/collections/:modelName", getOneByName);
+    router.get("/:modelName", getOneByName, ...middleWares);
 
 
     /* +++++++ Create a collection ++++++++ */
-    router.post("/collections/", create);
+    router.post("/", create, ...middleWares);
 
 
     /* +++++++ Update a collection ++++++++ */
-    router.put("/collections/:collectionName", update);
+    router.put("/:collectionName", update, ...middleWares);
 
 
     /* +++++++ delete a collection ++++++++ */
-    router.delete("/collections/:collectionName", deleteOne);
+    router.delete("/:collectionName", deleteOne, ...middleWares);
 
 
     return router;

@@ -1,26 +1,26 @@
 const express = require("express");
 const router = express.Router();
 const executeScriptController = require("../controllers/scraper-script");
+const { executeScraper, killProcess, saveDataToDatabase, createCsvFile, createScraperScript, createCsvSavedData, removeGlobalScaperObject, checkRunningScript } = executeScriptController();
 
-module.exports = function()   {
 
-    const { executeScraper, killProcess, saveDataToDatabase, createCsvFile, createScraperScript, createCsvSavedData, removeGlobalScaperObject, checkRunningScript } = executeScriptController();
+module.exports = function(...middleWares)   {
 
-    router.post("/script/create-script/:id", createScraperScript);
+    router.post("/create-script/:id", createScraperScript, ...middleWares);
 
-    router.post("/script/execute-script/:scriptId", executeScraper); 
+    router.post("/execute-script/:scriptId", executeScraper, ...middleWares); 
 
-    router.post("/script/save-data/:scriptId", saveDataToDatabase); // we need to send the apiRoute back
+    router.post("/save-data/:scriptId", saveDataToDatabase, ...middleWares); // we need to send the apiRoute back
 
-    router.get("/script/kill-script-processes/:scriptId", killProcess); // we only need the script id; haven't tested this yet...
+    router.get("/kill-script-processes/:scriptId", killProcess, ...middleWares); // we only need the script id; haven't tested this yet...
 
-    router.get("/script/create-csv/:scriptId", createCsvFile); // we then return the created csv file along with the images...
+    router.get("/create-csv/:scriptId", createCsvFile, ...middleWares); // we then return the created csv file along with the images...
 
-    router.post("/script/create-csv-saved-data/", createCsvSavedData); // we then return the created csv file along with the images...
+    router.post("/create-csv-saved-data/", createCsvSavedData, ...middleWares); // we then return the created csv file along with the images...
 
-    router.post("/script/remove-scraper-object/:scriptId", removeGlobalScaperObject) // delete some of the old scraper object
+    router.post("/remove-scraper-object/:scriptId", removeGlobalScaperObject, ...middleWares) // delete some of the old scraper object
 
-    router.get("/script/check-running-script/:scriptId", checkRunningScript) // check if a script is currently running..
+    router.get("/check-running-script/:scriptId", checkRunningScript, ...middleWares) // check if a script is currently running..
 
 
     return router;

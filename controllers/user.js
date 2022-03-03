@@ -1,96 +1,152 @@
 const { usersDb } = require("../models/index");
 const getFileUpload = require("./file-upload");
 
-module.exports = function(io)   {
+module.exports = function(req, res, next)   {
     // read data controllers
-    function getAll(req, res)  {
+    async function getAll(req, res, next)  {
 
-        res.setHeader("Content-type", "application/json");
+        req.requestResult = {
+            contentType : "application/json",
+            status : 200,
+        };
 
-        usersDb.getAll()
-            .then(result => {
-                // if(!result.length) throw Error("No user was found.");
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                let result = JSON.stringify({
-                    message : err.message,
-                    status : 404,
-                }, null, 4);
-                res.status(404).send(result);
-            });
+        console.log("getALl");
+        
+        try {
+            let result = await usersDb.getAll();
+            req.requestResult.data = JSON.stringify(result, null, 4);
+            next();
+        } catch(err)    {
+            req.requestResult.data = JSON.stringify({status : 404, message : err.message}, null, 4);
+
+            next();
+        }
+
     }
 
-    function getOneById(req, res)  {
-        res.setHeader("Content-type", "application/json");
+    async function getOneById(req, res, next)  {
 
-        usersDb.getById(req.params.id)
-            .then(result => {
-                if(!result) throw Error("User not found");
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-            });
+        req.requestResult = {
+            contentType : "application/json",
+            status : 200,
+        };
+
+        console.log("getOneById");
+
+        try {
+            let result = await usersDb.getById(req.params.id);
+            if(!result) throw Error("User not found");
+            req.requestResult.data = JSON.stringify(result, null, 4);
+            next();
+        } catch(err)    {
+            req.requestResult.data = JSON.stringify({status : 404, message : err.message}, null, 4);
+            req.requestResult.status = 404;
+            next();
+        }
+        
     }
 
-    function getByUrl(req, res) {
-        res.setHeader("Content-type", "application/json");
+    async function getByUrl(req, res, next) {
 
-        usersDb.getOneByFilter({friendlyUrl : req.params.friendlyUrl})
-            .then(result => {
-                if(!result) throw Error("User not found");
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-            });
+        req.requestResult = {
+            contentType : "application/json",
+            status : 200,
+        };
+
+        console.log("getByUrl");
+
+        try {
+            let result = await usersDb.getOneByFilter({friendlyUrl : req.params.friendlyUrl});
+            if(!result) throw Error("User not found");
+            req.requestResult.data = JSON.stringify(result, null, 4);
+            next();
+        } catch(err)    {
+            req.requestResult.data = JSON.stringify({status : 404, message : err.message}, null, 4);
+            req.requestResult.status = 404;
+            next();
+        }
+        
     }
 
-    function getAllFiltered(req, res)  {
+    async function getAllFiltered(req, res, next)  {
+
         let filter = req.query;
-        res.setHeader("Content-type", "application/json");
 
-        usersDb.getAllFilteredData(filter)
-            .then(result => {
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                res.status(403).send(JSON.stringify({status : 403, message : err.message}, null, 4));
-            });
+        req.requestResult = {
+            contentType : "application/json",
+            status : 200,
+        };
+
+        console.log("getByUrl");
+
+        try {
+            let result = await usersDb.getAllFilteredData(filter);
+            req.requestResult.data = JSON.stringify(result, null, 4);
+            next();
+        } catch(err)    {
+            req.requestResult.data = JSON.stringify({status : 404, message : err.message}, null, 4);
+            req.requestResult.status = 404;
+            next();
+        }
+
+        
+        
     }
 
-    function getOneByFilter(req, res)  {
+    async function getOneByFilter(req, res, next)  {
+
         let filter = req.query;
-        res.setHeader("Content-type", "application/json");
+    
+        req.requestResult = {
+            contentType : "application/json",
+            status : 200,
+        };
 
-        usersDb.getOneByFilter(filter)
-            .then(result => {
-                if(!result) throw Error("User not found");
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-            });
+        console.log("getOneByFilter");
+
+        try {
+            let result = await usersDb.getOneByFilter(filter);
+            if(!result) throw Error("User not found");
+            req.requestResult.data = JSON.stringify(result, null, 4);
+            next();
+        } catch(err)    {
+            req.requestResult.data = JSON.stringify({status : 404, message : err.message}, null, 4);
+            req.requestResult.status = 404;
+            next();
+        }
+
+
     }
 
 
-    function getAllManagedUsers(req, res) {
+    async function getAllManagedUsers(req, res, next) {
+        
+        req.requestResult = {
+            contentType : "application/json",
+            status : 200,
+        };
+
+        console.log("getOneByFilter");
+
+        try {
+            let { userId, permissionLevel } = req.authUserDetails,
+                result = await usersDb.getAllFilteredData({permissionLevel : { "$lte": permissionLevel - 1 }});
+            req.requestResult.data = JSON.stringify(result, null, 4);
+            next();
+        } catch(err)    {
+            req.requestResult.data = JSON.stringify({status : 401, message : err.message}, null, 4);
+            req.requestResult.status = 401;
+            next();
+        }
+
+    }
+
+
+    async function getMangedUserById(req, res, next)    {
         let { userId, permissionLevel } = req.authUserDetails;
 
-        res.setHeader("Content-type", "application/json");
-        usersDb.getAllFilteredData({permissionLevel : { "$lte": permissionLevel - 1 }})
-            .then(result => {
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-            });
-    }
+        console.log("getMangedUserById");
 
-
-    function getMangedUserById(req, res)    {
-        let { userId, permissionLevel } = req.authUserDetails;
 
         res.setHeader("Content-type", "application/json");
         usersDb.getById(req.params.id)
@@ -109,7 +165,11 @@ module.exports = function(io)   {
 
 
     // create data controllers
-    function create(req, res)   {
+    async function create(req, res, next)   {
+
+        console.log("create");
+        
+
         res.setHeader("Content-type", "application/json");
         try{
             let { userId, permissionLevel } = req.authUserDetails,
@@ -133,8 +193,11 @@ module.exports = function(io)   {
     }
 
 
-    function createMultiple(req, res)  {
+    async function createMultiple(req, res, next)  {
         let {userId, permissionLevel} = req.authUserDetails;
+
+        console.log("createMultiple");
+
 
         res.setHeader("Content-type", "application/json");
 
@@ -153,9 +216,12 @@ module.exports = function(io)   {
 
 
     // update data controllers
-    async function update(req, res)   {
+    async function update(req, res, next)   {
 
         res.setHeader("Content-type", "application/json");
+
+        console.log("update");
+
 
         let { userId, permissionLevel } = req.authUserDetails;
 
@@ -188,8 +254,11 @@ module.exports = function(io)   {
 
 
     // delete data controllers
-    async function deleteById(req, res)   {
+    async function deleteById(req, res, next)   {
         res.setHeader("Content-type", "application/json");
+
+        console.log("deleteById");
+
         
         let {userId, permissionLevel} = req.authUserDetails,
             foundUser =  await usersDb.getById(req.params.id);
@@ -207,8 +276,12 @@ module.exports = function(io)   {
         }
     }
 
-    function deleteMultiple(req, res)  {
+    function deleteMultiple(req, res, next)  {
         let filter = req.query;
+
+
+        console.log("deleteMultiple");
+
         res.setHeader("Content-type", "application/json");
 
         usersDb.deleteMultiple(filter)

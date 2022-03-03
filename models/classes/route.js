@@ -25,50 +25,51 @@ class Route {
         content += `const router = express.Router();\n`;
         content += `const ${this.camelCasedName}Controllers = require("../../controllers/generic.js");\n`;
         content += `const ${modelInstanceName} = require('../../models/dynamic/${this.fileName}');\n`;
+        content += `const { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById, deleteAllFiltered } = ${this.camelCasedName}Controllers(${modelInstanceName}, "${recordName}");\n`;
         content += `\n`;
         content += `\n`;
-        content += `module.exports = function()   {\n`;
+        content += `module.exports = function(...middleWares)   {\n`;
         content += `\n`;
-        content += `\tconst { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById, deleteAllFiltered } = ${this.camelCasedName}Controllers(${modelInstanceName}, "${recordName}");\n`;
+        
         content += `\n`;
         content += `\n`;
         content += `\t// getAll Handler\n`;
-        content += `\trouter.get("/${routeName}/", getAll);\n`;
+        content += `\trouter.get("/${routeName}/", getAll, ...middleWares);\n`;
 
         content += `\n`;
         content += `\n`;
         content += `\t// getOneByFilter hanlder\n`;
-        content += `\trouter.get("/${routeName}/single?", getOneByFilter);\n`;
+        content += `\trouter.get("/${routeName}/single?", getOneByFilter, ...middleWares);\n`;
 
         content += `\n`;
         content += `\n`;
         content += `\t// getAllFiltered hanlder\n`;
-        content += `\trouter.get("/${routeName}/all?", getAllFiltered);\n`;
+        content += `\trouter.get("/${routeName}/all?", getAllFiltered, ...middleWares);\n`;
 
         content += `\n`;
         content += `\n`;
         content += `\t// getOneById handler\n`;
-        content += `\trouter.get("/${routeName}/:id", getOneById);\n`;
+        content += `\trouter.get("/${routeName}/:id", getOneById, ...middleWares);\n`;
 
         content += `\n`;
         content += `\n`;
         content += `\t// create\n`;
-        content += `\trouter.post("/${routeName}/", create);\n`;
+        content += `\trouter.post("/${routeName}/", create, ...middleWares);\n`;
 
         content += `\n`;
         content += `\n`;
         content += `\t// updateHandler\n`;
-        content += `\trouter.put("/${routeName}/:id", update);\n`;
+        content += `\trouter.put("/${routeName}/:id", update, ...middleWares);\n`;
 
         content += `\n`;
         content += `\n`;
         content += `\t// deleteAllFilteredHandler\n`;
-        content += `\trouter.delete("/${routeName}/all?", deleteAllFiltered);\n`;
+        content += `\trouter.delete("/${routeName}/all?", deleteAllFiltered, ...middleWares);\n`;
 
         content += `\n`;
         content += `\n`;
         content += `\t// deleteHandler\n`;
-        content += `\trouter.delete("/${routeName}/:id", deleteById);\n`;
+        content += `\trouter.delete("/${routeName}/:id", deleteById, ...middleWares);\n`;
 
         content += `\n`;
         content += `\n`;

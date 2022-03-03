@@ -7,8 +7,6 @@ module.exports = function(clientSocket)   {
 
         let { scraperId } = data;
 
-        console.log(data);
-
         try {
             let scraperData = await scrapersDb.getById(scraperId),
                 {   
@@ -38,8 +36,6 @@ module.exports = function(clientSocket)   {
                 global.currentRunningScripts = [];
             }
 
-            console.log(global.currentRunningScripts, "from socket controller");
-
             // we save the current running scraperScript in the global variables;
             await global.currentRunningScripts.push({
                 instance : scraperScript, 
@@ -56,8 +52,6 @@ module.exports = function(clientSocket)   {
                 }
             });
             
-            console.log(scriptId);
-            console.log(global.currentRunningScripts)
 
             // clientSocket.emit("script-initialization-ready", {
             //     scriptId,

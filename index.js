@@ -6,7 +6,8 @@ const { Server } = require("socket.io");
 const port = process.env.PORT || 8080;
 const dotenv = require("dotenv");
 const cookieSession = require("cookie-session");
-const createSocketObject = require("./models/classes/socket-io");
+const { EventEmitter } = require("events");
+const sockectController = require("./controllers/socket");
 
 /**********************
  * 
@@ -14,8 +15,8 @@ const createSocketObject = require("./models/classes/socket-io");
  * 
 ***********************/
 
-dotenv.config();
-const app = express();
+    dotenv.config();
+    const app = express();
 
 
 
@@ -25,16 +26,18 @@ const app = express();
  * 
 ***********************/
 
-const http = require('http');
-const socketOptions = {
-    cors: {
-        origin: "*",
-        methods: ["GET", "POST"],
-    }
-};
-const server = http.createServer(app);
-const socket = new Server(server, socketOptions);
-const socketInstance = createSocketObject(socket);
+    const http = require('http');
+    const socketOptions = {
+        cors: {
+            origin: "*",
+            methods: ["GET", "POST"],
+        }
+    };
+    const server = http.createServer(app);
+    const io = new Server(server, socketOptions);
+    // we're adding custom object props here...
+    io.customEvent = new EventEmitter();
+    io.registeredUsers = {};
 
 
 
@@ -43,10 +46,12 @@ const socketInstance = createSocketObject(socket);
  *  Middlewares
  * 
 ***********************/
-const auth = require("./middlewares/auth");
-const runningScripts = require("./middlewares/runnning-scripts");
-const apiRouteObjectFinder = require("./middlewares/route-object-finder");
-const autoSmrRewrite = require("./middlewares/auto-smr-rewrite");
+// const auth = require("./middlewares/auth");
+// const runningScripts = require("./middlewares/runnning-scripts");
+// const apiRouteObjectFinder = require("./middlewares/route-object-finder");
+// const autoSmrRewrite = require("./middlewares/auto-smr-rewrite");
+
+const { runningScripts, apiRouteObjectFinder, autoSmrRewrite, socketMiddleware } = require("./middlewares");
 
 
 /**********************
@@ -54,18 +59,9 @@ const autoSmrRewrite = require("./middlewares/auto-smr-rewrite");
  *  Api Routes
  * 
 ***********************/
-const authRouter = require("./routes/auth");
-const apiRouter = require("./routes");
-const filesRouter = require("./routes/files");
 
+const allRoutes = require("./routes");
 
-/**********************
- * 
- *  Socket Handlers
- * 
-***********************/
-// TODO: create a socket controller to add all native socket event listeners and emitters;
-//
 
 
 /**********************
@@ -89,25 +85,29 @@ mongoose.connect(process.env.PROD_DB_CONNECT, {
     .catch(err => console.log(err));
 
 
+
 /**********************
  * 
  *  Middlewares Instances
  * 
 ***********************/
-app.use(express.urlencoded({extended : true}));    
-app.use(express.json({extended : true}));
-app.use(cors({ origin: true }));
-app.use(cookieSession({keys : ["scraper", "cc-scraper"]}))
-app.use(express.static(path.join(__dirname, 'views')));
+    app.use(express.urlencoded({extended : true}));    
+    app.use(express.json({extended : true}));
+    app.use(cors({ origin: true }));
+    app.use(cookieSession({keys : ["scraper", "cc-scraper"]}))
+    app.use(express.static(path.join(__dirname, 'views')));
 
+    // allows access of the socket (io) instance to be used inside the controller files...
+    app.use(socketMiddleware(io));
 
-app.use(autoSmrRewrite);
+    // checking if scripts have been written;
+    // app.use(autoSmrRewrite);
 
+    /* Creating a global variable */
+    app.use(runningScripts);
 
-// this dynamically finds the route object to be used from routes/dynamic/ 
-// these routes are created upon making a scraper script.
-// it allows creation and inclusion of files within this app, without the need to restart the server.
-app.use("/api", apiRouteObjectFinder); 
+    // this dynamically finds the route object to be used from routes/dynamic/ 
+    app.use("/api", apiRouteObjectFinder); 
 
 
 
@@ -117,40 +117,27 @@ app.use("/api", apiRouteObjectFinder);
  * 
  ***********************/
 
-/* files router */
-app.use("/cc-files", filesRouter);
+    app.use(allRoutes());
 
 
-// protected static files
-// we're piping images and zipped files instead of serving static ones.
-// app.use("/data", express.static(path.join(__dirname, 'data')));
+    // /* Views Routes... */
+    app.get("*", 
+    // (req, res, next) => {
 
-
-/* auth router */
-app.use(authRouter);
-
-
-/* auth middleware */
-app.use(auth);
-
-
-/* Creating a global variable */
-app.use(runningScripts);
-
-
-/* api route middlewares */
-app.use(apiRouter());
-
-
-// /* Views Routes... */
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "views", "index.html"));
-});
+    //     req.requestResult = "Michael Norward";
+    //     next()
+    // },
+    // (req, res, next) => {
+    //     next()
+    // },
+    (req, res) => {
+        res.sendFile(path.join(__dirname, "views", "index.html"));
+    });
 
 
 /**********************
  * 
- *  Sockets Instances
+ *  Sockets Events 
  * 
  ***********************/
-socketInstance.setEvents();
+    sockectController(io);

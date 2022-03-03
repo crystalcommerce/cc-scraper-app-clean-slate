@@ -2,16 +2,16 @@ const express = require("express");
 const router = express.Router();
 
 router.use((req, res, next) => {
-    if(req.url.indexOf("/api") === 0)   {
-        res.setHeader("Content-Type", "application/json")
-        .status(404)
-        .send({
+    return function(req, res, next) {
+
+        res.setHeader("Content-Type", "application/json");
+
+        res.status(404).send(JSON.stringify({
             statusOk : false,
             status : 404,
-            message : "We couldn't find the resource you're looking for."
-        })
-    } else  {
-        next();
+            message : `We could not find the resource you're looking for`,
+        }, null, 4));
+
     }
 })
 

@@ -1,37 +1,39 @@
 const express = require("express");
 const router = express.Router();
 const imagesControllers = require("../controllers/image.js");
+const { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById } = imagesControllers();
 
-module.exports = function()   {
-    const { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById } = imagesControllers();
+
+module.exports = function(...middleWares)   {
+    
 
 
     // getAll Handler
-    router.get("/images/", getAll);
+    router.get("/", getAll, ...middleWares);
 
 
     // getOneByFilter hanlder
-    router.get("/images/single?", getOneByFilter);
+    router.get("/single?", getOneByFilter, ...middleWares);
 
 
     // getAllFiltered hanlder
-    router.get("/images/all?", getAllFiltered);
+    router.get("/all?", getAllFiltered, ...middleWares);
 
 
     // getOneById handler
-    router.get("/images/:id", getOneById);
+    router.get("/:id", getOneById, ...middleWares);
 
 
     // create
-    router.post("/images/", create);
+    router.post("/", create, ...middleWares);
 
 
     // updateHandler
-    router.put("/images/:id", update);
+    router.put("/:id", update, ...middleWares);
 
 
     // deleteHandler
-    router.delete("/images/:id", deleteById);
+    router.delete("/:id", deleteById, ...middleWares);
 
 
     return router;

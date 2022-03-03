@@ -14,4 +14,14 @@ function nodeRestart()  {
     }, 777);
 }
 
-module.exports = { nodeRestart };
+function getHttpResult(result, message = "", contentType = "application/json") {
+    let obj = {
+        contentType,
+        status : result ? 200 : 400,
+        data : result,
+        message,
+    };
+    return obj;
+}
+
+module.exports = { nodeRestart, getHttpResult };

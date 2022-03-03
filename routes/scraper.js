@@ -1,43 +1,45 @@
 const express = require("express");
 const router = express.Router();
 const scrapersController = require("../controllers/scraper");
+const { create, getOneById, getOneByFilter, getAll, update, deleteOne, updateScraperDetails, scraperRewrite, scraperRewriteAll, deleteSMR } = scrapersController();
 
-module.exports = function()   {
 
-    const { create, getOneById, getOneByFilter, getAll, update, deleteOne, updateScraperDetails, scraperRewrite, scraperRewriteAll, deleteSMR } = scrapersController();
+module.exports = function(...middleWares)   {
+
+    
 
     /* +++++++ READ ++++++++ */
-    router.get("/scrapers/", getAll);
+    router.get("/", getAll, ...middleWares);
 
-    router.get("/scrapers/single?", getOneByFilter);
+    router.get("/single?", getOneByFilter, ...middleWares);
 
-    router.get("/scrapers/:id", getOneById);
+    router.get("/:id", getOneById, ...middleWares);
 
 
 
     /* +++++++ Create a Scraper ++++++++ */
-    router.post("/scrapers/", create);
+    router.post("/", create, ...middleWares);
 
 
 
     /* +++++++ Update a Scraper ++++++++ */
     // Note : this only allows updating the evaluator functions;
-    router.put("/scrapers/:id", update);
+    router.put("/:id", update, ...middleWares);
 
-    router.put("/scrapers/data/:id", updateScraperDetails);
+    router.put("/data/:id", updateScraperDetails, ...middleWares);
 
     // scraperRewriteALl
-    router.post("/scrapers/rewriteAll", scraperRewriteAll);
+    router.post("/rewriteAll", scraperRewriteAll, ...middleWares);
 
     // rewriteScraper
-    router.post("/scrapers/:id", scraperRewrite);
+    router.post("/:id", scraperRewrite, ...middleWares);
 
 
     /* +++++++ delete a Scraper ++++++++ */
 
-    router.delete("/scrapers/smr/:id", deleteSMR);
+    router.delete("/smr/:id", deleteSMR, ...middleWares);
 
-    router.delete("/scrapers/:id", deleteOne);
+    router.delete("/:id", deleteOne, ...middleWares);
 
 
 

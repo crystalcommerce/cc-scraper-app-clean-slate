@@ -1,8 +1,8 @@
-module.exports = function(socketInstance)   {
+module.exports = function(io)   {
 
     return function(req, res, next) {
-        if(!req.socketInstance)  {
-            req.socketInstance = socketInstance;
+        if(!req.io)  {
+            req.io = io;
         }
         next();
     }

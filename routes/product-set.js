@@ -2,43 +2,40 @@ const express = require("express");
 const router = express.Router();
 const productSetControllers = require("../controllers/generic.js");
 const productSetsDb = require('../models/product-set');
+const { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById, deleteAllFiltered } = productSetControllers(productSetsDb, "Product Set");
 
-
-module.exports = function(io)   {
-
-    const { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById, deleteAllFiltered } = productSetControllers(io, productSetsDb, "Product Set");
-
+module.exports = function(...middleWares)   {
 
     // getAll Handler
-    router.get("/product-sets/", getAll);
+    router.get("/", getAll, ...middleWares);
 
 
     // getOneByFilter hanlder
-    router.get("/product-sets/single?", getOneByFilter);
+    router.get("/single?", getOneByFilter, ...middleWares);
 
 
     // getAllFiltered hanlder
-    router.get("/product-sets/all?", getAllFiltered);
+    router.get("/all?", getAllFiltered, ...middleWares);
 
 
     // getOneById handler
-    router.get("/product-sets/:id", getOneById);
+    router.get("/:id", getOneById, ...middleWares);
 
 
     // create
-    router.post("/product-sets/", create);
+    router.post("/", create, ...middleWares);
 
 
     // updateHandler
-    router.put("/product-sets/:id", update);
+    router.put("/:id", update, ...middleWares);
 
 
     // deleteAllFilteredHandler
-	router.delete("/product-sets/all?", deleteAllFiltered);
+	router.delete("/all?", deleteAllFiltered, ...middleWares);
 
 
     // deleteHandler
-    router.delete("/product-sets/:id", deleteById);
+    router.delete("/:id", deleteById, ...middleWares);
 
 
     return router;

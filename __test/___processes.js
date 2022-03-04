@@ -225,14 +225,6 @@
 
     
 
-
-
-    
-
-    Hello Sir Dan,
-
-    I already read the documentation and learned usage of cheerio together with axios to scrape webpages. I also reviewed the codebase and files that need to be refactored in order to have axios and cheerio as our main tool for scraping web data instead of puppeteer. As of now, we have just transferred the ownership of the repository for the frontend UI of the scraper app (cc-scraper-app), and the full-stack repo of (cc-scraper-clean-slate) to Crystal Commerce's github account. As I've seen on the conversations on slack, everyone is busy trying to migrate most of the applications of CC to Digital Ocean, and I kind of don't want to bother them in asking anything about this stand-alone scraper app. I guess my question is, do I have to wait for the people from Digital Ocean to review the codebase of scraper app first, before I start coding? Or can I start now?
-
     These are the parts of the app that will need to be refactored in order for us to have axios and cheerio as our main tool:
 
         (this has to be done on the cc-scraper-clean-slate repo that I recently transferred to CC's github account)
@@ -265,8 +257,17 @@
                     - this part is responsible for editing the any of the scripts that we have. again some of the input fiels required to edit a scraper will have to be changed.
 
 
+    // 03 / 03 / 2021
 
-
+    controllers
+        - data-handlers
+            user
+            collection
+        - response-handlers
+        
+    routes
+        - user
+        - collection
 
 */      
 

@@ -1,27 +1,28 @@
-const express = require("express");
-const router = express.Router();
-const collectionsController = require("../controllers/collection")
-const { create, getOneByName, getAll, update, deleteOne } = collectionsController();
+const router = require("express").Router();
+const { controllers : { collection } } = require("../controllers");
+const { filterObjectsByMethodName } = require("../utilities");
+const { httpResponseHandler } = require("../middlewares");
+const getMiddleWaresByName = filterObjectsByMethodName(httpResponseHandler(), ...collection.map(item => item()));
 
-module.exports = function(...middleWares)   {
+module.exports = function()   {
 
     /* +++++++ READ ++++++++ */
-    router.get("/", getAll, ...middleWares);
+    router.get("/", getMiddleWaresByName("getAll"));
 
 
-    router.get("/:modelName", getOneByName, ...middleWares);
+    router.get("/:modelName", getMiddleWaresByName("getOneByName"));
 
 
     /* +++++++ Create a collection ++++++++ */
-    router.post("/", create, ...middleWares);
+    router.post("/", getMiddleWaresByName("create"));
 
 
     /* +++++++ Update a collection ++++++++ */
-    router.put("/:collectionName", update, ...middleWares);
+    router.put("/:collectionName", getMiddleWaresByName("update"));
 
 
     /* +++++++ delete a collection ++++++++ */
-    router.delete("/:collectionName", deleteOne, ...middleWares);
+    router.delete("/:collectionName", getMiddleWaresByName("deleteOne"));
 
 
     return router;

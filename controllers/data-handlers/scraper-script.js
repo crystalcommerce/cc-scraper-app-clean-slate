@@ -1,18 +1,19 @@
 const crypto = require("crypto");
-const { scrapersDb, productSetsDb } = require("../models");
-const fileZipper = require("../core/file-zipper");
-const { fileExists, createDirPath } = require("../utilities/file-system");
+const { scrapersDb, productSetsDb } = require("../../models");
+const fileZipper = require("../../core/file-zipper");
+const { fileExists, createDirPath } = require("../../utilities/file-system");
 const path = require("path");
-const csvDataWriter = require("../core/csv-data-writer");
-const Model = require("../models/classes/model");
-const allModels = require("../models");
-const { toUrl } = require("../utilities/string");
+const csvDataWriter = require("../../core/csv-data-writer");
+const Model = require("../../models/classes/model");
+const allModels = require("../../models");
+const { toUrl } = require("../../utilities/string");
 
-module.exports = function(io)   {
+module.exports = function()   {
 
-    async function createScraperScript(req, res)    {
-        res.setHeader("Content-type", "application/json");
+    // TODO:
+    // Transfer handling of responses... make this file handle only the result of the query.
 
+    async function createScraperScript(req, res, next)    {
         try {
             let scraperData = await scrapersDb.getById(req.params.id),
                 {   
@@ -55,17 +56,16 @@ module.exports = function(io)   {
                     csvExcludedProps,
                 }
             });
-    
-            res.send(JSON.stringify({
-                scriptId,
-            }, null, 4));
+            
+            req.requestResult = {data : scriptId, status : 200};
+            next();
         } 
         catch(err) {    
-            let result = JSON.stringify({
+            req.requestResult = {
                 message : err.message,
                 status : 404,
-            }, null, 4);
-            res.status(404).send(result);
+            };
+            next();
         }
         
     }
@@ -73,77 +73,81 @@ module.exports = function(io)   {
     // this will be the thing that executes the scraper function
     async function executeScraper(req, res) {
     
-        res.setHeader("Content-type", "application/json");
-        let scraperScript = null;
         try {
-            let savedScript = await global.currentRunningScripts.find(script => script.scriptId === req.params.scriptId);
-            scraperScript = savedScript.instance;
+            let savedScript = await global.currentRunningScripts.find(script => script.scriptId === req.params.scriptId),
+                scraperScript = savedScript.instance;
     
             // sending back the response
-            res.send(JSON.stringify({
+
+            if(scraperScript)    {
+                // executing all remaining evaluators;
+                // Scraping all data recursively up until 5 times of recursive scraping or at least 5 unscraped data left;
+                await scraperScript.executeEvaluators();
+        
+                // bulk image downloading...
+                await scraperScript.downloadImagesByBulk();
+                
+            }
+
+            req.requestResult = {
                 statusOk : true,
+                status : 200,
                 message : "Currently running the script.",
                 data : {scrapedProducts : scraperScript.productObjects, unscrapedProducts : scraperScript.unscrapedData}
-            }, null, 4));
+            }
+            next();
+
         }
         catch(err)  {
-            let result = JSON.stringify({
+            req.requestResult = {
                 message : err.message,
                 status : 404,
-                err,
-            }, null, 4);
-            res.status(404).send(result);
+            };
+            next();
+
         }
     
-        if(scraperScript)    {
-            // executing all remaining evaluators;
-            // Scraping all data recursively up until 5 times of recursive scraping or at least 5 unscraped data left;
-            await scraperScript.executeEvaluators();
-    
-            // bulk image downloading...
-            await scraperScript.downloadImagesByBulk();
-            
-        }
+        
     }
     
     
     async function checkRunningScript(req, res) {
-        res.setHeader("Content-type", "application/json");
-        let scraperScript = null;
     
         try {
-            let savedScript = await global.currentRunningScripts.find(script => script.scriptId === req.params.scriptId);
+            let savedScript = await global.currentRunningScripts.find(script => script.scriptId === req.params.scriptId),
                 scraperScript = savedScript.instance;
     
             if(scraperScript.scriptRunning)   {
-                res.send(JSON.stringify({
+                req.requestResult = {
                     statusOk : true,
                     message : "Currently running the script.",
                     scriptRunning : scraperScript.scriptRunning,
                     data : {scrapedProducts : scraperScript.productObjects, unscrapedProducts : scraperScript.unscrapedData}
-                }, null, 4));
+                };
             } else  {
-                res.send(JSON.stringify({
+                req.requestResult = {
                     statusOk : true,
+                    status : 200,
                     message : "Script has finished running.",
                     scriptRunning : false,
                     data : {scrapedProducts : scraperScript.productObjects, unscrapedProducts : scraperScript.unscrapedData}
-                }, null, 4));
+                };
             }
+
+            next();
         }
         catch(err)  {
-            let result = JSON.stringify({
+            req.requestResult = {
                 message : err.message,
                 status : 404,
-                err,
-            }, null, 4);
-            res.status(404).send(result);
+            };
+
+            next();
         }
     }
     
     
     async function killProcess(req, res)    {
-        res.setHeader("Content-type", "application/json");
     
         try {
             let savedScript = await global.currentRunningScripts.find(script => script.scriptId === req.params.scriptId);
@@ -155,28 +159,28 @@ module.exports = function(io)   {
 
                 scraperScript.cancelScraper();
     
-                res.status(200).send(JSON.stringify({
+                req.requestResult = {
                     statusOk : true,
+                    status : 200,
                     message : "Scraping has been canceled."
-                }, null, 4));
+                };
             } else  {
-                res.status(404);
                 throw Error("We couldn't find the scraper you were trying to cancel");
             }
             
         }
         catch(err) {
     
-            res.send(JSON.stringify({
+            req.requestResult = {
                 statusOk : false,
+                status : 404,
                 message : err.message,
-            }, null, 4));
+            };
         }
         
     }
     
     async function createCsvFile(req, res)  {
-        res.setHeader("Content-type", "application/json");
     
         try {
             let savedScript = await global.currentRunningScripts.find(script => script.scriptId === req.params.scriptId),
@@ -204,35 +208,36 @@ module.exports = function(io)   {
                         if(!fileExists(zippedFile)) {
                             throw Error(`This file "${fileName}" does not exist.`);
                         }
-                        res.send(JSON.stringify({
+                        req.requestResult = {
                             statusOk : true,
+                            status : 200,
                             message : "We have successfully created a zipped file.",
                             filePath : zippedDirPath,
-                        }));
+                        };
                     } catch(err)    {
     
-                        res.status(404).send(JSON.stringify({statusOk : false, status : 404, message : `File Not Found : ${err.message}`}, null, 4));
+                        req.requestResult = {statusOk : false, status : 404, message : `File Not Found : ${err.message}`};
                     }
                 });
     
                 
             } else  {
-                res.status(404);
                 throw Error("We couldn't find the scraped data you were trying to save into csv file.");
             }
         }
         catch(err) {
     
-            res.send(JSON.stringify({
+            req.requestResult = {
                 statusOk : false,
+                status : 404,
                 message : err.message,
-            }, null, 4));
+            };
         }
     }
     
     
     async function removeGlobalScaperObject(req, res)   {
-        res.setHeader("Content-type", "application/json");
+
         try {
             let savedScript = await global.currentRunningScripts.find(script => script.scriptId === req.params.scriptId),
             scraperScript = savedScript.instance;
@@ -240,22 +245,23 @@ module.exports = function(io)   {
             global.currentRunningScripts = await global.currentRunningScripts.filter(script => script.scriptId !== req.params.scriptId);
     
             delete(scraperScript);
-            res.send(JSON.stringify({
+            req.requestResult = {
                 statusOk : true,
+                status : 200,
                 message : `We have successfully deleted the script id : ${scraperScript.scriptId}, from the current running scripts`,
-            }));
+            };
         }
         catch(err)  {
-            res.send(JSON.stringify({
+            req.requestResult = {
                 statusOk : false,
+                status : 403,
                 message : err.message,
-            }, null, 4));
+            };
         }
     }
     
     
     async function saveDataToDatabase(req, res) {
-        res.setHeader("Content-type", "application/json");
     
         try {
             let { scriptId } = req.params,
@@ -276,73 +282,59 @@ module.exports = function(io)   {
             }
     
             if(scraperScript)   {
-                
-                try{
     
-                    // saving the data simultaneously into our database
-                    let promises = scraperScript.productObjects.map(product => {
-                        return async () => {
-                            let foundModel = await Model.getModelByName(apiRoute.replace("/api/", "")),
-                                modelInstance = require(path.join(process.cwd(), "models", "dynamic", foundModel.fileName)),
-                                foundProduct = await modelInstance.getOneByFilter(product),
-                                result;
-                        
-                            if(foundProduct)        {
-                                
-                                for(let key in product)    {
-                                    if(!product[key])   {
-                                        delete(product[key]);
-                                    }
-                                }
-    
-                                result = await modelInstance.update(foundProduct.id, product);
-                            } else  {
-                                
-                                result = await modelInstance.create(product);
-                            }
-                            console.log(result);
-                            return result;
-                        }
-                    });
-    
-                    // saving the data simultaneously into our database
-                    await Promise.all(promises.map(async (item) => await item()));
-    
-    
-                    res.status(200).send(JSON.stringify({
-                        statusOk : true,
-                        message : "We have successfully saved the scraped data into our database.",
-                    }, null, 4));
-                } 
-                catch(err)  {
+                // saving the data simultaneously into our database
+                let promises = scraperScript.productObjects.map(product => {
+                    return async () => {
+                        let foundModel = await Model.getModelByName(apiRoute.replace("/api/", "")),
+                            modelInstance = require(path.join(process.cwd(), "models", "dynamic", foundModel.fileName)),
+                            foundProduct = await modelInstance.getOneByFilter(product),
+                            result;
                     
-                    res.status(403).send(JSON.stringify({
-                        statusOk : false,
-                        message : err.message,
-                    }, null, 4));
-                }
+                        if(foundProduct)        {
+                            
+                            for(let key in product)    {
+                                if(!product[key])   {
+                                    delete(product[key]);
+                                }
+                            }
+
+                            result = await modelInstance.update(foundProduct.id, product);
+                        } else  {
+                            
+                            result = await modelInstance.create(product);
+                        }
+                        return result;
+                    }
+                });
+
+                // saving the data simultaneously into our database
+                await Promise.all(promises.map(async (item) => await item()));
+
+
+                req.requestResult = {
+                    statusOk : true,
+                    status : 200,
+                    message : "We have successfully saved the scraped data into our database.",
+                };
                 
             } else  {
                 throw Error("We couldn't find the data you were trying to save in our database.");
             }
-            
-            // remove the saved script from global;
-    
-            // global.currentRunningScripts = await global.currentRunningScripts.filter(script => script.scriptId !== req.params.scriptId);
-            // delete(scraperScript);
     
         }
         catch(err) {
-            console.log(err);
-            res.send(JSON.stringify({
+
+            req.requestResult = {
                 statusOk : false,
+                status : 404,
                 message : err.message,
-            }, null, 4));
+            };
         }
     }
     
     async function createCsvSavedData(req, res) {
-        res.setHeader("Content-type", "application/json");  
+
         let { dirPath, siteName, productBrand, groupIdentifierKey, groupIdentifier : productSet, apiRoute, csvExcludedProps } = req.body,
             targetPath = path.join(process.cwd(), dirPath); // to be replaced...
     

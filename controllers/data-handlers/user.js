@@ -1,6 +1,6 @@
-const { usersDb } = require("../models/index");
-const { getRequestResult } = require("../utilities");
-const getFileUpload = require("./file-upload");
+const { usersDb } = require("../../models");
+const { getRequestResult } = require("../../utilities");
+const getFileUpload = require("../file-upload");
 
 module.exports = function(req, res, next)   {
     // read data controllers
@@ -8,10 +8,10 @@ module.exports = function(req, res, next)   {
 
         try {
             let result = await usersDb.getAll();
-            req.requestResult = getRequestResult(result, 200);
+            req.requestResult = {data : result, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            req.requestResult = {status : 404, message : err.message};
             next();
         }
 
@@ -22,10 +22,10 @@ module.exports = function(req, res, next)   {
         try {
             let result = await usersDb.getById(req.params.id);
             if(!result) throw Error("User not found");
-            req.requestResult = getRequestResult(result, 200);
+            req.requestResult = {data : result, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            req.requestResult = {status : 404, message : err.message};
             next();
         }
         
@@ -36,10 +36,10 @@ module.exports = function(req, res, next)   {
         try {
             let result = await usersDb.getOneByFilter({friendlyUrl : req.params.friendlyUrl});
             if(!result) throw Error("User not found");
-            req.requestResult = getRequestResult(result, 200);
+            req.requestResult = {data : result, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            req.requestResult = {status : 404, message : err.message};
             next();
         }
     }
@@ -49,10 +49,10 @@ module.exports = function(req, res, next)   {
         try {
             let filter = req.query,
                 result = await usersDb.getAllFilteredData(filter);
-            req.requestResult = getRequestResult(result, 200);
+            req.requestResult = {data : result, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            req.requestResult = {status : 404, message : err.message};
             next();
         }
         
@@ -64,10 +64,10 @@ module.exports = function(req, res, next)   {
             let filter = req.query,
                 result = await usersDb.getOneByFilter(filter);
             if(!result) throw Error("User not found");
-            req.requestResult = getRequestResult(result, 200);
+            req.requestResult = {data : result, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            req.requestResult = {status : 404, message : err.message};
             next();
         }
 
@@ -80,10 +80,10 @@ module.exports = function(req, res, next)   {
             if(!req.authUserDetails) throw Error("You must be logged in");
             let { userId, permissionLevel } = req.authUserDetails,
                 result = await usersDb.getAllFilteredData({permissionLevel : { "$lte": permissionLevel - 1 }});
-            req.requestResult = getRequestResult(result, 200);
+            req.requestResult = {data : result, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            req.requestResult = {status : 404, message : err.message};
             next();
         }
 
@@ -102,10 +102,10 @@ module.exports = function(req, res, next)   {
                 throw Error("Permission Denied : you are trying to access user's information with higher access level than that of yours.")
             }
 
-            req.requestResult = getRequestResult(result, 200);
+            req.requestResult = {data : result, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            req.requestResult = {status : 404, message : err.message};
             next();
         }
 
@@ -127,10 +127,10 @@ module.exports = function(req, res, next)   {
 
             let result = await usersDb.create({...req.body, username : req.body.username.trim().toLowerCase()});
 
-            req.requestResult = getRequestResult(result, 200);
+            req.requestResult = {data : result, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            req.requestResult = {status : 403, message : err.message};
             next();
         }
     }
@@ -155,10 +155,10 @@ module.exports = function(req, res, next)   {
 
             let result = await usersDb.createMultiple(req.body);
 
-            req.requestResult = getRequestResult(result, 200);
+            req.requestResult = {data : result, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            req.requestResult = {status : 403, message : err.message};
             next();
         }
 
@@ -190,10 +190,10 @@ module.exports = function(req, res, next)   {
                 throw Error(`You are not permitted to update this user's data.`);
             } 
 
-            req.requestResult = getRequestResult(updateResult, 200);
+            req.requestResult = {data : updateResult, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            req.requestResult = {status : 403, message : err.message};
             next();
         }
 
@@ -224,10 +224,10 @@ module.exports = function(req, res, next)   {
                 deleteResult = await usersDb.delete(req.params.id);
             }
 
-            req.requestResult = getRequestResult(deleteResult, 200);
+            req.requestResult = {data : deleteResult, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            req.requestResult = {status : 403, message : err.message};
             next();
         }
 
@@ -266,7 +266,7 @@ module.exports = function(req, res, next)   {
                             deleteResult = await usersDb.delete(foundUser._id.toString());
                         }
 
-                        return deleteResult;
+                        return {data : deleteResult, status : 200};
                     } catch(err) {
                         return {status : 403, message : err.message}
                     }
@@ -277,10 +277,10 @@ module.exports = function(req, res, next)   {
             let multipleDeleteResult = await Promise.all(promises.map(async item => await item()));
             
 
-            req.requestResult = getRequestResult(multipleDeleteResult, 200);
+            req.requestResult = {data : multipleDeleteResult, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            req.requestResult = {status : 403, message : err.message};
             next();
         }
     }

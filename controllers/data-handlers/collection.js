@@ -1,9 +1,9 @@
 const path = require("path");
-const Model = require("../models/classes/model");
-const Route = require("../models/classes/route");
+const Model = require("../../models/classes/model");
+const Route = require("../../models/classes/route");
 const mongoose = require("mongoose");
-const { toUrl, toNormalString } = require("../utilities/string");
-const { getRequestResult } = require("../utilities");
+const { toUrl, toNormalString } = require("../../utilities/string");
+const { getRequestResult } = require("../../utilities");
 
 
 module.exports = function()   {
@@ -31,14 +31,17 @@ module.exports = function()   {
             }  
 
             let createRouteResult = await route.createRoute(model.modelInstanceName, model.recordName, pluralized);
-            req.requestResult = getRequestResult({
-                createModelResult,
-                createRouteResult,
-            }, 200);
+            req.requestResult = {
+                data :{
+                    createModelResult,
+                    createRouteResult,
+                }, 
+                status :200
+            };
 
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            req.requestResult = {status : 403, message : err.message};
             next();
         }
         
@@ -57,19 +60,22 @@ module.exports = function()   {
                 throw Error("We coudn't get the collection model and route that you look for")
             }
 
-            req.requestResult = getRequestResult({
-                status : 200, 
-                statusOk : true, 
-                message : "We have found the database collection/table that you looked for.",
-                data : {
-                    ...modelObject,
-                    ...routeObject,
-                }
-            }, 200);
+            req.requestResult = {
+                data :{
+                    status : 200, 
+                    statusOk : true, 
+                    message : "We have found the database collection/table that you looked for.",
+                    data : {
+                        ...modelObject,
+                        ...routeObject,
+                    }
+                }, 
+                status : 200
+            };
             next();
         } 
         catch(err)  {
-            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            req.requestResult = {status : 404, message : err.message};
             next();
         }
     }
@@ -85,20 +91,23 @@ module.exports = function()   {
                 throw Error("We coudn't get the collection model and route that you look for");
             }
 
-            req.requestResult = getRequestResult({
-                status : 200, 
-                statusOk : true, 
-                message : "We have found the database collections/tables that you looked for.",
+            req.requestResult = {
                 data : {
-                    modelObjects,
-                    routeObjects,
-                }
-            }, 200);
+                    status : 200, 
+                    statusOk : true, 
+                    message : "We have found the database collections/tables that you looked for.",
+                    data : {
+                        modelObjects,
+                        routeObjects,
+                    }
+                }, 
+                status : 200,
+            };
             next();
 
         }
         catch(err)  {
-            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            req.requestResult = {status : 404, message : err.message};
             next();
         }
     }
@@ -139,7 +148,10 @@ module.exports = function()   {
                     
                     Model.deleteModelByName(foundModel.fileName);
                     Route.deleteRouteByName(toNormalString(collectionName, "url"));
-                    req.requestResult = getRequestResult({status : 200, statusOk : true, message : "We have successfully deleted the collection"}, 200);
+                    req.requestResult = {
+                        data : { status : 200, statusOk : true, message : "We have successfully deleted the collection"},
+                        status : 200,
+                    };
                     resolve();
                 });
                 
@@ -147,7 +159,7 @@ module.exports = function()   {
             next();
 
         } catch(err)  {
-            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            req.requestResult = {status : 403, message : err.message};
             next();
         }
 

@@ -1,13 +1,17 @@
-const path = require("path");
-const { imagesDb } = require("../models");
-const { getRequestResult } = require("../utilities");
+//  TODO : assign a dirPath where images will be stored or use an S3 bucket like type of storage...
 
-module.exports = function(modelInstanceDb, recordName) {
+const { imagesDb } = require("../../models/index");
+const { getRequestResult } = require("../../utilities");
+const getFileUpload = require("../file-upload");
+const recordName = imagesDb.recordName;
+
+
+module.exports = function() {
 
     async function getAll(req, res, next)  {
 
         try {
-            let result = await modelInstanceDb.getAll();
+            let result = await imagesDb.getAll();
             req.requestResult = getRequestResult(result, 200);
             next();
         } catch(err)    {
@@ -20,7 +24,7 @@ module.exports = function(modelInstanceDb, recordName) {
     async function getOneById(req, res, next)  {
 
         try {
-            let result = await modelInstanceDb.getById(req.params.id);
+            let result = await imagesDb.getById(req.params.id);
             if(!result) throw Error(`${recordName} not found`);
             req.requestResult = getRequestResult(result, 200);
             next();
@@ -34,7 +38,7 @@ module.exports = function(modelInstanceDb, recordName) {
     async function getOneByFilter(req, res, next)  {
         try {
             let filter = req.query,
-                result = await modelInstanceDb.getOneByFilter(filter);
+                result = await imagesDb.getOneByFilter(filter);
             if(!result) throw Error(`${recordName} not found`);
             req.requestResult = getRequestResult(result, 200);
             next();
@@ -49,7 +53,7 @@ module.exports = function(modelInstanceDb, recordName) {
         
         try {
             let filter = req.query,
-                result = await modelInstanceDb.getAllFilteredData(filter);
+                result = await imagesDb.getAllFilteredData(filter);
             req.requestResult = getRequestResult(result, 200);
             next();
         } catch(err)    {
@@ -63,7 +67,7 @@ module.exports = function(modelInstanceDb, recordName) {
 
         try {
 
-            let result = await modelInstanceDb.create(req.body);
+            let result = await imagesDb.create(req.body);
 
             req.requestResult = getRequestResult(result, 200);
             next();
@@ -76,7 +80,7 @@ module.exports = function(modelInstanceDb, recordName) {
     async function update(req, res, next)   {
         
         try {
-            let updateResult = await modelInstanceDb.update(req.params.id, req.body);
+            let updateResult = await imagesDb.update(req.params.id, req.body);
 
             req.requestResult = getRequestResult(updateResult, 200);
             next();
@@ -88,7 +92,7 @@ module.exports = function(modelInstanceDb, recordName) {
 
     async function deleteById(req, res, next)   {
         try {
-            let deleteResult = await modelInstanceDb.delete(req.params.id);
+            let deleteResult = await imagesDb.delete(req.params.id);
 
             req.requestResult = getRequestResult(deleteResult, 200);
             next();
@@ -102,13 +106,13 @@ module.exports = function(modelInstanceDb, recordName) {
 
         try {
             let filter = req.query,
-                filteredResult = await modelInstanceDb.getAllFilteredData(filter),
+                filteredResult = await imagesDb.getAllFilteredData(filter),
                 promises = [];
 
             for(let product of filteredResult) {
                 promises.push(async () => {
                     try {
-                        deleteResult = await modelInstanceDb.delete(product._id.toString());
+                        deleteResult = await imagesDb.delete(product._id.toString());
 
                         return deleteResult;
                     } catch(err) {

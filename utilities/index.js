@@ -13,4 +13,18 @@ function getRequestResult(result, status = 200, contentType = "application/json"
     return obj;
 }
 
-module.exports = { nodeRestart, getRequestResult };
+function filterObjectsByMethodName(postMiddleWare, ...middleWares)  {
+
+    let middleWaresArr = Array.from(middleWares);
+    
+    return function(callbackName)   {
+        let callback =  middleWaresArr.filter(obj => {
+            return Object.keys(obj).find(key => key === callbackName);
+        }).map(item => item[callbackName]);
+
+        return [...callback, postMiddleWare];
+    }
+    
+}
+
+module.exports = { nodeRestart, getRequestResult, filterObjectsByMethodName };

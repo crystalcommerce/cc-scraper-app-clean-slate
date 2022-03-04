@@ -22,23 +22,23 @@ const usersRouter = require("./user");
 // collections
 const collectionsRouter = require("./collection");
 
-// siteResources
-const siteResourcesRouter = require("./site-resource");
+// // siteResources
+// const siteResourcesRouter = require("./site-resource");
 
-// imagesRouter
-const imagesRouter = require("./image");
+// // imagesRouter
+// const imagesRouter = require("./image");
 
-// scrapersRouter
-const scrapersRouter = require("./scraper");
+// // scrapersRouter
+// const scrapersRouter = require("./scraper");
 
-// executeScriptRouter
-const executeScriptRouter = require("./execute-script");
+// // executeScriptRouter
+// const executeScriptRouter = require("./execute-script");
 
-// dynamicRouter
-const dynamicRouter = require("./dynamic");
+// // dynamicRouter
+// const dynamicRouter = require("./dynamic");
 
-// productSetRouter
-const productSetRouter = require("./product-set");
+// // productSetRouter
+// const productSetRouter = require("./product-set");
 
 // Error 404 Router
 const error404 = require('./error404');
@@ -62,85 +62,65 @@ module.exports = function()   {
     // auth
     router.use(
         "/auth",
-        authRouter(
-            httpResponse()
-        )
+        authRouter()
     );
     
     // users
     router.use(
         "/api/users",
         userAuth,
-        usersRouter(
-            httpResponse()
-        )
+        usersRouter()
     );
 
     // collections
     router.use(
         "/api/collections",
         userAuth,
-        collectionsRouter(
-            httpResponse()
-        )
+        collectionsRouter()
     );
 
-    // site-resources
-    router.use(
-        "/api/site-resources",
-        userAuth,
-        siteResourcesRouter(
-            httpResponse()
-        )
-    );
+    // // site-resources
+    // router.use(
+    //     "/api/site-resources",
+    //     userAuth,
+    //     siteResourcesRouter()
+    // );
 
-    // images
-    router.use(
-        "/api/images",
-        userAuth,
-        imagesRouter(
-            httpResponse()
-        )
-    );
+    // // images
+    // router.use(
+    //     "/api/images",
+    //     userAuth,
+    //     imagesRouter()
+    // );
 
-    // scrapers
-    router.use(
-        "/api/scrapers",
-        userAuth,
-        scrapersRouter(
-            httpResponse()
-        )
-    );
+    // // scrapers
+    // router.use(
+    //     "/api/scrapers",
+    //     userAuth,
+    //     scrapersRouter()
+    // );
 
-    // script
-    router.use(
-        "/api/script",
-        userAuth,
-        executeScriptRouter(
-            httpResponse()
-        )
-    );
+    // // script
+    // router.use(
+    //     "/api/script",
+    //     userAuth,
+    //     executeScriptRouter()
+    // );
 
-    // product-sets
-    router.use(
-        "/api/product-sets",
-        userAuth,
-        productSetRouter(
-            httpResponse()
-        )
-    );
+    // // product-sets
+    // router.use(
+    //     "/api/product-sets",
+    //     userAuth,
+    //     productSetRouter()
+    // );
 
 
-    // dynamically created routes; dynamic reading of routes objects
-    router.use(
-        "/api",
-        userAuth,
-        dynamicRouter(
-            
-            httpResponse(),
-        ),
-        
-    );
+    // // dynamically created routes; dynamic reading of routes objects
+    // router.use(
+    //     "/api",
+    //     userAuth,
+    //     dynamicRouter()
+    // );
 
 
     // 404 handler route

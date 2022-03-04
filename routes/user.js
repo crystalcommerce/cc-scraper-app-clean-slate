@@ -1,58 +1,57 @@
 const router = require("express").Router();
-const usersController = require("../controllers/user");
+const { controllers : { user } } = require("../controllers");
+const { filterObjectsByMethodName } = require("../utilities");
+const { httpResponseHandler } = require("../middlewares");
+const getMiddleWaresByName = filterObjectsByMethodName(httpResponseHandler(), ...user.map(item => item()));
 
-
-module.exports = function(...middleWares)   {
-    
-    let { getAll, getOneById, getOneByFilter, getAllFiltered, getAllManagedUsers, getMangedUserById, getByUrl, create, update, deleteById, deleteMultiple, createMultiple, fileUpload } = usersController();
-
+module.exports = function()   {
 
     /* +++++++ READ ++++++++ */
     // get all users
-    router.get("/", getAll, ...middleWares);
+    router.get("/", getMiddleWaresByName("getAll"));
 
     // get single filtered
-    router.get("/single?", getOneByFilter, ...middleWares);
+    router.get("/single?", getMiddleWaresByName("getOneByFilter"));
 
     // get all by filter
-    router.get("/all?", getAllFiltered, ...middleWares); // uses req.query for filtering data
+    router.get("/all?", getMiddleWaresByName("getAllFiltered")); // uses req.query for filtering data
 
     // get all managed users
-    router.get("/managed-users", getAllManagedUsers, ...middleWares);
+    router.get("/managed-users", getMiddleWaresByName("getAllManagedUsers"));
 
     // get all managed users
-    router.get("/managed-users/:id", getMangedUserById, ...middleWares);
+    router.get("/managed-users/:id", getMiddleWaresByName("getMangedUserById"));
 
     // get by friendly url
-    router.get("/url/:friendlyUrl", getByUrl, ...middleWares);
+    router.get("/url/:friendlyUrl", getMiddleWaresByName("getByUrl"));
 
     // get by id
-    router.get("/:id", getOneById, ...middleWares);
+    router.get("/:id", getMiddleWaresByName("getOneById"));
 
 
 
     /* +++++++ CREATE ++++++++ */
     // creating user
-    router.post("/", fileUpload.single("image"), create, ...middleWares);
+    router.post("/", getMiddleWaresByName("create"));
 
     //  create multiple users
-    router.post("/multiple", fileUpload.single("image"), createMultiple, ...middleWares);
+    router.post("/multiple", getMiddleWaresByName("createMultiple"));
 
 
 
     /* +++++++ UPDATE ++++++++ */
     // update user data
-    router.put("/:id", update, ...middleWares);
+    router.put("/:id", getMiddleWaresByName("update"));
 
 
 
     /* +++++++ DELETE ++++++++ */
 
     // delete multiple users data;
-    router.delete("/delete-filtered?", deleteMultiple, ...middleWares);
+    router.delete("/delete-filtered?", getMiddleWaresByName("deleteMultiple"));
 
     // delete single user data
-    router.delete("/:id", deleteById, ...middleWares);
+    router.delete("/:id", getMiddleWaresByName("deleteById"));
 
 
 

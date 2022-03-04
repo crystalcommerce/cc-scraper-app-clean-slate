@@ -1,21 +1,26 @@
 const mongoose = require("mongoose");
 const path = require("path");
-const { toUrl, toCapitalizeAll, toNormalString } = require("../utilities/string");
+const { toUrl, toCapitalizeAll, toNormalString } = require("../../utilities/string");
 
 // modelInstances
-const dbInstances = require("../models");
+const dbInstances = require("../../models");
 const { scrapersDb, siteResourcesDb, productSetsDb } = dbInstances;
 
 // classes
-const Scraper = require("../models/classes/scraper");
-const Model = require("../models/classes/model");
-const { deleteAllInDirPath, fileExists } = require("../utilities/file-system");
+const Scraper = require("../../models/classes/scraper");
+const Model = require("../../models/classes/model");
+const { deleteAllInDirPath, fileExists } = require("../../utilities/file-system");
 
 // utility
-const { nodeRestart } = require("../utilities");
+const { nodeRestart } = require("../../utilities");
 
 
 module.exports = function(io)   {
+
+    // TODO:
+    // Transfer handling of responses... make this file handle only the result of the query.
+
+
     // variable
     const recordName = "Scraper";
 

@@ -3,7 +3,7 @@ const runningScripts = require("./runnning-scripts");
 const apiRouteObjectFinder = require("./route-object-finder");
 const autoSmrRewrite = require("./auto-smr-rewrite");
 const socketMiddleware = require("./socket-io");
-const httpResponse = require("./http-response");
+const httpResponseHandler = require("./http-response-handler");
 
 module.exports = {
     userAuth,
@@ -11,5 +11,5 @@ module.exports = {
     apiRouteObjectFinder,
     autoSmrRewrite,
     socketMiddleware,
-    httpResponse,
+    httpResponseHandler,
 }

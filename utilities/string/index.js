@@ -1,6 +1,5 @@
 // some non-db related helper functions
 
-
 function toUrl(str) {
     return Array.from(str.toLowerCase().trim().replace(/[^a-zA-Z0-9]/g, " ").split(" ")).reduce((a, b) => {
         if(b.trim() !== "") {
@@ -44,11 +43,28 @@ function toCapitalizeAll(str)   {
     return str.split(" ").map(item => toCapitalize(item)).join(" ");
 }
 
-module.exports = { toUrl, enumerate, toCamelCase, toNormalString, toCapitalize, toCapitalizeAll }
+function queryStringToObject(urlString)   {
+    let url = new URL(urlString),
+        queryString = url.search.length ? url.search.slice(1) : "",
+        queryArr = queryString.length ? queryString.split("&") : [],
+        queryObject = queryArr.reduce((a,b) => {
+            let [key, val] = b.split("=");
+            a[decodeURIComponent(key)] = decodeURIComponent(val);
+            return a;
+        }, {});
+
+    return Object.keys(queryObject).length ? queryObject : null;
+}
+
+function objectToQueryString(object) {
+
+    return Object.keys(object).reduce((a, b) => {
+
+        a.push(`${encodeURIComponent(b)}=${encodeURIComponent(object[b])}`)
+
+        return a;
+    }, []).join("&");
     
+}
 
-    
-
-
-
-     
+module.exports = { toUrl, enumerate, toCamelCase, toNormalString, toCapitalize, toCapitalizeAll, queryStringToObject, objectToQueryString };

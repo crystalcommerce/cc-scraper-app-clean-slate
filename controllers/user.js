@@ -1,24 +1,17 @@
 const { usersDb } = require("../models/index");
+const { getRequestResult } = require("../utilities");
 const getFileUpload = require("./file-upload");
 
 module.exports = function(req, res, next)   {
     // read data controllers
     async function getAll(req, res, next)  {
 
-        req.requestResult = {
-            contentType : "application/json",
-            status : 200,
-        };
-
-        console.log("getALl");
-        
         try {
             let result = await usersDb.getAll();
-            req.requestResult.data = JSON.stringify(result, null, 4);
+            req.requestResult = getRequestResult(result, 200);
             next();
         } catch(err)    {
-            req.requestResult.data = JSON.stringify({status : 404, message : err.message}, null, 4);
-
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
             next();
         }
 
@@ -26,116 +19,71 @@ module.exports = function(req, res, next)   {
 
     async function getOneById(req, res, next)  {
 
-        req.requestResult = {
-            contentType : "application/json",
-            status : 200,
-        };
-
-        console.log("getOneById");
-
         try {
             let result = await usersDb.getById(req.params.id);
             if(!result) throw Error("User not found");
-            req.requestResult.data = JSON.stringify(result, null, 4);
+            req.requestResult = getRequestResult(result, 200);
             next();
         } catch(err)    {
-            req.requestResult.data = JSON.stringify({status : 404, message : err.message}, null, 4);
-            req.requestResult.status = 404;
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
             next();
         }
         
     }
 
     async function getByUrl(req, res, next) {
-
-        req.requestResult = {
-            contentType : "application/json",
-            status : 200,
-        };
-
-        console.log("getByUrl");
-
+        
         try {
             let result = await usersDb.getOneByFilter({friendlyUrl : req.params.friendlyUrl});
             if(!result) throw Error("User not found");
-            req.requestResult.data = JSON.stringify(result, null, 4);
+            req.requestResult = getRequestResult(result, 200);
             next();
         } catch(err)    {
-            req.requestResult.data = JSON.stringify({status : 404, message : err.message}, null, 4);
-            req.requestResult.status = 404;
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
             next();
         }
-        
     }
 
     async function getAllFiltered(req, res, next)  {
-
-        let filter = req.query;
-
-        req.requestResult = {
-            contentType : "application/json",
-            status : 200,
-        };
-
-        console.log("getByUrl");
-
+        
         try {
-            let result = await usersDb.getAllFilteredData(filter);
-            req.requestResult.data = JSON.stringify(result, null, 4);
+            let filter = req.query,
+                result = await usersDb.getAllFilteredData(filter);
+            req.requestResult = getRequestResult(result, 200);
             next();
         } catch(err)    {
-            req.requestResult.data = JSON.stringify({status : 404, message : err.message}, null, 4);
-            req.requestResult.status = 404;
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
             next();
         }
-
         
         
     }
 
     async function getOneByFilter(req, res, next)  {
-
-        let filter = req.query;
-    
-        req.requestResult = {
-            contentType : "application/json",
-            status : 200,
-        };
-
-        console.log("getOneByFilter");
-
         try {
-            let result = await usersDb.getOneByFilter(filter);
+            let filter = req.query,
+                result = await usersDb.getOneByFilter(filter);
             if(!result) throw Error("User not found");
-            req.requestResult.data = JSON.stringify(result, null, 4);
+            req.requestResult = getRequestResult(result, 200);
             next();
         } catch(err)    {
-            req.requestResult.data = JSON.stringify({status : 404, message : err.message}, null, 4);
-            req.requestResult.status = 404;
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
             next();
         }
-
 
     }
 
 
     async function getAllManagedUsers(req, res, next) {
-        
-        req.requestResult = {
-            contentType : "application/json",
-            status : 200,
-        };
-
-        console.log("getOneByFilter");
 
         try {
+            if(!req.authUserDetails) throw Error("You must be logged in");
             let { userId, permissionLevel } = req.authUserDetails,
                 result = await usersDb.getAllFilteredData({permissionLevel : { "$lte": permissionLevel - 1 }});
-            req.requestResult.data = JSON.stringify(result, null, 4);
+            req.requestResult = getRequestResult(result, 200);
             next();
         } catch(err)    {
-            req.requestResult.data = JSON.stringify({status : 401, message : err.message}, null, 4);
-            req.requestResult.status = 401;
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
             next();
         }
 
@@ -143,23 +91,23 @@ module.exports = function(req, res, next)   {
 
 
     async function getMangedUserById(req, res, next)    {
-        let { userId, permissionLevel } = req.authUserDetails;
 
-        console.log("getMangedUserById");
+        try {
+            if(!req.authUserDetails) throw Error("You must be logged in");
+            let { userId, permissionLevel } = req.authUserDetails,
+                result = await usersDb.getById(req.params.id);
 
+            if(!result) throw Error("User not found");
+            if(result.permissionLevel >= permissionLevel)   {
+                throw Error("Permission Denied : you are trying to access user's information with higher access level than that of yours.")
+            }
 
-        res.setHeader("Content-type", "application/json");
-        usersDb.getById(req.params.id)
-            .then(result => {
-                if(!result) throw Error("User not found");
-                if(result.permissionLevel >= permissionLevel)   {
-                    throw Error("Permission Denied : you are trying to access user's information with higher access level than that of yours.")
-                }
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-            });
+            req.requestResult = getRequestResult(result, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            next();
+        }
 
     }
 
@@ -167,126 +115,174 @@ module.exports = function(req, res, next)   {
     // create data controllers
     async function create(req, res, next)   {
 
-        console.log("create");
-        
-
-        res.setHeader("Content-type", "application/json");
-        try{
+        try {
             let { userId, permissionLevel } = req.authUserDetails,
                 file = req.file;
 
-            req.body.permissionLevel = req.body.permissionLevel < permissionLevel ? req.body.permissionLevel : permissionLevel - 1;
-            res.setHeader("Content-type", "application/json");
+            if(permissionLevel < 4) {
+                throw Error(`You are not permitted to create a new user.`);
+            }
 
-            
-            usersDb.create({...req.body, username : req.body.username.toLowerCase()}).
-                then(result => {
-                    res.send(JSON.stringify(result, null, 4));
-                })
-                .catch(err => {
-                    res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-                });
-        }
-        catch(err)  {
-            res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
+            req.body.permissionLevel = req.body.permissionLevel < permissionLevel ? req.body.permissionLevel : permissionLevel - 1;
+
+            let result = await usersDb.create({...req.body, username : req.body.username.trim().toLowerCase()});
+
+            req.requestResult = getRequestResult(result, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            next();
         }
     }
 
 
     async function createMultiple(req, res, next)  {
-        let {userId, permissionLevel} = req.authUserDetails;
+        
+        try {
+            let { userId, permissionLevel } = req.authUserDetails,
+                file = req.file;
 
-        console.log("createMultiple");
+
+            if(permissionLevel < 4) {
+                throw Error(`You are not permitted to create a new user.`);
+            }
+
+            req.body.forEach(user => {
+                user.permissionLevel = permissionLevel < 5 && permissionLevel > 1 ? permissionLevel - 1 : 1;
+                user.username = user.username.trim().toLowerCase();
+            });
 
 
-        res.setHeader("Content-type", "application/json");
+            let result = await usersDb.createMultiple(req.body);
 
-        req.body.forEach(user => {
-            user.permissionLevel = permissionLevel < 5 && permissionLevel > 1 ? permissionLevel - 1 : 1;
-        });
+            req.requestResult = getRequestResult(result, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            next();
+        }
 
-        usersDb.createMultiple(req.body).
-            then(result => {
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-            })
     }
 
 
     // update data controllers
     async function update(req, res, next)   {
 
-        res.setHeader("Content-type", "application/json");
+        try {
+            let { userId, permissionLevel } = req.authUserDetails,
+                foundUser =  await usersDb.getById(req.params.id),
+                updateResult;
+            
+            if(!foundUser)  {
+                throw Error(`No user was found.`);
+            }
 
-        console.log("update");
+            if(permissionLevel < 4 && userId !== foundUser._id.toString()) {
+                throw Error(`You are not permitted to update this user's data.`);
+            }
 
-
-        let { userId, permissionLevel } = req.authUserDetails;
-
-        let foundUser =  await usersDb.getById(req.params.id);
-        if(foundUser)   {
-            // console.log({permissionLevel, userId, foundUserPermissionLevel : foundUser.permissionLevel});
-            if(foundUser.permissionLevel < permissionLevel && userId !== foundUser._id) {
-                usersDb.update(req.params.id, req.body).
-                    then(result => {
-                        res.send(JSON.stringify(result, null, 4));
-                    })
-                    .catch(err => {
-                        res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-                    });
-            } else if(userId === foundUser.id) {
-                usersDb.update(req.params.id, req.body).
-                    then(result => {
-                        res.send(JSON.stringify(result, null, 4));
-                    })
-                    .catch(err => {
-                        res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-                    });
+            if(foundUser.permissionLevel < permissionLevel && userId !== foundUser._id.toString()) {
+                updateResult = await usersDb.update(req.params.id, req.body);
+            } else if(userId === foundUser._id.toString()) {
+                delete(req.body.permissionLevel);
+                updateResult = await usersDb.update(req.params.id, req.body)
             }   else    {
-                res.status(404).send(JSON.stringify({status : 404, message : `You are not permitted to update this user's data.`}, null, 4));
-            }   
-        }   else    {
-            res.status(404).send(JSON.stringify({status : 404, message : `No user was found.`}, null, 4));
+                throw Error(`You are not permitted to update this user's data.`);
+            } 
+
+            req.requestResult = getRequestResult(updateResult, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            next();
         }
+
     }
 
 
     // delete data controllers
     async function deleteById(req, res, next)   {
-        res.setHeader("Content-type", "application/json");
 
-        console.log("deleteById");
-
-        
-        let {userId, permissionLevel} = req.authUserDetails,
-            foundUser =  await usersDb.getById(req.params.id);
-
-        if(foundUser)   {
-            if(foundUser.permissionLevel < permissionLevel) {
-                usersDb.delete(req.params.id)
-                    .then(result => res.send(JSON.stringify(result)))
-                    .catch(err => res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4)));
-            } else  {
-                res.status(404).send(JSON.stringify({status : 404, message : `You are not permitted to delete this user's data.`}, null, 4));
+        try {
+            let {userId, permissionLevel} = req.authUserDetails,
+                foundUser =  await usersDb.getById(req.params.id),
+                deleteResult;
+            
+            if(!foundUser)  {
+                throw Error(`No user was found.`);
             }
-        } else  {
-            res.status(404).send(JSON.stringify({status : 404, message : `No user was found.`}, null, 4));
+
+            if(userId === foundUser._id.toString()) {
+                throw Error(`Please ask an admin to delete your user data.`);
+            }
+
+            if(permissionLevel < 4) {
+                throw Error(`You are not permitted to delete this user's data.`);
+            }
+
+            if(foundUser.permissionLevel < permissionLevel && userId !== foundUser._id) {
+                deleteResult = await usersDb.delete(req.params.id);
+            }
+
+            req.requestResult = getRequestResult(deleteResult, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            next();
         }
+
     }
 
-    function deleteMultiple(req, res, next)  {
-        let filter = req.query;
+    async function deleteMultiple(req, res, next)  {
 
+        try {
+            let {userId, permissionLevel} = req.authUserDetails,
+                foundUser = await usersDb.getById(userId);
+                filter = req.query,
+                filteredResult = await usersDb.getAllFilteredData(filter),
+                promises = [];
 
-        console.log("deleteMultiple");
+            if(!foundUser)  {
+                throw Error(`You do not have the permission to delete any of the data.`);
+            }
 
-        res.setHeader("Content-type", "application/json");
+            if(permissionLevel < 2) {
+                throw Error(`You are not permitted to delete this user's data.`);
+            }
 
-        usersDb.deleteMultiple(filter)
-            .then(result => res.send(JSON.stringify(result, null, 4)))
-            .catch(err => res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4)));
+            for(let foundUser of filteredResult) {
+                promises.push(async () => {
+                    try {
+                        if(!foundUser)  {
+                            throw Error(`No user was found.`);
+                        }
+            
+                        if(userId === foundUser._id.toString()) {
+                            throw Error(`Please ask an admin to delete your user data.`);
+                        }
+            
+            
+                        if(foundUser.permissionLevel < permissionLevel) {
+                            deleteResult = await usersDb.delete(foundUser._id.toString());
+                        }
+
+                        return deleteResult;
+                    } catch(err) {
+                        return {status : 403, message : err.message}
+                    }
+                });
+            }
+            
+
+            let multipleDeleteResult = await Promise.all(promises.map(async item => await item()));
+            
+
+            req.requestResult = getRequestResult(multipleDeleteResult, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            next();
+        }
     }
 
 

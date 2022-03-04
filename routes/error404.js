@@ -1,7 +1,4 @@
-const express = require("express");
-const router = express.Router();
-
-router.use((req, res, next) => {
+module.exports = function() {
     return function(req, res, next) {
 
         res.setHeader("Content-Type", "application/json");
@@ -13,6 +10,4 @@ router.use((req, res, next) => {
         }, null, 4));
 
     }
-})
-
-module.exports = router;
+};

@@ -1,28 +1,8 @@
-const router = require("express").Router();
+const { Router } = require("express");
+const router = Router();
 
 // middlewares
 const { userAuth, httpResponse } = require("../middlewares");
-
-
-
-
-
-// /* files router */
-// app.use("/cc-files", filesRouter);
-
-
-// // protected static files
-// // we're piping images and zipped files instead of serving static ones.
-// // app.use("/data", express.static(path.join(__dirname, 'data')));
-
-
-// /* auth router */
-// app.use(authRouter);
-
-
-// /* api route middlewares */
-// app.use(router());
-
 
 
 /**********************
@@ -30,6 +10,8 @@ const { userAuth, httpResponse } = require("../middlewares");
  *  All Routes
  * 
 ***********************/
+
+const authRouter = require("./auth");
 
 // files-router
 const filesRouter = require("./files");
@@ -61,9 +43,10 @@ const productSetRouter = require("./product-set");
 // Error 404 Router
 const error404 = require('./error404');
 
-module.exports = function()   {
 
-    // routes
+
+
+module.exports = function()   {
 
     // files
     router.use(
@@ -71,9 +54,23 @@ module.exports = function()   {
         filesRouter
     );
     
+    // protected static files
+    // we're piping images and zipped files instead of serving static ones.
+    // router.use("/data", express.static(path.join(__dirname, 'data')));
+
+    
+    // auth
+    router.use(
+        "/auth",
+        authRouter(
+            httpResponse()
+        )
+    );
+    
     // users
     router.use(
         "/api/users",
+        userAuth,
         usersRouter(
             httpResponse()
         )
@@ -82,6 +79,7 @@ module.exports = function()   {
     // collections
     router.use(
         "/api/collections",
+        userAuth,
         collectionsRouter(
             httpResponse()
         )
@@ -90,6 +88,7 @@ module.exports = function()   {
     // site-resources
     router.use(
         "/api/site-resources",
+        userAuth,
         siteResourcesRouter(
             httpResponse()
         )
@@ -98,6 +97,7 @@ module.exports = function()   {
     // images
     router.use(
         "/api/images",
+        userAuth,
         imagesRouter(
             httpResponse()
         )
@@ -106,6 +106,7 @@ module.exports = function()   {
     // scrapers
     router.use(
         "/api/scrapers",
+        userAuth,
         scrapersRouter(
             httpResponse()
         )
@@ -114,6 +115,7 @@ module.exports = function()   {
     // script
     router.use(
         "/api/script",
+        userAuth,
         executeScriptRouter(
             httpResponse()
         )
@@ -122,6 +124,7 @@ module.exports = function()   {
     // product-sets
     router.use(
         "/api/product-sets",
+        userAuth,
         productSetRouter(
             httpResponse()
         )
@@ -131,18 +134,21 @@ module.exports = function()   {
     // dynamically created routes; dynamic reading of routes objects
     router.use(
         "/api",
+        userAuth,
         dynamicRouter(
-            httpResponse()
+            
+            httpResponse(),
         ),
         
     );
 
 
     // 404 handler route
-    router.use("/api", error404);
+    router.use("/api", error404());
 
 
     return router;
+
 }
 
 

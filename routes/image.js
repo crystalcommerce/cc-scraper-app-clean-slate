@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const imagesControllers = require("../controllers/image.js");
-const { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById } = imagesControllers();
+const { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById, deleteAllFiltered } = imagesControllers();
 
 
 module.exports = function(...middleWares)   {
@@ -34,6 +34,9 @@ module.exports = function(...middleWares)   {
 
     // deleteHandler
     router.delete("/:id", deleteById, ...middleWares);
+
+    // delete multiple handler;
+    router.delete("/delete-filtered?", deleteAllFiltered, ...middleWares);
 
 
     return router;

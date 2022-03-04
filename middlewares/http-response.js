@@ -1,11 +1,8 @@
 module.exports = function(req, res, next)  {
     return function(req, res, next) {
-
         if(req.requestResult) {
             let { contentType, status, data } = req.requestResult;
-            
-            console.log("this is the http response module...")
-
+            console.log("This is coming from the middleware... httpResponse handler")
             res.setHeader("Content-Type", contentType).status(status).send(data);
         } else  {
 

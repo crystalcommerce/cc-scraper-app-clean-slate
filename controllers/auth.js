@@ -1,18 +1,28 @@
 const jwt = require("jsonwebtoken");
 const { usersDb } = require("../models/index");
-const crypto = require("crypto")
+const crypto = require("crypto");
+const { getRequestResult } = require("../utilities");
 
-module.exports = async function(req, res) {
-    let { username, password } = req.body,
-        foundUser = await usersDb.getOneByFilter({username : username.toLowerCase()});
+module.exports = function() {
+    async function login(req, res, next) {
 
-    res.setHeader("Content-type", "application/json");
-    if(!foundUser)  {
-        res.status(401).send(JSON.stringify({statusOk : false, status : 401, message : `Access Denied : Username / Password Invalid`}));
-    } else  {
-        let passwordVerified = await usersDb.hashCompare(password, foundUser.password),
-            {firstName, lastName, username, } = foundUser;
-        if(passwordVerified)    {
+        try {
+            let { username : enteredUsername, password : enteredPassword } = req.body,
+                foundUser = await usersDb.getOneByFilter({username : enteredUsername.toLowerCase()});
+    
+            if(!foundUser)  {
+                throw Error(`Access Denied : Username / Password Invalid`);
+            }
+    
+            let passwordVerified = await usersDb.hashCompare(enteredPassword, foundUser.password),
+                {firstName, lastName, username, } = foundUser;
+            
+            if(!passwordVerified)   {
+                throw Error(`Access Denied : Username / Password Invalid`);
+            }
+    
+            
+    
             let timeCount = 60 * 60 * 24 * 7,
                 authToken = jwt.sign({
                         userId : foundUser._id,
@@ -27,23 +37,35 @@ module.exports = async function(req, res) {
                     process.env.JWT_SECRET_KEY, 
                     { expiresIn: timeCount }
                 );
-                
+            
+            req.requestResult = getRequestResult({
+                    statusOk : true, 
+                    status : 200, 
+                    message : `You have successfully logged in.`, 
+                    authToken,
+                    fileToken,
+                    tokenExpiration : new Date().getTime() + (timeCount * 1000),
+                    userInfo : { firstName, lastName, username, permissionLevel : foundUser.permissionLevel }
+                },
+                200
+            );
 
-            res.status(200).send(JSON.stringify({
-                statusOk : true, 
-                status : 200, 
-                message : `You have successfully logged in.`, 
-                authToken,
-                fileToken,
-                tokenExpiration : new Date().getTime() + (timeCount * 1000),
-                userInfo : { firstName, lastName, username, permissionLevel : foundUser.permissionLevel }
-            }, null, 4));
-        } else  {
-            res.status(401).send(JSON.stringify({
-                statusOk : false, 
-                status : 401, 
-                message : `Access Denied : Username / Password Invalid`
-            }, null, 4));
+
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            next();
         }
+    
     }
+
+    async function logout(req, res, next)    {
+        delete(req.session.user);
+        next();
+    }
+
+    return {login, logout};
+
 }
+
+

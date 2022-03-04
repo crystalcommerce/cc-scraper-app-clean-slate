@@ -3,13 +3,12 @@ const Model = require("../models/classes/model");
 const Route = require("../models/classes/route");
 const mongoose = require("mongoose");
 const { toUrl, toNormalString } = require("../utilities/string");
+const { getRequestResult } = require("../utilities");
 
 
-module.exports = function(io)   {
+module.exports = function()   {
     // create
-    async function create(req, res) {
-
-        res.setHeader("Content-type", "application/json");
+    async function create(req, res, next) {
 
         try {
 
@@ -32,24 +31,22 @@ module.exports = function(io)   {
             }  
 
             let createRouteResult = await route.createRoute(model.modelInstanceName, model.recordName, pluralized);
-            res.send(JSON.stringify({
+            req.requestResult = getRequestResult({
                 createModelResult,
                 createRouteResult,
-            }, null, 4));
+            }, 200);
 
+            next();
         } catch(err)    {
-            res.status(403).send(JSON.stringify({
-                status : 403,
-                message : err.message,
-            }, null, 4));
+            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            next();
         }
         
     }
 
 
     // read
-    async function getOneByName(req, res) {
-        res.setHeader("Content-type", "application/json");
+    async function getOneByName(req, res, next) {
 
         try {
             let {modelName} = req.params;
@@ -60,7 +57,7 @@ module.exports = function(io)   {
                 throw Error("We coudn't get the collection model and route that you look for")
             }
 
-            res.send(JSON.stringify({
+            req.requestResult = getRequestResult({
                 status : 200, 
                 statusOk : true, 
                 message : "We have found the database collection/table that you looked for.",
@@ -68,22 +65,17 @@ module.exports = function(io)   {
                     ...modelObject,
                     ...routeObject,
                 }
-            }, null, 4));
-
+            }, 200);
+            next();
         } 
         catch(err)  {
-            
-            res.status(404).send(JSON.stringify({
-                status : 404, 
-                statusOk : false, 
-                message : err.message
-            }, null, 4));
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            next();
         }
     }
 
 
-    async function getAll(req, res)   {
-        res.setHeader("Content-type", "application/json");
+    async function getAll(req, res, next)   {
 
         try {
             let modelObjects = await Model.getModels(),
@@ -93,7 +85,7 @@ module.exports = function(io)   {
                 throw Error("We coudn't get the collection model and route that you look for");
             }
 
-            res.send(JSON.stringify({
+            req.requestResult = getRequestResult({
                 status : 200, 
                 statusOk : true, 
                 message : "We have found the database collections/tables that you looked for.",
@@ -101,30 +93,25 @@ module.exports = function(io)   {
                     modelObjects,
                     routeObjects,
                 }
-            }, null, 4));
+            }, 200);
+            next();
+
         }
         catch(err)  {
-            console.log(err);
-            res.status(404).send(JSON.stringify({
-                status : 404, 
-                statusOk : false, 
-                message : err.message
-            }, null, 4));
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            next();
         }
     }
 
 
     // update
-    async function update(req, res)   {
+    async function update(req, res, next)   {
 
     }
 
 
     // delete
-    async function deleteOne(req, res)   {
-        
-        res.setHeader("Content-type", "application/json");
-
+    async function deleteOne(req, res, next)   {
 
         try {
             let { collectionName } = req.params,
@@ -135,46 +122,38 @@ module.exports = function(io)   {
                 throw Error("We weren't able to find a collection with that name");
             }
 
-            try {
-                let dbInstance = require(path.join(process.cwd(), "models", "dynamic", foundModel.fileName)),
-                    allData = await dbInstance.getAll();
+            let dbInstance = require(path.join(process.cwd(), "models", "dynamic", foundModel.fileName)),
+                allData = await dbInstance.getAll();
 
-                // we delete all data inside the collection...
-                for(let i = 0; i < allData.length; i++) {
-                    await dbInstance.delete(allData[i]._id);
-                }
+            // we delete all data inside the collection...
+            for(let i = 0; i < allData.length; i++) {
+                await dbInstance.delete(allData[i]._id);
+            }
 
-                // we then delete the collection themselves... model and route files.
-                await new Promise((resolve, reject) => setTimeout(() => {
-                    mongoose.connection.db.dropCollection(`${foundModel.camelCaseName.toLowerCase()}s`, function(err, result)    {
-                        if(err) {
-                            
-                        }
+            // we then delete the collection themselves... model and route files.
+            await new Promise((resolve, reject) => setTimeout(() => {
+                mongoose.connection.db.dropCollection(`${foundModel.camelCaseName.toLowerCase()}s`, function(err, result)    {
+                    if(err) {
                         
-                        Model.deleteModelByName(foundModel.fileName);
-                        Route.deleteRouteByName(toNormalString(collectionName, "url"));
-                        res.send(JSON.stringify({status : 200, statusOk : true, message : "We have successfully deleted the collection"}, null, 4));
-                        resolve();
-                    });
+                    }
                     
-                }, 1500));
+                    Model.deleteModelByName(foundModel.fileName);
+                    Route.deleteRouteByName(toNormalString(collectionName, "url"));
+                    req.requestResult = getRequestResult({status : 200, statusOk : true, message : "We have successfully deleted the collection"}, 200);
+                    resolve();
+                });
+                
+            }, 1500));
+            next();
 
-            }
-            catch(err)   {
-                res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-            }
-
-        }
-        catch(err)  {
-            res.status(404).send(JSON.stringify({
-                message : err.message,
-                statusOk : false,
-            }, null, 4));
+        } catch(err)  {
+            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            next();
         }
 
     }
 
-    return {create, getOneByName, getAll, update, deleteOne};
+    return { create, getOneByName, getAll, update, deleteOne };
 }
 
 

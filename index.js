@@ -5,7 +5,7 @@ const cors = require('cors');
 const { Server } = require("socket.io");
 const port = process.env.PORT || 8080;
 const dotenv = require("dotenv");
-const cookieSession = require("cookie-session");
+const session = require("express-session");
 const { EventEmitter } = require("events");
 const sockectController = require("./controllers/socket");
 
@@ -46,10 +46,6 @@ const sockectController = require("./controllers/socket");
  *  Middlewares
  * 
 ***********************/
-// const auth = require("./middlewares/auth");
-// const runningScripts = require("./middlewares/runnning-scripts");
-// const apiRouteObjectFinder = require("./middlewares/route-object-finder");
-// const autoSmrRewrite = require("./middlewares/auto-smr-rewrite");
 
 const { runningScripts, apiRouteObjectFinder, autoSmrRewrite, socketMiddleware } = require("./middlewares");
 
@@ -94,7 +90,12 @@ mongoose.connect(process.env.PROD_DB_CONNECT, {
     app.use(express.urlencoded({extended : true}));    
     app.use(express.json({extended : true}));
     app.use(cors({ origin: true }));
-    app.use(cookieSession({keys : ["scraper", "cc-scraper"]}))
+    app.use(session({
+        secret: "cc-scraper-v-2",
+        saveUninitialized:true,
+        cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 },
+        resave: false 
+    }));
     app.use(express.static(path.join(__dirname, 'views')));
 
     // allows access of the socket (io) instance to be used inside the controller files...
@@ -117,22 +118,12 @@ mongoose.connect(process.env.PROD_DB_CONNECT, {
  * 
  ***********************/
 
+
     app.use(allRoutes());
 
 
     // /* Views Routes... */
-    app.get("*", 
-    // (req, res, next) => {
-
-    //     req.requestResult = "Michael Norward";
-    //     next()
-    // },
-    // (req, res, next) => {
-    //     next()
-    // },
-    (req, res) => {
-        res.sendFile(path.join(__dirname, "views", "index.html"));
-    });
+    app.get("*", (req, res) => res.sendFile(path.join(__dirname, "views", "index.html")));
 
 
 /**********************

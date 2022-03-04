@@ -1,95 +1,140 @@
 //  TODO : assign a dirPath where images will be stored or use an S3 bucket like type of storage...
 
-module.exports = function(io, modelInstanceDb, recordName) {
+const { imagesDb } = require("../models/index");
+const { getRequestResult } = require("../utilities");
+const getFileUpload = require("./file-upload");
+const recordName = imagesDb.recordName;
 
-    function getAll(req, res)   {
 
-        res.setHeader("Content-type", "application/json");
+module.exports = function() {
 
-        modelInstanceDb.getAll()
-            .then(result => {
-                // if(!result.length) throw Error(`No ${recordName} was found.`);
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                let result = JSON.stringify({
-                    message : err.message,
-                    status : 404,
-                }, null, 4);
-                res.status(404).send(result);
-            });
+    async function getAll(req, res, next)  {
+
+        try {
+            let result = await imagesDb.getAll();
+            req.requestResult = getRequestResult(result, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            next();
+        }
+
     }
 
-    function getOneById(req, res)   {
+    async function getOneById(req, res, next)  {
+
+        try {
+            let result = await imagesDb.getById(req.params.id);
+            if(!result) throw Error(`${recordName} not found`);
+            req.requestResult = getRequestResult(result, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            next();
+        }
         
-        res.setHeader("Content-type", "application/json");
-
-        modelInstanceDb.getById(req.params.id)
-            .then(result => {
-                if(!result) {
-                    throw Error("No data was found.")
-                }
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-            });
     }
 
-    function getOneByFilter(req, res)   {
+    async function getOneByFilter(req, res, next)  {
+        try {
+            let filter = req.query,
+                result = await imagesDb.getOneByFilter(filter);
+            if(!result) throw Error(`${recordName} not found`);
+            req.requestResult = getRequestResult(result, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            next();
+        }
 
-        res.setHeader("Content-type", "application/json");
-    
-        modelInstanceDb.getOneByFilter(req.query)
-            .then(result => {
-                if(!result) {
-                    throw Error("No data was found.")
-                }
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-            });
     }
 
-    function getAllFiltered(req, res)   {
-        res.setHeader("Content-type", "application/json");
-
-        modelInstanceDb.getAllFilteredData(req.query)
-            .then(result => {
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-            });
+    async function getAllFiltered(req, res, next)  {
+        
+        try {
+            let filter = req.query,
+                result = await imagesDb.getAllFilteredData(filter);
+            req.requestResult = getRequestResult(result, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            next();
+        }
+        
     }
 
-    function create(req, res)   {
-        res.setHeader("Content-type", "application/json");
+    async function create(req, res, next)   {
 
-        modelInstanceDb.create(req.body).
-            then(result => {
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                res.status(401).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-            });
+        try {
+
+            let result = await imagesDb.create(req.body);
+
+            req.requestResult = getRequestResult(result, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            next();
+        }
     }
 
-    function update(req, res)   {
-        modelInstanceDb.update(req.params.id, req.body).
-            then(result => {
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-            });
+    async function update(req, res, next)   {
+        
+        try {
+            let updateResult = await imagesDb.update(req.params.id, req.body);
+
+            req.requestResult = getRequestResult(updateResult, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            next();
+        }
     }
 
-    function deleteById(req, res)   {
-        modelInstanceDb.delete(req.params.id)
-            .then(result => res.send(JSON.stringify(result)))
-            .catch(err => res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4)));
+    async function deleteById(req, res, next)   {
+        try {
+            let deleteResult = await imagesDb.delete(req.params.id);
+
+            req.requestResult = getRequestResult(deleteResult, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            next();
+        }
+    }
+
+    async function deleteAllFiltered(req, res, next) {        
+
+        try {
+            let filter = req.query,
+                filteredResult = await imagesDb.getAllFilteredData(filter),
+                promises = [];
+
+            for(let product of filteredResult) {
+                promises.push(async () => {
+                    try {
+                        deleteResult = await imagesDb.delete(product._id.toString());
+
+                        return deleteResult;
+                    } catch(err) {
+                        return {status : 403, message : err.message}
+                    }
+                });
+            }
+            
+
+            let multipleDeleteResult = await Promise.all(promises.map(async item => await item()));
+            
+            if(!multipleDeleteResult.length) {
+                throw Error(`We could did not get a filtered result for ${recordName}, which means we never got to delete any of the data.`)
+            }
+
+            req.requestResult = getRequestResult(multipleDeleteResult, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            next();
+        }
+
     }
 
     return {
@@ -100,6 +145,7 @@ module.exports = function(io, modelInstanceDb, recordName) {
         create,
         update,
         deleteById,
+        deleteAllFiltered,
     }
 
 }

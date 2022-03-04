@@ -1,127 +1,135 @@
 const path = require("path");
 const { imagesDb } = require("../models");
+const { getRequestResult } = require("../utilities");
 
 module.exports = function(modelInstanceDb, recordName) {
 
-    function getAll(req, res)   {
+    async function getAll(req, res, next)  {
 
-        res.setHeader("Content-type", "application/json");
-
-        modelInstanceDb.getAll()
-            .then(result => {
-                // if(!result.length) throw Error(`No ${recordName} was found.`);
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                let result = JSON.stringify({
-                    message : err.message,
-                    status : 404,
-                }, null, 4);
-                res.status(404).send(result);
-            });
-    }
-
-    async function getOneById(req, res)   {
-        
-        res.setHeader("Content-type", "application/json");
-
-        modelInstanceDb.getById(req.params.id)
-            .then(result => {
-                if(!result) {
-                    throw Error("No data was found.")
-                }
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-            });
-    }
-
-    function getOneByFilter(req, res)   {
-
-        res.setHeader("Content-type", "application/json");
-    
-        modelInstanceDb.getOneByFilter(req.query)
-            .then(result => {
-                if(!result) {
-                    throw Error("No data was found.")
-                }
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-            });
-    }
-
-    function getAllFiltered(req, res)   {
-        res.setHeader("Content-type", "application/json");
-
-        modelInstanceDb.getAllFilteredData(req.query)
-            .then(result => {
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-            });
-    }
-
-    function create(req, res)   {
-        res.setHeader("Content-type", "application/json");
-
-        modelInstanceDb.create(req.body).
-            then(result => {
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                res.status(401).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-            });
-    }
-
-    function update(req, res)   {
-        res.setHeader("Content-type", "application/json");
-        modelInstanceDb.update(req.params.id, req.body).
-            then(result => {
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4));
-            });
-    }
-
-    async function deleteById(req, res)   {
-        res.setHeader("Content-type", "application/json");
-        modelInstanceDb.delete(req.params.id)
-            .then(result => res.send(JSON.stringify(result, null, 4)))
-            .catch(err => res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4)));
-    }
-
-    async function deleteAllFiltered(req, res) {
-
-        res.setHeader("Content-type", "application/json");
         try {
-            let products = await modelInstanceDb.getAllFilteredData(req.query);
-
-            await Promise.all(products.map(async item => {
-                await modelInstanceDb.delete(item._id);
-            }));
-
-            products = await modelInstanceDb.getAllFilteredData(req.query);
-
-            let result = {
-                statusOk : products.length === 0 ? true : false,
-                message : "We have successfully deleted all filtered products.",
-                status : 200,
-            }
-            res.send(JSON.stringify(result, null, 4));
+            let result = await modelInstanceDb.getAll();
+            req.requestResult = getRequestResult(result, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            next();
         }
-        catch(err)  {
-            res.send(JSON.stringify({
-                statusOk : false,
-                status : 403,
-                message : err.message,
-            }, null, 4));
+
+    }
+
+    async function getOneById(req, res, next)  {
+
+        try {
+            let result = await modelInstanceDb.getById(req.params.id);
+            if(!result) throw Error(`${recordName} not found`);
+            req.requestResult = getRequestResult(result, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            next();
         }
         
+    }
+
+    async function getOneByFilter(req, res, next)  {
+        try {
+            let filter = req.query,
+                result = await modelInstanceDb.getOneByFilter(filter);
+            if(!result) throw Error(`${recordName} not found`);
+            req.requestResult = getRequestResult(result, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            next();
+        }
+
+    }
+
+    async function getAllFiltered(req, res, next)  {
+        
+        try {
+            let filter = req.query,
+                result = await modelInstanceDb.getAllFilteredData(filter);
+            req.requestResult = getRequestResult(result, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            next();
+        }
+        
+    }
+
+    async function create(req, res, next)   {
+
+        try {
+
+            let result = await modelInstanceDb.create(req.body);
+
+            req.requestResult = getRequestResult(result, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            next();
+        }
+    }
+
+    async function update(req, res, next)   {
+        
+        try {
+            let updateResult = await modelInstanceDb.update(req.params.id, req.body);
+
+            req.requestResult = getRequestResult(updateResult, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            next();
+        }
+    }
+
+    async function deleteById(req, res, next)   {
+        try {
+            let deleteResult = await modelInstanceDb.delete(req.params.id);
+
+            req.requestResult = getRequestResult(deleteResult, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            next();
+        }
+    }
+
+    async function deleteAllFiltered(req, res, next) {        
+
+        try {
+            let filter = req.query,
+                filteredResult = await modelInstanceDb.getAllFilteredData(filter),
+                promises = [];
+
+            for(let product of filteredResult) {
+                promises.push(async () => {
+                    try {
+                        deleteResult = await modelInstanceDb.delete(product._id.toString());
+
+                        return deleteResult;
+                    } catch(err) {
+                        return {status : 403, message : err.message}
+                    }
+                });
+            }
+            
+
+            let multipleDeleteResult = await Promise.all(promises.map(async item => await item()));
+            
+            if(!multipleDeleteResult.length) {
+                throw Error(`We could did not get a filtered result for ${recordName}, which means we never got to delete any of the data.`)
+            }
+
+            req.requestResult = getRequestResult(multipleDeleteResult, 200);
+            next();
+        } catch(err)    {
+            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            next();
+        }
 
     }
 

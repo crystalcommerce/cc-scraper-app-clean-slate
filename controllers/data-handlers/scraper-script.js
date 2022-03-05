@@ -10,9 +10,6 @@ const { toUrl } = require("../../utilities/string");
 
 module.exports = function()   {
 
-    // TODO:
-    // Transfer handling of responses... make this file handle only the result of the query.
-
     async function createScraperScript(req, res, next)    {
         try {
             let scraperData = await scrapersDb.getById(req.params.id),
@@ -371,32 +368,27 @@ module.exports = function()   {
                             if(!fileExists(zippedFile)) {
                                 throw Error(`This file "${fileName}" does not exist.`);
                             }
-                            res.send(JSON.stringify({
+                            req.requestResult = {
                                 statusOk : true,
                                 message : "We have successfully created a zipped file.",
                                 filePath : zippedDirPath,
-                            }));
+                                status : 200,
+                            };
                         } catch(err)    {
-                            res.status(403).send(JSON.stringify({statusOk : false, status : 403, message : err.message}, null, 4));
+                            req.requestResult = {statusOk : false, status : 403, message : err.message};
                         }
                     });
                 }
                 catch(err)  {
-                    res.status(403).send(JSON.stringify({statusOk : false, status : 403, message : err.message}, null, 4));
+                    req.requestResult = {statusOk : false, status : 403, message : err.message};
                 }
-                
-    
-                
             } else  {
                 throw Error("These are not product objects...")
             }
     
         } 
         catch(err)  {
-            res.status(403).send(JSON.stringify({
-                statusOk : false,
-                message : err.message,
-            }));
+            req.requestResult = {statusOk : false, status : 403, message : err.message};
         }
     
     

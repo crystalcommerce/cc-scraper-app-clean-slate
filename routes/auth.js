@@ -3,11 +3,11 @@ const router = express.Router();
 const authController = require("../controllers/auth");
 const {login, logout} = authController();
 
-module.exports = function(...middleWares) {
+module.exports = function() {
 
-    router.post("/login", login, ...middleWares);
+    router.post("/login", login);
 
-    router.get("/logout", logout, ...middleWares);
+    router.get("/logout", logout);
 
     return router;
 

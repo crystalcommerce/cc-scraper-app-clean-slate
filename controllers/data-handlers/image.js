@@ -12,10 +12,10 @@ module.exports = function() {
 
         try {
             let result = await imagesDb.getAll();
-            req.requestResult = getRequestResult(result, 200);
+            req.requestResult = {data : result, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            req.requestResult = {status : 404, message : err.message};
             next();
         }
 
@@ -26,10 +26,10 @@ module.exports = function() {
         try {
             let result = await imagesDb.getById(req.params.id);
             if(!result) throw Error(`${recordName} not found`);
-            req.requestResult = getRequestResult(result, 200);
+            req.requestResult = {data : result, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            req.requestResult = {status : 404, message : err.message};
             next();
         }
         
@@ -40,10 +40,10 @@ module.exports = function() {
             let filter = req.query,
                 result = await imagesDb.getOneByFilter(filter);
             if(!result) throw Error(`${recordName} not found`);
-            req.requestResult = getRequestResult(result, 200);
+            req.requestResult = {data : result, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            req.requestResult = {status : 404, message : err.message};
             next();
         }
 
@@ -54,10 +54,10 @@ module.exports = function() {
         try {
             let filter = req.query,
                 result = await imagesDb.getAllFilteredData(filter);
-            req.requestResult = getRequestResult(result, 200);
+            req.requestResult = {data : result, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            req.requestResult = {status : 404, message : err.message};
             next();
         }
         
@@ -69,10 +69,10 @@ module.exports = function() {
 
             let result = await imagesDb.create(req.body);
 
-            req.requestResult = getRequestResult(result, 200);
+            req.requestResult = {data : result, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            req.requestResult = {status : 404, message : err.message};
             next();
         }
     }
@@ -82,10 +82,10 @@ module.exports = function() {
         try {
             let updateResult = await imagesDb.update(req.params.id, req.body);
 
-            req.requestResult = getRequestResult(updateResult, 200);
+            req.requestResult = {data : updateResult, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            req.requestResult = {status : 403, message : err.message};
             next();
         }
     }
@@ -94,10 +94,10 @@ module.exports = function() {
         try {
             let deleteResult = await imagesDb.delete(req.params.id);
 
-            req.requestResult = getRequestResult(deleteResult, 200);
+            req.requestResult = {data : deleteResult, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            req.requestResult = {status : 403, message : err.message};
             next();
         }
     }
@@ -128,10 +128,10 @@ module.exports = function() {
                 throw Error(`We could did not get a filtered result for ${recordName}, which means we never got to delete any of the data.`)
             }
 
-            req.requestResult = getRequestResult(multipleDeleteResult, 200);
+            req.requestResult = {data : multipleDeleteResult, status : 200};
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 403, message : err.message}, 403);
+            req.requestResult = {status : 403, message : err.message};
             next();
         }
 

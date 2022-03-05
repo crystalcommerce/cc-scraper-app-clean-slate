@@ -25,8 +25,8 @@ const collectionsRouter = require("./collection");
 // // siteResources
 // const siteResourcesRouter = require("./site-resource");
 
-// // imagesRouter
-// const imagesRouter = require("./image");
+// imagesRouter
+const imagesRouter = require("./image");
 
 // // scrapersRouter
 // const scrapersRouter = require("./scraper");
@@ -86,12 +86,12 @@ module.exports = function()   {
     //     siteResourcesRouter()
     // );
 
-    // // images
-    // router.use(
-    //     "/api/images",
-    //     userAuth,
-    //     imagesRouter()
-    // );
+    // images
+    router.use(
+        "/api/images",
+        userAuth,
+        imagesRouter()
+    );
 
     // // scrapers
     // router.use(

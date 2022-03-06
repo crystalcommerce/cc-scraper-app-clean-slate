@@ -1,47 +1,44 @@
-const express = require("express");
-const router = express.Router();
-const scrapersController = require("../controllers/scraper");
-const { create, getOneById, getOneByFilter, getAll, update, deleteOne, updateScraperDetails, scraperRewrite, scraperRewriteAll, deleteSMR } = scrapersController();
+const router = require("express").Router();
+const { controllers : { scraper } } = require("../controllers")();
+const { filterObjectsByMethodName } = require("../utilities");
+const { httpResponseHandler } = require("../middlewares");
+const getMiddleWaresByName = filterObjectsByMethodName(httpResponseHandler(), ...scraper.map(item => item()));
 
 
-module.exports = function(...middleWares)   {
-
-    
+module.exports = function()   {
 
     /* +++++++ READ ++++++++ */
-    router.get("/", getAll, ...middleWares);
+    router.get("/", getMiddleWaresByName("getAll"));
 
-    router.get("/single?", getOneByFilter, ...middleWares);
+    router.get("/single?", getMiddleWaresByName("getOneByFilter"));
 
-    router.get("/:id", getOneById, ...middleWares);
+    router.get("/:id", getMiddleWaresByName("getOneById"));
 
 
 
     /* +++++++ Create a Scraper ++++++++ */
-    router.post("/", create, ...middleWares);
+    router.post("/", getMiddleWaresByName("create"));
 
 
 
     /* +++++++ Update a Scraper ++++++++ */
     // Note : this only allows updating the evaluator functions;
-    router.put("/:id", update, ...middleWares);
+    router.put("/:id", getMiddleWaresByName("update"));
 
-    router.put("/data/:id", updateScraperDetails, ...middleWares);
+    router.put("/data/:id", getMiddleWaresByName("updateScraperDetails"));
 
     // scraperRewriteALl
-    router.post("/rewriteAll", scraperRewriteAll, ...middleWares);
+    router.post("/rewriteAll", getMiddleWaresByName("scraperRewriteAll"));
 
     // rewriteScraper
-    router.post("/:id", scraperRewrite, ...middleWares);
+    router.post("/:id", getMiddleWaresByName("scraperRewrite"));
 
 
     /* +++++++ delete a Scraper ++++++++ */
 
-    router.delete("/smr/:id", deleteSMR, ...middleWares);
+    router.delete("/smr/:id", getMiddleWaresByName("deleteSMR"));
 
-    router.delete("/:id", deleteOne, ...middleWares);
-
-
+    router.delete("/:id", getMiddleWaresByName("deleteOne"));
 
     return router;
 }

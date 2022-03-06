@@ -119,7 +119,14 @@ mongoose.connect(process.env.PROD_DB_CONNECT, {
  ***********************/
 
 
-    app.use(allRoutes());
+    app.use((req, res, next) => {
+        console.log("user");
+        console.log(req.user);
+        console.log("session.user");
+        console.log(req.session.user);
+
+        next();
+    }, allRoutes());
 
 
     // /* Views Routes... */

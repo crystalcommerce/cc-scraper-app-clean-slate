@@ -15,33 +15,25 @@ const { deleteAllInDirPath, fileExists } = require("../../utilities/file-system"
 const { nodeRestart } = require("../../utilities");
 
 
-module.exports = function(io)   {
+module.exports = function()   {
 
-    // TODO:
-    // Transfer handling of responses... make this file handle only the result of the query.
-
-
-    // variable
     const recordName = "Scraper";
 
     
     // getAll
-    function getAll(req, res)   {
-        res.setHeader("Content-type", "application/json");
+    async function getAll(req, res, next)   {
 
+        try {
+            let result = await scrapersDb.getAll();
+            req.requestResult = {data : result , status : 200};
+            next();
+        } catch(err)    {
+            req.requestResult = {
+                message : err.message,
+                status : 404,
+            };
+        }
 
-        scrapersDb.getAll()
-            .then(result => {
-                // if(!result.length) throw Error(`No ${recordName} was found.`);
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                let result = JSON.stringify({
-                    message : err.message,
-                    status : 404,
-                }, null, 4);
-                res.status(404).send(result);
-            });
     }
 
     // get one by id;
@@ -64,7 +56,7 @@ module.exports = function(io)   {
     }
 
     // getOneByFilter
-    function getOneByFilter(req, res)    {
+    async function getOneByFilter(req, res)    {
         res.setHeader("Content-type", "application/json");
 
         scrapersDb.getOneByFilter(req.query)

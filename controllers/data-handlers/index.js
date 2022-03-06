@@ -5,13 +5,17 @@ const image = require("./image");
 const user = require("./user");
 const scraperScript = require("./scraper-script");
 const scraper = require("./scraper");
-const generic = require("./generic");
+const dynamic = require("./dynamic");
+const productSet = require("./product-set");
+const siteResource = require("./site-resource");
 
 module.exports = {
     collection,
+    productSet,
     image,
     user,
     scraper,
     scraperScript,
-    generic
+    siteResource,
+    dynamic
 }

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { controllers : { scraperScript } } = require("../controllers");
+const { controllers : { scraperScript } } = require("../controllers")();
 const { filterObjectsByMethodName } = require("../utilities");
 const { httpResponseHandler } = require("../middlewares");
 const getMiddleWaresByName = filterObjectsByMethodName(httpResponseHandler(), ...scraperScript.map(item => item()));

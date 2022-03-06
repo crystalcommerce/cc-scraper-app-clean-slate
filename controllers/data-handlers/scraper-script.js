@@ -5,7 +5,6 @@ const { fileExists, createDirPath } = require("../../utilities/file-system");
 const path = require("path");
 const csvDataWriter = require("../../core/csv-data-writer");
 const Model = require("../../models/classes/model");
-const allModels = require("../../models");
 const { toUrl } = require("../../utilities/string");
 
 module.exports = function()   {

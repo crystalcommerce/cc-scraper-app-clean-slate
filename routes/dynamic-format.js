@@ -1,9 +1,10 @@
 const router = require("express").Router();
-const { controllers : { image } } = require("../controllers")();
-const { filterObjectsByMethodName } = require("../utilities");
+const { productSetsDb } = require("../models");
+const getControllers = require("../controllers");
+const { controllers : { dynamic } } = getControllers(productSetsDb);
 const { httpResponseHandler } = require("../middlewares");
-const getMiddleWaresByName = filterObjectsByMethodName(httpResponseHandler(), ...image.map(item => item()));
-
+const { filterObjectsByMethodName } = require("../utilities");
+const getMiddleWaresByName = filterObjectsByMethodName(httpResponseHandler(), ...dynamic);
 
 module.exports = function()   {
 
@@ -31,13 +32,15 @@ module.exports = function()   {
     router.put("/:id", getMiddleWaresByName("update"));
 
 
+    // deleteAllFilteredHandler
+	router.delete("/all?", getMiddleWaresByName("deleteAllFiltered"));
+
+
     // deleteHandler
     router.delete("/:id", getMiddleWaresByName("deleteById"));
 
-    // delete multiple handler;
-    router.delete("/delete-filtered?", getMiddleWaresByName("deleteAllFiltered"));
 
     return router;
-
+    
 }
 

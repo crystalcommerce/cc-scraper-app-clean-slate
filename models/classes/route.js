@@ -21,55 +21,61 @@ class Route {
         let content = "",
             routeName = pluralized ? this.pluralizedName : this.routeName;
         
-        content += `const express = require("express");\n`;
-        content += `const router = express.Router();\n`;
-        content += `const ${this.camelCasedName}Controllers = require("../../controllers/generic.js");\n`;
+        content += `const { Router } = require("express");\n`;
+        content += `const router = Router();\n`;
         content += `const ${modelInstanceName} = require('../../models/dynamic/${this.fileName}');\n`;
-        content += `const { getAll, getOneById, getOneByFilter, getAllFiltered, create, update, deleteById, deleteAllFiltered } = ${this.camelCasedName}Controllers(${modelInstanceName}, "${recordName}");\n`;
+        content += `const getControllers = require("../../controllers");\n`;
+        content += `const { controllers : { dynamic } } = getControllers(${modelInstanceName});\n`;
+        content += `const { httpResponseHandler } = require("../../middlewares");\n`;
+        content += `const { filterObjectsByMethodName } = require("../../utilities");\n`;
+        content += `const getMiddleWaresByName = filterObjectsByMethodName(httpResponseHandler(), ...dynamic);\n`;
+
+
+
         content += `\n`;
         content += `\n`;
-        content += `module.exports = function(...middleWares)   {\n`;
+        content += `module.exports = function()   {\n`;
         content += `\n`;
         
         content += `\n`;
         content += `\n`;
         content += `\t// getAll Handler\n`;
-        content += `\trouter.get("/${routeName}/", getAll, ...middleWares);\n`;
+        content += `\trouter.get("/${routeName}/", getMiddleWaresByName("getAll"));\n`;
 
         content += `\n`;
         content += `\n`;
         content += `\t// getOneByFilter hanlder\n`;
-        content += `\trouter.get("/${routeName}/single?", getOneByFilter, ...middleWares);\n`;
+        content += `\trouter.get("/${routeName}/single?", getMiddleWaresByName("getOneByFilter"));\n`;
 
         content += `\n`;
         content += `\n`;
         content += `\t// getAllFiltered hanlder\n`;
-        content += `\trouter.get("/${routeName}/all?", getAllFiltered, ...middleWares);\n`;
+        content += `\trouter.get("/${routeName}/all?", getMiddleWaresByName("getAllFiltered"));\n`;
 
         content += `\n`;
         content += `\n`;
         content += `\t// getOneById handler\n`;
-        content += `\trouter.get("/${routeName}/:id", getOneById, ...middleWares);\n`;
+        content += `\trouter.get("/${routeName}/:id", getMiddleWaresByName("getOneById"));\n`;
 
         content += `\n`;
         content += `\n`;
         content += `\t// create\n`;
-        content += `\trouter.post("/${routeName}/", create, ...middleWares);\n`;
+        content += `\trouter.post("/${routeName}/", getMiddleWaresByName("create"));\n`;
 
         content += `\n`;
         content += `\n`;
         content += `\t// updateHandler\n`;
-        content += `\trouter.put("/${routeName}/:id", update, ...middleWares);\n`;
+        content += `\trouter.put("/${routeName}/:id", getMiddleWaresByName("update"));\n`;
 
         content += `\n`;
         content += `\n`;
         content += `\t// deleteAllFilteredHandler\n`;
-        content += `\trouter.delete("/${routeName}/all?", deleteAllFiltered, ...middleWares);\n`;
+        content += `\trouter.delete("/${routeName}/all?", getMiddleWaresByName("deleteAllFiltered"));\n`;
 
         content += `\n`;
         content += `\n`;
         content += `\t// deleteHandler\n`;
-        content += `\trouter.delete("/${routeName}/:id", deleteById, ...middleWares);\n`;
+        content += `\trouter.delete("/${routeName}/:id", getMiddleWaresByName("deleteById"));\n`;
 
         content += `\n`;
         content += `\n`;

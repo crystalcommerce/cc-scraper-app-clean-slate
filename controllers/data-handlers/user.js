@@ -1,8 +1,7 @@
 const { usersDb } = require("../../models");
-const { getRequestResult } = require("../../utilities");
 const getFileUpload = require("../file-upload");
 
-module.exports = function(req, res, next)   {
+module.exports = function()   {
     // read data controllers
     async function getAll(req, res, next)  {
 

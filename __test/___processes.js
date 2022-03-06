@@ -269,5 +269,16 @@
         - user
         - collection
 
+    / 03 / 06 / 2021
+
+    TODO:
+        autoSmrRewrite
+        fileZipper 
+        file
+        fileDownloader
+        userAuth - middle ware... add req.user; -- DONE
+
+
+
 */      
 

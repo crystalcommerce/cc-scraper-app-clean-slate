@@ -120,6 +120,7 @@ const scriptObject = {
                     rarity : getAttribute(data, "Rarity"),
                     setName : set,
                     
+                    resourceUrl : url,
                     multiFaced : checkMultiFaced(data.imageCount),
                     imageUris : getImageUris(data.productId, data.imageCount),
                 };

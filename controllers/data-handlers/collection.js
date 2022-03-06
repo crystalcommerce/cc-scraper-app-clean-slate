@@ -3,7 +3,6 @@ const Model = require("../../models/classes/model");
 const Route = require("../../models/classes/route");
 const mongoose = require("mongoose");
 const { toUrl, toNormalString } = require("../../utilities/string");
-const { getRequestResult } = require("../../utilities");
 
 
 module.exports = function()   {

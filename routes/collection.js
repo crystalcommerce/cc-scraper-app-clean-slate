@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { controllers : { collection } } = require("../controllers");
+const { controllers : { collection } } = require("../controllers")();
 const { filterObjectsByMethodName } = require("../utilities");
 const { httpResponseHandler } = require("../middlewares");
 const getMiddleWaresByName = filterObjectsByMethodName(httpResponseHandler(), ...collection.map(item => item()));

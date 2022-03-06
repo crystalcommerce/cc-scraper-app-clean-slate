@@ -7,6 +7,9 @@ module.exports = function() {
     async function login(req, res, next) {
 
         try {
+            delete(req.user);
+            delete(req.session.user);
+
             let { username : enteredUsername, password : enteredPassword } = req.body,
                 foundUser = await usersDb.getOneByFilter({username : enteredUsername.toLowerCase()});
     
@@ -21,7 +24,8 @@ module.exports = function() {
                 throw Error(`Access Denied : Username / Password Invalid`);
             }
     
-            
+            req.session.user = foundUser;
+            req.user = foundUser;
     
             let timeCount = 60 * 60 * 24 * 7,
                 authToken = jwt.sign({
@@ -37,23 +41,25 @@ module.exports = function() {
                     process.env.JWT_SECRET_KEY, 
                     { expiresIn: timeCount }
                 );
+
             
-            req.requestResult = getRequestResult({
+            
+            req.requestResult = {
                     statusOk : true, 
                     status : 200, 
-                    message : `You have successfully logged in.`, 
-                    authToken,
-                    fileToken,
-                    tokenExpiration : new Date().getTime() + (timeCount * 1000),
-                    userInfo : { firstName, lastName, username, permissionLevel : foundUser.permissionLevel }
-                },
-                200
-            );
+                    data : { 
+                        message : `You have successfully logged in.`, 
+                        authToken,
+                        fileToken,
+                        tokenExpiration : new Date().getTime() + (timeCount * 1000),
+                        userInfo : { firstName, lastName, username, permissionLevel : foundUser.permissionLevel }
+                    }
+                }
 
 
             next();
         } catch(err)    {
-            req.requestResult = getRequestResult({status : 404, message : err.message}, 404);
+            req.requestResult = {status : 401, message : err.message};
             next();
         }
     

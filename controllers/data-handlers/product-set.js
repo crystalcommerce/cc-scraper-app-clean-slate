@@ -1,8 +1,5 @@
-//  TODO : assign a dirPath where images will be stored or use an S3 bucket like type of storage...
-
-const { imagesDb } = require("../../models/index");
-const getFileUpload = require("../file-upload");
-const { recordName } = imagesDb;
+const { productSetsDb } = require("../../models/index");
+const { recordName } = productSetsDb;
 
 
 module.exports = function() {
@@ -10,7 +7,7 @@ module.exports = function() {
     async function getAll(req, res, next)  {
 
         try {
-            let result = await imagesDb.getAll();
+            let result = await productSetsDb.getAll();
             req.requestResult = {data : result, status : 200};
             next();
         } catch(err)    {
@@ -23,7 +20,7 @@ module.exports = function() {
     async function getOneById(req, res, next)  {
 
         try {
-            let result = await imagesDb.getById(req.params.id);
+            let result = await productSetsDb.getById(req.params.id);
             if(!result) throw Error(`${recordName} not found`);
             req.requestResult = {data : result, status : 200};
             next();
@@ -37,7 +34,7 @@ module.exports = function() {
     async function getOneByFilter(req, res, next)  {
         try {
             let filter = req.query,
-                result = await imagesDb.getOneByFilter(filter);
+                result = await productSetsDb.getOneByFilter(filter);
             if(!result) throw Error(`${recordName} not found`);
             req.requestResult = {data : result, status : 200};
             next();
@@ -52,7 +49,7 @@ module.exports = function() {
         
         try {
             let filter = req.query,
-                result = await imagesDb.getAllFilteredData(filter);
+                result = await productSetsDb.getAllFilteredData(filter);
             req.requestResult = {data : result, status : 200};
             next();
         } catch(err)    {
@@ -66,7 +63,7 @@ module.exports = function() {
 
         try {
 
-            let result = await imagesDb.create(req.body);
+            let result = await productSetsDb.create(req.body);
 
             req.requestResult = {data : result, status : 200};
             next();
@@ -79,7 +76,7 @@ module.exports = function() {
     async function update(req, res, next)   {
         
         try {
-            let updateResult = await imagesDb.update(req.params.id, req.body);
+            let updateResult = await productSetsDb.update(req.params.id, req.body);
 
             req.requestResult = {data : updateResult, status : 200};
             next();
@@ -91,7 +88,7 @@ module.exports = function() {
 
     async function deleteById(req, res, next)   {
         try {
-            let deleteResult = await imagesDb.delete(req.params.id);
+            let deleteResult = await productSetsDb.delete(req.params.id);
 
             req.requestResult = {data : deleteResult, status : 200};
             next();
@@ -105,13 +102,13 @@ module.exports = function() {
 
         try {
             let filter = req.query,
-                filteredResult = await imagesDb.getAllFilteredData(filter),
+                filteredResult = await productSetsDb.getAllFilteredData(filter),
                 promises = [];
 
             for(let product of filteredResult) {
                 promises.push(async () => {
                     try {
-                        deleteResult = await imagesDb.delete(product._id.toString());
+                        deleteResult = await productSetsDb.delete(product._id.toString());
 
                         return deleteResult;
                     } catch(err) {

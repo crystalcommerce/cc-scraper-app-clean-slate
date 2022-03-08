@@ -1,44 +1,45 @@
-const fs = require('fs');
-const path = require('path');
-const archiver = require('archiver');
-const {baseName, fileExists, getFileSize} = require("../utilities/file-system");
+const zipper = require("zip-local");
 
 
-module.exports = async function(targetPath, destinationPath, callback)    {
-    console.log(new Date().getTime());
-    let fileName = `${baseName(targetPath)}.zip`,
-        filePath = destinationPath,
-        compeleteFilePath = path.join(destinationPath, fileName);
+async function fileZipper(targetPath, destinationPath)    {
 
-    const output = fs.createWriteStream(compeleteFilePath);    
-    const archive = archiver('zip',  {
-        zlib: { level: 9 } // Sets the compression level.
-    });
+    let error = null;
 
-    archive.pipe(output);
-
-    output.on('end', function() {
-        
-        console.log("it ended...")
-    });
-    
-    archive.directory(targetPath, false);
-
-    archive.finalize();
-    archive.on("progress", () => {
-        
-    });
-
-    archive.on("error", (err) => {
-        callback({statusOk : false, message : err.message})
-    })
-    archive.on("finish", () => {
-        output.on("close", () => {
-            if(fileExists(compeleteFilePath))   {
-                callback({statusOk : true, fileName, filePath, message : "We have finished zipping the file."})
-            }
+    try {
+            // zipping a file
+        let zipResult = await new Promise((resolve, reject) => {
+            zipper.zip(targetPath, function(error, zipped) {
+                if(!error) {
+                    zipped.compress(); // compress before exporting
+            
+                    let buff = zipped.memory(); // get the zipped file as a Buffer
+            
+                    // or save the zipped file to disk
+                    zipped.save(destinationPath, function(error) {
+                        if(!error) {
+                            resolve({
+                                statusOk : true, 
+                                message : `We have successfully zipped the file.`
+                            })
+                        }
+                    });
+                } else  {
+                    reject({
+                        statusOk : false,
+                        message : error.message,
+                    })
+                }
+            });
         })
-        
-    });
+
+        return zipResult;
+
+    } catch(err)    {
+
+        return error ? error : { statusOk : false, message : err.message };
+
+    }
 
 }
+
+module.exports = fileZipper;

@@ -1,7 +1,89 @@
 const fs = require("fs");
 const path = require("path");
-const {toUrl} = require("../string");
 
+const mimeTypes = { 
+    "aac" : "audio/aac",
+    "abw" : "application/x-abiword",
+    "arc" : "application/x-freearc",
+    "avi" : "video/x-msvideo",
+    "azw" : "application/vnd.amazon.ebook",
+    "bin" : "application/octet-stream",
+    "bmp" : "image/bmp",
+    "bz" : "application/x-bzip",
+    "bz2" : "application/x-bzip2",
+    "cda" : "application/x-cdf",
+    "csh" : "application/x-csh",
+    "css" : "text/css",
+    "csv" : "text/csv",
+    "doc" : "application/msword",
+    "docx" : "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "eot" : "application/vnd.ms-fontobject",
+    "epub" : "application/epub+zip",
+    "gz" : "application/gzip",
+    "gif" : "image/gif",
+    "html" : "text/html",
+    "htm" : "text/html",
+    "ico" : "image/vnd.microsoft.icon",
+    "ics" : "text/calendar",
+    "jar" : "application/java-archive",
+    "jpg" : "image/jpeg",
+    "jpeg" : "image/jpeg",
+    "js" : "text/javascript",
+    "json" : "application/json",
+    "jsonld" : "application/ld+json",
+    "mid" : "audio/midi",
+    "mid" : "audio/x-midi",
+    "midi" : "audio/midi",
+    "midi" : "audio/x-midi",
+    "mjs" : "text/javascript",
+    "mp3" : "audio/mpeg",
+    "mp4" : "video/mp4",
+    "mpeg" : "video/mpeg",
+    "mpkg" : "application/vnd.apple.installer+xml",
+    "odp" : "application/vnd.oasis.opendocument.presentation",
+    "ods" : "application/vnd.oasis.opendocument.spreadsheet",
+    "odt" : "application/vnd.oasis.opendocument.text",
+    "oga" : "audio/ogg",
+    "ogv" : "video/ogg",
+    "ogx" : "application/ogg",
+    "opus" : "audio/opus",
+    "otf" : "font/otf",
+    "png" : "image/png",
+    "pdf" : "application/pdf",
+    "php" : "application/x-httpd-php",
+    "ppt" : "application/vnd.ms-powerpoint",
+    "pptx" : "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    "rar" : "application/vnd.rar",
+    "rtf" : "application/rtf",
+    "sh" : "application/x-sh",
+    "svg" : "image/svg+xml",
+    "swf" : "application/x-shockwave-flash",
+    "tar" : "application/x-tar",
+    "tif" : "image/tiff",
+    "tiff" : "image/tiff",
+    "ts" : "video/mp2t",
+    "ttf" : "font/ttf",
+    "txt" : "text/plain",
+    "vsd" : "application/vnd.visio",
+    "wav" : "audio/wav",
+    "weba" : "audio/webm",
+    "webm" : "video/webm",
+    "webp" : "image/webp",
+    "woff" : "font/woff",
+    "woff2" : "font/woff2",
+    "xhtml" : "application/xhtml+xml",
+    "xls" : "application/vnd.ms-excel",
+    "xlsx" : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "xml" : "application/xml",
+    "xml" : "text/xml",
+    "xul" : "application/vnd.mozilla.xul+xml",
+    "zip" : "application/zip",
+    "3gp" : "video/3gpp",
+    "3gp" : "audio/3gpp",
+    "3g2" : "video/3gpp2",
+    "3g2" : "audio/3gpp2",
+    "7z" : "application/x-7z-compressed"
+};
 
 function baseName(fileName, ...args)  {
     return path.basename(fileName, ...args);
@@ -73,18 +155,21 @@ function readdirSync(dirPath,  options = { encoding : "utf8" }) {
 }
 
 async function mkdir(dirPath, options = { recursive : true}) {
-    let reason = null;
-    await fs.promises.mkdir(dirPath, options).catch(err => reason = err.message);
-    return !reason ? {
+    try {
+        let result = await fs.promises.mkdir(dirPath, options);
+        if(!fileExists(dirPath)) throw Error(`We are unsuccessful in creating the folder directory for "${dirPath}".`)
+        return {
             status : "success",
             result : true,
             message : `We have successfully created the folder directory for "${dirPath}"`,
-        } : {
+        }
+    } catch(err)    {
+        return {
             status : "failed",
             result : false,
-            message : `We are unsuccessful in creating the folder directory for "${dirPath}".`,
-            reason,
-        };
+            message : err.message,
+        }
+    }
 }
 
 function mkdirSync(dirPath, options = {recursive : true})    {
@@ -582,94 +667,25 @@ function getMimeType(file)  {
     if(isDirectory(file))   {
         return;
     }
-    let {fileType} = getFileObject(file),
-        mimeTypes = { 
-            "aac" : "audio/aac", 
-            "abw" : "application/x-abiword", 
-            "arc" : "application/x-freearc", 
-            "avi" : "video/x-msvideo", 
-            "azw" : "application/vnd.amazon.ebook", 
-            "bin" : "application/octet-stream", 
-            "bmp" : "image/bmp", 
-            "bz" : "application/x-bzip", 
-            "bz2" : "application/x-bzip2", 
-            "cda" : "application/x-cdf", 
-            "csh" : "application/x-csh", 
-            "css" : "text/css", 
-            "csv" : "text/csv", 
-            "doc" : "application/msword", 
-            "docx" : "application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
-            "eot" : "application/vnd.ms-fontobject", 
-            "epub" : "application/epub+zip", 
-            "gz" : "application/gzip", 
-            "gif" : "image/gif", 
-            "html" : "text/html", 
-            "htm" : "text/html", 
-            "ico" : "image/vnd.microsoft.icon", 
-            "ics" : "text/calendar", 
-            "jar" : "application/java-archive", 
-            "jpeg" : "image/jpeg", 
-            "jpg" : "image/jpeg", 
-            "js" : "text/javascript",
-            "json" : "application/json", 
-            "jsonld" : "application/ld+json", 
-            "mid" : "audio/midi", 
-            "mid" : "audio/x-midi", 
-            "midi" : "audio/midi", 
-            "midi" : "audio/x-midi", 
-            "mjs" : "text/javascript", 
-            "mp3" : "audio/mpeg", 
-            "mp4" : "video/mp4", 
-            "mpeg" : "video/mpeg", 
-            "mpkg" : "application/vnd.apple.installer+xml", 
-            "odp" : "application/vnd.oasis.opendocument.presentation", 
-            "ods" : "application/vnd.oasis.opendocument.spreadsheet", 
-            "odt" : "application/vnd.oasis.opendocument.text", 
-            "oga" : "audio/ogg", 
-            "ogv" : "video/ogg", 
-            "ogx" : "application/ogg", 
-            "opus" : "audio/opus", 
-            "otf" : "font/otf", 
-            "png" : "image/png", 
-            "pdf" : "application/pdf", 
-            "php" : "application/x-httpd-php", 
-            "ppt" : "application/vnd.ms-powerpoint", 
-            "pptx" : "application/vnd.openxmlformats-officedocument.presentationml.presentation", 
-            "rar" : "application/vnd.rar", 
-            "rtf" : "application/rtf", 
-            "sh" : "application/x-sh", 
-            "svg" : "image/svg+xml", 
-            "swf" : "application/x-shockwave-flash", 
-            "tar" : "application/x-tar", 
-            "tif" : "image/tiff", 
-            "tiff" : "image/tiff", 
-            "ts" : "video/mp2t", 
-            "ttf" : "font/ttf", 
-            "txt" : "text/plain", 
-            "vsd" : "application/vnd.visio", 
-            "wav" : "audio/wav", 
-            "weba" : "audio/webm", 
-            "webm" : "video/webm", 
-            "webp" : "image/webp", 
-            "woff" : "font/woff", 
-            "woff2" : "font/woff2", 
-            "xhtml" : "application/xhtml+xml", 
-            "xls" : "application/vnd.ms-excel", 
-            "xlsx" : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
-            "xml" : "application/xml", 
-            "xml" : "text/xml", 
-            "xul" : "application/vnd.mozilla.xul+xml", 
-            "zip" : "application/zip", 
-            "3gp" : "video/3gpp", 
-            "3gp" : "audio/3gpp", 
-            "3g2" : "video/3gpp2", 
-            "3g2" : "audio/3gpp2", 
-            "7z" : "application/x-7z-compressed" 
-        };
+    let {fileType} = getFileObject(file);
+        
     fileType = fileType.replace(".", "");
 
     return mimeTypes[fileType];
     
+}
+
+function getFileExtensionsByMimeType(mimeType) {
+    return Object.keys(mimeTypes).filter(key => mimeTypes[key] === mimeType).map(item => `${item}`);
+}
+
+function getSpecifiedExt(url, fileExtensions)  {
+    if(fileExtensions.length > 1)   {
+        let foundExtensions = fileExtensions.filter(ext => url.includes(`.${ext}`));
+        return foundExtensions.length >= 1 ? foundExtensions[0] : fileExtensions[0];
+    } else  {
+        return fileExtensions[0];
+    }
 }
 
 
@@ -762,6 +778,10 @@ module.exports = {
     deleteAllEmptyDirsInDirectory,
 
     getMimeType,
+
+    getFileExtensionsByMimeType,
+
+    getSpecifiedExt,
 
     getFileSize,
 

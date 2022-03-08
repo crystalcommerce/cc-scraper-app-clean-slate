@@ -2,7 +2,13 @@ node_modules/
 # __test/
 users.json
 scripts/*
-data/*
+
+# downlaods and uploads dir 
+data/products/*
+data/zipped-files/*
+data/videos/*
+data/audios/*
+
 models/dynamic/*
 routes/dynamic/*
 middlewares/rewritten.txt

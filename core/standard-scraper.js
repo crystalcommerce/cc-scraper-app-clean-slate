@@ -1,12 +1,11 @@
 const path = require("path");
 const { createDirPath } = require("../utilities/file-system");
 const { toUrl } = require("../utilities/string");
-const { fileDownloader } = require("./file-downloader");
+const fileDownloader = require("./file-downloader");
 const csvDataWriter = require("./csv-data-writer");
 
 
-module.exports = function(socketInstance)   {
-
+module.exports = function(io)   {
     class StandardScraperScript {
 
         constructor(scraperOptions)    {
@@ -16,10 +15,11 @@ module.exports = function(socketInstance)   {
                 siteUrl,
     
                 // coming from scrapersDb data;
+                productCategory,
                 productBrand,
                 imageNameObject,
                 imagePropName,
-                csvExcludedProps,
+                csvExcludedProps, // TODO :  remove the excluded props... just do it on downloading of data... we may not need to create data dirPath
     
                 // coming from user input;
                 startingPointUrl,
@@ -27,6 +27,9 @@ module.exports = function(socketInstance)   {
                 // evaluatorObjects saved on to our scripts folder;
                 scriptObject,
             } = scraperOptions;
+    
+            //
+            this.productCategory = productCategory;
                 
             // site Resource object
             this.siteName = siteName;
@@ -49,32 +52,29 @@ module.exports = function(socketInstance)   {
             
             
             // scraper-generated properties
-            this.dataDirPath; 
+            this.productsDirPath; 
             this.csvFileNameScrapedData;
             this.csvFileNameUnscrapedData;
             this.unscrapedData = [];
             this.productObjects = [];
             
-
+    
             this.scriptId;
-
+    
             this.currentCount = 0;
             this.rescraping = false;
             this.scriptRunning = false;
-        }
     
+            // event emitter // socketInstance
+    
+            
+    
+        }
     
         getDirNameArr(...args) {
-            let dirArr = [this.siteName, this.productBrand, this.productSet];
+            let dirArr = [this.productCategory, this.siteName, this.productBrand, this.productSet];
             dirArr.push(...args);
             return dirArr.filter(dirName => dirName && dirName.trim() !== "").map(dirName => toUrl(dirName));
-        }
-    
-    
-        getDataRelativePath(...args)   {
-            let dirNameArr = this.getDirNameArr(...args);
-    
-            return path.join("data", ...dirNameArr);
         }
     
     
@@ -82,22 +82,49 @@ module.exports = function(socketInstance)   {
             return imageDirPath.slice(imageDirPath.indexOf("data"));
         }
     
+        addEmitter(eventName, data)   {
+            console.log(eventName, data);
+            if(io)  {
+                io.customEvent.emit(eventName, data);
+            }
+        }
     
-        async createDataDirPath() {
+        async createProductsDirPath() {
             let dirNameArr = this.getDirNameArr();
-            this.dataDirPath = await createDirPath("data", ...dirNameArr);
+            this.productsDirPath = await createDirPath(process.cwd(), "data", "products", ...dirNameArr);
         }
     
         async executeScript()   {
             
+            this.scriptRunning = true;
+            this.addEmitter("finished-scraping", {
+                message : `We have have successfully scraped the data and the URIs of the images`,
+                status : `success`,
+                phase : "start-scraping",
+                data : this.productObjects,
+                unscrapedData : this.unscrapedData,
+                scriptId : this.scriptId,
+            });
+
             let { args, callback } = this.scriptObject,
                 requiredArgs = args.map(key => this[key]),
                 { productObjects, unscrapedData, productSet } = await callback(...requiredArgs);
-
+    
             this.productObjects = productObjects;
             this.unscrapedData = unscrapedData;
             this.productSet = productSet;
 
+            this.addEmitter("finished-scraping", {
+                message : `We have have successfully scraped the data and the URIs of the images`,
+                status : `success`,
+                phase : "finished-scraping",
+                data : this.productObjects,
+                unscrapedData : this.unscrapedData,
+                scriptId : this.scriptId,
+            });
+
+            this.scriptRunning = false;
+    
         }
     
     
@@ -133,48 +160,45 @@ module.exports = function(socketInstance)   {
     
     
                 try {
-                    let downloadResult = await fileDownloader(imageUri, imageName, imageDirPath, null, ".jpg"),
-                        {fileName, status} = downloadResult,
-                        imagePath = `/${this.getImagePath(imageDirPath)}/${fileName}`; /* Currently working on this... */
-            
-                    if(!status)    {
+                    let downloadResult = await fileDownloader(imageUri, imageName, imageDirPath, "jpg"),
+                        { fileName, statusOk } = downloadResult;
+    
+                    if(!statusOk)    {
                         throw Error("image not found");
                     }
                     imageNames.push(fileName);
                     imagePaths.push(imagePath);
-                    
-                    // io.emit("image-downloading", {
-                    //     message : `Currently downloading the images for the scraped products.`,
-                    //     status : `success`,
-                    //     type : `single`,
-                    //     data : {imageUri, imagePath, fileName},
-                    //     phase : "image-downloading",
-                    //     scriptId : this.scriptId,
-                    // });
 
+                    
+                    this.addEmitter("image-downloading", {
+                        message : `Currently downloading the images for the scraped products.`,
+                        status : `success`,
+                        data : {imageUri, imagePath, fileName},
+                        phase : "image-downloading",
+                        scriptId : this.scriptId,
+                    });
+    
                 } catch(err)    {
                     imageNames.push("NO IMAGE DOWNLOADED.");
-
-                    // io.emit("image-downloading", {
-                    //     message : "we couldn't download the image: " + err.message,
-                    //     status : `success`,
-                    //     type : `single`,
-                    //     data : {imageUri},
-                    //     phase : "image-downloading",
-                    //     scriptId : this.scriptId,
-                    // });
+    
+                    this.addEmitter("image-downloading", {
+                        message : "we couldn't download the image: " + err.message,
+                        status : `success`,
+                        data : {imageUri},
+                        phase : "image-downloading",
+                        scriptId : this.scriptId,
+                    });
                 }
             }
     
             productObject[this.imagePropName] = imageNames.join(" // ");
             productObject.imagePaths = imagePaths.map(item => item.replace(/\\/g, "/"));
-            
         }
     
     
         async downloadImagesByBulk(subDirName = null, bulkCount = 70, i = 0) {
     
-            let imageDirPath = await createDirPath(this.dataDirPath, `${subDirName ? `${subDirName}/images` : `images`}`);
+            let imageDirPath = await createDirPath(this.productsDirPath, `${subDirName ? `${subDirName}/images` : `images`}`);
     
             const downloadByBulk = async(bulkCount, i) => {
                 let promises = [],
@@ -196,15 +220,15 @@ module.exports = function(socketInstance)   {
             await downloadByBulk(bulkCount, i);
     
             this.scriptRunning = false;
-            // io.emit("finished-scraping", {
-            //     message : `We have successfully scraped the data...`,
-            //     status : `success`,
-            //     type : `list`,
-            //     phase : "finished-scraping",
-            //     data : this.productObjects,
-            //     unscrapedData : this.unscrapedData,
-            //     scriptId : this.scriptId,
-            // });
+            this.addEmitter("finished-downloading-images", {
+                message : `We have successfully downloaded the images`,
+                status : `success`,
+                type : `list`,
+                phase : "finished-downloading",
+                data : this.productObjects,
+                unscrapedData : this.unscrapedData,
+                scriptId : this.scriptId,
+            });
         }
     
         async cancelScraper()    {
@@ -212,8 +236,8 @@ module.exports = function(socketInstance)   {
         }
     
         async writeProductObjectsToCsv(subDirName = null)    {
-            await this.createDataDirPath();
-            let dirPath = subDirName ? await createDirPath(this.dataDirPath, subDirName) : this.dataDirPath;
+            await this.createProductsDirPath();
+            let dirPath = subDirName ? await createDirPath(this.productsDirPath, subDirName) : this.productsDirPath;
     
             this.csvFileNameScrapedData = this.getDirNameArr(subDirName).join("-");
             this.csvFileNameUnscrapedData = `UNSCRAPED-DATA-${this.csvFileNameScrapedData}`;
@@ -222,7 +246,6 @@ module.exports = function(socketInstance)   {
         }
     
     }
-    
-    return StandardScraperScript;
-}
 
+    return StandardScraperScript
+}

@@ -1,14 +1,13 @@
 const path = require('path');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
-const { deleteFile } = require("../utilities/file-system");
 const { getAllObjectKeys } = require("../utilities/objects-array");
 const { toNormalString } = require("../utilities/string");
-const csvJsonReader = require("./csv-json-reader");
+const csvToObject = require("./csv-to-object");
 
 module.exports = async function(dirPath, fileName, data=[], excludedKeys = [], newFile = false)   {
 
     let csvFile = path.join(dirPath, `${fileName}.csv`),
-        prevData = await csvJsonReader(csvFile);
+        prevData = await csvToObject(csvFile);
 
     if(!prevData.length && !data.length)    {
         return;

@@ -8,7 +8,17 @@ const imageSchema = new Schema({
         required : true,
         unique : true,
     },
-    filePath : {
+    mimeType : {
+        type : String,
+        required : true,
+        unique : true,
+    },
+    fileExt : {
+        type : String,
+        required : true,
+        unique : true,
+    },
+    destinationPath : {
         type : String,
         required : true,
         unique : true,

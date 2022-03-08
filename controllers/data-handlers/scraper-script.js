@@ -350,37 +350,10 @@ module.exports = function()   {
                 results = productObjects.every(item => Array.isArray(item.imagePaths));
     
             if(results) {
-                try {
-                    await csvDataWriter(targetPath, csvFileName, productObjects, [...csvExcludedProps, "imagePaths"], true);
-                    // compress file in zip
-                    fileZipper(targetPath, destinationPath, (fileObject) => {
-                        let {statusOk, message, filePath, fileName} = fileObject,
-                            zippedFile = path.join(filePath, fileName), 
-                            zippedDirPath = path.join("data", "zipped-files", fileName);
-    
-    
-                        if(!statusOk)   {
-                            throw Error(message);
-                        }
-                        
-                        try{
-                            if(!fileExists(zippedFile)) {
-                                throw Error(`This file "${fileName}" does not exist.`);
-                            }
-                            req.requestResult = {
-                                statusOk : true,
-                                message : "We have successfully created a zipped file.",
-                                filePath : zippedDirPath,
-                                status : 200,
-                            };
-                        } catch(err)    {
-                            req.requestResult = {statusOk : false, status : 403, message : err.message};
-                        }
-                    });
-                }
-                catch(err)  {
-                    req.requestResult = {statusOk : false, status : 403, message : err.message};
-                }
+                let csvWriteResult = await csvDataWriter(targetPath, csvFileName, productObjects, [...csvExcludedProps, "imagePaths"], true),
+                    zippedDirectoryResult = await fileZipper(targetPath, destinationPath);
+                
+                
             } else  {
                 throw Error("These are not product objects...")
             }

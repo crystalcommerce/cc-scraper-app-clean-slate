@@ -1,12 +1,11 @@
-const getStandardScraperScript = require("./standard-scraper");
+const getScraper = require("./standard-scraper");
+const fileDownloader = require("./file-downloader");
+const fileZipper = require("./file-zipper");
+const csvDataWriter = require("./csv-data-writer");
+const csvToObject = require("./csv-to-object")
 
-module.exports = function(io)   {
 
-    const StandardScraperScript = getStandardScraperScript(io);
-
-    return { StandardScraperScript };
-    
-}
+module.exports = { getScraper, fileDownloader, fileZipper, csvDataWriter, csvToObject };
 
 
 

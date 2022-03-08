@@ -10,12 +10,6 @@ const cheerio = require("cheerio");
 
 
 
-/*
-    TODO: 
-    we have to remove multifaced property as we do not have to rely on that part anymore, all scripts are executed on one uploaded file only.
-*/
-
-
 
 
 // the goal of this script is to return two arrays... one for the productObjects array and one for the unscrapedData (which is also an array).
@@ -152,6 +146,7 @@ const scraperScript = new StandardScraperScript({
     
     siteName : "TCG Player",
     siteUrl : "https://www.tcg-player.com/",
+    productCategory : "Trading Card Game",
     productBrand : "Flesh and Blood",
     // productBrand : "Dragon Ball Super CCG",
     imageNameObject : {
@@ -173,7 +168,7 @@ console.log();
 
     await scraperScript.executeScript(); // we get the data first,
 
-    await scraperScript.createDataDirPath(); // order matters... we are setting the setname after scraping, so creating a path must come after
+    await scraperScript.createProductsDirPath(); // order matters... we are setting the setname after scraping, so creating a path must come after
 
     await scraperScript.downloadImagesByBulk();
 

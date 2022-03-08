@@ -14,7 +14,7 @@ const { userAuth } = require("../middlewares");
 const authRouter = require("./auth");
 
 // files-router
-const filesRouter = require("./files");
+const filesRouter = require("./file");
 
 // usersRouter
 const usersRouter = require("./user");
@@ -56,7 +56,7 @@ module.exports = function()   {
     // files
     router.use(
         "/cc-files",
-        userAuth,
+        // userAuth,
         filesRouter
     );
     

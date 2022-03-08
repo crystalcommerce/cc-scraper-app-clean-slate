@@ -2,64 +2,105 @@ const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
 const { toUrl } = require("../utilities/string");
-const { getFileSize, deleteFile } = require("../utilities/file-system");
+const { getFileSize, deleteFile, getFileExtensionsByMimeType, getSpecifiedExt, createDirPath, fileExists, deleteDir } = require("../utilities/file-system");
 
-async function fileDownloader(url, givenFileName, downloadPath, expectedFileType = null, givenFileType = null)    {
+async function fileDownloader(url, givenFileName, downloadPath, preferedFileExt = null)    {
 
-    let fileType = givenFileType ? givenFileType : path.extname(url.split("?")[0]),
-        fileName = `${toUrl(givenFileName)}${fileType}`, 
-        contentLength;
-    
-    
-    // create folder path if it doesn't exist
-    if(!fs.existsSync(downloadPath))  {
-        await fs.promises.mkdir(downloadPath, {recursive : true});
-    }
+    let error = null;
 
-    const fileStream = fs.createWriteStream(path.join(downloadPath, fileName));
+    try {
 
-    const response = await axios({
-        url,
-        method: 'GET',
-        responseType: 'stream'
-    });
+        let response = await axios({
+                url,
+                method: 'GET',
+                responseType: 'stream'
+            }),
+            mimeType = response.headers["content-type"],
+            contentLength = Number(response.headers["content-length"])
+            fileExtensions = getFileExtensionsByMimeType(mimeType),
+            urlObject = new URL(url);
+            webDeclaredExt = getSpecifiedExt(url, fileExtensions),
+            fileExt = preferedFileExt ? preferedFileExt : webDeclaredExt;
+            fileName = preferedFileExt ? `${toUrl(givenFileName)}.${fileExt}` : `${toUrl(givenFileName)}.${fileExt}`;
+        
+        
+        // create folder path if it doesn't exist
+        if(!fileExists(downloadPath))  {
+            await createDirPath(downloadPath);
+        }
 
-    if(response.status >= 200 && response.status <= 300)  {
-        if(expectedFileType && !response.headers["content-type"].includes(expectedFileType))    {
+        const fileStream = fs.createWriteStream(path.join(downloadPath, fileName));
+
+        if(response.status >= 300 && response.status < 200)  {
             fileStream.end();
             deleteFile(path.join(downloadPath, fileName));
-            reject({url, fileName, message : `The content type of what you're trying to download does not match the file type from the server's response. \n\tRequested File Type : ${fileType} \n\tServer's Response File Type : ${response.headers["content-type"]}`, status : false});
+            deleteDir(downloadPath);
+            error = {
+                url,
+                fileName,
+                message : `We couldn't reach the server; status code : ${response.statusCode}.`,
+                statusOk : false,
+                status : response.status,
+            };
+            throw Error(JSON.stringify(error, null, 4));
         }
-        contentLength = Number(response.headers["content-length"]);
+
+        if(!fileExtensions.find(item => response.headers["content-type"].includes(item)))    {
+            fileStream.end();
+            deleteFile(path.join(downloadPath, fileName));
+            deleteDir(downloadPath);
+            error = {
+                url,
+                fileName,
+                message : `The content type of what you're trying to download does not match the file type from the server's response.`,
+                allowedFileExtensions : fileExtensions,
+                statusOk : false,
+                mimeType,
+                enteredFileExtension : preferedFileExt,
+            };
+            throw Error(JSON.stringify(error, null, 4));
+        }
+
         response.data.pipe(fileStream);
 
-    } else  {
-        fileStream.end();
-        deleteFile(path.join(downloadPath, fileName));
-        return {url, fileName, message : `We couldn't reach the server; status code : ${response.statusCode}.`, status : false};
-    }
 
-    return await new Promise((resolve, reject) => {
+        let downloadResult =  await new Promise((resolve, reject) => {
         
-        fileStream.on("finish", () => {
-            fileStream.close(async () => {
-                let fileSize = Number(await getFileSize(path.join(downloadPath, fileName)));
-
-                if((!isNaN(contentLength) && fileSize >= contentLength) || fileSize > 0)    {
-                    resolve({fileName, fileSize : `${(fileSize / (1024*1024)).toFixed(2)}Mb`, contentLength, fileSizeInBytes : fileSize, downloadPath, message : "We have successfully downloaded the file.", status : true});
-                } else  {
-                    fileStream.end();
-                    deleteFile(path.join(downloadPath, fileName));
-                    reject({fileName, message : `Download did not complete.`, status : false})
-                }
+            fileStream.on("finish", () => {
+                fileStream.close(async () => {
+                    let fileSize = Number(await getFileSize(path.join(downloadPath, fileName)));
+    
+                    if((!isNaN(contentLength) && fileSize >= contentLength) || fileSize > 0)    {
+                        resolve({fileName, fileSize : `${(fileSize / (1024*1024)).toFixed(2)}Mb`, contentLength, fileSizeInBytes : fileSize, downloadPath, message : "We have successfully downloaded the file.", statusOk : true});
+                    } else  {
+                        fileStream.end();
+                        deleteFile(path.join(downloadPath, fileName));
+                        reject({fileName, message : `Download did not complete.`, statusOk : false})
+                    }
+                });
             });
-        });
+    
+            fileStream.on("error", (err) => {
+                reject({url, fileName, message : err.message, statusOk : false});
+            });
+        })
 
-        fileStream.on("error", (err) => {
-            reject({url, fileName, message : err.message, status : false});
-        });
-    })
+        if(!downloadResult.statusOk)  {
+            error = downloadResult;
+            fileStream.end();
+            deleteFile(path.join(downloadPath, fileName));
+            deleteDir(downloadPath);
+            throw Error(JSON.stringify(downloadResult));
+        }
 
+        return downloadResult;
+
+    } catch(err)    {
+
+        return error ? JSON.parse(err.message) : {statusOk : false, message : err.message};
+
+    }
+    
 }
 
-module.exports = { fileDownloader };
+module.exports = fileDownloader;

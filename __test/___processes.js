@@ -273,12 +273,21 @@
 
     TODO:
         autoSmrRewrite
-        fileZipper 
-        file
-        fileDownloader
+        fileZipper -- DONE
+        file -- future project...;
+        fileDownloader = DONE;
         userAuth - middle ware... add req.user; -- DONE
 
+    TODO: *******************************
+        we may not need to save the images...
+        we can just pipe out the images... if they're downloadable anyway, they will be displayed with the content...
+        we only need to download the file if, and only if the user intends to download the zipped folder together with the images.
+        we can then allow users to edit the image saved on the database.
 
+    TODO :
+    change the way scripts are written
+
+    we put the StandardScraper module on the execute file...
 
 */      
 

@@ -4,6 +4,26 @@ const { Schema } = mongoose;
 
 
 const productSetSchema = new Schema({
+    productCategory : {
+        type : String,
+        required  : true,
+    },
+    siteName : {
+        type : String,
+        required  : true,
+    },
+    siteUrl : {
+        type : String,
+        required  : true,
+    },
+    productBrand : {
+        type : String,
+        required  : true,
+    },
+    startingUrl : {
+        type : String,
+        required  : true,
+    },
     groupIdentifier : {
         type : String,
         required : true,
@@ -11,14 +31,6 @@ const productSetSchema = new Schema({
     groupIdentifierKey : {
         type : String,
         required : true,
-    },
-    siteName : {
-        type : String,
-        required  : true,
-    },
-    productBrand : {
-        type : String,
-        required  : true,
     },
     apiRoute : {
         type : String,
@@ -28,17 +40,10 @@ const productSetSchema = new Schema({
         type : String,
         required  : true,
     },
-    startingUrl : {
-        type : String,
-        required  : true,
-    },
+    
     dateCreated : {
         type : Date,
         default : Date.now(),
-    },
-    csvExcludedProps : {
-        type : Array,
-        default : [],
     }
 }, {strict : true});
 
@@ -49,9 +54,8 @@ const ProductSet = mongoose.model("ProductSet", productSetSchema);
 // initializing usersDb
 const productSetsDb = db(ProductSet);
 productSetsDb.recordName = "ProductSet";
-productSetsDb.addProps("immutableProps", "_id", "startingUrl", "siteName", "productBrand");
+productSetsDb.addProps("immutableProps", "_id", "startingUrl", "siteName", "productBrand", "productCategory");
 productSetsDb.addProps("uniqueProps", "startingUrl");
-productSetsDb.addProps("friendlyUrlProps", "siteName", "productBrand");
-productSetsDb.addProps("defaultValuedProps", { permissionLevel : 2 }, { dateCreated : Date.now() });
+productSetsDb.addProps("defaultValuedProps", { dateCreated : Date.now() });
 
 module.exports = productSetsDb;

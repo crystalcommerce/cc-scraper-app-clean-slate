@@ -25,7 +25,7 @@ module.exports = function()   {
                 } = scraperData,
                 groupIdentifier = req.body.groupIdentifier ? req.body.groupIdentifier : "",
                 scraperOptions = { ...req.body, productSet : groupIdentifier, siteName, siteUrl, productBrand, imagePropName, imageNameObject, csvExcludedProps },
-                getScraperObject = require(`../${scriptFilePath}`),
+                getScraperObject = require(`../../${scriptFilePath}`),
                 scraperScript = getScraperObject(io, scraperOptions);
 
 

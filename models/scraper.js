@@ -4,6 +4,10 @@ const { Schema } = mongoose;
 
 
 const scraperSchema = new Schema({
+    productCategory : {
+        type : String,
+        required  : true,
+    },
     siteUrl : {
         type : String,
         required  : true,
@@ -11,11 +15,6 @@ const scraperSchema = new Schema({
     siteName : {
         type : String,
         required  : true,
-    },
-    scraperType  : {
-        type : String,
-        default : "standard",
-        required : true,
     },
     productBrand : {
         type : String,
@@ -33,7 +32,6 @@ const scraperSchema = new Schema({
         type : Array,
         required : true,
     },
-
     scriptFilePath : {
         type : String,
         required : true,
@@ -42,8 +40,8 @@ const scraperSchema = new Schema({
         type : String,
         required : true,
     },
-    evaluatorObjects : {
-        type : Object,
+    scriptCode : {
+        type : String,
         required : true,
     },
     groupIdentifierKey : {

@@ -4,10 +4,10 @@ const collection = require("./collection");
 const image = require("./image");
 const user = require("./user");
 const scraperScript = require("./scraper-script");
+const productSet = require("./product-set");
 const scraper = require("./scraper");
 const dynamic = require("./dynamic");
-const productSet = require("./product-set");
-const siteResource = require("./site-resource");
+
 
 module.exports = {
     collection,
@@ -16,6 +16,5 @@ module.exports = {
     user,
     scraper,
     scraperScript,
-    siteResource,
     dynamic
 }

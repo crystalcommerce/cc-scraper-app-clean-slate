@@ -26,7 +26,7 @@ const collectionsRouter = require("./collection");
 const imagesRouter = require("./image");
 
 // siteResources
-const siteResourcesRouter = require("./site-resource");
+const productSetMetaRouter = require("./product-set-meta");
 
 // productSetRouter
 const productSetRouter = require("./product-set");
@@ -76,9 +76,9 @@ module.exports = function()   {
 
     // site-resources
     router.use(
-        "/api/site-resources",
+        "/api/product-set-meta",
         userAuth,
-        siteResourcesRouter()
+        productSetMetaRouter()
     );
 
     // images

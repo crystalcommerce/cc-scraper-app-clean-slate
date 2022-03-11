@@ -156,7 +156,7 @@
 
             update-scraper
                 updating scraper data;
-                -- DONE
+                    -- DONE
                 - deleting scraper without deleting the data...
                     -- DONE
                 - updating scraper needs to have sitename product brand
@@ -184,7 +184,7 @@
                 Scraper Table;
                     create a filter to show scrapers via site resource, product brand
 
-             update-scraper
+            update-scraper
                 saving on update scraper button doesn't show indicators of saving...
                 updating scraper data;
                     usage,
@@ -210,7 +210,6 @@
         - initial scraping mark the unscraped data as unscraped...
         - rescraping... 
             - make an array of properties to use as marker of unscraped data...
-            -
 
 
     Create a new type of evaluator...
@@ -271,10 +270,7 @@
 
     / 03 / 06 / 2021
 
-    TODO:
-        autoSmrRewrite
         fileZipper -- DONE
-        file -- future project...;
         fileDownloader = DONE;
         userAuth - middle ware... add req.user; -- DONE
 
@@ -284,10 +280,45 @@
         we only need to download the file if, and only if the user intends to download the zipped folder together with the images.
         we can then allow users to edit the image saved on the database.
 
-    TODO :
-    change the way scripts are written
+    --- DONE
+    change the way scripts are written -- DONE;
+    we put the StandardScraper module on the execute file... -- DONE;
 
-    we put the StandardScraper module on the execute file...
+    -- DONE
+        {
+            key : productCategory
+            value : Trading Card Game
+        }
+        {
+            key : siteName,
+            value : SiteUrl,
+        }
+        {
+            key : productBrand,
+            value : Pokemon
+        },
+        {
+            key : productSet,
+            value : "Shining Enhirtance"
+        },
+        {
+            key : apiRoute
+            value : /api/tcg-player-
+        }
+    -- DONE
+
+
+    TODO: 
+
+    remove site-resource model, routes, controller -- DONE
+    replace with product set meta --DONE
+    file -- future project...;
+    autoSmrRewrite
+
+
+
+
+    
 
 */      
 

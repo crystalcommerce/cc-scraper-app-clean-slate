@@ -16,9 +16,6 @@ const { nodeRestart } = require("../../utilities");
 
 
 module.exports = function()   {
-
-    const recordName = "Scraper";
-
     
     // getAll
     async function getAll(req, res, next)   {
@@ -32,46 +29,40 @@ module.exports = function()   {
                 message : err.message,
                 status : 404,
             };
+            next();
         }
 
     }
 
     // get one by id;
-    async function getOneById(req, res) {
-        res.setHeader("Content-type", "application/json");
+    async function getOneById(req, res, next) {
+        
+        try {
+            let result = await scrapersDb.getById(req.params.id);
+            if(!result) throw Error(`No ${scrapersDb.recordName} was found.`);
 
-        scrapersDb.getById(req.params.id)
-            .then(result => {
-                if(!result) throw Error(`No ${recordName} was found.`);
-                
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                let result = JSON.stringify({
-                    message : err.message,
-                    status : 404,
-                }, null, 4);
-                res.status(404).send(result);
-            });
+            req.requestResult = {data : result, status : 200};
+            next();
+        } catch(err)    {
+            req.requestResult = {status : 404, message : err.message};
+            next();
+        }
     }
 
     // getOneByFilter
-    async function getOneByFilter(req, res)    {
-        res.setHeader("Content-type", "application/json");
+    async function getOneByFilter(req, res, next)    {
+        
+        try {
+            let result = await scrapersDb.getOneByFilter(req.query);
+            if(!result) throw Error(`No ${scrapersDb.recordName} was found.`);
 
-        scrapersDb.getOneByFilter(req.query)
-            .then(result => {
-                if(!result) throw Error(`No ${recordName} was found.`);
-                
-                res.send(JSON.stringify(result, null, 4));
-            })
-            .catch(err => {
-                let result = JSON.stringify({
-                    message : err.message,
-                    status : 404,
-                }, null, 4);
-                res.status(404).send(result);
-            });
+            req.requestResult = {data : result, status : 200};
+            next();
+        } catch(err)    {
+            req.requestResult = {status : 404, message : err.message};
+            next();
+        }
+
     }
 
     // create
@@ -79,7 +70,9 @@ module.exports = function()   {
         res.setHeader("Content-type", "application/json");
 
         let { 
-                siteResource, 
+                productCategory,
+                siteName,
+                siteUrl, 
                 productBrand, 
                 imagePropName,
                 imageNameObject,
@@ -90,7 +83,7 @@ module.exports = function()   {
                 usage,
                 groupIdentifierKey,
             } = req.body,
-            scraperObject = new Scraper(siteResource, productBrand),
+            scraperObject = new Scraper(productCategory, siteName, siteUrl, productBrand),
             scriptFilePath,
             apiRoute = `/api/${scraperObject.routeObject.routeName}`;
 

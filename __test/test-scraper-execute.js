@@ -12,15 +12,19 @@ const StandardScraperScript = getScraper(null);
     const scrapersDbData = {
         productCategory : "Trading Card Game",
         productBrand : "Flesh and Blood",
+        // productBrand : "Dragon Ball Super CCG",
         imageNameObject : {
             split : ["cardName", "cardNumber"],
-            shared : ["rarity"]
+            shared : ["rarity"],
+            preferedExt : "jpg",
         },
         imagePropName : "productImage",
-        csvExcludedProps : ["imageUris", "cardUri"],
+        csvExcludedProps : ["imageUris", "resourceUrl", "imagePaths"], // this could be saved in our 
     };
     const userInput = {
         startingPointUrl : "https://prices.tcgplayer.com/price-guide/flesh-and-blood-tcg/hero-deck-dorinthea",  
+        // startingPointUrl : "https://prices.tcgplayer.com/price-guide/dragon-ball-super-ccg/art-series-kamigawa-neon-dynasty",  
+        // startingPointUrl : "https://prices.tcgplayer.com/price-guide/dragon-ball-super-ccg/saiyan-showdown",  
     }
     const scraperOptions = {
         ...siteResource,

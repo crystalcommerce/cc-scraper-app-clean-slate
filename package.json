@@ -4,9 +4,9 @@
   "description": "A new scraper application for Crystal Commerce.",
   "main": "index.js",
   "scripts": {
-    "dev2": "nodemon --ignore models/ --ignore routes/ --ignore scripts/ --signal RESTART index.js",
-    "dev": "nodemon --signal RESTART index.js",
-    "start": "forever index.js"
+    "dev": "nodemon index.js",
+    "start": "nodemon index.js",
+    "startprod": "forever index.js"
   },
   "author": "Michael Norward Miranda",
   "license": "ISC",
@@ -22,6 +22,7 @@
     "forever": "^4.0.3",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
+    "mnm-uuid": "^1.0.3",
     "mongoose": "^5.12.12",
     "multer": "^1.4.2",
     "node": "^16.9.1",

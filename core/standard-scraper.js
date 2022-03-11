@@ -49,6 +49,9 @@ module.exports = function(io)   {
             
             // scripts uploaded and written in the app;
             this.scriptObject = scriptObject;
+            this.getAllProducts;
+            this.getSingleProduct;
+            this.requiredArgs = [];
             
             
             // scraper-generated properties
@@ -67,7 +70,7 @@ module.exports = function(io)   {
     
             // event emitter // socketInstance
     
-            
+            this.getScriptProperties();
     
         }
     
@@ -93,7 +96,13 @@ module.exports = function(io)   {
             let dirNameArr = this.getDirNameArr();
             this.productsDirPath = await createDirPath(process.cwd(), "data", "products", ...dirNameArr);
         }
-    
+        
+        getScriptProperties()   {
+            this.requiredArgs = this.scriptObject.args.map(key => this[key]);
+            this.getAllProducts = this.scriptObject.getAllProducts;
+            this.getSingleProduct = this.scriptObject.getSingleProduct;
+        }
+
         async executeScript()   {
             
             this.scriptRunning = true;
@@ -106,34 +115,48 @@ module.exports = function(io)   {
                 scriptId : this.scriptId,
             });
 
-            let { args, callback } = this.scriptObject,
-                requiredArgs = args.map(key => this[key]),
-                { productObjects, unscrapedData, productSet } = await callback(...requiredArgs);
-    
-            this.productObjects = productObjects;
-            this.unscrapedData = unscrapedData;
-            this.productSet = productSet;
+            try {
+                //execute the getAllProductScript here...
+                let { productObjects, unscrapedData, productSet } = await this.getAllProducts(...this.requiredArgs);
+                
+        
+                this.productObjects = productObjects;
+                this.unscrapedData = unscrapedData;
+                this.productSet = productSet;
 
-            this.addEmitter("finished-scraping", {
-                message : `We have have successfully scraped the data and the URIs of the images`,
-                status : `success`,
-                phase : "finished-scraping",
-                data : this.productObjects,
-                unscrapedData : this.unscrapedData,
-                scriptId : this.scriptId,
-            });
+                // write the names of the images
+                this.setProductsImageNames();
 
-            this.scriptRunning = false;
+                this.addEmitter("finished-scraping", {
+                    message : `We have have successfully scraped the data and the URIs of the images`,
+                    status : `success`,
+                    phase : "finished-scraping",
+                    data : this.productObjects,
+                    unscrapedData : this.unscrapedData,
+                    scriptId : this.scriptId,
+                });
+
+
+                this.scriptRunning = false;
+            } catch(err)    {
+                this.scriptRunning = false;
+                this.addEmitter("finished-scraping", {
+                    message : `Scraping Process has been stopped : ${err.message}`,
+                    status : `failed`,
+                    phase : "scraping-error",
+                    data : this.productObjects,
+                    unscrapedData : this.unscrapedData,
+                    scriptId : this.scriptId,
+                });
+            }
     
         }
-    
-    
-        async downloadImage(productObject, imageDirPath, i)   {
-    
+
+        createImageName(productObject, i)   {
             let imageNames = [],
-                imagePaths = [],
                 {imageUris} = productObject,
                 {shared, split} = this.imageNameObject,
+                fileExt = this.imageNameObject.preferedExt ? `.${this.imageNameObject.preferedExt}` : "",
                 splitNames = function()    {
                     let names = [];
                     for(let prop of split) {
@@ -148,20 +171,44 @@ module.exports = function(io)   {
                     }
                     return names;
                 }();
-                
+            
             for(let j = 0; j < imageUris.length; j++)   {
-    
+
                 let nm = splitNames.reduce((a, b) => {
                         a += b.split("//").map(item => item.trim())[j];
                         return a;
                     }, ""),
-                    imageName = toUrl([`${i + 1} ${j + 1}`, nm, ...sharedNames].join(" ")),
+                    imageName = toUrl([`${i + 1} ${j + 1}`, nm, ...sharedNames].join(" "));
+    
+                imageNames.push(`${imageName}${fileExt}`)
+                
+            }
+
+            productObject[this.imagePropName] = imageNames.join(" // ");
+        }
+        
+        setProductsImageNames()   {
+            this.productObjects.forEach((productObject, i) => {
+                this.createImageName(productObject, i);
+            })
+        }
+    
+        async downloadImage(productObject, imageDirPath, i)   {
+    
+            let imageNames = productObject[this.imagePropName].split(" // "),
+                {imageUris} = productObject,
+                imagePaths = [];
+                
+            for(let j = 0; j < imageUris.length; j++)   {
+    
+                let imageName = imageNames[j],
                     imageUri = imageUris[j];
     
     
                 try {
                     let downloadResult = await fileDownloader(imageUri, imageName, imageDirPath, "jpg"),
-                        { fileName, statusOk } = downloadResult;
+                        { fileName, statusOk } = downloadResult,
+                        imagePath = `/${this.getImagePath(imageDirPath)}/${fileName}`;
     
                     if(!statusOk)    {
                         throw Error("image not found");
@@ -180,12 +227,12 @@ module.exports = function(io)   {
     
                 } catch(err)    {
                     imageNames.push("NO IMAGE DOWNLOADED.");
-    
-                    this.addEmitter("image-downloading", {
+                    
+                    this.addEmitter("failed-image-download", {
                         message : "we couldn't download the image: " + err.message,
                         status : `success`,
                         data : {imageUri},
-                        phase : "image-downloading",
+                        phase : "image-downloading-error",
                         scriptId : this.scriptId,
                     });
                 }
@@ -239,13 +286,14 @@ module.exports = function(io)   {
             await this.createProductsDirPath();
             let dirPath = subDirName ? await createDirPath(this.productsDirPath, subDirName) : this.productsDirPath;
     
-            this.csvFileNameScrapedData = this.getDirNameArr(subDirName).join("-");
+            this.csvFileNameScrapedData = toUrl(`${this.productBrand} ${this.productSet}`);
             this.csvFileNameUnscrapedData = `UNSCRAPED-DATA-${this.csvFileNameScrapedData}`;
-            await csvDataWriter(dirPath, this.csvFileNameScrapedData, this.productObjects, [...this.csvExcludedProps, "imagePaths"], true);
+            await csvDataWriter(dirPath, this.csvFileNameScrapedData, this.productObjects, [...this.csvExcludedProps], true);
             await csvDataWriter(dirPath, this.csvFileNameUnscrapedData, this.unscrapedData, [], true);
         }
     
     }
 
     return StandardScraperScript
+
 }

@@ -29,7 +29,7 @@ module.exports = function()   {
                 throw Error(`We already have a database collection (table) with the same model name. Please try to update that or delete the collection first before creating one.`);
             }  
 
-            let createRouteResult = await route.createRoute(model.modelInstanceName, model.recordName, pluralized);
+            let createRouteResult = await route.createRoute(model.modelInstanceName, pluralized);
             req.requestResult = {
                 data :{
                     createModelResult,

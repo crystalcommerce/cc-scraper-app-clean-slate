@@ -1,7 +1,9 @@
 // we can make as many response handlers inside this...
 
 module.exports = {
+
     auser : function () {
+
         return {
             getAll(req, res, next)    {
                 console.log("coming from the first middleWare : getAll");
@@ -15,6 +17,7 @@ module.exports = {
                 next();
             },
         };
+        
     },
         
     aproductSet : function () {
@@ -31,6 +34,7 @@ module.exports = {
                 next();
             }
         };
+
     },
 
     adynamic : function (modelInstanceDb) {
@@ -56,5 +60,7 @@ module.exports = {
                 next();
             }
         };
+
     }
+
 }

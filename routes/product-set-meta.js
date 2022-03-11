@@ -1,11 +1,13 @@
 const router = require("express").Router();
-const { controllers : { siteResource } } = require("../controllers")();
-const { filterObjectsByMethodName } = require("../utilities");
+const { productSetMetaDb } = require("../models");
+const getControllers = require("../controllers");
+const { controllers : { dynamic } } = getControllers(productSetMetaDb);
 const { httpResponseHandler } = require("../middlewares");
-const getMiddleWaresByName = filterObjectsByMethodName(httpResponseHandler(), ...siteResource.map(item => item()));
+const { filterObjectsByMethodName } = require("../utilities");
+const getMiddleWaresByName = filterObjectsByMethodName(httpResponseHandler(), ...dynamic);
 
 module.exports = function()   {
-    
+
     // getAll Handler
     router.get("/", getMiddleWaresByName("getAll"));
 
@@ -30,10 +32,15 @@ module.exports = function()   {
     router.put("/:id", getMiddleWaresByName("update"));
 
 
+    // deleteAllFilteredHandler
+	router.delete("/all?", getMiddleWaresByName("deleteAllFiltered"));
+
+
     // deleteHandler
     router.delete("/:id", getMiddleWaresByName("deleteById"));
 
 
     return router;
+    
 }
 

@@ -66,6 +66,7 @@ const sockectController = require("./controllers/socket");
  *  Db Connection
  * 
 ***********************/
+// OLD_PROD_DB_CONNECT => DEV_DB_CONNECT =>  PROD_DB_CONNECT 
     mongoose.connect(process.env.PROD_DB_CONNECT, {
         useNewUrlParser : true, 
         useUnifiedTopology : true, 

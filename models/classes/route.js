@@ -17,7 +17,7 @@ class Route {
         }
     }
 
-    async createRoute(modelInstanceName, recordName, pluralized = false) {
+    async createRoute(modelInstanceName, pluralized = false) {
         let content = "",
             routeName = pluralized ? this.pluralizedName : this.routeName;
         
@@ -35,7 +35,6 @@ class Route {
         content += `\n`;
         content += `\n`;
         content += `module.exports = function()   {\n`;
-        content += `\n`;
         
         content += `\n`;
         content += `\n`;

@@ -1,7 +1,6 @@
 const dataHandlers = require("./data-handlers");
 const responseHandlers = require('./response-handlers');
 const fileUpload = require("./file-upload");
-const userAuthHandler = require("./auth");
 
 const controllers = {};
 
@@ -16,7 +15,7 @@ Object.keys(dataHandlers).filter(key => key !== "dynamic").forEach(key => {
 });
 
 
-// we can add more handlers directories here... each directory functions could be piped to the api route that was called. 
+// we can add more handlers' directories here... each directory functions could be piped to the api route that was called. 
 // each methods of the controller files should have the same method name...
 // each property of the object, must be the same as the property names given to the datahandlers;
 // this way, they will get added to the correct route file...
@@ -47,5 +46,5 @@ module.exports = function(modelInstanceDb = false)  {
 
     includeDynamicHandlers(controllers, modelInstanceDb);
 
-    return { controllers, fileUpload, userAuthHandler };
+    return { controllers, fileUpload };
 }

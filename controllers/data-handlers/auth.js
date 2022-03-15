@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
-const { usersDb } = require("../models/index");
+const { usersDb } = require("../../models/index");
 const crypto = require("crypto");
-const { getRequestResult } = require("../utilities");
 
 module.exports = function() {
     async function login(req, res, next) {
@@ -67,11 +66,13 @@ module.exports = function() {
 
     async function logout(req, res, next)    {
         delete(req.session.user);
+        req.requestResult = {
+            status : 200,
+            message : `You have successfully logged out.`
+        }
         next();
     }
 
     return {login, logout};
 
 }
-
-

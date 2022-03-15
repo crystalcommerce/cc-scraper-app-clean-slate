@@ -32,7 +32,7 @@ class Script {
         return await writeFile(path.join(this.mainDirPath, this.scriptFileName), scriptCode);
     }
 
-    async updateScript(scriptFilePath, scriptCode)    {
+    static async updateScript(scriptFilePath, scriptCode)    {
         return await writeFile(path.join(process.cwd(), scriptFilePath), scriptCode);
     }
     
@@ -42,14 +42,14 @@ class Script {
 
     // delete script;
     static async deleteScript(scriptFilePath)  {
-        await deleteFile(path.join(process.cwd(), scriptFilePath));
+        return await deleteFile(path.join(process.cwd(), scriptFilePath));
     }
 
     async initialize(scriptCode)  {
 
         this.getScriptFilePath();
         
-        await this.createScriptFile(scriptCode);
+        return await this.createScriptFile(scriptCode);
         
     }
 

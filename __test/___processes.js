@@ -307,13 +307,17 @@
         }
     -- DONE
 
-
-    TODO: 
+    putting auth controller inside the data handler, to allow new middlewares to be added on to the controller just in case we need new ones... e.g. action log handlers...
 
     remove site-resource model, routes, controller -- DONE
     replace with product set meta --DONE
+
+
+
+
     file -- future project...;
     autoSmrRewrite
+    scraper
 
 
 

@@ -293,18 +293,25 @@ function writeFileSync(filePath, data, options = {encoding : "utf8"}) {
 }
 
 async function deleteFile(filePath)    {
-    let reason = null;
-    await fs.promises.unlink(filePath).catch(err => reason = err.message);
-    return !reason || !fileExists(filePath) ? {
+    try {
+        let reason = null;
+        await fs.promises.unlink(filePath).catch(err => reason = err.message);
+
+        if(reason || fileExists(filePath))  {
+            throw Error(`We weren't successful in deleting the file ${baseName(filePath)} : ${reason}`);
+        }
+        return {
             status : "successful",
             result : true,
-            message : `We have successfully deleted the file : "${filePath}"`,
-        } : {
+            message :  `We have successfully deleted the file : "${baseName(filePath)}"`
+        }
+    } catch(err)    {
+        return {
             status : "unchanged",
             result : false,
-            message : `We weren't successful in deleting the file : ${baseName(filePath)}`,
-            reason,
+            message : err.message,
         };
+    }
 }
 
 function deleteFileSync(filePath)    {

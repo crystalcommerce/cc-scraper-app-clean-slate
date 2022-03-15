@@ -69,6 +69,8 @@ class Model  {
 
         let writeModelResult = await writeFile(this.filePath, content);
 
+        console.log(writeModelResult);
+
         return { writeModelResult };
     }
 

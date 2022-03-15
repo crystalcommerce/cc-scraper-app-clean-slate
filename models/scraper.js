@@ -70,7 +70,12 @@ const scraperSchema = new Schema({
     friendlyUrl : {
         type : String,
         required  : true,
-    }, 
+    },
+    active : {
+        type : Boolean,
+        required : true,
+        default : true,
+    },
     dateCreated : {
         type : Date,
         default : Date.now(),
@@ -86,6 +91,6 @@ scrapersDb.recordName = "Scraper";
 scrapersDb.addProps("uniqueProps", "scriptFilePath", "friendlyUrl");
 scrapersDb.addProps("immutableProps", "_id", "siteUrl");
 scrapersDb.addProps("friendlyUrlProps", "siteName", "productBrand");
-scrapersDb.addProps("defaultValuedProps", { permissionLevel : 2 }, { dateCreated : Date.now() });
+scrapersDb.addProps("defaultValuedProps", { active  : true }, { dateCreated : Date.now() });
 
 module.exports = scrapersDb;

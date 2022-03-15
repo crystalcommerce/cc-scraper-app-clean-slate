@@ -84,7 +84,8 @@ class Route {
         
         let writeRouteResult = await writeFile(this.filePath, content);
 
-        return {writeRouteResult};
+
+        return { writeRouteResult };
     };
 
     static async getRouteObject(filesArr)    {

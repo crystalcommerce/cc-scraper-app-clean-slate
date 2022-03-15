@@ -4,7 +4,7 @@ const { toUrl, toCapitalizeAll, toNormalString } = require("../../utilities/stri
 
 // modelInstances
 const dbInstances = require("../../models");
-const { scrapersDb, siteResourcesDb, productSetsDb } = dbInstances;
+const { scrapersDb, productSetMetaDb, productSetsDb } = dbInstances;
 
 // classes
 const Scraper = require("../../models/classes/scraper");
@@ -66,72 +66,106 @@ module.exports = function()   {
     }
 
     // create
-    async function create(req, res)   {
-        res.setHeader("Content-type", "application/json");
+    async function create(req, res, next)   {
+        try{
 
-        let { 
+            let { 
+                    productCategory,
+                    siteName,
+                    siteUrl, 
+                    productBrand, 
+                    imagePropName,
+                    imageNameObject,
+                    csvExcludedProps,
+                    modelObjectOptions, 
+                    routeObjectOptions, 
+                    scriptCode,
+                    usage,
+                    groupIdentifierKey,
+                } = req.body,
+                scraperObject = new Scraper(productCategory, siteName, siteUrl, productBrand),
+                scriptFilePath,
+                apiRoute = `/api/${scraperObject.routeObject.routeName}`;
+
+            await scraperObject.scriptObject.getScriptFilePath();
+            scriptFilePath = scraperObject.scriptObject.scriptFilePath;
+
+            // check first if we already have a scraper with the same 
+                // - productCategory,
+                // - siteUrl,
+                // - siteName,
+                // - productBrand,
+            let foundScraperDetails = await scrapersDb.getOneByFilter({
+                productCategory,
+                siteUrl,
+                siteName,
+                productBrand,
+            });
+
+            if(foundScraperDetails) {
+                throw Error(`We already have a scraper with the same product category : ${productCategory}, site URL : ${siteUrl}, site name : ${siteName}, and product brand : ${productBrand}.`);
+            }
+
+
+            // create a productsMeta data; // we're not checkiing if there's already a resource, it will fail if there is already;
+            // but the process still has to go on.
+            
+            let productMeta = {productCategory, siteName, siteUrl, productBrand};
+            
+            await Promise.all(Object.keys(productMeta).map(async key => {
+                await productSetMetaDb.create({
+                    metaKey : key,
+                    metaValue : productMeta[key],
+                });
+            }))
+
+
+            
+
+            let createScraperResult = await scrapersDb.create({
                 productCategory,
                 siteName,
-                siteUrl, 
-                productBrand, 
+                siteUrl,
+                productBrand,
                 imagePropName,
                 imageNameObject,
+                scriptCode,
                 csvExcludedProps,
-                modelObjectOptions, 
-                routeObjectOptions, 
-                evaluatorObjects,
+                scriptFilePath,
                 usage,
+                apiRoute,
                 groupIdentifierKey,
-            } = req.body,
-            scraperObject = new Scraper(productCategory, siteName, siteUrl, productBrand),
-            scriptFilePath,
-            apiRoute = `/api/${scraperObject.routeObject.routeName}`;
-
-        await scraperObject.scriptObject.getScriptFilePath();
-        scriptFilePath = scraperObject.scriptObject.scriptFilePath;
-
-
-        // create a siteResources data; // we're not checkiing if there's already a resource, it will fail if there is already;
-        // but the process still has to go on.
-        await siteResourcesDb.create({
-            siteUrl : scraperObject.siteUrl,
-            siteName : scraperObject.siteName,
-        });
-
-        // save the scraper in the database;
-        scrapersDb.create({
-            siteUrl : siteResource.siteUrl,
-            siteName : siteResource.siteName,
-            productBrand,
-            imagePropName,
-            imageNameObject,
-            evaluatorObjects,
-            csvExcludedProps,
-            scriptFilePath,
-            usage,
-            apiRoute,
-            groupIdentifierKey,
-            modelObjectOptions,
-            routeObjectOptions,
-        })
-            .then(result => {
-                try {   
-                    // create the files
-                    scraperObject.createScraper(modelObjectOptions, routeObjectOptions, evaluatorObjects);
-                    
-                    res.send(JSON.stringify(result, null, 4));
-                }
-                catch(err)  {
-                    
-                }
-                
-            })
-            .catch(err => {
-                res.status(403).send(JSON.stringify({status : 403, message : err.message}, null, 4));
+                modelObjectOptions,
+                routeObjectOptions,
             });
+
+            if(createScraperResult.statusOk === false)   {
+                throw Error("We were unable to save the Scraper details.");
+            }
+
+            // we create the files here;
+
+            let createFileResult = await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, scriptCode);
+
+            if(createFileResult.statusOk === false) {
+                throw Error(createFileResult.message);
+            }
+
+
+            req.requestResult = {status : 200, message : "We have successfully created the necessary scraper files, and have also saved the scraper details into our database.", data : createScraperResult.data};
+
+            next();
+
+        } catch(err)    {
+            req.requestResult = {status : 403, message : err.message};
+
+            nodeRestart();
+
+            next();
+        }
     }
 
-    async function scraperRewriteAll(req, res) {
+    async function scraperRewriteAll(req, res, next) {
         res.setHeader("Content-type", "application/json");
 
         try {
@@ -189,7 +223,7 @@ module.exports = function()   {
         }
     }
 
-    async function scraperRewrite(req, res) {
+    async function scraperRewrite(req, res, next) {
         res.setHeader("Content-type", "application/json");
         try {
             let { id : scraperId } = req.params,
@@ -219,7 +253,7 @@ module.exports = function()   {
     }
 
     // updating is as simple as overwriting the evaluator objects;
-    async function update(req, res) {
+    async function update(req, res, next) {
 
         res.setHeader("Content-type", "application/json");
 
@@ -250,7 +284,7 @@ module.exports = function()   {
     }
 
 
-    async function updateScraperDetails(req, res) {
+    async function updateScraperDetails(req, res, next) {
 
         res.setHeader("Content-type", "application/json");
 
@@ -281,49 +315,53 @@ module.exports = function()   {
     }
 
     // delete a scraper
-    async function deleteOne(req, res)    {
-        res.setHeader("Content-type", "application/json");
+    async function deleteScraperScript(req, res, next)    {
+        
         try{
             let scraperObject = await scrapersDb.getById(req.params.id),
-                {siteName, productBrand} = scraperObject,
+                { siteName, productBrand } = scraperObject,
                 collectionName = `${siteName} ${productBrand}`,
                 foundModel = await Model.getModelByName(toUrl(collectionName)),
                 productSets = await productSetsDb.getAllFilteredData({productBrand}),
                 scrapedFilesPath = path.join(process.cwd(), "data", toUrl(siteName), toUrl(productBrand));
             
+
+            // delete just the script
+            let deleteResult = Scraper.deleteScraperScript(path.join(process.cwd(), scraperObject.scriptFilePath));
+
             
-            scrapersDb.delete(req.params.id)
-                .then(async result => {
+            // scrapersDb.delete(req.params.id)
+            //     .then(async result => {
 
 
-                    await Scraper.deleteScraper(siteName, productBrand);
+            //         await Scraper.deleteScraper(siteName, productBrand);
 
-                    // if(!foundModel)  {
-                    //     throw Error(`Collection Model does not exist.`);
-                    // }
-                    // await new Promise(resolve => setTimeout(() => {
-                    //     mongoose.connection.db.dropCollection(`${foundModel.camelCaseName.toLowerCase()}s`, function(err, result2)    {
-                    //         Scraper.deleteScraper(siteName, productBrand);
-                    //         resolve();
-                    //     });
-                    // }, 1500));
-                    // for(let productSet of productSets)  {
-                    //     await productSetsDb.delete(productSet._id);
-                    // }
+            //         // if(!foundModel)  {
+            //         //     throw Error(`Collection Model does not exist.`);
+            //         // }
+            //         // await new Promise(resolve => setTimeout(() => {
+            //         //     mongoose.connection.db.dropCollection(`${foundModel.camelCaseName.toLowerCase()}s`, function(err, result2)    {
+            //         //         Scraper.deleteScraper(siteName, productBrand);
+            //         //         resolve();
+            //         //     });
+            //         // }, 1500));
+            //         // for(let productSet of productSets)  {
+            //         //     await productSetsDb.delete(productSet._id);
+            //         // }
             
-                    // // we need to delete the data first so we can also delete the images...
-                    // // we can delete the entire data in the productsBrand folder
-                    // if(fileExists(scrapedFilesPath))  {
-                    //     await deleteAllInDirPath(scrapedFilesPath);
-                    // }
+            //         // // we need to delete the data first so we can also delete the images...
+            //         // // we can delete the entire data in the productsBrand folder
+            //         // if(fileExists(scrapedFilesPath))  {
+            //         //     await deleteAllInDirPath(scrapedFilesPath);
+            //         // }
 
-                    res.send(JSON.stringify({message : "We have successfully deleted the scraper.", statusOk : true, status : 200}));
+            //         res.send(JSON.stringify({message : "We have successfully deleted the scraper.", statusOk : true, status : 200}));
 
-                    nodeRestart();
-                })
-                .catch(err => {
-                    res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4))
-                });
+            //         nodeRestart();
+            //     })
+            //     .catch(err => {
+            //         res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4))
+            //     });
             
         }
         catch(err)  {
@@ -332,7 +370,7 @@ module.exports = function()   {
         }
     }
 
-    async function deleteSMR(req, res)  {
+    async function deleteSMR(req, res, next)  {
         res.setHeader("Content-type", "application/json");
         try{
             let scraperObject = await scrapersDb.getById(req.params.id),

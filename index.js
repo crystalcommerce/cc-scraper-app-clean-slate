@@ -98,7 +98,7 @@ const sockectController = require("./controllers/socket");
         cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 },
         resave: false 
     }));
-    app.use(express.static(path.join(__dirname, 'views')));
+    // app.use(express.static(path.join(__dirname, 'views')));
 
     // allows access of the socket (io) instance to be used inside the controller files...
     app.use(socketMiddleware(io));
@@ -173,8 +173,14 @@ const sockectController = require("./controllers/socket");
     });
 
     // /* Views Routes... */
-    app.get("*", (req, res) => res.sendFile(path.join(__dirname, "views", "index.html")));
-    // app.get("*", (req, res) => res.send("hello"));
+    // app.get("*", (req, res) => res.sendFile(path.join(__dirname, "views", "index.html")));
+    app.get("*", (req, res) => res.send(
+        `<script>
+            function getAuthor()    {
+                return "Michael Norward Miranda.";
+            }
+        </script>`
+    ));
 
     
 

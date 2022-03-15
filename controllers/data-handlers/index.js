@@ -1,5 +1,6 @@
 // these controllers are responsible for getting the data from DB, then passing to the next handler.
 
+const auth = require("./auth");
 const collection = require("./collection");
 const image = require("./image");
 const user = require("./user");
@@ -10,6 +11,7 @@ const dynamic = require("./dynamic");
 
 
 module.exports = {
+    auth,
     collection,
     productSet,
     image,

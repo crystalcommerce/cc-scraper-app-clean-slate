@@ -9,13 +9,11 @@ module.exports = function(io)   {
     class StandardScraperScript {
 
         constructor(scraperOptions)    {
-            const {
-                // coming from siteResource object;
-                siteName,
-                siteUrl,
-    
+            const {  
                 // coming from scrapersDb data;
                 productCategory,
+                siteName,
+                siteUrl,
                 productBrand,
                 imageNameObject,
                 imagePropName,
@@ -24,7 +22,7 @@ module.exports = function(io)   {
                 // coming from user input;
                 startingPointUrl,
                 
-                // evaluatorObjects saved on to our scripts folder;
+                // scriptObject saved on to our scripts folder; args, getSingleProduct, getAllProducts
                 scriptObject,
             } = scraperOptions;
     
@@ -98,9 +96,15 @@ module.exports = function(io)   {
         }
         
         getScriptProperties()   {
-            this.requiredArgs = this.scriptObject.args.map(key => this[key]);
-            this.getAllProducts = this.scriptObject.getAllProducts;
-            this.getSingleProduct = this.scriptObject.getSingleProduct;
+            if(this.scriptObject.args.length)  {
+                this.requiredArgs = this.scriptObject.args.map(key => this[key]);
+            }
+            if(typeof this.scriptObject.getAllProducts !== "undefined") {
+                this.getAllProducts = this.scriptObject.getAllProducts;
+            }
+            if(typeof this.scriptObject.getSingleProduct !== "undefined")   {
+                this.getSingleProduct = this.scriptObject.getSingleProduct;
+            }
         }
 
         async executeScript()   {

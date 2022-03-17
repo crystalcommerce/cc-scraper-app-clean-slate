@@ -32,6 +32,14 @@ const scraperSchema = new Schema({
         type : Array,
         required : true,
     },
+    modelFilePath : {
+        type : String,
+        required : true,
+    },
+    routeFilePath : {
+        type : String,
+        required : true,
+    },
     scriptFilePath : {
         type : String,
         required : true,
@@ -52,12 +60,6 @@ const scraperSchema = new Schema({
         type : String,
         required : false,
     },
-    permissionLevel : {
-        type : Number,
-        required : true,
-        default : 2,
-    },
-
     modelObjectOptions : {
         type : Object,
         required : true,
@@ -71,7 +73,7 @@ const scraperSchema = new Schema({
         type : String,
         required  : true,
     },
-    active : {
+    isActive : {
         type : Boolean,
         required : true,
         default : true,

@@ -22,13 +22,11 @@ module.exports = function()   {
 
 
     /* +++++++ Update a Scraper ++++++++ */
-    // Note : this only allows updating the evaluator functions;
+    // update everything;
     router.put("/:id", getMiddleWaresByName("update"));
 
-    router.put("/data/:id", getMiddleWaresByName("updateScraperDetails"));
-
     // scraperRewriteALl
-    router.post("/rewriteAll", getMiddleWaresByName("scraperRewriteAll"));
+    router.post("/rewrite-all", getMiddleWaresByName("scraperRewriteAll"));
 
     // rewriteScraper
     router.post("/:id", getMiddleWaresByName("scraperRewrite"));
@@ -36,9 +34,9 @@ module.exports = function()   {
 
     /* +++++++ delete a Scraper ++++++++ */
 
-    router.delete("/smr/:id", getMiddleWaresByName("deleteSMR"));
+    router.delete("/delete-script/:id", getMiddleWaresByName("deleteScript"));
 
-    router.delete("/:id", getMiddleWaresByName("deleteOne"));
+    router.delete("/:id", getMiddleWaresByName("deleteScraperScript")); // delete all files and db data
 
     return router;
 }

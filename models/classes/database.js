@@ -251,11 +251,11 @@ module.exports = function(model) {
         }
 
         async getById(id)    {
-            return await this.model.findById(id);
+            return await this.model.findById(id).lean().exec();
         }
 
         async getOneByFilter(filter)    {
-            return await this.model.findOne(filter).exec();
+            return await this.model.findOne(filter).lean().exec();
         }
 
         async getAllFilteredData(filter)  {

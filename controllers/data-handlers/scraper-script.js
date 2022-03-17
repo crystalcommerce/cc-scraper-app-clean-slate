@@ -1,8 +1,8 @@
 const crypto = require("crypto");
+const path = require("path");
 const { scrapersDb, productSetsDb } = require("../../models");
 const fileZipper = require("../../core/file-zipper");
 const { fileExists, createDirPath } = require("../../utilities/file-system");
-const path = require("path");
 const csvDataWriter = require("../../core/csv-data-writer");
 const Model = require("../../models/classes/model");
 const { toUrl } = require("../../utilities/string");
@@ -13,6 +13,7 @@ module.exports = function()   {
         try {
             let scraperData = await scrapersDb.getById(req.params.id),
                 {   
+                    productCategory,
                     siteName,
                     productBrand,
                     siteUrl,
@@ -24,11 +25,12 @@ module.exports = function()   {
                     groupIdentifierKey,
                 } = scraperData,
                 groupIdentifier = req.body.groupIdentifier ? req.body.groupIdentifier : "",
-                scraperOptions = { ...req.body, productSet : groupIdentifier, siteName, siteUrl, productBrand, imagePropName, imageNameObject, csvExcludedProps },
-                getScraperObject = require(`../../${scriptFilePath}`),
-                scraperScript = getScraperObject(io, scraperOptions);
+                scraperOptions = { ...req.body, productSet : groupIdentifier, productCategory, siteName, siteUrl, productBrand, imagePropName, imageNameObject, csvExcludedProps },
+                absoluteScriptFilePath = path.resolve("..", "..", `${scriptFilePath}.js`),
+                getScraperObject = require(absoluteScriptFilePath), // this is where we get the scriptObject;
+                scraperScript = getScraperObject(io, scraperOptions); // TODO : configure this
 
-
+            delete require.cache([absoluteScriptFilePath]);  
             let scriptId = crypto.randomBytes(4).toString("hex");
                 
     

@@ -6,7 +6,6 @@
     Rewriting is necessary when the container of the app, restarts, and all files reverts back to the ones that were piped from the github repo.
 
 */
-const { nodeRestart } = require("../utilities");
 const { scrapersDb } = require("../models");
 const Scraper = require("../models/classes/scraper");
 const { fileExists, writeFile, getAllFilesFromDirectory } = require("../utilities/file-system");
@@ -30,9 +29,8 @@ module.exports = async function(req, res, next)   {
 
             for(let scraper of scrapers)    {
                 try {
-                    let { siteName, siteUrl, productBrand, modelObjectOptions, routeObjectOptions, evaluatorObjects } = scraper,
-                        siteResource = {siteName, siteUrl},
-                        scraperObject = new Scraper(siteResource, productBrand);
+                    let { productCategory, siteName, siteUrl, productBrand, modelObjectOptions, routeObjectOptions, evaluatorObjects } = scraper,
+                        scraperObject = new Scraper(productCategory, siteName, siteUrl, productBrand);
                     
                     await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, evaluatorObjects);
                     // console.log("we're rewriting... no more deleting...")
@@ -52,7 +50,7 @@ module.exports = async function(req, res, next)   {
 
             writeFile(fileProof, JSON.stringify({fileRewrite : true, author : "Michael Norward"}))
                 .then(res => {
-                    nodeRestart();
+                    // nodeRestart();
                 })
                 .catch(err => {
                     console.log(err);

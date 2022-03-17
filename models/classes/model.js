@@ -10,7 +10,8 @@ class Model  {
         this.camelCasedName = toCamelCase(this.fileName, true);
         this.modelInstanceName = `${this.camelCasedName}sDb`;
         this.dirPath = path.join(process.cwd(), "models", "dynamic");
-        this.filePath = path.join(process.cwd(), "models", "dynamic", `${this.fileName}.js`);
+        this.filePath = path.join(this.dirPath, `${this.fileName}.js`);
+        this.modelFilePath = ["models", "dynamic", `${this.fileName}.js`].join("/");
         this.recordName = toCapitalizeAll(this.modelName);
 
         if(!fileExists(this.dirPath))    {
@@ -68,8 +69,6 @@ class Model  {
         content += `module.exports = ${this.modelInstanceName};`;
 
         let writeModelResult = await writeFile(this.filePath, content);
-
-        console.log(writeModelResult);
 
         return { writeModelResult };
     }
@@ -146,6 +145,10 @@ class Model  {
         } else  {
             return {statusOk : false, message : "Model does not exist."};
         }
+    }
+
+    static async deleteModelByFilePath(modelFilePath)   {
+        return await deleteFile(path.join(process.cwd(), modelFilePath));
     }
 
 }

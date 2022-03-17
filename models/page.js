@@ -21,11 +21,6 @@ const pageSchema = new Schema({
         type : String,
         required : true,
     },
-    permissionLevel : {
-        type : Number,
-        required : true,
-        default : 1,
-    },
     visibility : {
         type : String,
         required : true,

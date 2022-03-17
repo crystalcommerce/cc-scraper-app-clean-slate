@@ -1,10 +1,9 @@
 const path = require("path");
 const { fileExists, deleteFile } = require("../../utilities/file-system");
-const { toCapitalizeAll, toUrl, toNormalString, getInitials } = require("../../utilities/string");
+const { getInitials } = require("../../utilities/string");
 const Model = require("./model");
 const Route = require("./route");
 const Script = require("./script");
-// const ScraperScript = require("../../core");
 
 class Scraper {
 
@@ -18,22 +17,40 @@ class Scraper {
         this.routeObject = new Route(`${getInitials(this.productCategory)} ${this.siteName} ${this.productBrand}`);
         this.scriptObject = new Script(this.productCategory, this.siteName, this.productBrand);
 
-        this.scriptFilePath;
+        this.modelFilePath = this.modelObject.modelFilePath;
+        this.routeFilePath = this.routeObject.routeFilePath;
+        this.scriptFilePath = this.scriptObject.scriptFilePath;
+    }
+
+    static async instantiateByObject(scraperObject)   {
+        
+        let {productCategory, siteName, siteUrl, productBrand, modelFilePath, routeFilePath, scriptFilePath} = scraperObject;
+
+        let scraperObjectInstance = new Scraper(productCategory, siteName, siteUrl, productBrand)
+
+        scraperObjectInstance.scriptObject.scriptFilePath = scriptFilePath;
+
+        scraperObjectInstance.modelFilePath = modelFilePath;
+        scraperObjectInstance.routeFilePath = routeFilePath;
+        scraperObjectInstance.scriptFilePath = scriptFilePath;
+
+        return scraperObjectInstance;
+    }
+
+    getCollectionName() {
+        return `${this.modelObject.camelCasedName.toLowerCase()}s`;
     }
 
     async createModelObject(schema, initializedProps) {
-        // this.modelObject = new Model(`${this.siteName} ${this.productBrand}`);
         return await this.modelObject.createModel(schema, initializedProps);
     }
 
     async createRouteObject(modelInstanceName, pluralized = false)   {
-        // this.routeObject = new Route(`${this.siteName} ${this.productBrand}`);
         return await this.routeObject.createRoute( modelInstanceName, pluralized);
     }
 
     async createScript(scriptCode)    {
-        // this.scriptObject = new Script(this.siteName, this.productBrand);
-        return await this.scriptObject.initialize(scriptCode);
+        return await this.scriptObject.createScriptFile(scriptCode);
     }
 
     async createScraper(modelObjectOptions, routeObjectOptions, scriptCode)   {
@@ -80,20 +97,50 @@ class Scraper {
 
     }
 
-
-    static async updateScraper(scriptFilePath, scriptCode) {
-        await this.scriptObject.updateScript(scriptFilePath, scriptCode);
+    async updateScraper(scriptCode) {
+        await Script.updateScript(this.scriptFilePath, scriptCode);
     }
     // reading and updating shall be done in the scrapersDB model with its controller.
 
-    static async deleteScraperScript(scriptFilePath)  {
-        return await Script.deleteScript(scriptFilePath);
+    async deleteScript()  {
+        return await Script.deleteScriptByFilePath(this.scriptFilePath);
     }
 
-    static async deleteScraperSMR(siteName, productBrand)   {
-        await Route.deleteRouteByName(toNormalString(toUrl(`${siteName} ${productBrand}`), "url"));
-        await Model.deleteModelByName(toUrl(`${siteName} ${productBrand}`));
-        await Script.deleteScript(siteName, productBrand);
+    async deleteScraperScript()   {
+        try {
+            
+            if(fileExists(path.join(process.cwd(), this.modelFilePath)))   {
+                let deleteModelFileResult = await Model.deleteModelByFilePath(this.modelFilePath);
+                if(!deleteModelFileResult.result)    {
+                    throw Error(deleteModelFileResult.message);
+                }
+            }
+            
+            if(fileExists(path.join(process.cwd(), this.routeFilePath)))   {
+                let deleteRouteFileResult = await Route.deleteRouteByFilePath(this.routeFilePath);
+                if(!deleteRouteFileResult.result)    {
+                    throw Error(deleteRouteFileResult.message);
+                }
+            }
+
+            if(fileExists(path.join(process.cwd(), this.scriptFilePath)))   {
+                let deleteScriptResult = await Script.deleteScriptByFilePath(this.scriptFilePath);
+                if(!deleteScriptResult.result)    {
+                    throw Error(deleteScriptResult.message);
+                }
+            }
+
+            return {
+                statusOk : true,
+                message : `We have successfully deleted the scraper files.`,
+            }
+        } catch(err)    {
+            return {
+                statusOk : false,
+                message : err.message,
+            }
+        }
+        
     }
 
 }

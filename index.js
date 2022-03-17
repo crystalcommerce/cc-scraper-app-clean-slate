@@ -120,59 +120,12 @@ const sockectController = require("./controllers/socket");
  * 
  ***********************/
 
-
-    app.use((req, res, next) => {
-        // console.log("user");
-        // console.log(req.user);
-        // console.log("session.user");
-        // console.log(req.session.user);
-
-        next();
-    }, allRoutes());
+    /* All Routes... */
+    app.use(allRoutes());
 
 
-    app.get("/zipped-file", async function(req, res, next)  {
-        const archive = archiver('zip', {
-            zlib: { level: 9 } // Sets the compression level.
-        });
-
-
-        archive.pipe(res);
-
-        // good practice to catch warnings (ie stat failures and other non-blocking errors)
-        archive.on('warning', function(err) {
-            if (err.code === 'ENOENT') {
-                // log warning
-            } else {
-                // throw error
-                throw err;
-            }
-        });
-
-        // good practice to catch this error explicitly
-        archive.on('error', function(err) {
-            throw err;
-        });
-
-        // pipe archive data to the file
-        
-
-        // append a file from stream
-        const dir = __dirname + '/data/tcg-player/cardfight-vanguard/lyrical-melody';
-
-        archive.directory(dir, false);
-        
-
-        // finalize the archive (ie we are done appending files but streams have to finish yet)
-        // 'close', 'end' or 'finish' may be fired right after calling this method so register to them beforehand
-        archive.finalize();
-
-        console.log(archive);
-
-        
-    });
-
-    // /* Views Routes... */
+    
+    /* Views Routes... */
     // app.get("*", (req, res) => res.sendFile(path.join(__dirname, "views", "index.html")));
     app.get("*", (req, res) => res.send(
         `<script>

@@ -12,6 +12,7 @@ class Route {
         this.camelCasedName = toCamelCase(this.routeName, true);
         this.routeDirPath = path.join(process.cwd(), "routes", "dynamic");
         this.filePath = path.join(this.routeDirPath, `${this.fileName}.js`);
+        this.routeFilePath = ["routes", "dynamic", `${this.fileName}.js`].join("/");
         if(!fileExists(this.routeDirPath))  {
             mkdirSync(this.routeDirPath);
         }
@@ -147,6 +148,10 @@ class Route {
         } else  {
             return {statusOk : false, message : "Model does not exist."};
         }
+    }
+
+    static async deleteRouteByFilePath(routeFilePath)    {
+        return await deleteFile(path.join(process.cwd(), routeFilePath));
     }
 
 }

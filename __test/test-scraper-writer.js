@@ -66,5 +66,23 @@ const { readFile } = require("../utilities/file-system");
     let createScraperResult = await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, scriptCode);
     
         console.log(createScraperResult);
+    
+        
 
-}())
+    let duplicate = {...scraperObject};
+    let newInstance = await Scraper.instantiateByObject(duplicate);
+
+    console.log(scraperObject);
+    console.log(newInstance);
+
+    console.log(newInstance === scraperObject);
+
+    setTimeout(async () => {
+
+        
+        let deleteResult = await newInstance.deleteScraperScript();
+
+        console.log(deleteResult);
+    }, 10000);
+
+}());

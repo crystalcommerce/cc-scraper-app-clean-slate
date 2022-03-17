@@ -16,14 +16,19 @@ module.exports = async function(req, res, next)   {
             }(),
             modelObject = await Model.getModelByName(fileName),
             routeObject = modelObject ? await Route.getRouteByName(toCapitalizeAll(toNormalString(modelObject.fileName, "url"))) : null;
+            
 
         if(modelObject && routeObject)  {
-            req.foundApiRoute = await require(path.join(process.cwd(), "routes", "dynamic", routeObject.fileName));
+
+            let filePath = path.join(process.cwd(), "routes", "dynamic", `${routeObject.fileName}.js`);
+            req.dynamicRouteHandler = await require(filePath);
+            delete require.cache[filePath];
+
         }
+
         next();
     } 
     catch(err)  {
-        console.log(err);
         next();
     }
 }

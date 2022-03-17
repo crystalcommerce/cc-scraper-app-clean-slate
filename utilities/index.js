@@ -1,6 +1,6 @@
 function nodeRestart()  {
     setTimeout(function () {
-        process.exit();
+        // process.exit();
     }, 777);
 }
 

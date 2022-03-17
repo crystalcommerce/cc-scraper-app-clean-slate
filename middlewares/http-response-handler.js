@@ -7,6 +7,26 @@ module.exports = function()  {
                 response = data ? getRequestResult(data, status) : getRequestResult({data, status, message}, status);
                 
             res.setHeader("Content-Type", response.contentType).status(response.status).send(response.data);
+
+
+            /**************************************************
+            ***************************************************
+            * 
+            *  We are going to replace the new array of stack 
+            *  with the previous stack before we added 
+            *  the dynamic route handler;
+            * 
+            *  Since arrays are reference data type, 
+            *  we are directly affecting the router object's 
+            *  array of stack which are the route handlers;
+            *  
+            **************************************************
+            *************************************************/
+
+            if(req.dynamicRouter && req.previousStack)   {
+                req.dynamicRouter.stack = req.previousStack;
+            }
+
         } else  {
 
             next();

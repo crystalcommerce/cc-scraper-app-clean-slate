@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const path = require("path");
-const { toUrl, toCapitalizeAll, toNormalString } = require("../../utilities/string");
+const { toUrl, toCapitalizeAll, toNormalString, getInitials } = require("../../utilities/string");
 
 // modelInstances
 const dbInstances = require("../../models");
@@ -10,9 +10,6 @@ const { scrapersDb, productSetMetaDb, productSetsDb } = dbInstances;
 const Scraper = require("../../models/classes/scraper");
 const Model = require("../../models/classes/model");
 const { deleteAllInDirPath, fileExists } = require("../../utilities/file-system");
-
-// utility
-const { nodeRestart } = require("../../utilities");
 
 
 module.exports = function()   {
@@ -65,6 +62,23 @@ module.exports = function()   {
 
     }
 
+    // getALlFiltered
+    async function getAllFiltered(req, res, next) {
+
+        try {
+            let result = await scrapersDb.getAllFilteredData(req.query);
+            req.requestResult = {data : result , status : 200};
+            next();
+        } catch(err)    {
+            req.requestResult = {
+                message : err.message,
+                status : 404,
+            };
+            next();
+        }
+
+    }
+
     // create
     async function create(req, res, next)   {
         try{
@@ -84,11 +98,9 @@ module.exports = function()   {
                     groupIdentifierKey,
                 } = req.body,
                 scraperObject = new Scraper(productCategory, siteName, siteUrl, productBrand),
-                scriptFilePath,
+                { modelFilePath, routeFilePath, scriptFilePath } = scraperObject,
                 apiRoute = `/api/${scraperObject.routeObject.routeName}`;
 
-            await scraperObject.scriptObject.getScriptFilePath();
-            scriptFilePath = scraperObject.scriptObject.scriptFilePath;
 
             // check first if we already have a scraper with the same 
                 // - productCategory,
@@ -117,11 +129,9 @@ module.exports = function()   {
                     metaKey : key,
                     metaValue : productMeta[key],
                 });
-            }))
+            }));
 
-
-            
-
+            // saving the details into our database.
             let createScraperResult = await scrapersDb.create({
                 productCategory,
                 siteName,
@@ -131,6 +141,8 @@ module.exports = function()   {
                 imageNameObject,
                 scriptCode,
                 csvExcludedProps,
+                modelFilePath,
+                routeFilePath,
                 scriptFilePath,
                 usage,
                 apiRoute,
@@ -158,9 +170,6 @@ module.exports = function()   {
 
         } catch(err)    {
             req.requestResult = {status : 403, message : err.message};
-
-            nodeRestart();
-
             next();
         }
     }
@@ -204,8 +213,6 @@ module.exports = function()   {
                     }, null, 4));
                     resolve();
                 });
-                
-                nodeRestart();
 
             } else  {
                 res.send(JSON.stringify({
@@ -241,8 +248,6 @@ module.exports = function()   {
                 message : "We have re-written the scraper.",
             }, null, 4));
 
-            nodeRestart();
-
         }
         catch(err)  {
             res.status(403).send(JSON.stringify({
@@ -252,185 +257,142 @@ module.exports = function()   {
         }
     }
 
-    // updating is as simple as overwriting the evaluator objects;
-    async function update(req, res, next) {
-
-        res.setHeader("Content-type", "application/json");
-
-        let scraperDetails = req.body,
-            { evaluatorObjects, usage, groupIdentifierKey, csvExcludedProps, modelObjectOptions, routeObjectOptions } = scraperDetails,
-            { siteName, siteUrl, productBrand } = scraperDetails;
-            scraperObject = new Scraper({siteName, siteUrl}, productBrand);
-
+    // updates the details of the scraper from db, and also in the 
+    async function update(req, res, next) {        
         
-        // updating the scraper details in the db...    
         try {
-            await scrapersDb.update(req.params.id, { evaluatorObjects, usage, groupIdentifierKey, csvExcludedProps, modelObjectOptions });
-            await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, evaluatorObjects);
+            let { 
+                    productCategory : newProductCategory,
+                    siteName : newSiteName,
+                    productBrand : newProductBrand,
+                } = req.body,
+                scraperObjectFromDb = await scrapersDb.getById(req.params.id);
+            
+            // check if we have an item with that id...
+            if(!scraperObjectFromDb) {
+                throw Error(`We didn't find a scraper with an id of ${req.params.id}`);
+            }
 
-            res.send({
-                message : "We have successfully updated the evaluators of this scraper script.",
-                statusOk : true,
+            let dataObjectParam = {...scraperObjectFromDb, ...req.body},
+                { productCategory : oldProductCategory, siteName : oldSiteName, productBrand : oldProductBrand } = scraperObjectFromDb,
+                { productCategory, siteName, siteUrl, productBrand, modelObjectOptions, routeObjectOptions, scriptCode } = dataObjectParam,
+                scraperObject;
+            
+
+            // check if files will have to be just overwritten or if we need to delete them, and then create new files;
+            if(newProductCategory !== oldProductCategory || newSiteName !== oldSiteName || newProductBrand !== oldProductBrand) {
+
+                let oldScraperObject = await Scraper.instantiateByObject(scraperObjectFromDb),
+                    deleteFilesResult = await oldScraperObject.deleteScraperScript();
+
+                if(!deleteFilesResult.statusOk)  {
+                    throw Error(deleteFilesResult.message);
+                }
+                // we instantiate a new object
+                scraperObject = new Scraper(productCategory, siteName, siteUrl, productBrand);
+                
+            } else  {
+                // we reinstantiate the Scraper class;
+                scraperObject = await Scraper.instantiateByObject(dataObjectParam);
+            }
+
+            console.log(scraperObject);
+
+            // we recreate the files...
+            let createFileResult = await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, scriptCode),
+                {modelFilePath, routeFilePath, scriptFilePath} = scraperObject;
+            if(createFileResult.statusOk === false) {
+                throw Error(createFileResult.message);
+            }
+
+            console.log({modelFilePath, routeFilePath, scriptFilePath});
+
+            // updating data from db... this has to come after files have been created...
+            let updateResult = await scrapersDb.update(req.params.id, {...req.body, modelFilePath, routeFilePath, scriptFilePath});
+            if(updateResult.statusOk === false) {
+                throw Error(`We had problems updating the data`);
+            }   
+
+
+            // if we get to this point it means everything went as how we intended it to.
+            req.requestResult = {
+                message : "We have successfully updated the files related to this scraper and its saved details in our database.",
                 status : 200,
-            });  
+                data : updateResult
+            };
+            next();  
             
-            nodeRestart();
         } catch(err)    {
-            res.send(JSON.stringify({
-                statusOk : false, 
-                message : err.message, 
-            }, null, 4)); 
+            req.requestResult = {status : 403,  message : err.message};
+            next();
         }
     }
 
-
-    async function updateScraperDetails(req, res, next) {
-
-        res.setHeader("Content-type", "application/json");
-
-        let scraperDetails = req.body;
-
+    // deletes just the script and puts the scraper in an inactive status;
+    async function deleteScript(req, res, next)    {
         
-        // updating the scraper details in the db...    
-        scrapersDb.update(req.params.id, scraperDetails)
-        .then(response => {
-            console.log(response);
+        try {
+            let scraperObjectFromDb = await scrapersDb.getById(req.params.id),
+                scraperObject = await Scraper.instantiateByObject(scraperObjectFromDb),
+                deleteResult = await scraperObject.deleteScript();
+
+            if(!deleteResult.result)    {
+                throw Error(deleteResult.message);
+            }
+
+            let updateResult = await scrapersDb.update(req.params.id, { isActive : false });
+
+            req.requestResult = {status : 200, message : "We have successfully deleted the script file, and have placed this scraper on inactive status.", data : updateResult.data};
             
-            res.send(JSON.stringify({
-                statusOk : true, 
-                message : "We have successfully updated the scraper details.", 
-                data : scraperDetails
-            }, null, 4));      
-            
-            nodeRestart();
-
-        })
-        .catch(err => {
-            res.send(JSON.stringify({
-                statusOk : false, 
-                message : err.message, 
-            }, null, 4)); 
-        }); 
-        
-    }
-
-    // delete a scraper
-    async function deleteScraperScript(req, res, next)    {
-        
-        try{
-            let scraperObject = await scrapersDb.getById(req.params.id),
-                { siteName, productBrand } = scraperObject,
-                collectionName = `${siteName} ${productBrand}`,
-                foundModel = await Model.getModelByName(toUrl(collectionName)),
-                productSets = await productSetsDb.getAllFilteredData({productBrand}),
-                scrapedFilesPath = path.join(process.cwd(), "data", toUrl(siteName), toUrl(productBrand));
-            
-
-            // delete just the script
-            let deleteResult = Scraper.deleteScraperScript(path.join(process.cwd(), scraperObject.scriptFilePath));
-
-            
-            // scrapersDb.delete(req.params.id)
-            //     .then(async result => {
-
-
-            //         await Scraper.deleteScraper(siteName, productBrand);
-
-            //         // if(!foundModel)  {
-            //         //     throw Error(`Collection Model does not exist.`);
-            //         // }
-            //         // await new Promise(resolve => setTimeout(() => {
-            //         //     mongoose.connection.db.dropCollection(`${foundModel.camelCaseName.toLowerCase()}s`, function(err, result2)    {
-            //         //         Scraper.deleteScraper(siteName, productBrand);
-            //         //         resolve();
-            //         //     });
-            //         // }, 1500));
-            //         // for(let productSet of productSets)  {
-            //         //     await productSetsDb.delete(productSet._id);
-            //         // }
-            
-            //         // // we need to delete the data first so we can also delete the images...
-            //         // // we can delete the entire data in the productsBrand folder
-            //         // if(fileExists(scrapedFilesPath))  {
-            //         //     await deleteAllInDirPath(scrapedFilesPath);
-            //         // }
-
-            //         res.send(JSON.stringify({message : "We have successfully deleted the scraper.", statusOk : true, status : 200}));
-
-            //         nodeRestart();
-            //     })
-            //     .catch(err => {
-            //         res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4))
-            //     });
-            
+            next();
         }
         catch(err)  {
 
-            res.status(403).send(JSON.stringify({status : 403, message : err.message}, null, 4));
+            req.requestResult = {status : 403, message : err.message};
+            next();
+
         }
     }
 
-    async function deleteSMR(req, res, next)  {
-        res.setHeader("Content-type", "application/json");
+    // deletes all files (model, route, script) and the data from the scrapers table
+    async function deleteScraperScript(req, res, next)  {
+
         try{
-            let scraperObject = await scrapersDb.getById(req.params.id),
-                {siteName, productBrand} = scraperObject,
-                collectionName = `${siteName} ${productBrand}`,
-                foundModel = await Model.getModelByName(toUrl(collectionName)),
-                productSets = await productSetsDb.getAllFilteredData({productBrand}),
-                scrapedFilesPath = path.join(process.cwd(), "data", toUrl(siteName), toUrl(productBrand));
-            
-            
-            scrapersDb.delete(req.params.id)
-                .then(async result => {
+            let scraperObjectFromDb = await scrapersDb.getById(req.params.id),
+                scraperObject = await Scraper.instantiateByObject(scraperObjectFromDb);
 
 
-                    await Scraper.deleteScraperSMR(siteName, productBrand);
+            let deleteFilesResult = await scraperObject.deleteScraperScript();
+            if(!deleteFilesResult.statusOk)  {
+                throw Error(deleteFilesResult.message);
+            }
 
-                    if(!foundModel)  {
-                        throw Error(`Collection Model does not exist.`);
-                    }
-                    await new Promise(resolve => setTimeout(() => {
-                        mongoose.connection.db.dropCollection(`${foundModel.camelCaseName.toLowerCase()}s`, function(err, result2)    {
-                            Scraper.deleteScraperSMR(siteName, productBrand);
-                            resolve();
-                        });
-                    }, 1500));
-                    for(let productSet of productSets)  {
-                        await productSetsDb.delete(productSet._id);
-                    }
-            
-                    // we need to delete the data first so we can also delete the images...
-                    // we can delete the entire data in the productsBrand folder
-                    if(fileExists(scrapedFilesPath))  {
-                        await deleteAllInDirPath(scrapedFilesPath);
-                    }
+            let deleteDbDetailsResult = await scrapersDb.delete(req.params.id);
+            if(!deleteDbDetailsResult.statusOk) {
+                throw Error(deleteDbDetailsResult.message);
+            }
+           
+            req.requestResult = {status : 200, message : `We have successfully deleted the all the files related to this scraper script, and all of the related data that we have from the database.`};
 
-                    res.send(JSON.stringify({message : "We have successfully deleted the scraper.", statusOk : true, status : 200}));
-
-                    nodeRestart();
-                })
-                .catch(err => {
-                    res.status(404).send(JSON.stringify({status : 404, message : err.message}, null, 4))
-                });
-            
+            next();
         }
         catch(err)  {
-
-            res.status(403).send(JSON.stringify({status : 403, message : err.message}, null, 4));
+            req.requestResult = {status : 403, message : err.message};
+            next();
         }
+
     }
 
     return {
         getAll,
         getOneById,
         getOneByFilter,
+        getAllFiltered,
         create,
         update,
-        deleteOne,
-        deleteSMR,
-        updateScraperDetails,
         scraperRewriteAll,
         scraperRewrite,
+        deleteScript, // deletes the script only
+        deleteScraperScript,
     }
 }

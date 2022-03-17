@@ -68,7 +68,7 @@ function objectToQueryString(object) {
 }
 
 function getInitials(str)  {
-    return toNormalString(str.trim()).split(" ").map(word => word.charAt(0).toUpperCase()).join("");
+    return typeof str === "string" && str.length ? toNormalString(str.trim()).split(" ").map(word => word.charAt(0).toUpperCase()).join("") : null;
 }
 
 module.exports = { toUrl, enumerate, toCamelCase, toNormalString, toCapitalize, toCapitalizeAll, queryStringToObject, objectToQueryString, getInitials };

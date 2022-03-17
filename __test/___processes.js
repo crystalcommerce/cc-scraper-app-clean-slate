@@ -307,14 +307,14 @@
         }
     -- DONE
 
-    putting auth controller inside the data handler, to allow new middlewares to be added on to the controller just in case we need new ones... e.g. action log handlers...
+    putting auth controller inside the data handler, to allow new middlewares to be added on to the controller just in case we need new ones... e.g. action log handlers... -- DONE
 
     remove site-resource model, routes, controller -- DONE
     replace with product set meta --DONE
 
 
 
-
+    removed the restarting of the app, and used the express' middleware stack to remove the dynamically created middlewares -- DONE
     file -- future project...;
     autoSmrRewrite
     scraper

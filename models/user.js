@@ -20,9 +20,19 @@ const userSchema = new Schema({
         type : String,
         required  : true,
     },
-    permissionLevel : {
-        type : Number,
+    roleName : {
+        type : String,
         required : true,
+    },
+    allPermissionsGranted : {
+        type : Boolean,
+        required : true,
+        default : false,
+    },
+    grantedPermissions : {
+        type : Array,
+        required : true,
+        default : [],
     },
     friendlyUrl : {
         type : String,

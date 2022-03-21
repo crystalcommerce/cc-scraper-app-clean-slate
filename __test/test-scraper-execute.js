@@ -1,4 +1,4 @@
-const scriptObject = require("../scripts/tcg-player/flesh-and-blood");
+const scriptObject = require("./flesh-and-blood-sample/sample-code");
 const { getScraper } = require("../core");
 const StandardScraperScript = getScraper(null);
 
@@ -41,11 +41,11 @@ const StandardScraperScript = getScraper(null);
 
     await scraperScript.executeScript(); // we get the data first,
 
-    await scraperScript.createProductsDirPath(); // order matters... we are setting the setname after scraping, so creating a path must come after
+    // await scraperScript.createProductsDirPath(); // order matters... we are setting the setname after scraping, so creating a path must come after
 
-    await scraperScript.downloadImagesByBulk();
+    // await scraperScript.downloadImagesByBulk();
 
-    await scraperScript.writeProductObjectsToCsv();
+    // await scraperScript.writeProductObjectsToCsv();
 
     // we can then log the productObjects (array) and the unscraped data (also an array);
     console.table(scraperScript.productObjects);

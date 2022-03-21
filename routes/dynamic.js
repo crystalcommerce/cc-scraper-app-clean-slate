@@ -7,7 +7,7 @@ module.exports = function()   {
         if(typeof req.dynamicRouteHandler !== "undefined")  {
 
             // we capture the previous stack here.
-            req.previousStack = [...router.stack]; // this has to be a clone
+            req.previousStack = [...router.stack]; // this has to be a clone of the stack array
             // we set the dynamic router here.
             req.dynamicRouter = router;
             
@@ -21,6 +21,3 @@ module.exports = function()   {
     
     return router;
 }
-
-
-

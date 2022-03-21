@@ -175,89 +175,84 @@ module.exports = function()   {
     }
 
     async function scraperRewriteAll(req, res, next) {
-        res.setHeader("Content-type", "application/json");
 
         try {
-            let scrapers = await scrapersDb.getAll();
-            if(!scrapers)   {
-                throw Error("We couldn't rewrite all the scrapers data.")
+            let scraperObjectsFromDb = await scrapersDb.getAllFilteredData({isActive : true}),
+                promises = [];
+
+            if(!scraperObjectsFromDb.length)   {
+                throw Error("We do not have any stored scrapers to rewrite.")
             }
-            if(scrapers.length) {
+            
 
-                for(let scraper of scrapers)    {
-                    try {
-                        let { siteName, siteUrl, productBrand, modelObjectOptions, routeObjectOptions, evaluatorObjects } = scraper,
-                            siteResource = {siteName, siteUrl},
-                            scraperObject = new Scraper(siteResource, productBrand);
-                        
-                        await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, evaluatorObjects);
-                        // Scraper.deleteScraper(siteName, productBrand)
-                        //     .then(async res => {
-                        //         await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, evaluatorObjects);
-                        //     })
-                        //     .catch(err => {
-                        //         console.log(err);
-                        //     });
-                    }
-                    catch(err)  {
-                        console.log(err);
-                    }
-                }
+            for(let scraperObjectFromDb of scraperObjectsFromDb)    {
+                promises.push(async function() {
+                    let scraperObject = await Scraper.instantiateByObject(scraperObjectFromDb),
+                        { modelObjectOptions, routeObjectOptions, scriptCode } = scraperObjectFromDb;
 
+                    return await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, scriptCode);
+                })
+            }
                 
 
-                await new Promise((resolve, reject) => {
-                    res.send(JSON.stringify({
-                        status : 200,
-                        message : "We have re-written all the scrapers needed.",
-                    }, null, 4));
-                    resolve();
-                });
+            let rewriteAllResult = await Promise.all(promises.map(async callback => await callback()));
 
-            } else  {
-                res.send(JSON.stringify({
-                    status : 200,
-                    message : "There are no scrapers to be rewritten.",
-                }, null, 4));
-            }
+            req.requestResult = {
+                status : 200,
+                message : "We have re-written all the scrapers needed.",
+                data : rewriteAllResult,
+            };
+            next();
             
         }
         catch(err)  {
-            res.send(JSON.stringify({
-                status : 404,
+            req.requestResult = {
+                status : 403,
                 message : err.message,
-            }, null, 4));
+            };
+            next();
         }
     }
 
     async function scraperRewrite(req, res, next) {
-        res.setHeader("Content-type", "application/json");
         try {
             let { id : scraperId } = req.params,
-                scraperData = await scrapersDb.getById(scraperId),
-                { siteName, siteUrl, productBrand, modelObjectOptions, routeObjectOptions, evaluatorObjects } = scraperData,
-                scraperObject = new Scraper({siteName, siteUrl}, productBrand);
+                scraperObjectFromDb = await scrapersDb.getById(scraperId);
+            
+            // check if we have an item with that id...
+            if(!scraperObjectFromDb) {
+                throw Error(`We didn't find a scraper with an id of ${scraperId}`);
+            }
 
-            // await Scraper.deleteScraper(siteName, productBrand);
+            if(!scraperObjectFromDb.isActive)    {
+                throw Error(`Error in writing the script : Just put this scraper in active status to rewrite the script.`);
+            }
+                
+            let scraperObject = await Scraper.instantiateByObject(scraperObjectFromDb),
+                { modelObjectOptions, routeObjectOptions, scriptCode, productCategory, siteName, productBrand } = scraperObjectFromDb,
+                createFileResult = await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, scriptCode);
 
-            await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, evaluatorObjects);
+            if(createFileResult.statusOk === false) {
+                throw Error(createFileResult.message);
+            }
 
-
-            res.send(JSON.stringify({
+            req.requestResult = {
                 status : 200,
-                message : "We have re-written the scraper.",
-            }, null, 4));
+                message : `We have successfully written the scraper for ${productCategory} ${siteName} ${productBrand}.`,
+            };
+            next();
 
         }
         catch(err)  {
-            res.status(403).send(JSON.stringify({
+            req.requestResult = {
                 status : 403,
-                message : "We were not able to rewrite the scraper.",
-            }, null, 4));
+                message : err.message,
+            };
+            next();
         }
     }
 
-    // updates the details of the scraper from db, and also in the 
+    // updates the details of the scraper from db, and also in the related files (script, model, route)
     async function update(req, res, next) {        
         
         try {
@@ -267,11 +262,26 @@ module.exports = function()   {
                     productBrand : newProductBrand,
                 } = req.body,
                 scraperObjectFromDb = await scrapersDb.getById(req.params.id);
-            
+                
             // check if we have an item with that id...
             if(!scraperObjectFromDb) {
                 throw Error(`We didn't find a scraper with an id of ${req.params.id}`);
             }
+
+            let similarFilteredObjects = await scrapersDb.getAllFilteredData({
+                    productCategory : newProductCategory,
+                    siteName : newSiteName,
+                    productBrand : newProductBrand,
+                });
+            
+            similarFilteredObjects = similarFilteredObjects.filter(item => item._id.toString() !== req.params.id);
+
+            
+            // check if there is already an object with the same productCategory, siteName, and productBrand in the scrapers list.
+            if(similarFilteredObjects.length){
+                throw Error(`We already have scrapers with the same productCategory : ${newProductCategory}, siteName : ${newSiteName}, and productBrand : ${newProductBrand}`);
+            }
+
 
             let dataObjectParam = {...scraperObjectFromDb, ...req.body},
                 { productCategory : oldProductCategory, siteName : oldSiteName, productBrand : oldProductBrand } = scraperObjectFromDb,
@@ -281,7 +291,6 @@ module.exports = function()   {
 
             // check if files will have to be just overwritten or if we need to delete them, and then create new files;
             if(newProductCategory !== oldProductCategory || newSiteName !== oldSiteName || newProductBrand !== oldProductBrand) {
-
                 let oldScraperObject = await Scraper.instantiateByObject(scraperObjectFromDb),
                     deleteFilesResult = await oldScraperObject.deleteScraperScript();
 
@@ -296,16 +305,12 @@ module.exports = function()   {
                 scraperObject = await Scraper.instantiateByObject(dataObjectParam);
             }
 
-            console.log(scraperObject);
-
             // we recreate the files...
             let createFileResult = await scraperObject.createScraper(modelObjectOptions, routeObjectOptions, scriptCode),
                 {modelFilePath, routeFilePath, scriptFilePath} = scraperObject;
             if(createFileResult.statusOk === false) {
                 throw Error(createFileResult.message);
             }
-
-            console.log({modelFilePath, routeFilePath, scriptFilePath});
 
             // updating data from db... this has to come after files have been created...
             let updateResult = await scrapersDb.update(req.params.id, {...req.body, modelFilePath, routeFilePath, scriptFilePath});
@@ -316,7 +321,7 @@ module.exports = function()   {
 
             // if we get to this point it means everything went as how we intended it to.
             req.requestResult = {
-                message : "We have successfully updated the files related to this scraper and its saved details in our database.",
+                message : "We have successfully updated the files related to this scraper and its stored details in our database.",
                 status : 200,
                 data : updateResult
             };

@@ -12,6 +12,13 @@ module.exports = function()   {
 
     router.get("/single?", getMiddleWaresByName("getOneByFilter"));
 
+
+    // scraperRewriteALl
+    router.get("/rewrite-all/", getMiddleWaresByName("scraperRewriteAll"));
+
+    // rewriteScraper
+    router.get("/rewrite/:id", getMiddleWaresByName("scraperRewrite"));
+
     router.get("/:id", getMiddleWaresByName("getOneById"));
 
 
@@ -24,12 +31,6 @@ module.exports = function()   {
     /* +++++++ Update a Scraper ++++++++ */
     // update everything;
     router.put("/:id", getMiddleWaresByName("update"));
-
-    // scraperRewriteALl
-    router.post("/rewrite-all", getMiddleWaresByName("scraperRewriteAll"));
-
-    // rewriteScraper
-    router.post("/:id", getMiddleWaresByName("scraperRewrite"));
 
 
     /* +++++++ delete a Scraper ++++++++ */

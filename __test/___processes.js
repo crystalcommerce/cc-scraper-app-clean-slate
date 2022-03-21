@@ -314,10 +314,14 @@
 
 
 
-    removed the restarting of the app, and used the express' middleware stack to remove the dynamically created middlewares -- DONE
+    removed the restarting of the app, and used the express' middleware stack to remove the dynamically created middlewares -- DONE;
+    scraper dataHandler/controller  -- DONE;
+    fixed update bug on database class -- DONE;
+    autoSmrRewrite -- DONE;
+    
+    
+    image-file -- DONE;
     file -- future project...;
-    autoSmrRewrite
-    scraper
 
 
 

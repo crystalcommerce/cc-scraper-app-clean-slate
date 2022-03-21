@@ -73,6 +73,21 @@ module.exports = function(modelInstanceDb) {
         }
     }
 
+    async function createMultiple(req, res, next)  {
+        
+        try {
+
+            let result = await modelInstanceDb.createMultiple(req.body);
+
+            req.requestResult = {data : result, status : 200};
+            next();
+        } catch(err)    {
+            req.requestResult = {status : 403, message : err.message};
+            next();
+        }
+
+    }
+
     async function update(req, res, next)   {
         
         try {
@@ -139,6 +154,7 @@ module.exports = function(modelInstanceDb) {
         getOneByFilter,
         getAllFiltered,
         create,
+        createMultiple,
         update,
         deleteById,
         deleteAllFiltered,

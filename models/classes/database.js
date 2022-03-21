@@ -317,9 +317,9 @@ module.exports = function(model) {
                 }
             }
 
+
             // remove invalid data properties;
             this.removeInvalidProps(data);
-
 
             // removeImmutableProps
             let resultObject = this.removeImmutableProps(data),
@@ -336,7 +336,6 @@ module.exports = function(model) {
                     unsavedData,
                 }
             }
-
 
             // removeNonUniqueProps
             resultObject = await this.removeNonUniqueProps(data, foundRecord);
@@ -375,9 +374,11 @@ module.exports = function(model) {
                 await this.updateFriendlyUrl(data, filteredRecords);
             }
 
+            // hash properties that are supposed to be hashed string.
             this.hashListedProps(data);
 
-            await this.model.updateOne({_id : foundRecord.id}, data);
+            // update the data in the database...
+            await this.model.updateOne({_id : foundRecord._id}, data);
             
             return {
                 statusOk : true,
@@ -406,7 +407,6 @@ module.exports = function(model) {
 ;               // kind of clunky way of deleting image files related to the data;
                 if(foundMatch.imagePaths)  {
                     for(let imagePath of foundMatch.imagePaths) {
-                        console.log(path.join(process.cwd(), imagePath))
                         await deleteFile(path.join(process.cwd(), imagePath));
                     }
                 }

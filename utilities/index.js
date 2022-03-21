@@ -1,9 +1,3 @@
-function nodeRestart()  {
-    setTimeout(function () {
-        // process.exit();
-    }, 777);
-}
-
 function getRequestResult(result, status = 200, contentType = "application/json") {
     let obj = {
         contentType,
@@ -27,4 +21,10 @@ function filterObjectsByMethodName(postMiddleWare, ...middleWares)  {
     
 }
 
-module.exports = { nodeRestart, getRequestResult, filterObjectsByMethodName };
+function dynamicRequire(filePath)   {
+    let module = require(filePath);
+    delete require.cache[filePath];
+    return module;
+}
+
+module.exports = { getRequestResult, filterObjectsByMethodName, dynamicRequire };

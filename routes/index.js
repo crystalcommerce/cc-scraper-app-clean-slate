@@ -32,13 +32,13 @@ const productSetMetaRouter = require("./product-set-meta");
 const productSetRouter = require("./product-set");
 
 // dynamicRouter
-const dynamicRouter = require("./dynamic");
+const dynamicRouter = require("./dynamic.js");
 
 // scrapersRouter
 const scrapersRouter = require("./scraper");
 
 // executeScriptRouter
-const executeScriptRouter = require("./execute-script");
+const scraperScriptExecutionRouter = require("./scraper-script-execution");
 
 // Error 404 Router
 const error404 = require('./error404');
@@ -57,7 +57,7 @@ module.exports = function()   {
     router.use(
         "/cc-files",
         // userAuth,
-        filesRouter
+        filesRouter(),
     );
     
     // users
@@ -104,9 +104,9 @@ module.exports = function()   {
 
     // script
     router.use(
-        "/api/script",
-        userAuth,
-        executeScriptRouter()
+        "/api/script/",
+        // userAuth,
+        scraperScriptExecutionRouter()
     );
 
     // dynamically created routes; dynamic reading of routes objects

@@ -8,20 +8,21 @@ const dotenv = require("dotenv");
 const session = require("express-session");
 const { EventEmitter } = require("events");
 const sockectController = require("./controllers/socket");
+const autoSmrRewrite = require("./config/auto-smr-rewrite");
 
 
-/**********************
+/***************************
  * 
  *  app and env instances
  * 
-***********************/
+***************************/
 
     dotenv.config();
     const app = express();
 
 
 
-/**********************
+/***********************
  * 
  *  Socket.io setup
  * 
@@ -42,16 +43,16 @@ const sockectController = require("./controllers/socket");
 
 
 
-/**********************
+/***********************
  * 
  *  Middlewares
  * 
 ***********************/
 
-    const { runningScripts, apiRouteObjectFinder, autoSmrRewrite, socketMiddleware } = require("./middlewares");
+    const { baseUrl, runningScripts, apiRouteObjectFinder, socketMiddleware } = require("./middlewares");
 
 
-/**********************
+/***********************
  * 
  *  Api Routes
  * 
@@ -75,8 +76,11 @@ const sockectController = require("./controllers/socket");
     })
         .then(() => {
             
-            server.listen(port, () => {
+            server.listen(port, async () => {
+
+                await autoSmrRewrite();
                 console.log(`Server has initialized at port ${port}`);
+                
             });
 
         })
@@ -84,11 +88,12 @@ const sockectController = require("./controllers/socket");
 
 
 
-/**********************
+/****************************
  * 
  *  Middlewares Instances
  * 
-***********************/
+****************************/
+
     app.use(express.urlencoded({extended : true}));    
     app.use(express.json({extended : true}));
     app.use(cors({ origin: true }));
@@ -98,13 +103,11 @@ const sockectController = require("./controllers/socket");
         cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 },
         resave: false 
     }));
+    app.use(baseUrl());
     // app.use(express.static(path.join(__dirname, 'views')));
 
     // allows access of the socket (io) instance to be used inside the controller files...
     app.use(socketMiddleware(io));
-
-    // checking if scripts have been written;
-    // app.use(autoSmrRewrite);
 
     /* Creating a global variable */
     app.use(runningScripts);
@@ -118,7 +121,7 @@ const sockectController = require("./controllers/socket");
  * 
  *  Routes Instances
  * 
- ***********************/
+**********************/
 
     /* All Routes... */
     app.use(allRoutes());
@@ -141,5 +144,5 @@ const sockectController = require("./controllers/socket");
  * 
  *  Sockets Events 
  * 
- ***********************/
+***********************/
     sockectController(io);

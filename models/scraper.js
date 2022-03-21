@@ -68,11 +68,6 @@ const scraperSchema = new Schema({
         type : Object,
         required : true,
     },
-
-    friendlyUrl : {
-        type : String,
-        required  : true,
-    },
     isActive : {
         type : Boolean,
         required : true,
@@ -90,9 +85,8 @@ const Scraper = mongoose.model("Scraper", scraperSchema);
 // initializing usersDb
 const scrapersDb = db(Scraper);
 scrapersDb.recordName = "Scraper";
-scrapersDb.addProps("uniqueProps", "scriptFilePath", "friendlyUrl");
-scrapersDb.addProps("immutableProps", "_id", "siteUrl");
-scrapersDb.addProps("friendlyUrlProps", "siteName", "productBrand");
+scrapersDb.addProps("uniqueProps", "scriptFilePath");
+scrapersDb.addProps("immutableProps", "_id");
 scrapersDb.addProps("defaultValuedProps", { active  : true }, { dateCreated : Date.now() });
 
 module.exports = scrapersDb;

@@ -247,7 +247,9 @@ module.exports = function(model) {
 
         // read
         async getAll()    {
-            return await this.model.find();
+            let data = await this.model.find();
+
+            return data.map(item => item.toObject());
         }
 
         async getById(id)    {
@@ -259,7 +261,8 @@ module.exports = function(model) {
         }
 
         async getAllFilteredData(filter)  {
-            return await this.model.find(filter);
+            let data = await this.model.find(filter);
+            return data.map(item => item.toObject());
         }
 
         // create

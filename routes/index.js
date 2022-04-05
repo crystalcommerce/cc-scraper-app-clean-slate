@@ -40,6 +40,10 @@ const scrapersRouter = require("./scraper");
 // executeScriptRouter
 const scraperScriptExecutionRouter = require("./scraper-script-execution");
 
+
+// public-csv-printer
+const publicCsvPrinterRouter = require("./public-csv-printer");
+
 // Error 404 Router
 const error404 = require('./error404');
 
@@ -116,6 +120,9 @@ module.exports = function()   {
         dynamicRouter()
     );
 
+    
+    // temporary public csv printer;
+    router.use("/api", publicCsvPrinterRouter());
 
 
     // 404 handler route

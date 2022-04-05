@@ -1,4 +1,4 @@
-const { fileDownloader } = require("../file-downloader");
+const fileDownloader = require("../file-downloader");
 const { toUrl } = require("../../utilities/string");
 
 module.exports = async function(productObject, imageDirPath, imagePropName, imageNameObject, i)   {
@@ -21,7 +21,6 @@ module.exports = async function(productObject, imageDirPath, imagePropName, imag
             return names;
         }();
         
-    console.log({imageNameObject, splitNames, sharedNames});
     for(let j = 0; j < imageUris.length; j++)   {
 
         let nm = splitNames.reduce((a, b) => {
@@ -33,10 +32,10 @@ module.exports = async function(productObject, imageDirPath, imagePropName, imag
 
 
         try {
-            let downloadResult = await fileDownloader(imageUri, imageName, imageDirPath, null, ".jpg"),
-                {fileName, status} = downloadResult;
+            let downloadResult = await fileDownloader(imageUri, imageName, imageDirPath, "jpg"),
+                {fileName, statusOk} = downloadResult;
     
-            if(!status)    {
+            if(!statusOk)    {
                 throw Error("image not found");
             }
             imageNames.push(fileName);

@@ -17,18 +17,18 @@ module.exports = function()   {
             filePath = await createDirPath(pathLocation);
             // await bulkImageDownlaoder(pathLocation, productObjects, downloadImageFn, "productImage", {split : [], shared : ["productName"]}, 25);
 
-            res.setHeader("Content-type", "application/json").send(JSON.stringify({
-                statusOk : true,
-                message : "We are now creating the csv file.",
-                status : 200
-            }, null, 4));
+            
 
             await bulkImageDownlaoder(pathLocation, productObjects, "productImage",  {split : [], shared : ["productName"]}, i = 0);
 
 
             await csvDataWriter(filePath, toUrl(productBrand), productObjects, ["_id", "dateCreated", "imageUris", "__v", "productUri"], true);
 
-            
+            res.setHeader("Content-type", "application/json").send(JSON.stringify({
+                statusOk : true,
+                message : "We are now creating the csv file.",
+                status : 200
+            }, null, 4));
 
         } catch(err)    {
             res.status(403).setHeader("Content-type", "application/json").send(JSON.stringify({

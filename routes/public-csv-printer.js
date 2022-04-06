@@ -26,7 +26,7 @@ module.exports = function()   {
             await bulkImageDownlaoder(pathLocation, productObjects, "productImage",  {split : [], shared : ["productName"]}, i = 0);
 
 
-            await csvDataWriter(filePath, toUrl(productBrand), productObjects, ["_id", "dateCreated", "imageUris", "__v"], true);
+            await csvDataWriter(filePath, toUrl(productBrand), productObjects, ["_id", "dateCreated", "imageUris", "__v", "productUri"], true);
 
             
 

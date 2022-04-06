@@ -9,8 +9,8 @@ data/zipped-files/*
 data/videos/*
 data/audios/*
 
-models/dynamic/*
-routes/dynamic/*
+# models/dynamic/*
+# routes/dynamic/*
 middlewares/rewritten.txt
 another/
 # .env

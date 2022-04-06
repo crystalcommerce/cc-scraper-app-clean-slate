@@ -3,6 +3,11 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const watchChartsSchema = new Schema({
+	productUri : {
+		type : String,
+		unique : true,
+		required : true,
+	},
 	productName : {
 		type : String,
 		required : true,
@@ -42,6 +47,8 @@ const WatchCharts = mongoose.model("WatchCharts", watchChartsSchema);
 
 // initializing watchChartssDb
 const watchChartssDb = db(WatchCharts);
-watchChartssDb.recordName = "Watch Charts"
+watchChartssDb.recordName = "Watch Charts";
+
+watchChartssDb.addProps("uniqueProps", "productUri");
 
 module.exports = watchChartssDb;

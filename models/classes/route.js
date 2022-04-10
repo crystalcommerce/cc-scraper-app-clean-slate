@@ -127,7 +127,7 @@ class Route {
     }
 
     static async updateRouteByName(routeName, newRouteName = null) {
-        let routeObject = await this.getRouteByName(routeName),
+        let routeObject = await Route.getRouteByName(routeName),
             newRoute = newRouteName ? new Route(newRouteName) : new Route(routeObject.fileName);
         
         if(newRouteName)    {
@@ -138,20 +138,39 @@ class Route {
         return await newRoute.createRoute();
     }
 
+    static removeFromGlobalScope(routeFilePath)    {
+        console.log(global.registeredRoutes);
+        let filePath = path.join(process.cwd(), routeFilePath),
+            routeIndex = global.registeredRoutes.findIndex(item => item.filePath === filePath);
+        if(routeIndex)  {
+            console.log("We are removing a route from the global scope");
+            global.registeredRoutes.splice(routeIndex, 1);
+            console.log(global.registeredRoutes);
+        }
+    }
+
+
     static async deleteRouteByName(routeName) {
-        let routeObject = await this.getRouteByName(routeName);
+        let routeObject = await Route.getRouteByName(routeName);
 
         if(routeObject) {
-            let deleteResult = await deleteFile(path.join(process.cwd(), "routes", "dynamic", `${routeObject.fileName}.js`));
-                // updateIndexResult = await Route.routesIndexRewrite();
+            let routeFilePath = path.join(process.cwd(), "routes", "dynamic", `${routeObject.fileName}.js`),
+                deleteResult = await deleteFile(routeFilePath);
+
+            Route.removeFromGlobalScope(routeFilePath);
+    
             return { deleteResult };
         } else  {
-            return {statusOk : false, message : "Model does not exist."};
+            return {statusOk : false, message : "Route does not exist."};
         }
     }
 
     static async deleteRouteByFilePath(routeFilePath)    {
+
+        Route.removeFromGlobalScope(routeFilePath);
+
         return await deleteFile(path.join(process.cwd(), routeFilePath));
+
     }
 
 }

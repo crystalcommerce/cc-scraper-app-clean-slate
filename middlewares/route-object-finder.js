@@ -6,6 +6,11 @@ const { toNormalString, toCapitalizeAll } = require("../utilities/string");
 
 module.exports = async function(req, res, next)   {
 
+    // this is one of the key features to prevent multiple require stack call
+    if(!Array.isArray(global.registeredRoutes)) {
+        global.registeredRoutes = [];
+    }
+
     try {
         let fileName = function(){
                 let url;
@@ -20,10 +25,30 @@ module.exports = async function(req, res, next)   {
 
         if(modelObject && routeObject)  {
 
-            let filePath = path.join(process.cwd(), "routes", "dynamic", `${routeObject.fileName}.js`);
-            req.dynamicRouteHandler = await require(filePath);
-            delete require.cache[filePath];
+            let filePath = path.join(process.cwd(), "routes", "dynamic", `${routeObject.fileName}.js`),
+                registeredRoute = global.registeredRoutes.find(item => item.filePath === filePath);
+                
+            if(registeredRoute)   {
+                // console.log("we are using the registered route.")
+                // console.log(registeredRoute);
+                // console.log(global.registeredRoutes);
+                req.dynamicRouteHandler = registeredRoute.routerObject;
+            } else  {
+                // console.log("we are registering the route");
+                // console.log(global.registeredRoutes);
+                req.dynamicRouteHandler = require(filePath);
+                global.registeredRoutes.push({
+                    filePath,
+                    apiRoute : req.url,
+                    routerObject : require(filePath),
+                });
+            }
 
+            
+            
+            // delete require.cache[filePath];
+            // TODO:
+                // need to create a class that removes files from the require stack, especially when the route and model has been deleted.
         }
 
         next();

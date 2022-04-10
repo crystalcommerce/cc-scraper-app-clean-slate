@@ -121,6 +121,8 @@ module.exports = function()   {
     // delete
     async function deleteOne(req, res, next)   {
 
+
+
         try {
             let { collectionName } = req.params,
                 foundModel = await Model.getModelByName(collectionName),
@@ -129,6 +131,7 @@ module.exports = function()   {
             if(!foundModel && !foundRoute)    {
                 throw Error("We weren't able to find a collection with that name");
             }
+
 
             let dbInstance = require(path.join(process.cwd(), "models", "dynamic", foundModel.fileName)),
                 allData = await dbInstance.getAll();
@@ -140,13 +143,14 @@ module.exports = function()   {
 
             // we then delete the collection themselves... model and route files.
             await new Promise((resolve, reject) => setTimeout(() => {
-                mongoose.connection.db.dropCollection(`${foundModel.camelCaseName.toLowerCase()}s`, function(err, result)    {
+                mongoose.connection.db.dropCollection(`${foundModel.camelCaseName.toLowerCase()}s`, async function(err, result)    {
                     if(err) {
                         
                     }
                     
-                    Model.deleteModelByName(foundModel.fileName);
-                    Route.deleteRouteByName(toNormalString(collectionName, "url"));
+                    await Model.deleteModelByName(foundModel.fileName);
+                    await Route.deleteRouteByName(toNormalString(collectionName, "url"));
+
                     req.requestResult = {
                         data : { status : 200, statusOk : true, message : "We have successfully deleted the collection"},
                         status : 200,
@@ -155,6 +159,7 @@ module.exports = function()   {
                 });
                 
             }, 1500));
+
             next();
 
         } catch(err)  {

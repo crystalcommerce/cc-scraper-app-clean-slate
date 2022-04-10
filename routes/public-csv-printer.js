@@ -13,14 +13,11 @@ module.exports = function()   {
 
         try {
             let { productBrand, pathLocation } = req.query,
-            productObjects = await modelInstanceDb.getAllFilteredData({productBrand}),
-            filePath = await createDirPath(pathLocation);
-            // await bulkImageDownlaoder(pathLocation, productObjects, downloadImageFn, "productImage", {split : [], shared : ["productName"]}, 25);
+                productObjects = await modelInstanceDb.getAllFilteredData({productBrand}),
+                filePath = await createDirPath(pathLocation);
+  
 
-            
-
-            await bulkImageDownlaoder(pathLocation, productObjects, "productImage",  {split : [], shared : ["productName"]}, i = 0);
-
+            await bulkImageDownlaoder(filePath, productObjects, "productImage",  {split : [], shared : ["productName"]}, i = 0);
 
             await csvDataWriter(filePath, toUrl(productBrand), productObjects, ["_id", "dateCreated", "imageUris", "__v", "productUri"], true);
 

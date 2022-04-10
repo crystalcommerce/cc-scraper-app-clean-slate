@@ -7,13 +7,19 @@ const watchChartsCategoriesSchema = new Schema({
 		type : String,
 		required : true,
 	},
+	productBrand : {
+		type : String,
+		required : false,
+	},
 	inProgress : {
 		type : Boolean,
-		required : true,
+		required : false,
+		default : false,
 	},
 	done : {
 		type : Boolean,
 		required : false,
+		default : false
 	},
 	dateCreated : {
 		type : String,

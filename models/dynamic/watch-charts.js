@@ -39,7 +39,7 @@ const watchChartsSchema = new Schema({
 	dateCreated : {
 		type : String,
 		default : new Date(Date.now()).toISOString(),
-	}
+	},
 }, {strict : true});
 
 const WatchCharts = mongoose.model("WatchCharts", watchChartsSchema);

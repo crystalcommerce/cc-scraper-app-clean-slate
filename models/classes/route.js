@@ -130,6 +130,8 @@ class Route {
         let routeObject = await Route.getRouteByName(routeName),
             newRoute = newRouteName ? new Route(newRouteName) : new Route(routeObject.fileName);
         
+        Route.removeFromGlobalScope(path.join(process.cwd(), "routes", "dynamic", `${routeObject.fileName}.js`));
+
         if(newRouteName)    {
             console.log("new name was provided");
             await deleteFile(path.join(process.cwd(), "routes", "dynamic", `${routeObject.fileName}.js`));

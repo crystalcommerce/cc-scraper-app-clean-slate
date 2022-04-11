@@ -36,6 +36,10 @@ const watchChartsSchema = new Schema({
 		type : String,
 		required : false,
 	},
+	description : {
+		type : String,
+		required : false,
+	},
 	dateCreated : {
 		type : String,
 		default : new Date(Date.now()).toISOString(),

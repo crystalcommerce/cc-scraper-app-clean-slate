@@ -40,6 +40,14 @@ const watchChartsSchema = new Schema({
 		type : String,
 		required : false,
 	},
+	modelNumber : {
+		type : String,
+		required : false,
+	},
+	collectionName : {
+		type : String,
+		required : false,
+	},
 	dateCreated : {
 		type : String,
 		default : new Date(Date.now()).toISOString(),

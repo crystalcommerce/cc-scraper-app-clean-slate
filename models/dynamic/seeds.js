@@ -3,6 +3,14 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const seedsSchema = new Schema({
+	category : {
+		type : String,
+		required : true,
+	},
+	subcategory : {
+		type : String,
+		required : true,
+	},
 	productName : {
 		type : String,
 		required : true,

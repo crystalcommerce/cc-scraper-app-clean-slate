@@ -23,8 +23,13 @@ module.exports = function()   {
 	router.get("/watch-charts/all?", getMiddleWaresByName("getAllFiltered"));
 
 
+	// getPaginatedResults
+	router.get("/watch-charts/paginated?", getMiddleWaresByName("getPaginatedResults"));
+
+
 	// getOneById handler
 	router.get("/watch-charts/:id", getMiddleWaresByName("getOneById"));
+
 
 
 	// create

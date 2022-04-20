@@ -54,8 +54,38 @@ module.exports = function(modelInstanceDb) {
                 req.requestResult = {status : 404, message : err.message};
                 next();
         }
-        
     }
+
+
+    async function getPaginatedResults(req, res, next) {
+
+        try {
+            let filter = req.query,
+                { page, limit } = filter,
+                query = Object.keys(filter).filter(key => key !== "page" && key !== "limit").reduce((a, b) => {
+                    a[b] = filter[b];
+                    return a;
+                }, {});
+            
+            // setting page and limit if they were not part of the query string;
+            page = page ? page : 1;
+            limit = limit ? Number(limit) : 10;
+
+            let pageObject = {
+                    limit,
+                    skip : (page - 1) * limit,
+                },
+                result = await modelInstanceDb.getPaginatedResults(query, null, pageObject);
+
+                req.requestResult = {data : result, status : 200};
+                next();
+            } catch(err)    {
+                req.requestResult = {status : 404, message : err.message};
+                next();
+        }
+
+    }
+
 
     async function create(req, res, next)   {
 
@@ -153,6 +183,7 @@ module.exports = function(modelInstanceDb) {
         getOneById,
         getOneByFilter,
         getAllFiltered,
+        getPaginatedResults,
         create,
         createMultiple,
         update,

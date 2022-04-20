@@ -265,6 +265,21 @@ module.exports = function(model) {
             return data.map(item => item.toObject());
         }
 
+        async getPaginatedResults(filter, fields = null, pageObject = { skip: 0, limit: 10 }) {
+            let { skip, limit } = pageObject,
+                totalCount = await this.model.countDocuments(filter),
+                pageTotal = Math.ceil(totalCount / limit),
+                data = await this.model.find(filter, fields, pageObject);
+
+            data = data.map(item => item.toObject());
+
+            return {
+                totalCount, 
+                pageTotal,
+                data,
+            }
+        }
+
         // create
         async create(data)  {
             let uniqueCheckResult = await this.checkUniqueProps(data);

@@ -29,7 +29,8 @@ const seedsSchema = new Schema({
 	},
 	productUri : {
 		type : String,
-		required : false,
+		required : true,
+		unique : true
 	},
 	description : {
 		type : String,
@@ -46,6 +47,10 @@ const Seeds = mongoose.model("Seeds", seedsSchema);
 
 // initializing seedssDb
 const seedssDb = db(Seeds);
-seedssDb.recordName = "Seeds"
+seedssDb.recordName = "Seeds";
+
+seedssDb.addProps("uniqueProps", "productUri");
+
+
 
 module.exports = seedssDb;

@@ -1,45 +1,60 @@
 const { csvDataWriter } = require("../core");
 const router = require("express").Router();
-const modelInstanceDb = require("../models/dynamic/davesgarden-plants");
-const { createDirPath } = require("../utilities/file-system");
+const { createDirPath, baseName } = require("../utilities/file-system");
 const { toUrl } = require("../utilities/string");
+const { objectToQueryString, apiRequest } = require("../utilities/url");
 const bulkImageDownloader = require("../core/template/bulk-image-downloader");
 const downloadImageFn = require("../core/template/download-image");
 
 
+
 module.exports = function()   {
 
-    router.get("/print-data?", async function(req, res, next) {
+    router.post("/print-data", async function(req, res, next) {
 
         try {
-            let { category, pathLocation } = req.query,
-                productObjects = await modelInstanceDb.getAllFilteredData({category}), // this should be queried dynamically... not hardcoded...
-                filePath = await createDirPath(pathLocation);
-  
+            let { apiRoute, filter, pathLocation, imagePropName, imageNameObject, preferedFileExt } = req.body,
+                authToken = req.header("x-auth-token");
+                url = `${apiRoute}/all?${objectToQueryString(filter)}`,
+                // productObjects = await modelInstanceDb.getAllFilteredData({category}), // this should be queried dynamically... not hardcoded...
+                productObjects = await apiRequest(authToken, url, options = {}), // this should be queried dynamically... not hardcoded...
+                filePath = await createDirPath(pathLocation),
+                subDirPathName = Object.values(filter).length ? toUrl(Object.values(filter).join(" ")) : null,
+                subDirPath = subDirPathName ? await createDirPath(filePath, subDirPathName) : filePath;
+            
+            console.table(productObjects);
+            console.log(filePath);
 
             // await bulkImageDownlaoder(filePath, productObjects, "productImage",  {split : [], shared : ["productName"]}, i = 0);
 
+            res.setHeader("Content-type", "application/json").send(JSON.stringify({
+                statusOk : true,
+                message : "We are now creating the csv file.",
+                status : 200
+            }, null, 4));
+
+
             await bulkImageDownloader({
-                dirPath : filePath, 
+                dirPath : subDirPath, 
                 allProducts : productObjects, 
                 downloadImageFn,
-                imagePropName : "productImage", 
-                imageNameObject : {shared : ["productName"], split : []},
+                imagePropName, 
+                imageNameObject,
                 callback : async (productImageDownloadResult) => {
                     let { productObject, downloadResult } = productImageDownloadResult;
                     try {
                         if(!productObject._id)   {
                             throw Error("We didn't get the product id... the products are already in the database so the post result returned no id.");
                         }
-    
-                        // let updateResult = await apiRequest(`http://localhost:8080/api/seeds/${encodeURIComponent(productObject._id)}`, {
-                        //     method : "PUT",
-                        //     body : {
-                        //         ...productObject,
-                        //     },
-                        // });
+                        // console.log({url : `${apiRoute}/${encodeURIComponent(productObject._id.toString())}`});
+                        let updateResult = await apiRequest(authToken, `${apiRoute}/${encodeURIComponent(productObject._id.toString())}`, {
+                            method : "PUT",
+                            body : {
+                                ...productObject,
+                            },
+                        });
 
-                        let updateResult = await modelInstanceDb.update(productObject._id, productObject);
+                        // let updateResult = await modelInstanceDb.update(productObject._id, productObject);
 
 
                         console.log(updateResult);
@@ -50,19 +65,22 @@ module.exports = function()   {
                     console.log(productImageDownloadResult);
 
                 },
-                preferedFileExt : "jpg",
+                preferedFileExt : preferedFileExt ? preferedFileExt : "jpg",
                 bulkCount : 25,
             });
 
-            await writeToCsv(filePath, toUrl(category), productObjects, ["dateCreated", "_id", "__v", "imagePaths", "imageUris", "multiFaced", "productUri"], true);
+            await csvDataWriter(subDirPath, baseName(subDirPath), productObjects, ["dateCreated", "_id", "__v", "imagePaths", "imageUris", "multiFaced", "productUri"], true);
 
-            res.setHeader("Content-type", "application/json").send(JSON.stringify({
-                statusOk : true,
-                message : "We are now creating the csv file.",
-                status : 200
-            }, null, 4));
+            console.log({
+                status : "finished printing CSV",
+                message : "We have finished downloading the images and printing the csv files.",
+                totalCount : productObjects.length,
+                filter,
+            });
 
         } catch(err)    {
+            console.log(err);
+
             res.status(403).setHeader("Content-type", "application/json").send(JSON.stringify({
                 message : err.message,
                 status : 403,

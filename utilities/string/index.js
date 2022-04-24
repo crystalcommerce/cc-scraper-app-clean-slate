@@ -43,32 +43,10 @@ function toCapitalizeAll(str)   {
     return str.split(" ").map(item => toCapitalize(item)).join(" ");
 }
 
-function queryStringToObject(urlString)   {
-    let url = new URL(urlString),
-        queryString = url.search.length ? url.search.slice(1) : "",
-        queryArr = queryString.length ? queryString.split("&") : [],
-        queryObject = queryArr.reduce((a,b) => {
-            let [key, val] = b.split("=");
-            a[decodeURIComponent(key)] = decodeURIComponent(val);
-            return a;
-        }, {});
 
-    return Object.keys(queryObject).length ? queryObject : null;
-}
-
-function objectToQueryString(object) {
-
-    return Object.keys(object).reduce((a, b) => {
-
-        a.push(`${encodeURIComponent(b)}=${encodeURIComponent(object[b])}`)
-
-        return a;
-    }, []).join("&");
-    
-}
 
 function getInitials(str)  {
     return typeof str === "string" && str.length ? toNormalString(str.trim()).split(" ").map(word => word.charAt(0).toUpperCase()).join("") : null;
 }
 
-module.exports = { toUrl, enumerate, toCamelCase, toNormalString, toCapitalize, toCapitalizeAll, queryStringToObject, objectToQueryString, getInitials };
+module.exports = { toUrl, enumerate, toCamelCase, toNormalString, toCapitalize, toCapitalizeAll, getInitials };

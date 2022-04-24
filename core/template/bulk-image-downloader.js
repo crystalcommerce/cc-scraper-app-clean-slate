@@ -3,7 +3,9 @@ const { toUrl } = require("../../utilities/string");
 
 module.exports = async function({dirPath, allProducts, downloadImageFn, imagePropName, imageNameObject, callback, preferedFileExt, bulkCount, i})   {
 
-    callback = callback ? callback : (downloadResult) => {};
+    callback = callback ? callback : async (downloadResult) => {
+        await new Promise(resolve => setTimeout(resolve, 500));
+    };
     i = 0;
     bulkCount = bulkCount ? bulkCount : 70;
 

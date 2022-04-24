@@ -1,6 +1,8 @@
 const puppeteer = require("puppeteer");
+const { saveCurrentState } = require("./header-response");
 
-async function scrapeProductDetailsByBulk(allProducts, pageEvaluatorSingleProduct, evaluatorObject, productUrlProp, bulkCount = 5, i = 0) {
+
+async function scrapeProductDetailsByBulk(allProducts, pageEvaluatorSingleProduct, evaluatorObject, productUrlProp, bulkCount = 5, i = 0, savedStateCallback) {
 
     let unscrapedData = [],
         pageInstances = [],
@@ -10,7 +12,7 @@ async function scrapeProductDetailsByBulk(allProducts, pageEvaluatorSingleProduc
         let min = bulkCount < allProducts.length ? bulkCount : allProducts.length;
 
         for(let i = 0; i < min; i++)  {
-            let browser = await puppeteer.launch({headless : false}),
+            let browser = await puppeteer.launch({headless : true}),
                 page = await browser.newPage();
             pageInstances.push(page);
             browserInstances.push(browser);
@@ -31,6 +33,7 @@ async function scrapeProductDetailsByBulk(allProducts, pageEvaluatorSingleProduc
             console.log({pageCounter, counter, i, total : allProducts.length});
             promises.push(await pageEvaluatorSingleProduct.bind(null, page, allProducts[i], evaluatorObject, productUrlProp));
             i++;
+            global.requestsMade += 1;
         }
 
         await Promise.all(promises.map(async (item, index) => {
@@ -46,11 +49,16 @@ async function scrapeProductDetailsByBulk(allProducts, pageEvaluatorSingleProduc
                 unscrapedData.push(allProducts[currentIndex]);
             }
         }));
+
+        await saveCurrentState(savedStateCallback.bind(null, allProducts));
         
+
+        console.log({numberOfRequestsMade : global.requestsMade, partOfProcess : "Getting the individual product details", failedResponse : global.failedResponse});
 
         if(i < allProducts.length)    {
             await getProductDetailsByBulk(allProducts, bulkCount, i);
         }
+
     }
 
     await getProductDetailsByBulk(allProducts, bulkCount, i);
@@ -70,7 +78,7 @@ async function scrapeProductDetailsByBulk(allProducts, pageEvaluatorSingleProduc
 }
 
 
-module.exports = async function(allProducts, pageEvaluatorSingleProduct, evaluatorObject, productUrlProp, bulkCount = 5, i = 0) {
+module.exports = async function(allProducts, pageEvaluatorSingleProduct, evaluatorObject, productUrlProp, bulkCount = 5, i = 0, savedStateCallback = () => {}) {
 
     let max = 100,
         objCount = allProducts.length,
@@ -79,7 +87,7 @@ module.exports = async function(allProducts, pageEvaluatorSingleProduct, evaluat
     console.log({objCount});
 
     if(objCount < max)  {
-        let unscrapedData = await scrapeProductDetailsByBulk(allProducts, pageEvaluatorSingleProduct, evaluatorObject, productUrlProp, bulkCount, i);
+        let unscrapedData = await scrapeProductDetailsByBulk(allProducts, pageEvaluatorSingleProduct, evaluatorObject, productUrlProp, bulkCount, i, savedStateCallback);
 
         unscrapedObjects.push(...unscrapedData);
     } else  {
@@ -91,14 +99,17 @@ module.exports = async function(allProducts, pageEvaluatorSingleProduct, evaluat
 
             let firstIndex = count * max,
                 lastIndex = (count + 1) * max < objCount ? (count + 1) * max : objCount,
-                unscrapedData = await scrapeProductDetailsByBulk(allProducts.slice(firstIndex, lastIndex), pageEvaluatorSingleProduct, evaluatorObject, productUrlProp, bulkCount, i);
+                unscrapedData = await scrapeProductDetailsByBulk(allProducts.slice(firstIndex, lastIndex), pageEvaluatorSingleProduct, evaluatorObject, productUrlProp, bulkCount, i, savedStateCallback);
 
+            
             
             unscrapedObjects.push(...unscrapedData);
 
             count++;
         }
     }
+
+    await savedStateCallback(allProducts);
 
     return unscrapedObjects;
 }

@@ -1,38 +1,58 @@
 const puppeteer = require("puppeteer");
+const { addFailedResponseHeaders, saveCurrentState } = require("./header-response");
 
-module.exports = async function(url, evaluator)    {
+module.exports = async function(url, evaluator, saveStateCallback = () => {}, iterationLimit = null)    {
+    try    {
+        let browser = await puppeteer.launch({headless : false}),
+            page = await browser.newPage(),
+            { callback, args, waitMethods } = evaluator,
+            allProductObjects = [],
+            iteration = 0;
 
-    let browser = await puppeteer.launch({headless : false}),
-        page = await browser.newPage(),
-        {callback, args, waitMethods} = evaluator,
-        allProductObjects = [];
 
+        async function getProductObjects(page, url, allProductObjects) {
+            
+            await page.setViewport({height : 900, width : 1440});
+            let response = await page.goto(url, {waitUntil : "networkidle0", timeout : 0});
 
-    async function getProductObjects(page, url, allProductObjects) {
-        
-        await page.setViewport({height : 3000, width : 1440});
-        await page.goto(url, {waitUntil : "networkidle0", timeout : 0});
-        if(waitMethods.length)  {
-            for(let waitMethod of waitMethods)    {
-                await page[waitMethod.name](waitMethod.args);
+            addFailedResponseHeaders(response._status);
+            await saveCurrentState(saveStateCallback.bind(null, allProductObjects));
+
+            if(waitMethods.length)  {
+                for(let waitMethod of waitMethods)    {
+                    await page[waitMethod.name](waitMethod.args);
+                }
             }
+
+
+            let { productObjects, newUrl } = await page.evaluate(callback, url, ...args);
+            
+            console.log({
+                productObjects, newUrl
+            });
+            allProductObjects.push(...productObjects);
+            
+            global.requestsMade += 1;
+            console.log({numberOfRequestsMade : global.requestsMade, partOfProcess : "Getting links of product variants", failedResponse : global.failedResponse});
+            
+            if(newUrl && (typeof iterationLimit !== "number" || iteration < iterationLimit))  {
+                iteration += 1;
+                await getProductObjects(page, newUrl, allProductObjects);
+            }
+
+
+
+            
         }
-
-
-        let { productObjects, newUrl } = await page.evaluate(callback, url, ...args);
         
+        await getProductObjects(page, url, allProductObjects);
 
-        allProductObjects.push(...productObjects);
-        
-        if(newUrl)  {
-            await getProductObjects(page, newUrl, allProductObjects);
-        }
+        browser.close();
+
+        return allProductObjects;
+    } catch(err)    {
+        console.log(err.message);
     }
     
-    await getProductObjects(page, url, allProductObjects);
-
-    browser.close();
-
-    return allProductObjects;
 
 }

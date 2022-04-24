@@ -4,8 +4,13 @@ const { toUrl } = require("../../utilities/string");
 
 
 function getNameObjects(productObject, imageNameObject, imageDirPath, preferredExt,  i) {
-    let {imageUris} = productObject,
-        {shared, split} = imageNameObject,
+
+    if(!productObject.imageUris.length)   {
+        return [];
+    }
+
+    let { imageUris } = productObject,
+        { shared, split } = imageNameObject,
         splitNames = function()    {
             let names = [];
             for(let prop of split) {
@@ -37,11 +42,18 @@ function getNameObjects(productObject, imageNameObject, imageDirPath, preferredE
     }
 
     return nameObjects;
+
 }
 
-module.exports = async function(productObject, imageDirPath, imagePropName, imageNameObject, callback = (downloadResult) => {}, preferredExt = "jpg", i = 0)   {
+module.exports = async function(productObject, imageDirPath, imagePropName, imageNameObject, callback, preferredExt = "jpg", i = 0)   {
     
     let nameObjects = getNameObjects(productObject, imageNameObject, imageDirPath, preferredExt, i);
+
+    if(!nameObjects.length) {
+        productObject[imagePropName] = "NO IMAGE DOWNLOADED";
+        await callback({productObject, downloadResult : {statusOk : false, fileName : productObject[imagePropName]}});
+        return;
+    }
 
     let promises = nameObjects.map(item => {
             let {imageUri, imageName} = item;
@@ -49,12 +61,12 @@ module.exports = async function(productObject, imageDirPath, imagePropName, imag
         });
 
     let downloadResults = await Promise.all(promises.map(item => item())),
-        imageNames = downloadResults.map(item => {
-
-            callback({productObject, item});
-            return item.fileName
-        });
+        imageNames = await Promise.all(downloadResults.map(async item => {
+            return item.fileName;
+        }));
+    console.log({imageNames});
    
     productObject[imagePropName] = imageNames.join(" // ");
+    await callback({productObject, downloadResult : downloadResults});
     
 }

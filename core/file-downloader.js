@@ -13,8 +13,14 @@ async function fileDownloader(url, givenFileName, downloadPath, preferedFileExt)
                 url,
                 method: 'GET',
                 responseType: 'stream'
-            }),
-            mimeType = response.headers["content-type"],
+            });
+
+        if(response.status < 200 && response.status > 299)  {
+            throw Error("We could not reach this url");
+        }
+
+
+        let mimeType = response.headers["content-type"],
             contentLength = Number(response.headers["content-length"]),
             fileExtensions = getFileExtensionsByMimeType(mimeType),
             webDeclaredExt = getSpecifiedExt(url, fileExtensions),
@@ -40,7 +46,7 @@ async function fileDownloader(url, givenFileName, downloadPath, preferedFileExt)
                     fileStreamEnded : fileStream.writableFinished,
                     message : `download retries : ${iteration} times`,
                 });
-                if(fileStream.writableFinished || iteration >= 40) {
+                if(fileStream.writableFinished) {
                     console.log({
                         fileName, 
                         downloadPath,
@@ -50,9 +56,6 @@ async function fileDownloader(url, givenFileName, downloadPath, preferedFileExt)
                     });
                     clearInterval(interval);
                     resolve();
-                }
-                if(iteration === 40 && !fileStream.writableFinished)   {
-                    reject("Download Failed.")
                 }
                 iteration++;
             }, 500);

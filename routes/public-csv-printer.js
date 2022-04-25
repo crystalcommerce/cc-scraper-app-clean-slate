@@ -15,7 +15,7 @@ module.exports = function()   {
         try {
             let { apiRoute, filter, pathLocation, imagePropName, imageNameObject, preferedFileExt } = req.body,
                 authToken = req.header("x-auth-token");
-                url = `${apiRoute}/all?${objectToQueryString(filter)}`,
+                url = apiRoute.charAt(apiRoute.length - 1) === "/" ? `${apiRoute}all?${objectToQueryString(filter)}` : `${apiRoute}/all?${objectToQueryString(filter)}`,
                 // productObjects = await modelInstanceDb.getAllFilteredData({category}), // this should be queried dynamically... not hardcoded...
                 productObjects = await apiRequest(authToken, url, options = {}), // this should be queried dynamically... not hardcoded...
                 filePath = await createDirPath(pathLocation),

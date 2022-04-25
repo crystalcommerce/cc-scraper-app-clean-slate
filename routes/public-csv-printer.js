@@ -71,12 +71,15 @@ module.exports = function()   {
 
             await csvDataWriter(subDirPath, baseName(subDirPath), productObjects, ["dateCreated", "_id", "__v", "imagePaths", "imageUris", "multiFaced", "productUri"], true);
 
+            console.log(`\n\n\n=========================================================\n`);
             console.log({
                 status : "finished printing CSV",
                 message : "We have finished downloading the images and printing the csv files.",
                 totalCount : productObjects.length,
                 filter,
             });
+            console.log(`\n=========================================================\n\n\n`);
+
 
         } catch(err)    {
             console.log(err);

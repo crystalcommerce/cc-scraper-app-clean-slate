@@ -32,7 +32,7 @@ async function apiRequest(authToken, url, options = {}) {
             if(!options.body) {
                 options.body = {};
             };
-            return JSON.stringify(options.body, null, 4);
+            return options.body;
         }(),
         headers = options.headers ? options.headers : null,
         result = await axios({

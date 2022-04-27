@@ -62,7 +62,7 @@ module.exports = function()   {
                         let updateResult = await apiRequest(authToken, `${apiRoute}/${encodeURIComponent(productObject._id.toString())}`, {
                             method : "PUT",
                             body : {
-                                ...productObject,
+                                productImage : productObject.productImage,
                             },
                         });
 

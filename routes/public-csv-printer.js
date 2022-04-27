@@ -6,20 +6,32 @@ const { objectToQueryString, apiRequest } = require("../utilities/url");
 const bulkImageDownloader = require("../core/template/bulk-image-downloader");
 const downloadImageFn = require("../core/template/download-image");
 
+async function getProductObjects(authToken, url, path)  {
+    if(path === "paginated")    {
+        let result = await apiRequest(authToken, url, options = {});
 
+        return result.data;
+    } else  {
+        return await apiRequest(authToken, url, options = {});
+    }
+}
 
 module.exports = function()   {
 
     router.post("/print-data", async function(req, res, next) {
 
         try {
-            let { apiRoute, filter, pathLocation, imagePropName, imageNameObject, preferedFileExt } = req.body,
-                authToken = req.header("x-auth-token");
-                url = apiRoute.charAt(apiRoute.length - 1) === "/" ? `${apiRoute}all?${objectToQueryString(filter)}` : `${apiRoute}/all?${objectToQueryString(filter)}`,
+            let { apiRoute, filter, pathLocation, imagePropName, imageNameObject, preferedFileExt, path } = req.body,
+                authToken = req.header("x-auth-token"),
+                url = apiRoute.charAt(apiRoute.length - 1) === "/" ? `${apiRoute}${path}?${objectToQueryString(filter)}` : `${apiRoute}/${path}?${objectToQueryString(filter)}`,
                 // productObjects = await modelInstanceDb.getAllFilteredData({category}), // this should be queried dynamically... not hardcoded...
-                productObjects = await apiRequest(authToken, url, options = {}), // this should be queried dynamically... not hardcoded...
-                filePath = await createDirPath(pathLocation),
-                subDirPathName = Object.values(filter).length ? toUrl(Object.values(filter).join(" ")) : null,
+                productObjects = await getProductObjects(authToken, url, path), // this should be queried dynamically... not hardcoded...
+                filePath = await createDirPath(pathLocation);
+
+            delete(filter.page);
+            delete(filter.limit);
+
+            let subDirPathName = Object.values(filter).length ? toUrl(Object.values(filter).join(" ")) : null,
                 subDirPath = subDirPathName ? await createDirPath(filePath, subDirPathName) : filePath;
             
             console.table(productObjects);

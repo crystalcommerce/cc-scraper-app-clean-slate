@@ -23,6 +23,10 @@ module.exports = function()   {
 	router.get("/davesgarden-plants/all?", getMiddleWaresByName("getAllFiltered"));
 
 
+	// getPaginatedResults
+	router.get("/davesgarden-plants/paginated?", getMiddleWaresByName("getPaginatedResults"));
+
+
 	// getOneById handler
 	router.get("/davesgarden-plants/:id", getMiddleWaresByName("getOneById"));
 

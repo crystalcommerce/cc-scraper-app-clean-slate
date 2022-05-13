@@ -62,6 +62,7 @@ let evaluatorObjects = [
                     let interval = setInterval(() => {
                         window.scrollTo(0, function(){
                             totalHeight = document.body.offsetHeight - window.innerHeight;
+                            
                             if(currentScroll + 100 < totalHeight)   {
                                 return currentScroll + 100;
                             } else  {
@@ -69,14 +70,14 @@ let evaluatorObjects = [
                             }
                         }());
 
-                        if(currentScroll >= totalHeight) {
+                        if(currentScroll >= totalHeight - 200) {
             
                             console.log({currentScroll, totalHeight})
                             clearInterval(interval);
                             window.removeEventListener("scroll", scroll);
                             resolve();
                         }
-                    }, 25);
+                    }, 52);
                 });
                 
             }
@@ -323,19 +324,25 @@ async function ccScraperInitialize(linkObjectsKey, authToken) {
         
 
         if(page <= pageTotal && allCategoriesScraped)   {
-
-            page += 1;
-
-            console.log("we are getting new set...");
-            // setting the page number;
-        
-            await new Promise(resolve => setTimeout(resolve, 3434));
-
             window.localStorage.removeItem(linkObjectsKey);
-            window.localStorage.setItem("link-objects-page", page);
+            
+            if(linkObjects.filter(item => !item.finished).length)   {
+                getLinkObjects(linkObjects.filter(item => !item.finished), linkObjectsKey);
+            } else  {
+                page += 1;
 
-            await new Promise(resolve => setTimeout(resolve, 3434));
-            window.location = window.location.origin;
+                console.log("we are getting new set...");
+                // setting the page number;
+            
+                await new Promise(resolve => setTimeout(resolve, 3434));
+
+                window.localStorage.setItem("link-objects-page", page);
+
+                await new Promise(resolve => setTimeout(resolve, 3434));
+                window.location = window.location.origin;
+            }
+
+            
 
         }
 

@@ -48,8 +48,6 @@ let evaluatorObjects = [
                 return selector;
             }
 
-            await waitForSelector(document.querySelector(`script[src='/p2TBVNJZ/init.js']`));
-
             async function scrollToBottom()  {
                 let totalHeight = document.body.offsetHeight - window.innerHeight,
                     currentScroll = 0;
@@ -170,6 +168,12 @@ let evaluatorObjects = [
                 return largeImageSrc;
             }
 
+
+            await waitForSelector(document.querySelector(`script[src='/p2TBVNJZ/init.js']`));
+            await waitForSelector(document.querySelector(`.product-card:not(.candy--card)`));
+
+
+            await new Promise(resolve => setTimeout(resolve, 3434));
 
             await scrollToBottom();
             await scrollToTop();

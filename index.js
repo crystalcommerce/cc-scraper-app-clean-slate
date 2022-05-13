@@ -104,7 +104,7 @@ const autoSmrRewrite = require("./config/auto-smr-rewrite");
         resave: false 
     }));
     app.use(baseUrl());
-    // app.use(express.static(path.join(__dirname, 'views')));
+    app.use(express.static(path.join(__dirname, 'views')));
 
     // allows access of the socket (io) instance to be used inside the controller files...
     app.use(socketMiddleware(io));

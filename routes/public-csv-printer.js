@@ -21,12 +21,13 @@ module.exports = function()   {
     router.post("/print-data", async function(req, res, next) {
 
         try {
-            let { apiRoute, filter, pathLocation, imagePropName, imageNameObject, preferedFileExt, path } = req.body,
+            let { apiRoute, filter, pathLocation, imagePropName, imageNameObject, preferedFileExt, path, csvExcludedProps } = req.body,
                 authToken = req.header("x-auth-token"),
                 url = apiRoute.charAt(apiRoute.length - 1) === "/" ? `${apiRoute}${path}?${objectToQueryString(filter)}` : `${apiRoute}/${path}?${objectToQueryString(filter)}`,
                 // productObjects = await modelInstanceDb.getAllFilteredData({category}), // this should be queried dynamically... not hardcoded...
                 productObjects = await getProductObjects(authToken, url, path), // this should be queried dynamically... not hardcoded...
-                filePath = await createDirPath(pathLocation);
+                filePath = await createDirPath(pathLocation),
+                excludedFromCsv = Array.isArray(csvExcludedProps) && csvExcludedProps.length > 1 ? csvExcludedProps : ["dateCreated", "_id", "__v", "imagePaths", "imageUris", "multiFaced", "productUri"];
 
             delete(filter.page);
             delete(filter.limit);
@@ -81,7 +82,7 @@ module.exports = function()   {
                 bulkCount : 25,
             });
 
-            await csvDataWriter(subDirPath, baseName(subDirPath), productObjects, ["dateCreated", "_id", "__v", "imagePaths", "imageUris", "multiFaced", "productUri"], true);
+            await csvDataWriter(subDirPath, baseName(subDirPath), productObjects, excludedFromCsv, true);
 
             console.log(`\n\n\n=========================================================\n`);
             console.log({

@@ -1,0 +1,1300 @@
+[
+    {
+        "productProps": {
+            "category": "Camping and Hiking",
+            "subcategory": "Tents"
+        },
+        "url": "https://www.rei.com/c/tents?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Camping and Hiking",
+            "subcategory": "Hiking Backpacks"
+        },
+        "url": "https://www.rei.com/c/hiking-backpacks?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Camping and Hiking",
+            "subcategory": "Sleeping Bags and Accessories"
+        },
+        "url": "https://www.rei.com/c/sleeping-bags-and-accessories?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Camping and Hiking",
+            "subcategory": "Sleeping Pads, Cots and Hammocks"
+        },
+        "url": "https://www.rei.com/c/sleeping-pads-cots-and-hammocks?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Camping and Hiking",
+            "subcategory": "Camp Kitchen"
+        },
+        "url": "https://www.rei.com/c/camp-kitchen?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Camping and Hiking",
+            "subcategory": "Camp Lighting"
+        },
+        "url": "https://www.rei.com/c/camp-lighting?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Camping and Hiking",
+            "subcategory": "Gadgets"
+        },
+        "url": "https://www.rei.com/c/gadgets?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Camping and Hiking",
+            "subcategory": "Camp Electronics"
+        },
+        "url": "https://www.rei.com/c/camp-electronics?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Camping and Hiking",
+            "subcategory": "Water Bottles and Treatment"
+        },
+        "url": "https://www.rei.com/c/water-bottles-and-treatment?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Camping and Hiking",
+            "subcategory": "Health and Safety"
+        },
+        "url": "https://www.rei.com/c/health-and-safety?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Camping and Hiking",
+            "subcategory": "Camp Furniture"
+        },
+        "url": "https://www.rei.com/c/camp-furniture?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Camping and Hiking",
+            "subcategory": "Gear Storage and Maintenance"
+        },
+        "url": "https://www.rei.com/c/gear-storage-and-maintenance?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Camping and Hiking",
+            "subcategory": "Dog Gear"
+        },
+        "url": "https://www.rei.com/c/dog-gear?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Camping and Hiking",
+            "subcategory": "Sunglasses"
+        },
+        "url": "https://www.rei.com/c/sunglasses?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Camping and Hiking",
+            "subcategory": "Stewardship"
+        },
+        "url": "https://www.rei.com/c/stewardship?pagesize=90"
+    },
+
+    {
+        "productProps": {
+            "category": "Footwear",
+            "subcategory": "Men's Footwear"
+        },
+        "url": "https://www.rei.com/c/mens-footwear?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Footwear",
+            "subcategory": "Women's Footwear"
+        },
+        "url": "https://www.rei.com/c/womens-footwear?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Footwear",
+            "subcategory": "Kids' Footwear"
+        },
+        "url": "https://www.rei.com/c/kids-footwear?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Footwear",
+            "subcategory": "Socks"
+        },
+        "url": "https://www.rei.com/c/socks?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Footwear",
+            "subcategory": "Footwear Accessories"
+        },
+        "url": "https://www.rei.com/c/footwear-accessories?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Footwear",
+            "subcategory": "Shoes"
+        },
+        "url": "https://www.rei.com/c/shoes?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Footwear",
+            "subcategory": "Boots"
+        },
+        "url": "https://www.rei.com/c/boots?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Footwear",
+            "subcategory": "Sandals"
+        },
+        "url": "https://www.rei.com/c/sandals?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Footwear",
+            "subcategory": "Slippers"
+        },
+        "url": "https://www.rei.com/c/slippers?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Footwear",
+            "subcategory": "Hiking Footwear"
+        },
+        "url": "https://www.rei.com/c/hiking-footwear?pagesize=90"
+    },
+
+    {
+        "productProps": {
+            "category": "Men's Clothing",
+            "subcategory": "Men's Jackets"
+        },
+        "url": "https://www.rei.com/c/mens-jackets?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Men's Clothing",
+            "subcategory": "Men's Pants"
+        },
+        "url": "https://www.rei.com/c/mens-pants?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Men's Clothing",
+            "subcategory": "Men's Shorts"
+        },
+        "url": "https://www.rei.com/c/mens-shorts?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Men's Clothing",
+            "subcategory": "Men's Shirts"
+        },
+        "url": "https://www.rei.com/c/mens-shirts?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Men's Clothing",
+            "subcategory": "Men's Sweaters and Sweatshirts"
+        },
+        "url": "https://www.rei.com/c/mens-sweaters-and-sweatshirts?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Men's Clothing",
+            "subcategory": "Men's Vests"
+        },
+        "url": "https://www.rei.com/c/mens-vests?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Men's Clothing",
+            "subcategory": "Men's Swimwear"
+        },
+        "url": "https://www.rei.com/c/mens-swimwear?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Men's Clothing",
+            "subcategory": "Men's Underwear"
+        },
+        "url": "https://www.rei.com/c/mens-underwear?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Men's Clothing",
+            "subcategory": "Men's Clothing Accessories"
+        },
+        "url": "https://www.rei.com/c/mens-clothing-accessories?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Men's Clothing",
+            "subcategory": "Men's Sleepwear"
+        },
+        "url": "https://www.rei.com/c/mens-sleepwear?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Men's Clothing",
+            "subcategory": "Men's Tops"
+        },
+        "url": "https://www.rei.com/c/mens-tops?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Men's Clothing",
+            "subcategory": "Men's Bottoms"
+        },
+        "url": "https://www.rei.com/c/mens-bottoms?pagesize=90"
+    },
+
+    {
+        "productProps": {
+            "category": "Women's Clothing",
+            "subcategory": "Women's Jackets"
+        },
+        "url": "https://www.rei.com/c/womens-jackets?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Women's Clothing",
+            "subcategory": "Women's Pants"
+        },
+        "url": "https://www.rei.com/c/womens-pants?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Women's Clothing",
+            "subcategory": "Women's Shorts"
+        },
+        "url": "https://www.rei.com/c/womens-shorts?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Women's Clothing",
+            "subcategory": "Women's Skirts and Dresses"
+        },
+        "url": "https://www.rei.com/c/womens-skirts-and-dresses?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Women's Clothing",
+            "subcategory": "Women's Shirts"
+        },
+        "url": "https://www.rei.com/c/womens-shirts?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Women's Clothing",
+            "subcategory": "Women's Sweaters and Sweatshirts"
+        },
+        "url": "https://www.rei.com/c/womens-sweaters-and-sweatshirts?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Women's Clothing",
+            "subcategory": "Women's Vests"
+        },
+        "url": "https://www.rei.com/c/womens-vests?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Women's Clothing",
+            "subcategory": "Women's Swimwear"
+        },
+        "url": "https://www.rei.com/c/womens-swimwear?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Women's Clothing",
+            "subcategory": "Women's Underwear"
+        },
+        "url": "https://www.rei.com/c/womens-underwear?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Women's Clothing",
+            "subcategory": "Women's Clothing Accessories"
+        },
+        "url": "https://www.rei.com/c/womens-clothing-accessories?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Women's Clothing",
+            "subcategory": "Women's Sleepwear"
+        },
+        "url": "https://www.rei.com/c/womens-sleepwear?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Women's Clothing",
+            "subcategory": "Women's Tops"
+        },
+        "url": "https://www.rei.com/c/womens-tops?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Women's Clothing",
+            "subcategory": "Women's Bottoms"
+        },
+        "url": "https://www.rei.com/c/womens-bottoms?pagesize=90"
+    },
+
+    {
+        "productProps": {
+            "category": "Kids' Clothing",
+            "subcategory": "Kids' Jackets"
+        },
+        "url": "https://www.rei.com/c/kids-jackets?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Kids' Clothing",
+            "subcategory": "Kids' Pants"
+        },
+        "url": "https://www.rei.com/c/kids-pants?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Kids' Clothing",
+            "subcategory": "Kids' Shorts"
+        },
+        "url": "https://www.rei.com/c/kids-shorts?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Kids' Clothing",
+            "subcategory": "Kids' Shirts"
+        },
+        "url": "https://www.rei.com/c/kids-shirts?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Kids' Clothing",
+            "subcategory": "Kids' Sweaters and Sweatshirts"
+        },
+        "url": "https://www.rei.com/c/kids-sweaters-and-sweatshirts?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Kids' Clothing",
+            "subcategory": "Girls' Skirts and Dresses"
+        },
+        "url": "https://www.rei.com/c/girls-skirts-and-dresses?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Kids' Clothing",
+            "subcategory": "Kids' Vests"
+        },
+        "url": "https://www.rei.com/c/kids-vests?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Kids' Clothing",
+            "subcategory": "Kids' Swimwear"
+        },
+        "url": "https://www.rei.com/c/kids-swimwear?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Kids' Clothing",
+            "subcategory": "Kids' Underwear"
+        },
+        "url": "https://www.rei.com/c/kids-underwear?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Kids' Clothing",
+            "subcategory": "Kids' Snowsuits, Rain Suits and Buntings"
+        },
+        "url": "https://www.rei.com/c/kids-snowsuits-rain-suits-and-buntings?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Kids' Clothing",
+            "subcategory": "Kids' Clothing Accessories"
+        },
+        "url": "https://www.rei.com/c/kids-clothing-accessories?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Kids' Clothing",
+            "subcategory": "Kids' Sleepwear"
+        },
+        "url": "https://www.rei.com/c/kids-sleepwear?pagesize=90"
+    },
+
+    {
+        "productProps": {
+            "category": "Cycling",
+            "subcategory": "Bikes"
+        },
+        "url": "https://www.rei.com/c/bikes?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Cycling",
+            "subcategory": "Bike Helmets"
+        },
+        "url": "https://www.rei.com/c/bike-helmets?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Cycling",
+            "subcategory": "Cycling Clothing"
+        },
+        "url": "https://www.rei.com/c/cycling-clothing?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Cycling",
+            "subcategory": "Cycling Shoes"
+        },
+        "url": "https://www.rei.com/c/cycling-shoes?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Cycling",
+            "subcategory": "Cycling Backpacks and Bags"
+        },
+        "url": "https://www.rei.com/c/cycling-backpacks-and-bags?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Cycling",
+            "subcategory": "Bike Accessories"
+        },
+        "url": "https://www.rei.com/c/bike-accessories?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Cycling",
+            "subcategory": "Bike Components"
+        },
+        "url": "https://www.rei.com/c/bike-components?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Cycling",
+            "subcategory": "Bike Racks and Storage"
+        },
+        "url": "https://www.rei.com/c/bike-racks-and-storage?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Cycling",
+            "subcategory": "Bike Packs, Bags and Trailers"
+        },
+        "url": "https://www.rei.com/c/bike-packs-bags-trailers?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Cycling",
+            "subcategory": "Indoor Cycling"
+        },
+        "url": "https://www.rei.com/c/indoor-cycling?pagesize=90"
+    },
+
+    {
+        "productProps": {
+            "category": "Fitness",
+            "subcategory": "Running"
+        },
+        "url": "https://www.rei.com/c/running?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Fitness",
+            "subcategory": "Yoga"
+        },
+        "url": "https://www.rei.com/c/yoga?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Fitness",
+            "subcategory": "Triathlon"
+        },
+        "url": "https://www.rei.com/c/triathlon?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Fitness",
+            "subcategory": "Swimming"
+        },
+        "url": "https://www.rei.com/c/swimming?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Fitness",
+            "subcategory": "Training"
+        },
+        "url": "https://www.rei.com/c/training?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Fitness",
+            "subcategory": "Skates and Skateboards"
+        },
+        "url": "https://www.rei.com/c/skates-and-skateboards?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Fitness",
+            "subcategory": "Indoor Cycling"
+        },
+        "url": "https://www.rei.com/c/indoor-cycling?pagesize=90"
+    },
+
+    {
+        "productProps": {
+            "category": "Watersports",
+            "subcategory": "Kayaking"
+        },
+        "url": "https://www.rei.com/c/kayaking?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Watersports",
+            "subcategory": "Paddle Boarding"
+        },
+        "url": "https://www.rei.com/c/paddleboarding?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Watersports",
+            "subcategory": "Canoeing"
+        },
+        "url": "https://www.rei.com/c/canoeing?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Watersports",
+            "subcategory": "Paddling Accessories"
+        },
+        "url": "https://www.rei.com/c/paddling-accessories?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Watersports",
+            "subcategory": "Paddling Clothing"
+        },
+        "url": "https://www.rei.com/c/paddling-clothing?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Watersports",
+            "subcategory": "Paddling Footwear"
+        },
+        "url": "https://www.rei.com/c/paddling-footwear?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Watersports",
+            "subcategory": "Rafts and Tubes"
+        },
+        "url": "https://www.rei.com/c/rafts-and-tubes?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Watersports",
+            "subcategory": "Packrafts"
+        },
+        "url": "https://www.rei.com/c/packrafts?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Watersports",
+            "subcategory": "PFDs"
+        },
+        "url": "https://www.rei.com/c/pfds?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Watersports",
+            "subcategory": "Bodyboarding"
+        },
+        "url": "https://www.rei.com/c/bodyboarding?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Watersports",
+            "subcategory": "Beach Gear, Clothing and Accessories"
+        },
+        "url": "https://www.rei.com/c/beach-gear-clothing-and-accessories?pagesize=90"
+    },
+
+    {
+        "productProps": {
+            "category": "Climbing",
+            "subcategory": "Climbing Shoes"
+        },
+        "url": "https://www.rei.com/c/climbing-shoes?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Climbing",
+            "subcategory": "Climbing Harnesses"
+        },
+        "url": "https://www.rei.com/c/climbing-harnesses?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Climbing",
+            "subcategory": "Climbing Ropes"
+        },
+        "url": "https://www.rei.com/c/climbing-ropes?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Climbing",
+            "subcategory": "Webbing and Cords"
+        },
+        "url": "https://www.rei.com/c/webbing-and-cords?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Climbing",
+            "subcategory": "Climbing Hardware"
+        },
+        "url": "https://www.rei.com/c/climbing-hardware?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Climbing",
+            "subcategory": "Climbing Packs"
+        },
+        "url": "https://www.rei.com/c/climbing-packs?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Climbing",
+            "subcategory": "Climbing Essentials"
+        },
+        "url": "https://www.rei.com/c/climbing-essentials?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Climbing",
+            "subcategory": "Mountaineering Gear"
+        },
+        "url": "https://www.rei.com/c/mountaineering-gear?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Climbing",
+            "subcategory": "Chalk and Chalk Bags"
+        },
+        "url": "https://www.rei.com/c/chalk-and-chalk-bags?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Climbing",
+            "subcategory": "Climbing Training"
+        },
+        "url": "https://www.rei.com/c/climbing-training?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Climbing",
+            "subcategory": "Climbing Helmets"
+        },
+        "url": "https://www.rei.com/c/climbing-helmets?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Climbing",
+            "subcategory": "Big Wall Gear"
+        },
+        "url": "https://www.rei.com/c/big-wall-gear?pagesize=90"
+    },
+
+    {
+        "productProps": {
+            "category": "Travel and Luggage",
+            "subcategory": "Luggage"
+        },
+        "url": "https://www.rei.com/c/luggage?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Travel and Luggage",
+            "subcategory": "Day Bags and Packs"
+        },
+        "url": "https://www.rei.com/c/day-bags-and-packs?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Travel and Luggage",
+            "subcategory": "Laptop Bags"
+        },
+        "url": "https://www.rei.com/c/laptop-bags?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Travel and Luggage",
+            "subcategory": "Phone and Electronics Cases"
+        },
+        "url": "https://www.rei.com/c/phone-and-electronics-cases?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Travel and Luggage",
+            "subcategory": "Packing Organizers"
+        },
+        "url": "https://www.rei.com/c/packing-organizers?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Travel and Luggage",
+            "subcategory": "Wallets and Money Belts"
+        },
+        "url": "https://www.rei.com/c/wallets-and-money-belts?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Travel and Luggage",
+            "subcategory": "Travel Sleep Accessories"
+        },
+        "url": "https://www.rei.com/c/travel-sleep-accessories?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Travel and Luggage",
+            "subcategory": "Travel Accessories"
+        },
+        "url": "https://www.rei.com/c/travel-accessories?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Travel and Luggage",
+            "subcategory": "Photography"
+        },
+        "url": "https://www.rei.com/c/photography?pagesize=90"
+    },
+ 
+    {
+        "productProps": {
+            "category": "Car Racks",
+            "subcategory": "Cargo Boxes, Baskets and Bags"
+        },
+        "url": "https://www.rei.com/c/cargo-boxes-baskets-and-bags?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Car Racks",
+            "subcategory": "Bike Racks"
+        },
+        "url": "https://www.rei.com/c/bike-racks?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Car Racks",
+            "subcategory": "Ski and Snowboard Racks"
+        },
+        "url": "https://www.rei.com/c/ski-and-snowboard-racks?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Car Racks",
+            "subcategory": "Watercraft Racks"
+        },
+        "url": "https://www.rei.com/c/watercraft-racks?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Car Racks",
+            "subcategory": "Base Roof Racks"
+        },
+        "url": "https://www.rei.com/c/base-roof-racks?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Car Racks",
+            "subcategory": "Car Rack Accessories"
+        },
+        "url": "https://www.rei.com/c/car-rack-accessories?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Car Racks",
+            "subcategory": "Garage Storage"
+        },
+        "url": "https://www.rei.com/c/garage-storage?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Car Racks",
+            "subcategory": "Stroller Racks"
+        },
+        "url": "https://www.rei.com/c/stroller-racks?pagesize=90"
+    },
+
+    {
+        "productProps": {
+            "category": "Skiing",
+            "subcategory": "Skis"
+        },
+        "url": "https://www.rei.com/c/skis?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Skiing",
+            "subcategory": "Ski Boots"
+        },
+        "url": "https://www.rei.com/c/ski-boots?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Skiing",
+            "subcategory": "Ski Bindings"
+        },
+        "url": "https://www.rei.com/c/ski-bindings?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Skiing",
+            "subcategory": "Ski Poles"
+        },
+        "url": "https://www.rei.com/c/ski-poles?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Skiing",
+            "subcategory": "Ski Helmets"
+        },
+        "url": "https://www.rei.com/c/ski-helmets?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Skiing",
+            "subcategory": "Ski Goggles"
+        },
+        "url": "https://www.rei.com/c/ski-goggles?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Skiing",
+            "subcategory": "Ski Packs and Bags"
+        },
+        "url": "https://www.rei.com/c/ski-packs-and-bags?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Skiing",
+            "subcategory": "Ski Tuning and Tools"
+        },
+        "url": "https://www.rei.com/c/ski-tuning-and-tools?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Skiing",
+            "subcategory": "Climbing Skins"
+        },
+        "url": "https://www.rei.com/c/climbing-skins?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Skiing",
+            "subcategory": "Ski Accessories"
+        },
+        "url": "https://www.rei.com/c/ski-accessories?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Skiing",
+            "subcategory": "Ski Clothing"
+        },
+        "url": "https://www.rei.com/c/ski-clothing?pagesize=90"
+    },
+
+    {
+        "productProps": {
+            "category": "Snowboarding",
+            "subcategory": "Snowboards"
+        },
+        "url": "https://www.rei.com/c/snowboards?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Snowboarding",
+            "subcategory": "Snowboard Boots"
+        },
+        "url": "https://www.rei.com/c/snowboard-boots?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Snowboarding",
+            "subcategory": "Snowboard Bindings"
+        },
+        "url": "https://www.rei.com/c/snowboard-bindings?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Snowboarding",
+            "subcategory": "Snowboard Helmets"
+        },
+        "url": "https://www.rei.com/c/snowboard-helmets?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Snowboarding",
+            "subcategory": "Snowboard Goggles"
+        },
+        "url": "https://www.rei.com/c/snowboard-goggles?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Snowboarding",
+            "subcategory": "Snowboard Packs and Bags"
+        },
+        "url": "https://www.rei.com/c/snowboard-packs-and-bags?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Snowboarding",
+            "subcategory": "Snowboard Accessories"
+        },
+        "url": "https://www.rei.com/c/snowboard-accessories?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Snowboarding",
+            "subcategory": "Snowboard Clothing"
+        },
+        "url": "https://www.rei.com/c/snowboard-clothing?pagesize=90"
+    },
+
+    {
+        "productProps": {
+            "category": "Snowshoeing",
+            "subcategory": "Snowshoes"
+        },
+        "url": "https://www.rei.com/c/snowshoes?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Snowshoeing",
+            "subcategory": "Snowshoe Accessories"
+        },
+        "url": "https://www.rei.com/c/snowshoe-accessories?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Snowshoeing",
+            "subcategory": "Sleds"
+        },
+        "url": "https://www.rei.com/c/sleds?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Snowshoeing",
+            "subcategory": "Avalanche Safety Gear"
+        },
+        "url": "https://www.rei.com/c/avalanche-safety-gear?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Snowshoeing",
+            "subcategory": "Ski Packs"
+        },
+        "url": "https://www.rei.com/c/ski-packs?pagesize=90"
+    },
+
+    {
+        "productProps": {
+            "category": "Lifestyle and Gifts",
+            "subcategory": "Keychains"
+        },
+        "url": "https://www.rei.com/c/keychains?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Lifestyle and Gifts",
+            "subcategory": "Jewelry"
+        },
+        "url": "https://www.rei.com/c/jewelry?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Lifestyle and Gifts",
+            "subcategory": "Home and Cabin Decor"
+        },
+        "url": "https://www.rei.com/c/home-and-cabin-decor?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Lifestyle and Gifts",
+            "subcategory": "Holiday"
+        },
+        "url": "https://www.rei.com/c/holiday?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Lifestyle and Gifts",
+            "subcategory": "Picnicking"
+        },
+        "url": "https://www.rei.com/c/picnicking?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Lifestyle and Gifts",
+            "subcategory": "Games and Toys"
+        },
+        "url": "https://www.rei.com/c/games-and-toys?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Lifestyle and Gifts",
+            "subcategory": "Park Passes"
+        },
+        "url": "https://www.rei.com/c/park-passes?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Lifestyle and Gifts",
+            "subcategory": "Journals and Pens"
+        },
+        "url": "https://www.rei.com/c/journals-and-pens?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Lifestyle and Gifts",
+            "subcategory": "Stickers"
+        },
+        "url": "https://www.rei.com/c/stickers?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Lifestyle and Gifts",
+            "subcategory": "Patches and Pins"
+        },
+        "url": "https://www.rei.com/c/patches-and-pins?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Lifestyle and Gifts",
+            "subcategory": "Curated Product Boxes"
+        },
+        "url": "https://www.rei.com/c/curated-product-boxes?pagesize=90"
+    },
+
+    {
+        "productProps": {
+            "category": "Electronics",
+            "subcategory": "Action Cameras"
+        },
+        "url": "https://www.rei.com/c/action-cameras?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Electronics",
+            "subcategory": "GPS Systems"
+        },
+        "url": "https://www.rei.com/c/gps-systems?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Electronics",
+            "subcategory": "Watches"
+        },
+        "url": "https://www.rei.com/c/watches?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Electronics",
+            "subcategory": "Fitness Electronics"
+        },
+        "url": "https://www.rei.com/c/fitness-electronics?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Electronics",
+            "subcategory": "Weather Instruments"
+        },
+        "url": "https://www.rei.com/c/weather-instruments?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Electronics",
+            "subcategory": "Solar and Portable Power"
+        },
+        "url": "https://www.rei.com/c/solar-and-portable-power?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Electronics",
+            "subcategory": "Radios and Headphones"
+        },
+        "url": "https://www.rei.com/c/radios-and-headphones?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Electronics",
+            "subcategory": "Photography"
+        },
+        "url": "https://www.rei.com/c/photography?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Electronics",
+            "subcategory": "Emergency Electronics"
+        },
+        "url": "https://www.rei.com/c/emergency-electronics?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Electronics",
+            "subcategory": "Music Systems"
+        },
+        "url": "https://www.rei.com/c/music-systems?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Electronics",
+            "subcategory": "Electronics Bags and Cases"
+        },
+        "url": "https://www.rei.com/c/electronics-bags-and-cases?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Electronics",
+            "subcategory": "Mapping Software"
+        },
+        "url": "https://www.rei.com/c/mapping-software?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Electronics",
+            "subcategory": "Converters and Adapters"
+        },
+        "url": "https://www.rei.com/c/converters-and-adapters?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Electronics",
+            "subcategory": "Drones"
+        },
+        "url": "https://www.rei.com/c/drones?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Electronics",
+            "subcategory": "Cell Phone Boosters"
+        },
+        "url": "https://www.rei.com/c/cell-phone-boosters?pagesize=90"
+    },
+
+    {
+        "productProps": {
+            "category": "Packs and Bags",
+            "subcategory": "Packs"
+        },
+        "url": "https://www.rei.com/c/packs?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Packs and Bags",
+            "subcategory": "Bags"
+        },
+        "url": "https://www.rei.com/c/bags?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Packs and Bags",
+            "subcategory": "Cases"
+        },
+        "url": "https://www.rei.com/c/cases?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Packs and Bags",
+            "subcategory": "Luggage"
+        },
+        "url": "https://www.rei.com/c/luggage?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Packs and Bags",
+            "subcategory": "Stuff Sacks"
+        },
+        "url": "https://www.rei.com/c/stuff-sacks?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Packs and Bags",
+            "subcategory": "Packing Organizers"
+        },
+        "url": "https://www.rei.com/c/packing-organizers?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Packs and Bags",
+            "subcategory": "Wallets and Money Belts"
+        },
+        "url": "https://www.rei.com/c/wallets-and-money-belts?pagesize=90"
+    },
+
+    {
+        "productProps": {
+            "category": "Books and Maps",
+            "subcategory": "Maps"
+        },
+        "url": "https://www.rei.com/c/maps?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Books and Maps",
+            "subcategory": "Guidebooks"
+        },
+        "url": "https://www.rei.com/c/guidebooks?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Books and Maps",
+            "subcategory": "Adventure Books"
+        },
+        "url": "https://www.rei.com/c/adventure-books?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Books and Maps",
+            "subcategory": "How-To and Instructional Books"
+        },
+        "url": "https://www.rei.com/c/how-to-and-instructional-books?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Books and Maps",
+            "subcategory": "Kids' Books"
+        },
+        "url": "https://www.rei.com/c/kids-books?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Books and Maps",
+            "subcategory": "DVDs"
+        },
+        "url": "https://www.rei.com/c/dvds?pagesize=90"
+    },
+    {
+        "productProps": {
+            "category": "Books and Maps",
+            "subcategory": "Music CDs"
+        },
+        "url": "https://www.rei.com/c/music-cds?pagesize=90"
+    }
+]

@@ -61,6 +61,7 @@ let evaluatorObjects = [
                 await new Promise(resolve => {
                     let interval = setInterval(() => {
                         window.scrollTo(0, function(){
+                            totalHeight = document.body.offsetHeight - window.innerHeight;
                             if(currentScroll + 100 < totalHeight)   {
                                 return currentScroll + 100;
                             } else  {

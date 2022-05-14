@@ -328,7 +328,7 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
         async goToCorrectUrl()    {
             if(this.nextUrl && window.location.href !== this.nextUrl)    {
                 console.log("next url");
-                await this.slowDown();
+                await this.slowDown(2525);
 
                 window.location = this.nextUrl;
 
@@ -345,7 +345,7 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
                     areTheyEqual : this.startingPointUrl === window.location.href,
                 });
 
-                await this.slowDown();
+                await this.slowDown(2525);
 
                 window.location = this.startingPointUrl;
 
@@ -424,7 +424,7 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
         async resetCategory()   {
             this.productObjects = [];
             this.nextUrl = null;
-            await this.slowDown();
+            await this.slowDown(2525);
             window.location = this.startingPointUrl;
         }
 
@@ -444,7 +444,7 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
                 default : 
                     window.location = `${window.location.origin}`;
             }
-            await this.slowDown();
+            await this.slowDown(2525);
 
             nextFunction();
             
@@ -487,14 +487,14 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
                 // navigate to the next url;
                 console.log("we're navigating to the next url");
 
-                await this.slowDown();
+                await this.slowDown(2525);
                 window.location = this.nextUrl;
                 return;
             } else  {
                 console.log("we're done scraping this category");
 
 
-                await this.slowDown();
+                await this.slowDown(2525);
 
                 // either we post all result to database or we downlaod JSON file.
                 for(let actions of this.finalActions)   {

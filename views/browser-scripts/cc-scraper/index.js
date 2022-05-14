@@ -94,12 +94,26 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
                 this.linkObjectsKey,
                 this.scraperObjectKey,
                 `${this.urlQueryKeyPrefix}hasInitialized`,
+                `cc-link-objects-page`,
             ];
 
         }
-
+        static urlQueryKeyPrefix = `___cc_`;
         static scraperObjectQueryKey = `___cc_${toUrl("CC Scraper Object key")}`;
         static scraperObjectKeySeparator = " __CC__scraper__CC__ ";
+
+        static getCcQueryObjects(url) {
+            let urlObject = queryStringToObject(url),
+                objectKeys = Object.keys(urlObject).filter(key => {
+                    return key.indexOf(CcScraper.urlQueryKeyPrefix) === 0;
+                });
+            objectKeys.forEach(key => {
+                urlObject[key] = window.atob(decodeURIComponent(urlObject[key]));
+            });
+
+            return urlObject;
+
+        }
 
         // find the current link object key;
         static getScraperKey(linkObjectsKey) {
@@ -107,13 +121,13 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
             // see for each starting url that we will use, we will attach a key
             let currentUrl = window.location.href,
                 lastUrl = document.referrer,
-                queryObject = queryStringToObject(currentUrl),
+                queryObject = CcScraper.getCcQueryObjects(currentUrl),
                 possibleScraperObjectKey = CcScraper.getPossibleScraperObjectKey(linkObjectsKey);
 
             console.log(queryObject);
             console.log(possibleScraperObjectKey);
             
-            return queryObject && queryObject[CcScraper.scraperObjectQueryKey] ? queryObject[CcScraper.scraperObjectQueryKey] : possibleScraperObjectKey ? possibleScraperObjectKey : null;
+            return (queryObject && Object.keys(queryObject).length > 0) && queryObject[CcScraper.scraperObjectQueryKey] ? queryObject[CcScraper.scraperObjectQueryKey] : possibleScraperObjectKey ? possibleScraperObjectKey : null;
         }
 
         static findNewLinkObject(linkObjectsKey)  {
@@ -153,7 +167,7 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
                 ccScraper = new CcScraper(scraperOptions);
 
 
-                let queryObject = queryStringToObject(window.location.href);
+                let queryObject = CcScraper.getCcQueryObjects(window.location.href);
 
                 if(Object.keys(queryObject).includes("restart-category"))   {
                     Object.assign(ccScraper, {
@@ -241,29 +255,44 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
             }).join(this.scraperObjectKeySeparator);
         }
 
+        getCcQueryObjects(url) {
+            let urlObject = queryStringToObject(url),
+                objectKeys = Object.keys(urlObject).filter(key => {
+                    return key.indexOf(this.urlQueryKeyPrefix) === 0;
+                });
+            objectKeys.forEach(key => {
+                urlObject[key] = window.atob(decodeURIComponent(urlObject[key]));
+            });
+
+            return urlObject;
+
+        }
 
         getStartingPointUrl()   {
-            let urlObject = queryStringToObject(this.currentLinkObject.url),
-                originalUrl = this.currentLinkObject.url.split("?").shift();
+            let urlObject = this.getCcQueryObjects(this.currentLinkObject.url),
+                originalUrl = this.currentLinkObject.url.split("?").shift(),
+                queryString;
 
             this.addedUrlQueryObject[this.scraperObjectQueryKey] = this.scraperObjectKey;
 
-            // Object.keys(this.currentLinkObject.productProps).forEach(key => {
-            //     this.addedUrlQueryObject[`${this.urlQueryKeyPrefix}${key}`] = this.currentLinkObject.productProps[key];
-            // });
+            Object.keys(this.currentLinkObject.productProps).forEach(key => {
+                this.addedUrlQueryObject[`${this.urlQueryKeyPrefix}${key}`] = this.currentLinkObject.productProps[key];
+            });
 
+            queryString = [objectToQueryString(urlObject), objectToQueryString(this.addedUrlQueryObject, true)].filter(item => item.length && item !== null).join("&");
 
-            urlObject = {...urlObject, ...this.addedUrlQueryObject};
-
-            this.startingPointUrl = `${originalUrl}?${objectToQueryString(urlObject)}`;
+            this.startingPointUrl = `${originalUrl}?${queryString}`;
 
         }
 
         getNextUrl(newUrl)    {
-            let urlObject = {...queryStringToObject(newUrl), ...this.addedUrlQueryObject},
-                originalUrl = newUrl.split("?").shift();
+            let urlObject = {...this.getCcQueryObjects(newUrl)},
+                originalUrl = newUrl.split("?").shift(),
+                queryString;
 
-            this.nextUrl = `${originalUrl}?${objectToQueryString(urlObject)}`;
+            queryString = [objectToQueryString(urlObject), objectToQueryString(this.addedUrlQueryObject, true)].filter(item => item.length && item !== null).join("&");
+
+            this.nextUrl = `${originalUrl}?${queryString}`;
         }
 
         async deleteCookies(initial = false) {
@@ -513,10 +542,13 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
             // select from three different evaluators
             for( let i = 0; i < this.evaluatorObjects.length; i++)    {
                 let evaluatorObject = this.evaluatorObjects[i],
-                    {paginated, type, awaitSelector} = evaluatorObject;
+                    {paginated, type, awaitSelectors} = evaluatorObject;
 
-                await waitForSelector(awaitSelector);
+                for(let selector of awaitSelectors) {
+                    await waitForSelector(selector);
+                }
 
+                
                 if(type === "list") {
                     if(paginated) {
                         await this.productsListEvaluatorPaginated(evaluatorObject);

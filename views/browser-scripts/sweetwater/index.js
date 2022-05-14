@@ -171,10 +171,6 @@ let evaluatorObjects = [
             }
 
 
-            await waitForSelector(document.querySelector(`script[src='/p2TBVNJZ/init.js']`));
-            await waitForSelector(document.querySelector(`.product-card:not(.candy--card)`));
-
-
             await new Promise(resolve => setTimeout(resolve, 3434));
 
             await scrollToBottom();
@@ -208,7 +204,10 @@ let evaluatorObjects = [
         },
         type : "list",
         paginated : true,
-        awaitSelector : `script[src='/p2TBVNJZ/init.js']`,
+        awaitSelectors : [
+            `script[src='/p2TBVNJZ/init.js']`,
+            `.product-card:not(.candy--card)`
+        ],
     }
 ];
 
@@ -273,20 +272,14 @@ async function ccScraperInitialize(linkObjectsKey, authToken) {
 
     let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTNlMzM1NTE3YThhNTUzYzRkZGM4ZWQiLCJwZXJtaXNzaW9uTGV2ZWwiOjQsImlhdCI6MTY1MjQzMzY0NiwiZXhwIjoxNjUzMDM4NDQ2fQ.BHfnjykoaOaUKWCmp63t-5ev20HWkTdobg2yCaLzwiI",
         {apiRequest, toUrl, waitForSelector} = __cc_getUtilities(authToken),
-        pageTotal = 15,
+        pageTotal = 288,
         linkObjectsKey = `__cc_${toUrl("CC Sweetwater Musicians link objects")}`,
-        limit = 500,
-        page = function(){
-            if(window.localStorage.getItem("link-objects-page"))    {
-                return Number(window.localStorage.getItem("link-objects-page"));
-            } else  {
-                window.localStorage.setItem("link-objects-page", 1);
-                return 1;
-            }
-        }();
+        limit = 25,
+        page = window.localStorage.getItem("cc-link-objects-page") ? parseInt(window.localStorage.getItem("cc-link-objects-page")) : 1;
 
     async function recursiveScraping(authToken, pageTotal, page = 1)   {
         
+        window.localStorage.setItem("cc-link-objects-page", `${page}`);
 
         let linkObjects,
             allCategoriesScraped;
@@ -307,42 +300,31 @@ async function ccScraperInitialize(linkObjectsKey, authToken) {
         
 
         console.table(JSON.parse(window.localStorage.getItem(linkObjectsKey)));
-        console.log({currentLinkObjectsPage : page, linkObjectsPageTotal : pageTotal});
+        
 
+        allCategoriesScraped = await ccScraperInitialize(linkObjectsKey, authToken);
 
         
-        try {
-            allCategoriesScraped = await ccScraperInitialize(linkObjectsKey, authToken);
+        console.log({currentLinkObjectsPage : page, linkObjectsPageTotal : pageTotal, allCategoriesScraped});
 
-            console.log({allCategoriesScraped});
-
-        } catch(err)    {
-            console.log(err.message);
-
-            allCategoriesScraped = true;
-        }
-        
+        page += 1;
 
         if(page <= pageTotal && allCategoriesScraped)   {
             window.localStorage.removeItem(linkObjectsKey);
-            
-            if(linkObjects.filter(item => !item.finished).length)   {
-                getLinkObjects(linkObjects.filter(item => !item.finished), linkObjectsKey);
-            } else  {
-                page += 1;
 
-                console.log("we are getting new set...");
-                // setting the page number;
-            
-                await new Promise(resolve => setTimeout(resolve, 3434));
+            console.log("we are getting new set...");
+            // setting the page number;
 
-                window.localStorage.setItem("link-objects-page", page);
+            console.log({nextPage : page, linkObjectsPageTotal : pageTotal, allCategoriesScraped});
 
-                await new Promise(resolve => setTimeout(resolve, 3434));
-                window.location = window.location.origin;
-            }
+        
+            await new Promise(resolve => setTimeout(resolve, 3434));
 
-            
+            window.localStorage.setItem("cc-link-objects-page", `${page}`);
+
+            await new Promise(resolve => setTimeout(resolve, 3434));
+
+            await recursiveScraping(authToken, pageTotal, page);
 
         }
 

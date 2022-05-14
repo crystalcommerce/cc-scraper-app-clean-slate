@@ -128,33 +128,33 @@ function __cc_getUtilities(authToken)  {
         return str.split(" ").map(item => toCapitalize(item)).join(" ");
     }
     
-    function objectToQueryString(object) {
+    function objectToQueryString(object, encoded = false) {
     
         return Object.keys(object).reduce((a, b) => {
 
-            let encoded = btoa(object[b]);
+            let encodedText = encoded ? encodeURIComponent(window.btoa(object[b])) : encodeURIComponent(object[b]);
     
-            a.push(`${encodeURIComponent(b)}=${encodeURIComponent(encoded)}`)
+            a.push(`${encodeURIComponent(b)}=${encodedText}`)
     
             return a;
         }, []).join("&");
         
     }
     
-    function queryStringToObject(urlString)   {
+    function queryStringToObject(urlString, encoded = false)   {
         let url = new URL(urlString),
             queryString = url.search.length ? url.search.slice(1) : "",
             queryArr = queryString.length ? queryString.split("&") : [],
             queryObject = queryArr.reduce((a,b) => {
                 let [key, val] = b.split("="),
-                    decoded = atob(decodeURIComponent(val));
+                    decodedText = encoded ? window.atob(decodeURIComponent(val)) : decodeURIComponent(val);
 
 
-                a[decodeURIComponent(key)] = decoded;
+                a[decodeURIComponent(key)] = decodedText;
                 return a;
             }, {});
     
-        return Object.keys(queryObject).length ? queryObject : null;
+        return Object.keys(queryObject).length ? queryObject : {};
     }
 
     return  {

@@ -102,13 +102,14 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
         static scraperObjectQueryKey = `___cc_${toUrl("CC Scraper Object key")}`;
         static scraperObjectKeySeparator = " __CC__scraper__CC__ ";
 
-        static getCcQueryObjects(url) {
+        static getCcQueryObjects(url, encoded = false) {
             let urlObject = queryStringToObject(url),
                 objectKeys = Object.keys(urlObject).filter(key => {
                     return key.indexOf(CcScraper.urlQueryKeyPrefix) === 0;
                 });
+
             objectKeys.forEach(key => {
-                urlObject[key] = window.atob(decodeURIComponent(urlObject[key]));
+                urlObject[key] = encoded ? window.atob(decodeURIComponent(urlObject[key])) : decodeURIComponent(urlObject[key]);
             });
 
             return urlObject;
@@ -255,13 +256,13 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
             }).join(this.scraperObjectKeySeparator);
         }
 
-        getCcQueryObjects(url) {
+        getCcQueryObjects(url, encoded = false) {
             let urlObject = queryStringToObject(url),
                 objectKeys = Object.keys(urlObject).filter(key => {
                     return key.indexOf(this.urlQueryKeyPrefix) === 0;
                 });
             objectKeys.forEach(key => {
-                urlObject[key] = window.atob(decodeURIComponent(urlObject[key]));
+                urlObject[key] = encoded ? window.atob(decodeURIComponent(urlObject[key])) : decodeURIComponent(urlObject[key]);
             });
 
             return urlObject;
@@ -279,7 +280,7 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
                 this.addedUrlQueryObject[`${this.urlQueryKeyPrefix}${key}`] = this.currentLinkObject.productProps[key];
             });
 
-            queryString = [objectToQueryString(urlObject), objectToQueryString(this.addedUrlQueryObject, true)].filter(item => item.length && item !== null).join("&");
+            queryString = [objectToQueryString(urlObject), objectToQueryString(this.addedUrlQueryObject)].filter(item => item.length && item !== null).join("&");
 
             this.startingPointUrl = `${originalUrl}?${queryString}`;
 
@@ -290,7 +291,7 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
                 originalUrl = newUrl.split("?").shift(),
                 queryString;
 
-            queryString = [objectToQueryString(urlObject), objectToQueryString(this.addedUrlQueryObject, true)].filter(item => item.length && item !== null).join("&");
+            queryString = [objectToQueryString(urlObject), objectToQueryString(this.addedUrlQueryObject)].filter(item => item.length && item !== null).join("&");
 
             this.nextUrl = `${originalUrl}?${queryString}`;
         }

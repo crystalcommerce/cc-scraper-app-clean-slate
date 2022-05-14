@@ -301,7 +301,6 @@ async function ccScraperInitialize(linkObjectsKey, authToken) {
 
         console.table(JSON.parse(window.localStorage.getItem(linkObjectsKey)));
         
-
         allCategoriesScraped = await ccScraperInitialize(linkObjectsKey, authToken);
 
         

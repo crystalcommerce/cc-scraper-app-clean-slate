@@ -29,12 +29,12 @@ module.exports = async function(req, res, next)   {
                 registeredRoute = global.registeredRoutes.find(item => item.filePath === filePath);
                 
             if(registeredRoute)   {
-                // console.log("we are using the registered route.")
+                console.log("we are using the registered route.")
                 // console.log(registeredRoute);
                 // console.log(global.registeredRoutes);
                 req.dynamicRouteHandler = registeredRoute.routerObject;
             } else  {
-                // console.log("we are registering the route");
+                console.log("we are registering the route");
                 // console.log(global.registeredRoutes);
                 req.dynamicRouteHandler = require(filePath);
                 global.registeredRoutes.push({

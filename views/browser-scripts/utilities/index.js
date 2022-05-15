@@ -132,7 +132,7 @@ function __cc_getUtilities(authToken)  {
     
         return Object.keys(object).reduce((a, b) => {
 
-            let encodedText = encoded ? encodeURIComponent(window.btoa(object[b])) : encodeURIComponent(object[b]);
+            let encodedText = encoded ? encodeURIComponent(window.btoa(object[b])) : encodeURIComponent(object[b].replace(/\'/g, "__cc__apostrophe__cc__"));
     
             a.push(`${encodeURIComponent(b)}=${encodedText}`)
     
@@ -150,7 +150,7 @@ function __cc_getUtilities(authToken)  {
                     decodedText = encoded ? window.atob(decodeURIComponent(val)) : decodeURIComponent(val);
 
 
-                a[decodeURIComponent(key)] = decodedText;
+                a[decodeURIComponent(key)] = encoded ? decodedText : decodedText.replaceAll("__cc__apostrophe__cc__", "'");
                 return a;
             }, {});
     

@@ -98,6 +98,7 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
             ];
 
         }
+
         static urlQueryKeyPrefix = `___cc_`;
         static scraperObjectQueryKey = `___cc_${toUrl("CC Scraper Object key")}`;
         static scraperObjectKeySeparator = " __CC__scraper__CC__ ";
@@ -145,6 +146,14 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
             return newLinkObject ? Object.keys(productProps).map(key => productProps[key]).join(CcScraper.scraperObjectKeySeparator) : null;
         }
 
+        static resetLastLinkObject(linkObjectsKey)  {
+            let linkObjects = JSON.parse(window.localStorage.getItem(linkObjectsKey)),
+                foundLinkObject = linkObjects.find(item => item.finished === false && item.ongoingProgress === true);
+            foundLinkObject.finished = null,
+            foundLinkObject.ongoingProgress = null;
+
+            window.localStorage.setItem(linkObjectsKey, JSON.stringify(linkObjects));
+        }
 
         static async getScraperObject(scraperOptions)   {
 

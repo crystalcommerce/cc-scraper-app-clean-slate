@@ -258,6 +258,15 @@ async function ccScraperInitialize(linkObjectsKey, authToken) {
 (async function() {
 
     await ccLoadScripts("__cc_getUtilities", "__cc_getScraperFactory");
+
+    
+    let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTNlMzM1NTE3YThhNTUzYzRkZGM4ZWQiLCJwZXJtaXNzaW9uTGV2ZWwiOjQsImlhdCI6MTY1MjQzMzY0NiwiZXhwIjoxNjUzMDM4NDQ2fQ.BHfnjykoaOaUKWCmp63t-5ev20HWkTdobg2yCaLzwiI",
+        {apiRequest, toUrl, waitForSelector} = __cc_getUtilities(authToken),
+        pageTotal = 288,
+        linkObjectsKey = `__cc_${toUrl("CC Sweetwater Musicians link objects")}`,
+        limit = 25,
+        page = window.localStorage.getItem("cc-link-objects-page") ? parseInt(window.localStorage.getItem("cc-link-objects-page")) : 1,
+        CcScraper = __cc_getScraperFactory(__cc_getUtilities, authToken)
     
     // reset mechanism
     if(window.location.href.includes("scraper-reset"))  {
@@ -270,12 +279,11 @@ async function ccScraperInitialize(linkObjectsKey, authToken) {
         return;
     }
 
-    let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTNlMzM1NTE3YThhNTUzYzRkZGM4ZWQiLCJwZXJtaXNzaW9uTGV2ZWwiOjQsImlhdCI6MTY1MjQzMzY0NiwiZXhwIjoxNjUzMDM4NDQ2fQ.BHfnjykoaOaUKWCmp63t-5ev20HWkTdobg2yCaLzwiI",
-        {apiRequest, toUrl, waitForSelector} = __cc_getUtilities(authToken),
-        pageTotal = 288,
-        linkObjectsKey = `__cc_${toUrl("CC Sweetwater Musicians link objects")}`,
-        limit = 25,
-        page = window.localStorage.getItem("cc-link-objects-page") ? parseInt(window.localStorage.getItem("cc-link-objects-page")) : 1;
+    // reset last link object
+    if(window.location.href.includes("reset-last-link"))    {
+        CcScraper.resetLastLinkObject(linkObjectsKey);
+        window.location = window.location.origin;
+    }
 
     async function recursiveScraping(authToken, pageTotal, page = 1)   {
         

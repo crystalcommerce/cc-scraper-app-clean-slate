@@ -265,7 +265,7 @@ async function ccScraperInitialize(linkObjectsKey, authToken) {
         pageTotal = 288,
         linkObjectsKey = `__cc_${toUrl("CC Sweetwater Musicians link objects")}`,
         limit = 25,
-        page = window.localStorage.getItem("cc-link-objects-page") ? parseInt(window.localStorage.getItem("cc-link-objects-page")) : 1,
+        page = window.localStorage.getItem("cc-link-objects-page") ? parseInt(window.localStorage.getItem("cc-link-objects-page")) : 52,
         CcScraper = __cc_getScraperFactory(__cc_getUtilities, authToken)
     
     // reset mechanism
@@ -308,6 +308,7 @@ async function ccScraperInitialize(linkObjectsKey, authToken) {
         
 
         console.table(JSON.parse(window.localStorage.getItem(linkObjectsKey)));
+        console.log({currentLinkObjectsPage : page, linkObjectsPageTotal : pageTotal, allCategoriesScraped});
         
         allCategoriesScraped = await ccScraperInitialize(linkObjectsKey, authToken);
 

@@ -253,9 +253,11 @@ async function ccScraperInitialize(linkObjectsKey, authToken) {
 
 }
 
-function linkObjectsResetter(linkObjectsKey, num)   {
+function linkObjectsResetter(linkObjectsKey, lastNumbers)   {
     let linkObjects = JSON.parse(window.localStorage.getItem(linkObjectsKey)),
-        forRescraping = linkObjects.slice(num);
+        finishedLinks = linkObjects.filter(item => item.finished === true && item.ongoingProgress === false),
+        unfinishedLinks = linkObjects.filter(item => item.ongoingProgress === true && item.finished === false),
+        forRescraping = [...finishedLinks.slice(finishedLinks.length - (lastNumbers + 1)), ...unfinishedLinks];
 
     forRescraping.forEach(item => {
         item.finished = null;
@@ -275,13 +277,14 @@ function linkObjectsResetter(linkObjectsKey, num)   {
         pageTotal = 288,
         linkObjectsKey = `__cc_${toUrl("CC Sweetwater Musicians link objects")}`,
         limit = 25,
-        page = window.localStorage.getItem("cc-link-objects-page") ? parseInt(window.localStorage.getItem("cc-link-objects-page")) : 71,
-        CcScraper = __cc_getScraperFactory(__cc_getUtilities, authToken)
+        page = window.localStorage.getItem("cc-link-objects-page") ? parseInt(window.localStorage.getItem("cc-link-objects-page")) : 121,
+        CcScraper = __cc_getScraperFactory(__cc_getUtilities, authToken);
     
     // reset mechanism
     if(window.location.href.includes("scraper-reset"))  {
         Object.keys(window.localStorage).forEach(key => window.localStorage.removeItem(key));
         window.location = window.location.origin;
+        return;
     }
 
     // stop
@@ -298,6 +301,8 @@ function linkObjectsResetter(linkObjectsKey, num)   {
             linkObjectsResetter(linkObjectsKey, num);
             window.location = window.location.origin;
         }
+
+        return;
 
         //     CcScraper.resetLastLinkObject(linkObjectsKey);
         //     window.location = window.location.origin;

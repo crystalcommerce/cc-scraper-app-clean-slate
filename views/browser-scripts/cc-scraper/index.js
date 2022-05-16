@@ -143,7 +143,7 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
             let newLinkObject = CcScraper.findNewLinkObject(linkObjectsKey),
                 productProps = newLinkObject ? newLinkObject.productProps : null;
 
-            return newLinkObject ? Object.keys(productProps).map(key => productProps[key]).join(CcScraper.scraperObjectKeySeparator) : null;
+            return newLinkObject ? Object.keys(productProps).map(key => productProps[key]).filter(item => item !== null).join(CcScraper.scraperObjectKeySeparator) : null;
         }
 
         static resetLastLinkObject(linkObjectsKey)  {

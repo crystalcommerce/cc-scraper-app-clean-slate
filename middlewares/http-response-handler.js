@@ -6,10 +6,8 @@ module.exports = function()  {
             let { status, message, data } = req.requestResult,
                 contentType = req.requestResult.contentType || "application/json",
                 response = data ? getRequestResult(data, status, contentType) : getRequestResult({data, status, message}, status, contentType);
-                
-            res.setHeader("Content-Type", response.contentType).status(response.status).send(response.data);
-
-
+        
+            
             /**************************************************
             ***************************************************
             * 
@@ -24,9 +22,14 @@ module.exports = function()  {
             **************************************************
             *************************************************/
 
-            if(req.dynamicRouter && req.previousStack)   {
-                req.dynamicRouter.stack = req.previousStack;
-            }
+            // if(req.dynamicRouter && req.previousStack)   {
+            //     req.dynamicRouter.stack = req.previousStack;
+            // }
+
+
+            res.setHeader("Content-Type", response.contentType).status(response.status).send(response.data);
+
+
 
         } else  {
 

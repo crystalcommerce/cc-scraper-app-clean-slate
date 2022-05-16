@@ -171,7 +171,7 @@ let evaluatorObjects = [
             }
 
 
-            await new Promise(resolve => setTimeout(resolve, 3434));
+            await new Promise(resolve => setTimeout(resolve, 7747));
 
             await scrollToBottom();
             await scrollToTop();
@@ -253,7 +253,17 @@ async function ccScraperInitialize(linkObjectsKey, authToken) {
 
 }
 
+function linkObjectsResetter(linkObjectsKey, num)   {
+    let linkObjects = JSON.parse(window.localStorage.getItem(linkObjectsKey)),
+        forRescraping = linkObjects.slice(num);
 
+    forRescraping.forEach(item => {
+        item.finished = null;
+        item.ongoingProgress = null;
+    });
+
+    window.localStorage.setItem(linkObjectsKey, JSON.stringify(linkObjects));
+}
 
 (async function() {
 
@@ -261,11 +271,11 @@ async function ccScraperInitialize(linkObjectsKey, authToken) {
 
     
     let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTNlMzM1NTE3YThhNTUzYzRkZGM4ZWQiLCJwZXJtaXNzaW9uTGV2ZWwiOjQsImlhdCI6MTY1MjQzMzY0NiwiZXhwIjoxNjUzMDM4NDQ2fQ.BHfnjykoaOaUKWCmp63t-5ev20HWkTdobg2yCaLzwiI",
-        {apiRequest, toUrl, waitForSelector} = __cc_getUtilities(authToken),
+        {apiRequest, toUrl, waitForSelector, queryStringToObject} = __cc_getUtilities(authToken),
         pageTotal = 288,
         linkObjectsKey = `__cc_${toUrl("CC Sweetwater Musicians link objects")}`,
         limit = 25,
-        page = window.localStorage.getItem("cc-link-objects-page") ? parseInt(window.localStorage.getItem("cc-link-objects-page")) : 52,
+        page = window.localStorage.getItem("cc-link-objects-page") ? parseInt(window.localStorage.getItem("cc-link-objects-page")) : 71,
         CcScraper = __cc_getScraperFactory(__cc_getUtilities, authToken)
     
     // reset mechanism
@@ -279,10 +289,18 @@ async function ccScraperInitialize(linkObjectsKey, authToken) {
         return;
     }
 
-    // reset last link object
-    if(window.location.href.includes("reset-last-link"))    {
-        CcScraper.resetLastLinkObject(linkObjectsKey);
-        window.location = window.location.origin;
+    if(window.location.href.includes("reset-last-links"))    {
+
+        let urlObject = queryStringToObject(window.location.href),
+            num = Number(urlObject["reset-last-links"])
+
+        if(num && !isNaN(num))   {
+            linkObjectsResetter(linkObjectsKey, num);
+            window.location = window.location.origin;
+        }
+
+        //     CcScraper.resetLastLinkObject(linkObjectsKey);
+        //     window.location = window.location.origin;
     }
 
     async function recursiveScraping(authToken, pageTotal, page = 1)   {

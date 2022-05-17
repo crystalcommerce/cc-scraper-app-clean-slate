@@ -32,22 +32,6 @@ let evaluatorObjects = [
     {
         callback : async () => {
 
-            async function waitForSelector(selector)  {
-                await new Promise(resolve => {
-                    if(selector)    {
-                        resolve();
-                    }
-                    let interval = setInterval(function(){
-                        if(selector)    {
-                            clearInterval(interval);
-                            resolve();
-                        }
-                    }, 500);
-            
-                });
-                return selector;
-            }
-
             async function scrollToBottom()  {
                 let totalHeight = document.body.offsetHeight - window.innerHeight,
                     currentScroll = 0;
@@ -176,7 +160,7 @@ let evaluatorObjects = [
             await scrollToBottom();
             await scrollToTop();
 
-
+            // check for products-list
             let productObjects = Array.from(document.querySelectorAll(".product-card:not(.candy--card)")).map(item =>{
                     let productName = item.querySelector(".product-card__name") ? item.querySelector(".product-card__name").innerText.trim() : null,
                         productUri = item.querySelector(".product-card__name a") ? item.querySelector(".product-card__name a").href : null,
@@ -197,7 +181,30 @@ let evaluatorObjects = [
                     }
                 }),
                 newUrl = document.querySelector(".bottomPagination a.paginate-next") ? document.querySelector(".bottomPagination a.paginate-next").href : null;
-                   
+                 
+                
+
+            if(!productObjects.length && document.querySelector(".product-summary"))   {
+                productObjects = Array.from(document.querySelectorAll(".product-summary")).map(item => {
+
+                    let productName = item.querySelector(".product__name") ? item.querySelector(".product__name").innerText.trim() : null, 
+                        productUri = window.location.href,
+                        imageUris = function(){
+                            let image = document.querySelector(".product-image-col img") ? document.querySelector(".product-image-col img").src : null;
+
+                            return image ? [image] : [];
+                        }();
+
+                    return {
+                        productName, 
+                        productUri, 
+                        imageUris,
+                    }
+                });
+                newUrl = null;
+            }
+
+
 
             return {productObjects, newUrl};
 

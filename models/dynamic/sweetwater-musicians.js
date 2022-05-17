@@ -39,6 +39,6 @@ const SweetwaterMusicians = mongoose.model("SweetwaterMusicians", sweetwaterMusi
 // initializing sweetwaterMusicianssDb
 const sweetwaterMusicianssDb = db(SweetwaterMusicians);
 sweetwaterMusicianssDb.recordName = "Sweetwater Musicians"
-sweetwaterMusicianssDb.addProps("uniqueProps", "productUri");
+// sweetwaterMusicianssDb.addProps("uniqueProps", "productUri");
 
 module.exports = sweetwaterMusicianssDb;

@@ -12069,7 +12069,7 @@ function linkObjectsResetter(linkObjectsKey, lastNumbers)   {
         //     window.location = window.location.origin;
     }
 
-    console.log(linkObjects);
+    console.table(linkObjects);
 
     allCategoriesScraped = await ccScraperInitialize(linkObjectsKey, authToken);
 

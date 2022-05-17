@@ -205,7 +205,6 @@ let evaluatorObjects = [
         type : "list",
         paginated : true,
         awaitSelectors : [
-            `script[src='/p2TBVNJZ/init.js']`,
             `.product-card:not(.candy--card)`
         ],
     }
@@ -277,7 +276,7 @@ function linkObjectsResetter(linkObjectsKey, lastNumbers)   {
         pageTotal = 288,
         linkObjectsKey = `__cc_${toUrl("CC Sweetwater Musicians link objects")}`,
         limit = 25,
-        page = window.localStorage.getItem("cc-link-objects-page") ? parseInt(window.localStorage.getItem("cc-link-objects-page")) : 215,
+        page = window.localStorage.getItem("cc-link-objects-page") ? parseInt(window.localStorage.getItem("cc-link-objects-page")) : 280,
         CcScraper = __cc_getScraperFactory(__cc_getUtilities, authToken);
     
     // reset mechanism

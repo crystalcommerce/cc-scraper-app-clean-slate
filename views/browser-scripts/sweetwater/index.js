@@ -205,7 +205,6 @@ let evaluatorObjects = [
         type : "list",
         paginated : true,
         awaitSelectors : [
-            `script[src='/p2TBVNJZ/init.js']`,
             `.product-card:not(.candy--card)`
         ],
     }
@@ -271,13 +270,19 @@ function linkObjectsResetter(linkObjectsKey, lastNumbers)   {
 
     await ccLoadScripts("__cc_getUtilities", "__cc_getScraperFactory");
 
+
+    // await new Promise(resolve => setTimeout(function(){
+        
+    //     resolve();
+
+    // }, 100));
     
     let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTNlMzM1NTE3YThhNTUzYzRkZGM4ZWQiLCJwZXJtaXNzaW9uTGV2ZWwiOjQsImlhdCI6MTY1MjQzMzY0NiwiZXhwIjoxNjUzMDM4NDQ2fQ.BHfnjykoaOaUKWCmp63t-5ev20HWkTdobg2yCaLzwiI",
         {apiRequest, toUrl, waitForSelector, queryStringToObject} = __cc_getUtilities(authToken),
-        pageTotal = 288,
+        pageTotal = 200,
         linkObjectsKey = `__cc_${toUrl("CC Sweetwater Musicians link objects")}`,
         limit = 25,
-        page = window.localStorage.getItem("cc-link-objects-page") ? parseInt(window.localStorage.getItem("cc-link-objects-page")) : 121,
+        page = window.localStorage.getItem("cc-link-objects-page") ? parseInt(window.localStorage.getItem("cc-link-objects-page")) : 182,
         CcScraper = __cc_getScraperFactory(__cc_getUtilities, authToken);
     
     // reset mechanism

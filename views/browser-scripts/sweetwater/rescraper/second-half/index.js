@@ -6053,13 +6053,6 @@ let linkObjects = [
         }
     },
     {
-        "url": "https://www.sweetwater.com/store/manufacturer/Modal_Electronics",
-        "productProps": {
-            "productBrand": "Modal Electronics",
-            "category": null
-        }
-    },
-    {
         "url": "https://www.sweetwater.com/c1106--Mission_Engineering_Inc--Pedalboards",
         "productProps": {
             "productBrand": "Mission Engineering Inc",
@@ -6108,13 +6101,7 @@ let linkObjects = [
             "category": null
         }
     },
-    {
-        "url": "https://www.sweetwater.com/store/manufacturer/Mojave_Audio",
-        "productProps": {
-            "productBrand": "Mojave Audio",
-            "category": null
-        }
-    },
+    
     {
         "url": "https://www.sweetwater.com/store/detail/MoP14MW--mollard-p14-p-series-conductors-baton-14-inch-maple-white",
         "productProps": {
@@ -6773,13 +6760,7 @@ let linkObjects = [
             "category": "Tablet Accessories"
         }
     },
-    {
-        "url": "https://www.sweetwater.com/store/manufacturer/Paige",
-        "productProps": {
-            "productBrand": "Paige",
-            "category": null
-        }
-    },
+    
     {
         "url": "https://www.sweetwater.com/store/manufacturer/pArtScience",
         "productProps": {
@@ -11755,6 +11736,27 @@ let linkObjects = [
         "productProps": {
             "productBrand": "Zynaptiq",
             "category": "Equalizer Plug-ins"
+        }
+    },
+    {
+        "url": "https://www.sweetwater.com/store/manufacturer/Modal_Electronics",
+        "productProps": {
+            "productBrand": "Modal Electronics",
+            "category": null
+        }
+    },
+    {
+        "url": "https://www.sweetwater.com/store/manufacturer/Mojave_Audio",
+        "productProps": {
+            "productBrand": "Mojave Audio",
+            "category": null
+        }
+    },
+    {
+        "url": "https://www.sweetwater.com/store/manufacturer/Paige",
+        "productProps": {
+            "productBrand": "Paige",
+            "category": null
         }
     }
 ];

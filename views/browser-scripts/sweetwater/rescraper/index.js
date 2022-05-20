@@ -12080,3 +12080,12 @@ function linkObjectsResetter(linkObjectsKey, lastNumbers)   {
     
 
 }());
+
+
+/*
+
+    https://www.sweetwater.com/store/manufacturer/Modal_Electronics
+    https://www.sweetwater.com/store/manufacturer/Mojave_Audio
+    https://www.sweetwater.com/store/manufacturer/Paige
+
+*/

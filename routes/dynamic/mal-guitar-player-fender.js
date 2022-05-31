@@ -23,6 +23,10 @@ module.exports = function()   {
 	router.get("/mal-guitar-player-fender/all?", getMiddleWaresByName("getAllFiltered"));
 
 
+	// getPaginatedResults hanlder
+	router.get("/mal-guitar-player-fender/paginated?", getMiddleWaresByName("getPaginatedResults"));
+
+
 	// getOneById handler
 	router.get("/mal-guitar-player-fender/:id", getMiddleWaresByName("getOneById"));
 

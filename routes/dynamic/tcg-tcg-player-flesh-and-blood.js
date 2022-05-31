@@ -23,6 +23,10 @@ module.exports = function()   {
 	router.get("/tcg-tcg-player-flesh-and-blood/all?", getMiddleWaresByName("getAllFiltered"));
 
 
+	// getPaginatedResults hanlder
+	router.get("/tcg-tcg-player-flesh-and-blood/paginated?", getMiddleWaresByName("getPaginatedResults"));
+
+
 	// getOneById handler
 	router.get("/tcg-tcg-player-flesh-and-blood/:id", getMiddleWaresByName("getOneById"));
 

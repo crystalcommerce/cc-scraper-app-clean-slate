@@ -132,9 +132,19 @@ function __cc_getUtilities(authToken)  {
     
         return Object.keys(object).reduce((a, b) => {
 
-            let encodedText = encoded ? encodeURIComponent(window.btoa(object[b])) : object[b] ? encodeURIComponent(object[b].replace(/\'/g, "__cc__apostrophe__cc__")) : "";
-    
-            a.push(`${encodeURIComponent(b)}=${encodedText}`)
+            let encodedText;
+            
+            // if(encoded && object[b]) {
+            //     encodedText = encodeURIComponent(window.btoa(object[b]));
+            //     a.push(`${encodeURIComponent(b)}=${encodedText}`)
+            // } else if(typeof object[b] === "string")    {
+            //     encodedText = encodeURIComponent(object[b].replace(/\'/g, "__cc__apostrophe__cc__"));
+            //     a.push(`${encodeURIComponent(b)}=${encodedText}`)
+            // }
+
+            if(object[b])   {
+                a.push(`${encodeURIComponent(b)}=${encodeURIComponent(object[b])}`)
+            }
     
             return a;
         }, []).join("&");
@@ -157,6 +167,72 @@ function __cc_getUtilities(authToken)  {
         return Object.keys(queryObject).length ? queryObject : {};
     }
 
+    async function moderator(arr, callback, bulkCount = 5) {
+
+        let firstIndex = 0,
+            lastIndex = bulkCount;
+        
+        async function execute(...args)   {
+    
+            let i = 0;
+    
+            while(i < arr.length)   {
+    
+                let slicedArr = arr.slice(firstIndex, lastIndex);
+                
+                
+                await callback(slicedArr, ...args);
+    
+                if(i + bulkCount < arr.length)  {
+                    i += bulkCount;
+                    firstIndex = i;
+                    lastIndex = i + bulkCount;
+                } else {
+                    i += arr.length - i;
+                    firstIndex = i;
+                    lastIndex = arr.length;
+                }
+    
+                console.log(firstIndex, lastIndex);
+    
+            }
+    
+        }
+    
+        await execute();
+        
+        
+    }
+
+    async function slowDown(timeDelay = false)  {
+        let delay = timeDelay ? timeDelay : 7747;
+        await new Promise(resolve => setTimeout(resolve, delay));
+    }
+
+    async function downloadEncodedText(productObjects, productProps)   {
+        let element = document.createElement("a"),
+            fileName = `${toUrl("encoded" + " " + Object.keys(productProps).reduce((a, b) => {
+                if(productProps[b] && productProps[b].trim().length)   {
+                    a.push(productProps[b].trim());
+                }
+                return a;
+            }, []).join(" ") + ` __date-${Date.now()}` + ` __total-${productObjects.length}`)}.txt`;
+    
+        element.style.display = "none";
+        element.setAttribute("href", `data:text/plain;charset=utf-8, ${btoa(encodeURIComponent(JSON.stringify(productObjects)))}`);
+        element.setAttribute("target", "_blank");
+        element.setAttribute("download", fileName);
+        element.setAttribute("class", "__cc_download-encoded-text");
+    
+        document.body.appendChild(element);
+        
+        await waitForSelector(document.querySelector(".__cc_download-encoded-text"));
+        element.click();
+        await slowDown(3434);
+    }
+
+    
+
     return  {
         apiRequest,
         postDataArray,
@@ -169,6 +245,9 @@ function __cc_getUtilities(authToken)  {
         objectToQueryString,
         queryStringToObject,
         scrollToTop,
+        moderator,
+        slowDown,
+        downloadEncodedText
     }
 
 }

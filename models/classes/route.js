@@ -54,6 +54,11 @@ class Route {
 
         content += `\n`;
         content += `\n`;
+        content += `\t// getPaginatedResults hanlder\n`;
+        content += `\trouter.get("/${routeName}/paginated?", getMiddleWaresByName("getPaginatedResults"));\n`;
+
+        content += `\n`;
+        content += `\n`;
         content += `\t// getOneById handler\n`;
         content += `\trouter.get("/${routeName}/:id", getMiddleWaresByName("getOneById"));\n`;
 

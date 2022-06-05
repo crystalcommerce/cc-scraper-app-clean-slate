@@ -190,11 +190,11 @@ async function getSubCategories(plLinks, subCategoryLinksArr)  {
 
 }
 
+const subCategoryLinksArr = [];
 
 (async function(){
 
-    let subCategoryLinksArr = [],
-        plLinks = [
+    let plLinks = [
             {
                 "categoryTags" : [
                     "Supply Lines"
@@ -1262,7 +1262,7 @@ async function getSubCategories(plLinks, subCategoryLinksArr)  {
             ...item,
             url : item.url + "/products"
         }
-    }).slice(0, 1), subCategoryLinksArr);
+    }), subCategoryLinksArr);
 
     console.table(subCategoryLinksArr);
 

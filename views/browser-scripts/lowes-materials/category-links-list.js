@@ -180,7 +180,7 @@ async function getSubCategories(plLinks, subCategoryLinksArr)  {
         })
 
         await Promise.all(promises.map(item => item()));
-
+        console.clear();
         console.table(subCategoryLinksArr);
 
     }, 1);

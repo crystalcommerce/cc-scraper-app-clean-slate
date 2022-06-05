@@ -76,7 +76,7 @@ const autoSmrRewrite = require("./config/auto-smr-rewrite");
     })
         .then(() => {
             
-            server.listen(port, async () => {
+            server.listen(port, "192.168.86.247", async () => {
 
                 await autoSmrRewrite();
                 console.log(`Server has initialized at port ${port}`);

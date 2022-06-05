@@ -161,15 +161,16 @@ async function getSubCategoryOfLink(getSubCategoriesFn, productLink, subCategory
     if(subCategories.length)    {
 
         let plLinks = subCategories.map(item => {
-            let { url, name } = item;
+            let { url, name } = item,
+                thisCategoryTags = [...categoryTags];
 
             if(name)    {
-                categoryTags.push(name);
+                thisCategoryTags.push(name);
             }
             
             return {
                 url : url + "/products",
-                categoryTags,
+                categoryTags : thisCategoryTags,
             }
         })
 

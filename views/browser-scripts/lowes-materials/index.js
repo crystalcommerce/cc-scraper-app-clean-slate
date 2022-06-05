@@ -13903,7 +13903,9 @@ function getProductObjects(itemList, categoryTags)  {
         categoryTags = categoryTags.slice(2);
         return {
             productBrand : brand,
-            productName : `${brand} - ${modelId} - ${description}`,
+            productName : function(){
+                return [brand, modelId, description].filter(item => item !== null && item.length).join(" - ");
+            }(),
             modelId,
             productUri : `https://www.lowes.com${pdURL}`,
             category, 
@@ -13921,7 +13923,8 @@ function getProductObjects(itemList, categoryTags)  {
 async function getProductsByCategoryLinks(ccUtilities, categoryLinkObject) {
     let { apiRequest, toUrl, waitForSelector, queryStringToObject, objectToQueryString, moderator, slowDown, downloadEncodedText } = ccUtilities,
         {categoryTags, url : originalUrl} = categoryLinkObject,
-        productObjects = [];
+        productObjects = [],
+        [category, subcategory] = categoryTags;
         
 
     
@@ -13982,29 +13985,14 @@ async function getProductsByCategoryLinks(ccUtilities, categoryLinkObject) {
 }
 
 async function initializeScript() {
-    let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTNlMzM1NTE3YThhNTUzYzRkZGM4ZWQiLCJwZXJtaXNzaW9uTGV2ZWwiOjQsImlhdCI6MTY1MjQzMzY0NiwiZXhwIjoxNjUzMDM4NDQ2fQ.BHfnjykoaOaUKWCmp63t-5ev20HWkTdobg2yCaLzwiI",
+    let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTM4ZjNmOTU1YTA1NDJjZDhmNTJiMjciLCJwZXJtaXNzaW9uTGV2ZWwiOjMsImlhdCI6MTY1NDQ2OTYwMiwiZXhwIjoxNjU1MDc0NDAyfQ.t1pSjZ8pSa9OOgaUGwqcuXgjbgpfTEiO9eSGdg7kAyU",
         ccUtilities = __cc_getUtilities(authToken),
         categoryLinkObjectsKey = "___cc_categoryLinkObjects",
-        { moderator, slowDown } = ccUtilities
+        { moderator, slowDown } = ccUtilities,
+        categoryLinkObjects = getLinkObjects(linkObjectsUnparsed, categoryLinkObjectsKey);
 
+    console.log(categoryLinkObjects);
 
-    // get the categorized links;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // // scrape the data through api;
     // // get the products through their api links
     await moderator(categoryLinkObjects, async (slicedArr) => {
 

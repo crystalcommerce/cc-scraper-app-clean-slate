@@ -55,6 +55,36 @@ function productLinksGetter(parentElement, ...categoryTagList)   {
 
 */
 
+async function waitForSelector(selector)  {
+    await new Promise(resolve => {
+        if(selector)    {
+            resolve();
+        }
+        let interval = setInterval(function(){
+            if(selector)    {
+                clearInterval(interval);
+                resolve();
+            }
+        }, 500);
+
+    });
+    return selector;
+}
+
+async function slowDown(timeDelay = false)  {
+    let delay = timeDelay ? timeDelay : 7747;
+    await new Promise(resolve => setTimeout(resolve, delay));
+}
+
+function toUrl(str) {
+    return Array.from(str.toLowerCase().trim().replace(/[^a-zA-Z0-9]/g, " ").split(" ")).reduce((a, b) => {
+        if(b.trim() !== "") {
+            a.push(b);
+        }
+        return a;
+    }, []).join("-");
+}
+
 async function downloadEncodedText(productObjects, productProps)   {
     let element = document.createElement("a"),
         fileName = `${toUrl("encoded" + " " + Object.keys(productProps).reduce((a, b) => {
@@ -146,7 +176,6 @@ async function getSubCategoryOfLink(getSubCategoriesFn, productLink, subCategory
 
         await getSubCategoriesFn(plLinks, subCategoryLinksArr);
     } else  {
-        categoryTags.push(name);
         subCategoryLinksArr.push({
             url : productLink,
             categoryTags,
@@ -1257,7 +1286,7 @@ async function getSubCategories(plLinks, subCategoryLinksArr)  {
             ...item,
             url : item.url + "/products"
         }
-    }).slice(0, 2), subCategoryLinksArr);
+    }).slice(0, 1), subCategoryLinksArr);
 
     console.table(subCategoryLinksArr);
 

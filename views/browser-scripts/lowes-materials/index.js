@@ -13899,7 +13899,6 @@ function getProductObjects(itemList, categoryTags)  {
         let {brand, description, modelId, pdURL, marketingBullets, imageUrl} = item.product,
             [category, subcategory] = categoryTags;
 
-        categoryTags = categoryTags.slice(2);
         return {
             productBrand : brand,
             productName : function(){
@@ -13909,7 +13908,7 @@ function getProductObjects(itemList, categoryTags)  {
             productUri : `https://www.lowes.com${pdURL}`,
             category, 
             subcategory,
-            additionalCategoryTags : categoryTags.join(","),
+            additionalCategoryTags : categoryTags.slice(2).join(", "),
             description : marketingBullets && marketingBullets.length ? marketingBullets.map(item => item.value).join("<br />") : null,
             imageUris : [`https://mobileimages.lowes.com${imageUrl}`],
         }
@@ -13922,7 +13921,8 @@ function getProductObjects(itemList, categoryTags)  {
 async function getProductsByCategoryLinks(ccUtilities, categoryLinkObject) {
     let { apiRequest, toUrl, waitForSelector, queryStringToObject, objectToQueryString, moderator, slowDown, downloadEncodedText } = ccUtilities,
         {categoryTags, url : originalUrl} = categoryLinkObject,
-        productObjects = [];
+        productObjects = [],
+        [category, subcategory] = categoryTags;
         
         
 
@@ -13943,9 +13943,12 @@ async function getProductsByCategoryLinks(ccUtilities, categoryLinkObject) {
         // we clean the productObject properties;
         productObjects.push(...getProductObjects(itemList, categoryTags));
 
+        console.table(productObjects);
+        console.log(categoryTags);
 
         // slowDown the request to make it more human-like;
         await slowDown();
+        console.clear();
 
 
         // we get the next request;
@@ -13974,7 +13977,6 @@ async function getProductsByCategoryLinks(ccUtilities, categoryLinkObject) {
     // slowDown the request to make it more human-like;
     await slowDown();
 
-    let [category, subcategory] = categoryTags;
 
     // downlaod the encoded text files.
     await downloadEncodedText(productObjects, {

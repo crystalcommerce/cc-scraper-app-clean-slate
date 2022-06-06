@@ -13897,8 +13897,7 @@ function getProductObjects(itemList, categoryTags)  {
 
     return itemList.map(item => {
         let {brand, description, modelId, pdURL, marketingBullets, imageUrl} = item.product,
-            category = categoryTags[0],
-            subcategory = categoryTags[1];
+            [category, subcategory] = categoryTags;
 
         categoryTags = categoryTags.slice(2);
         return {
@@ -13910,7 +13909,7 @@ function getProductObjects(itemList, categoryTags)  {
             productUri : `https://www.lowes.com${pdURL}`,
             category, 
             subcategory,
-            additionalCategoryTags : categoryTags,
+            additionalCategoryTags : categoryTags.join(","),
             description : marketingBullets && marketingBullets.length ? marketingBullets.map(item => item.value).join("<br />") : null,
             imageUris : [`https://mobileimages.lowes.com${imageUrl}`],
         }
@@ -13923,8 +13922,8 @@ function getProductObjects(itemList, categoryTags)  {
 async function getProductsByCategoryLinks(ccUtilities, categoryLinkObject) {
     let { apiRequest, toUrl, waitForSelector, queryStringToObject, objectToQueryString, moderator, slowDown, downloadEncodedText } = ccUtilities,
         {categoryTags, url : originalUrl} = categoryLinkObject,
-        productObjects = [],
-        [category, subcategory] = categoryTags;
+        productObjects = [];
+        
         
 
     
@@ -13974,6 +13973,8 @@ async function getProductsByCategoryLinks(ccUtilities, categoryLinkObject) {
 
     // slowDown the request to make it more human-like;
     await slowDown();
+
+    let [category, subcategory] = categoryTags;
 
     // downlaod the encoded text files.
     await downloadEncodedText(productObjects, {

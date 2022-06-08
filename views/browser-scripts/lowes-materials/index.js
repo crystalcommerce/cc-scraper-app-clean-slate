@@ -11536,7 +11536,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Bathtub-drains-Bathtub-shower-parts-Plumbing-parts-repair-Plumbing/4294822049/products",
+        "url": "/pl/Bathtub-drains-Bathtub-shower-parts-Plumbing-parts-repair-Plumbing/4294822049/products",
         "categoryTags": [
             "Plumbing",
             "Plumbing Parts & Repair",
@@ -11549,7 +11549,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Toilet-repair-kits-Toilet-parts-repair-Plumbing-parts-repair-Plumbing/4294753292/products",
+        "url": "/pl/Toilet-repair-kits-Toilet-parts-repair-Plumbing-parts-repair-Plumbing/4294753292/products",
         "categoryTags": [
             "Plumbing",
             "Plumbing Parts & Repair",
@@ -11562,7 +11562,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Toilet-wax-rings-floor-seals-Toilet-parts-repair-Plumbing-parts-repair-Plumbing/131879009/products",
+        "url": "/pl/Toilet-wax-rings-floor-seals-Toilet-parts-repair-Plumbing-parts-repair-Plumbing/131879009/products",
         "categoryTags": [
             "Plumbing",
             "Plumbing Parts & Repair",
@@ -11575,7 +11575,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Faucet-stems-cartridges-Faucet-parts-repair-Plumbing-parts-repair-Plumbing/3035693949/products",
+        "url": "/pl/Faucet-stems-cartridges-Faucet-parts-repair-Plumbing-parts-repair-Plumbing/3035693949/products",
         "categoryTags": [
             "Plumbing",
             "Plumbing Parts & Repair",
@@ -11588,7 +11588,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Toilet-handles-Toilet-parts-repair-Plumbing-parts-repair-Plumbing/3104249826/products",
+        "url": "/pl/Toilet-handles-Toilet-parts-repair-Plumbing-parts-repair-Plumbing/3104249826/products",
         "categoryTags": [
             "Plumbing",
             "Plumbing Parts & Repair",
@@ -11601,7 +11601,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Sink-drains-stoppers-Sink-parts-repair-Plumbing-parts-repair-Plumbing/2695925525/products",
+        "url": "/pl/Sink-drains-stoppers-Sink-parts-repair-Plumbing-parts-repair-Plumbing/2695925525/products",
         "categoryTags": [
             "Plumbing",
             "Plumbing Parts & Repair",
@@ -11614,7 +11614,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Boilers-Water-heaters-Plumbing/1794897186/products",
+        "url": "/pl/Boilers-Water-heaters-Plumbing/1794897186/products",
         "categoryTags": [
             "Plumbing",
             "Water Heaters",
@@ -11627,7 +11627,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Electric-water-heaters-Water-heaters-Plumbing/4294859091/products",
+        "url": "/pl/Electric-water-heaters-Water-heaters-Plumbing/4294859091/products",
         "categoryTags": [
             "Plumbing",
             "Water Heaters",
@@ -11640,7 +11640,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Gas-water-heaters-Water-heaters-Plumbing/4294859099/products",
+        "url": "/pl/Gas-water-heaters-Water-heaters-Plumbing/4294859099/products",
         "categoryTags": [
             "Plumbing",
             "Water Heaters",
@@ -11653,7 +11653,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Tankless-electric-water-heaters-Water-heaters-Plumbing/4294859097/products",
+        "url": "/pl/Tankless-electric-water-heaters-Water-heaters-Plumbing/4294859097/products",
         "categoryTags": [
             "Plumbing",
             "Water Heaters",
@@ -11666,7 +11666,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Tankless-gas-water-heaters-Water-heaters-Plumbing/4294859098/products",
+        "url": "/pl/Tankless-gas-water-heaters-Water-heaters-Plumbing/4294859098/products",
         "categoryTags": [
             "Plumbing",
             "Water Heaters",
@@ -11679,7 +11679,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Water-heater-accessories-Water-heaters-Plumbing/4294400566/products",
+        "url": "/pl/Water-heater-accessories-Water-heaters-Plumbing/4294400566/products",
         "categoryTags": [
             "Plumbing",
             "Water Heaters",
@@ -11692,7 +11692,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Water-heater-pans-Water-heaters-Plumbing/665276096/products",
+        "url": "/pl/Water-heater-pans-Water-heaters-Plumbing/665276096/products",
         "categoryTags": [
             "Plumbing",
             "Water Heaters",
@@ -11705,7 +11705,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Water-heater-parts-Water-heaters-Plumbing/4294400567/products",
+        "url": "/pl/Water-heater-parts-Water-heaters-Plumbing/4294400567/products",
         "categoryTags": [
             "Plumbing",
             "Water Heaters",
@@ -11718,7 +11718,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/ABS-dwv-pipe-fittings-Pipe-fittings-Plumbing/3083447975/products",
+        "url": "/pl/ABS-dwv-pipe-fittings-Pipe-fittings-Plumbing/3083447975/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11731,7 +11731,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Black-pipe-fittings-Pipe-fittings-Plumbing/3914584370/products",
+        "url": "/pl/Black-pipe-fittings-Pipe-fittings-Plumbing/3914584370/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11744,7 +11744,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Brass-fittings-Pipe-fittings-Plumbing/4294822030/products",
+        "url": "/pl/Brass-fittings-Pipe-fittings-Plumbing/4294822030/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11757,7 +11757,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/CPVC-pipe-fittings-Pipe-fittings-Plumbing/4294765344/products",
+        "url": "/pl/CPVC-pipe-fittings-Pipe-fittings-Plumbing/4294765344/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11770,7 +11770,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/CSST-pipe-fittings-accessories-Pipe-fittings-Plumbing/4294566041/products",
+        "url": "/pl/CSST-pipe-fittings-accessories-Pipe-fittings-Plumbing/4294566041/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11783,7 +11783,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Cast-iron-pipe-fittings-Pipe-fittings-Plumbing/4294822002/products",
+        "url": "/pl/Cast-iron-pipe-fittings-Pipe-fittings-Plumbing/4294822002/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11796,7 +11796,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Copper-pipe-fittings-Pipe-fittings-Plumbing/4294822003/products",
+        "url": "/pl/Copper-pipe-fittings-Pipe-fittings-Plumbing/4294822003/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11809,7 +11809,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Galvanized-pipe-fittings-Pipe-fittings-Plumbing/4294822020/products",
+        "url": "/pl/Galvanized-pipe-fittings-Pipe-fittings-Plumbing/4294822020/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11822,7 +11822,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/PEX-pipe-fittings-specialty-tools-Pipe-fittings-Plumbing/2726415035/products",
+        "url": "/pl/PEX-pipe-fittings-specialty-tools-Pipe-fittings-Plumbing/2726415035/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11835,7 +11835,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/PVC-dwv-pipe-fittings-Pipe-fittings-Plumbing/1534626900/products",
+        "url": "/pl/PVC-dwv-pipe-fittings-Pipe-fittings-Plumbing/1534626900/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11848,7 +11848,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/PVC-pipe-fittings-Pipe-fittings-Plumbing/2248019169/products",
+        "url": "/pl/PVC-pipe-fittings-Pipe-fittings-Plumbing/2248019169/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11861,7 +11861,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Pipe-insulation-Pipe-fittings-Plumbing/4294765360/products",
+        "url": "/pl/Pipe-insulation-Pipe-fittings-Plumbing/4294765360/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11874,7 +11874,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Pipe-support-clamps-Pipe-fittings-Plumbing/4294822034/products",
+        "url": "/pl/Pipe-support-clamps-Pipe-fittings-Plumbing/4294822034/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11887,7 +11887,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Polyethylene-pipe-fittings-accessories-Pipe-fittings-Plumbing/4294417371/products",
+        "url": "/pl/Polyethylene-pipe-fittings-accessories-Pipe-fittings-Plumbing/4294417371/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11900,7 +11900,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Push-to-connect-fittings-Pipe-fittings-Plumbing/4294822035/products",
+        "url": "/pl/Push-to-connect-fittings-Pipe-fittings-Plumbing/4294822035/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11913,7 +11913,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Sewage-pipe-fittings-Pipe-fittings-Plumbing/342154210/products",
+        "url": "/pl/Sewage-pipe-fittings-Pipe-fittings-Plumbing/342154210/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11926,7 +11926,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Structural-pipe-fittings-Pipe-fittings-Plumbing/4294506723/products",
+        "url": "/pl/Structural-pipe-fittings-Pipe-fittings-Plumbing/4294506723/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11939,7 +11939,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Tubing-hoses-Pipe-fittings-Plumbing/4294822036/products",
+        "url": "/pl/Tubing-hoses-Pipe-fittings-Plumbing/4294822036/products",
         "categoryTags": [
             "Plumbing",
             "Pipe & Fittings",
@@ -11952,7 +11952,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Backflow-preventers-vacuum-breakers-Valves-valve-repair-Plumbing/3734087168/products",
+        "url": "/pl/Backflow-preventers-vacuum-breakers-Valves-valve-repair-Plumbing/3734087168/products",
         "categoryTags": [
             "Plumbing",
             "Valves & Valve Repair",
@@ -11965,7 +11965,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Ball-valves-Valves-valve-repair-Plumbing/82490080/products",
+        "url": "/pl/Ball-valves-Valves-valve-repair-Plumbing/82490080/products",
         "categoryTags": [
             "Plumbing",
             "Valves & Valve Repair",
@@ -11978,7 +11978,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Check-valves-Valves-valve-repair-Plumbing/2072701023/products",
+        "url": "/pl/Check-valves-Valves-valve-repair-Plumbing/2072701023/products",
         "categoryTags": [
             "Plumbing",
             "Valves & Valve Repair",
@@ -11991,7 +11991,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Gate-valves-Valves-valve-repair-Plumbing/2514178323/products",
+        "url": "/pl/Gate-valves-Valves-valve-repair-Plumbing/2514178323/products",
         "categoryTags": [
             "Plumbing",
             "Valves & Valve Repair",
@@ -12004,7 +12004,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Hydrants-Valves-valve-repair-Plumbing/1433609927/products",
+        "url": "/pl/Hydrants-Valves-valve-repair-Plumbing/1433609927/products",
         "categoryTags": [
             "Plumbing",
             "Valves & Valve Repair",
@@ -12017,7 +12017,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Manifolds-Valves-valve-repair-Plumbing/1820228882/products",
+        "url": "/pl/Manifolds-Valves-valve-repair-Plumbing/1820228882/products",
         "categoryTags": [
             "Plumbing",
             "Valves & Valve Repair",
@@ -12030,7 +12030,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Pressure-relief-valves-regulators-Valves-valve-repair-Plumbing/3046774934/products",
+        "url": "/pl/Pressure-relief-valves-regulators-Valves-valve-repair-Plumbing/3046774934/products",
         "categoryTags": [
             "Plumbing",
             "Valves & Valve Repair",
@@ -12043,7 +12043,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Shut-off-valves-Valves-valve-repair-Plumbing/1622200447/products",
+        "url": "/pl/Shut-off-valves-Valves-valve-repair-Plumbing/1622200447/products",
         "categoryTags": [
             "Plumbing",
             "Valves & Valve Repair",
@@ -12056,7 +12056,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Sillcocks-hose-bibbs-Valves-valve-repair-Plumbing/2056014184/products",
+        "url": "/pl/Sillcocks-hose-bibbs-Valves-valve-repair-Plumbing/2056014184/products",
         "categoryTags": [
             "Plumbing",
             "Valves & Valve Repair",
@@ -12069,7 +12069,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Tub-shower-valves-Valves-valve-repair-Plumbing/2566297941/products",
+        "url": "/pl/Tub-shower-valves-Valves-valve-repair-Plumbing/2566297941/products",
         "categoryTags": [
             "Plumbing",
             "Valves & Valve Repair",
@@ -12082,7 +12082,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Valve-repair-parts-Valves-valve-repair-Plumbing/4294700944/products",
+        "url": "/pl/Valve-repair-parts-Valves-valve-repair-Plumbing/4294700944/products",
         "categoryTags": [
             "Plumbing",
             "Valves & Valve Repair",
@@ -12095,7 +12095,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Water-delivery-valves-Valves-valve-repair-Plumbing/4294700943/products",
+        "url": "/pl/Water-delivery-valves-Valves-valve-repair-Plumbing/4294700943/products",
         "categoryTags": [
             "Plumbing",
             "Valves & Valve Repair",
@@ -12108,7 +12108,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Countertop-faucet-mount-filters-Water-filtration-water-softeners-Plumbing/2931060061/products",
+        "url": "/pl/Countertop-faucet-mount-filters-Water-filtration-water-softeners-Plumbing/2931060061/products",
         "categoryTags": [
             "Plumbing",
             "Water Filtration & Water Softeners",
@@ -12121,7 +12121,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Replacement-water-filters-cartridges-Water-filtration-water-softeners-Plumbing/1111903541/products",
+        "url": "/pl/Replacement-water-filters-cartridges-Water-filtration-water-softeners-Plumbing/1111903541/products",
         "categoryTags": [
             "Plumbing",
             "Water Filtration & Water Softeners",
@@ -12134,7 +12134,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Reverse-osmosis-filtration-systems-Water-filtration-water-softeners-Plumbing/2499914309/products",
+        "url": "/pl/Reverse-osmosis-filtration-systems-Water-filtration-water-softeners-Plumbing/2499914309/products",
         "categoryTags": [
             "Plumbing",
             "Water Filtration & Water Softeners",
@@ -12147,7 +12147,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Shower-head-filters-Water-filtration-water-softeners-Plumbing/3960711559/products",
+        "url": "/pl/Shower-head-filters-Water-filtration-water-softeners-Plumbing/3960711559/products",
         "categoryTags": [
             "Plumbing",
             "Water Filtration & Water Softeners",
@@ -12160,7 +12160,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Under-sink-filtration-systems-Water-filtration-water-softeners-Plumbing/131434476/products",
+        "url": "/pl/Under-sink-filtration-systems-Water-filtration-water-softeners-Plumbing/131434476/products",
         "categoryTags": [
             "Plumbing",
             "Water Filtration & Water Softeners",
@@ -12173,7 +12173,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Water-softener-salt-Water-filtration-water-softeners-Plumbing/4294822069/products",
+        "url": "/pl/Water-softener-salt-Water-filtration-water-softeners-Plumbing/4294822069/products",
         "categoryTags": [
             "Plumbing",
             "Water Filtration & Water Softeners",
@@ -12186,7 +12186,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Water-softeners-Water-filtration-water-softeners-Plumbing/4294822072/products",
+        "url": "/pl/Water-softeners-Water-filtration-water-softeners-Plumbing/4294822072/products",
         "categoryTags": [
             "Plumbing",
             "Water Filtration & Water Softeners",
@@ -12199,7 +12199,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Water-softening-filtration-accessories-Water-filtration-water-softeners-Plumbing/4294822073/products",
+        "url": "/pl/Water-softening-filtration-accessories-Water-filtration-water-softeners-Plumbing/4294822073/products",
         "categoryTags": [
             "Plumbing",
             "Water Filtration & Water Softeners",
@@ -12212,7 +12212,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Water-test-kits-Water-filtration-water-softeners-Plumbing/3306617806/products",
+        "url": "/pl/Water-test-kits-Water-filtration-water-softeners-Plumbing/3306617806/products",
         "categoryTags": [
             "Plumbing",
             "Water Filtration & Water Softeners",
@@ -12225,7 +12225,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Whole-house-filtration-systems-Water-filtration-water-softeners-Plumbing/218816294/products",
+        "url": "/pl/Whole-house-filtration-systems-Water-filtration-water-softeners-Plumbing/218816294/products",
         "categoryTags": [
             "Plumbing",
             "Water Filtration & Water Softeners",
@@ -12238,7 +12238,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Pressure-tanks-Water-pumps-tanks-Plumbing/4294820777/products",
+        "url": "/pl/Pressure-tanks-Water-pumps-tanks-Plumbing/4294820777/products",
         "categoryTags": [
             "Plumbing",
             "Water Pumps & Tanks",
@@ -12251,7 +12251,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Water-pump-accessories-Water-pumps-tanks-Plumbing/4294763912/products",
+        "url": "/pl/Water-pump-accessories-Water-pumps-tanks-Plumbing/4294763912/products",
         "categoryTags": [
             "Plumbing",
             "Water Pumps & Tanks",
@@ -12264,7 +12264,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Water-pumps-Water-pumps-tanks-Plumbing/4294820778/products",
+        "url": "/pl/Water-pumps-Water-pumps-tanks-Plumbing/4294820778/products",
         "categoryTags": [
             "Plumbing",
             "Water Pumps & Tanks",
@@ -12385,7 +12385,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Drain-openers-Augers-plungers-drain-openers-Plumbing/4294796687/products",
+        "url": "/pl/Drain-openers-Augers-plungers-drain-openers-Plumbing/4294796687/products",
         "categoryTags": [
             "Plumbing",
             "Augers, Plungers & Drain Openers",
@@ -12398,7 +12398,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Hand-augers-Augers-plungers-drain-openers-Plumbing/4294821970/products",
+        "url": "/pl/Hand-augers-Augers-plungers-drain-openers-Plumbing/4294821970/products",
         "categoryTags": [
             "Plumbing",
             "Augers, Plungers & Drain Openers",
@@ -12411,7 +12411,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Machine-auger-parts-accessories-Augers-plungers-drain-openers-Plumbing/4020178464799/products",
+        "url": "/pl/Machine-auger-parts-accessories-Augers-plungers-drain-openers-Plumbing/4020178464799/products",
         "categoryTags": [
             "Plumbing",
             "Augers, Plungers & Drain Openers",
@@ -12424,7 +12424,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Machine-augers-Augers-plungers-drain-openers-Plumbing/4294821971/products",
+        "url": "/pl/Machine-augers-Augers-plungers-drain-openers-Plumbing/4294821971/products",
         "categoryTags": [
             "Plumbing",
             "Augers, Plungers & Drain Openers",
@@ -12437,7 +12437,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Plungers-Augers-plungers-drain-openers-Plumbing/4294821972/products",
+        "url": "/pl/Plungers-Augers-plungers-drain-openers-Plumbing/4294821972/products",
         "categoryTags": [
             "Plumbing",
             "Augers, Plungers & Drain Openers",
@@ -12478,7 +12478,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Outdoor-drainage-accessories-Outdoor-drainage-Lawn-garden/4294612448/products",
+        "url": "/pl/Outdoor-drainage-accessories-Outdoor-drainage-Lawn-garden/4294612448/products",
         "categoryTags": [
             "Plumbing",
             "Outdoor Drainage",
@@ -12771,7 +12771,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Rain-barrels-Irrigation-Lawn-garden/4294612466/products",
+        "url": "/pl/Rain-barrels-Irrigation-Lawn-garden/4294612466/products",
         "categoryTags": [
             "Plumbing",
             "Irrigation",
@@ -12784,7 +12784,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Rain-chain-accessories-Irrigation-Lawn-garden/4294410385/products",
+        "url": "/pl/Rain-chain-accessories-Irrigation-Lawn-garden/4294410385/products",
         "categoryTags": [
             "Plumbing",
             "Irrigation",
@@ -12797,7 +12797,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Rain-chains-Irrigation-Lawn-garden/4294410386/products",
+        "url": "/pl/Rain-chains-Irrigation-Lawn-garden/4294410386/products",
         "categoryTags": [
             "Plumbing",
             "Irrigation",
@@ -12838,7 +12838,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Water-storage-Irrigation-Lawn-garden/2010349694860/products",
+        "url": "/pl/Water-storage-Irrigation-Lawn-garden/2010349694860/products",
         "categoryTags": [
             "Plumbing",
             "Irrigation",
@@ -12986,7 +12986,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Backsplash-panels-Kitchen/4294395588/products",
+        "url": "/pl/Backsplash-panels-Kitchen/4294395588/products",
         "categoryTags": [
             "Kitchen",
             "Backsplash Panels"
@@ -12998,7 +12998,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Kitchen-cabinet-accessories-Kitchen-cabinetry-Kitchen/4294735661/products",
+        "url": "/pl/Kitchen-cabinet-accessories-Kitchen-cabinetry-Kitchen/4294735661/products",
         "categoryTags": [
             "Kitchen",
             "Kitchen Cabinetry",
@@ -13011,7 +13011,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Kitchen-cabinet-doors-Kitchen-cabinetry-Kitchen/2443790774/products",
+        "url": "/pl/Kitchen-cabinet-doors-Kitchen-cabinetry-Kitchen/2443790774/products",
         "categoryTags": [
             "Kitchen",
             "Kitchen Cabinetry",
@@ -13024,7 +13024,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Kitchen-cabinet-samples-Kitchen-cabinetry-Kitchen/2228736298/products",
+        "url": "/pl/Kitchen-cabinet-samples-Kitchen-cabinetry-Kitchen/2228736298/products",
         "categoryTags": [
             "Kitchen",
             "Kitchen Cabinetry",
@@ -13037,7 +13037,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Kitchen-cabinets-Kitchen-cabinetry-Kitchen/1898196271/products",
+        "url": "/pl/Kitchen-cabinets-Kitchen-cabinetry-Kitchen/1898196271/products",
         "categoryTags": [
             "Kitchen",
             "Kitchen Cabinetry",
@@ -13050,7 +13050,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Kitchen-countertop-accessories-Kitchen-countertops-accessories-Kitchen/4294696738/products",
+        "url": "/pl/Kitchen-countertop-accessories-Kitchen-countertops-accessories-Kitchen/4294696738/products",
         "categoryTags": [
             "Kitchen",
             "Kitchen Countertops & Accessories",
@@ -13063,7 +13063,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Kitchen-countertop-end-caps-Kitchen-countertops-accessories-Kitchen/718800786/products",
+        "url": "/pl/Kitchen-countertop-end-caps-Kitchen-countertops-accessories-Kitchen/718800786/products",
         "categoryTags": [
             "Kitchen",
             "Kitchen Countertops & Accessories",
@@ -13076,7 +13076,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Kitchen-countertop-samples-Kitchen-countertops-accessories-Kitchen/4294735654/products",
+        "url": "/pl/Kitchen-countertop-samples-Kitchen-countertops-accessories-Kitchen/4294735654/products",
         "categoryTags": [
             "Kitchen",
             "Kitchen Countertops & Accessories",
@@ -13089,7 +13089,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Kitchen-countertop-side-splashes-Kitchen-countertops-accessories-Kitchen/2715620879/products",
+        "url": "/pl/Kitchen-countertop-side-splashes-Kitchen-countertops-accessories-Kitchen/2715620879/products",
         "categoryTags": [
             "Kitchen",
             "Kitchen Countertops & Accessories",
@@ -13102,7 +13102,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Kitchen-countertops-Kitchen-countertops-accessories-Kitchen/4294696736/products",
+        "url": "/pl/Kitchen-countertops-Kitchen-countertops-accessories-Kitchen/4294696736/products",
         "categoryTags": [
             "Kitchen",
             "Kitchen Countertops & Accessories",
@@ -13115,7 +13115,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Laminate-sheets-Kitchen-countertops-accessories-Kitchen/272195692/products",
+        "url": "/pl/Laminate-sheets-Kitchen-countertops-accessories-Kitchen/272195692/products",
         "categoryTags": [
             "Kitchen",
             "Kitchen Countertops & Accessories",
@@ -13128,7 +13128,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Floor-moulding-trim-Flooring/4294417445/products",
+        "url": "/pl/Floor-moulding-trim-Flooring/4294417445/products",
         "categoryTags": [
             "Flooring",
             "Floor Moulding & Trim"
@@ -13140,7 +13140,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Flooring-underlayment-Flooring/4294418636/products",
+        "url": "/pl/Flooring-underlayment-Flooring/4294418636/products",
         "categoryTags": [
             "Flooring",
             "Flooring Underlayment"
@@ -13191,7 +13191,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Gym-flooring-Flooring/4294515431/products",
+        "url": "/pl/Gym-flooring-Flooring/4294515431/products",
         "categoryTags": [
             "Flooring",
             "Gym Flooring"
@@ -13203,7 +13203,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Surface-preparation-Flooring/4294859046/products",
+        "url": "/pl/Surface-preparation-Flooring/4294859046/products",
         "categoryTags": [
             "Flooring",
             "Surface Preparation"
@@ -13215,7 +13215,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Underfloor-heating-Flooring/4294856527/products",
+        "url": "/pl/Underfloor-heating-Flooring/4294856527/products",
         "categoryTags": [
             "Flooring",
             "Underfloor Heating"
@@ -13227,7 +13227,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Carpet-Carpet-carpet-tile-Flooring/4294825283/products",
+        "url": "/pl/Carpet-Carpet-carpet-tile-Flooring/4294825283/products",
         "categoryTags": [
             "Flooring",
             "Carpet & Carpet Tile",
@@ -13240,7 +13240,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Carpet-padding-Carpet-carpet-tile-Flooring/4294865564/products",
+        "url": "/pl/Carpet-padding-Carpet-carpet-tile-Flooring/4294865564/products",
         "categoryTags": [
             "Flooring",
             "Carpet & Carpet Tile",
@@ -13253,7 +13253,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Carpet-samples-Carpet-carpet-tile-Flooring/4294775312/products",
+        "url": "/pl/Carpet-samples-Carpet-carpet-tile-Flooring/4294775312/products",
         "categoryTags": [
             "Flooring",
             "Carpet & Carpet Tile",
@@ -13266,7 +13266,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Carpet-tile-Carpet-carpet-tile-Flooring/4294742218/products",
+        "url": "/pl/Carpet-tile-Carpet-carpet-tile-Flooring/4294742218/products",
         "categoryTags": [
             "Flooring",
             "Carpet & Carpet Tile",
@@ -13279,7 +13279,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Sheet-vinyl-cut-to-length-Vinyl-flooring-Flooring/952903120/products",
+        "url": "/pl/Sheet-vinyl-cut-to-length-Vinyl-flooring-Flooring/952903120/products",
         "categoryTags": [
             "Flooring",
             "Vinyl Flooring",
@@ -13292,7 +13292,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Sheet-vinyl-pre-cut-Vinyl-flooring-Flooring/1311730602756/products",
+        "url": "/pl/Sheet-vinyl-pre-cut-Vinyl-flooring-Flooring/1311730602756/products",
         "categoryTags": [
             "Flooring",
             "Vinyl Flooring",
@@ -13305,7 +13305,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/VCT-tile-Vinyl-flooring-Flooring/1737092063/products",
+        "url": "/pl/VCT-tile-Vinyl-flooring-Flooring/1737092063/products",
         "categoryTags": [
             "Flooring",
             "Vinyl Flooring",
@@ -13318,7 +13318,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Vinyl-flooring-samples-Vinyl-flooring-Flooring/1556390006/products",
+        "url": "/pl/Vinyl-flooring-samples-Vinyl-flooring-Flooring/1556390006/products",
         "categoryTags": [
             "Flooring",
             "Vinyl Flooring",
@@ -13331,7 +13331,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Vinyl-plank-Vinyl-flooring-Flooring/4294608591/products",
+        "url": "/pl/Vinyl-plank-Vinyl-flooring-Flooring/4294608591/products",
         "categoryTags": [
             "Flooring",
             "Vinyl Flooring",
@@ -13344,7 +13344,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Vinyl-tile-Vinyl-flooring-Flooring/4294773819/products",
+        "url": "/pl/Vinyl-tile-Vinyl-flooring-Flooring/4294773819/products",
         "categoryTags": [
             "Flooring",
             "Vinyl Flooring",
@@ -13357,7 +13357,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Hardwood-flooring-Hardwood-Flooring/4294856493/products",
+        "url": "/pl/Hardwood-flooring-Hardwood-Flooring/4294856493/products",
         "categoryTags": [
             "Flooring",
             "Hardwood",
@@ -13370,7 +13370,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Hardwood-samples-Hardwood-Flooring/4136876684/products",
+        "url": "/pl/Hardwood-samples-Hardwood-Flooring/4136876684/products",
         "categoryTags": [
             "Flooring",
             "Hardwood",
@@ -13383,7 +13383,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Accent-trim-tile-Tile-tile-accessories-Flooring/4294761653/products",
+        "url": "/pl/Accent-trim-tile-Tile-tile-accessories-Flooring/4294761653/products",
         "categoryTags": [
             "Flooring",
             "Tile & Tile Accessories",
@@ -13396,7 +13396,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Backer-board-Tile-tile-accessories-Flooring/4294745067/products",
+        "url": "/pl/Backer-board-Tile-tile-accessories-Flooring/4294745067/products",
         "categoryTags": [
             "Flooring",
             "Tile & Tile Accessories",
@@ -13409,7 +13409,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Indoor-floor-sealers-Tile-tile-accessories-Flooring/4294395577/products",
+        "url": "/pl/Indoor-floor-sealers-Tile-tile-accessories-Flooring/4294395577/products",
         "categoryTags": [
             "Flooring",
             "Tile & Tile Accessories",
@@ -13422,7 +13422,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Tile-Tile-tile-accessories-Flooring/4294856525/products",
+        "url": "/pl/Tile-Tile-tile-accessories-Flooring/4294856525/products",
         "categoryTags": [
             "Flooring",
             "Tile & Tile Accessories",
@@ -13435,7 +13435,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Tile-board-moulding-Tile-tile-accessories-Flooring/4294395580/products",
+        "url": "/pl/Tile-board-moulding-Tile-tile-accessories-Flooring/4294395580/products",
         "categoryTags": [
             "Flooring",
             "Tile & Tile Accessories",
@@ -13448,7 +13448,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Tile-edge-trim-Tile-tile-accessories-Flooring/4294395581/products",
+        "url": "/pl/Tile-edge-trim-Tile-tile-accessories-Flooring/4294395581/products",
         "categoryTags": [
             "Flooring",
             "Tile & Tile Accessories",
@@ -13461,7 +13461,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Tile-membranes-Tile-tile-accessories-Flooring/4294395582/products",
+        "url": "/pl/Tile-membranes-Tile-tile-accessories-Flooring/4294395582/products",
         "categoryTags": [
             "Flooring",
             "Tile & Tile Accessories",
@@ -13474,7 +13474,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Tile-samples-Tile-tile-accessories-Flooring/1283681260/products",
+        "url": "/pl/Tile-samples-Tile-tile-accessories-Flooring/1283681260/products",
         "categoryTags": [
             "Flooring",
             "Tile & Tile Accessories",
@@ -13585,7 +13585,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Flooring-accessories-Flooring-tools-accessories-Flooring/4294856496/products",
+        "url": "/pl/Flooring-accessories-Flooring-tools-accessories-Flooring/4294856496/products",
         "categoryTags": [
             "Flooring",
             "Flooring Tools & Accessories",
@@ -13738,7 +13738,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Grout-Grout-mortar-Flooring/4294856532/products",
+        "url": "/pl/Grout-Grout-mortar-Flooring/4294856532/products",
         "categoryTags": [
             "Flooring",
             "Grout & Mortar",
@@ -13751,7 +13751,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Grout-additives-Grout-mortar-Flooring/4294425047/products",
+        "url": "/pl/Grout-additives-Grout-mortar-Flooring/4294425047/products",
         "categoryTags": [
             "Flooring",
             "Grout & Mortar",
@@ -13764,7 +13764,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Grout-bags-Grout-mortar-Flooring/979334909/products",
+        "url": "/pl/Grout-bags-Grout-mortar-Flooring/979334909/products",
         "categoryTags": [
             "Flooring",
             "Grout & Mortar",
@@ -13777,7 +13777,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Grout-removers-Grout-mortar-Flooring/4294414307/products",
+        "url": "/pl/Grout-removers-Grout-mortar-Flooring/4294414307/products",
         "categoryTags": [
             "Flooring",
             "Grout & Mortar",
@@ -13790,7 +13790,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Grout-saws-Grout-mortar-Flooring/4294414308/products",
+        "url": "/pl/Grout-saws-Grout-mortar-Flooring/4294414308/products",
         "categoryTags": [
             "Flooring",
             "Grout & Mortar",
@@ -13803,7 +13803,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Grout-tint-Grout-mortar-Flooring/4294542230/products",
+        "url": "/pl/Grout-tint-Grout-mortar-Flooring/4294542230/products",
         "categoryTags": [
             "Flooring",
             "Grout & Mortar",
@@ -13816,7 +13816,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Mortar-Grout-mortar-Flooring/4294856533/products",
+        "url": "/pl/Mortar-Grout-mortar-Flooring/4294856533/products",
         "categoryTags": [
             "Flooring",
             "Grout & Mortar",
@@ -13829,7 +13829,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Laminate-flooring-Laminate-Flooring/4294856495/products",
+        "url": "/pl/Laminate-flooring-Laminate-Flooring/4294856495/products",
         "categoryTags": [
             "Flooring",
             "Laminate",
@@ -13842,7 +13842,7 @@ let linkObjectsUnparsed = [
         }
     },
     {
-        "url": "https://www.lowes.com/pl/Laminate-samples-Laminate-Flooring/225108758/products",
+        "url": "/pl/Laminate-samples-Laminate-Flooring/225108758/products",
         "categoryTags": [
             "Flooring",
             "Laminate",
@@ -13902,7 +13902,7 @@ function getProductObjects(itemList, categoryTags)  {
         return {
             productBrand : brand,
             productName : function(){
-                return [brand, modelId, description].filter(item => item !== null && item.length).join(" - ");
+                return [brand, modelId, description].filter(item => item && item.length).join(" - ");
             }(),
             modelId,
             productUri : `https://www.lowes.com${pdURL}`,
@@ -13917,6 +13917,15 @@ function getProductObjects(itemList, categoryTags)  {
 
 }
 
+const uncategorizedObjects = [];
+let currentIndex = function(){
+    if(window.localStorage.getItem("currentIndex")) {
+        return Number(localStorage.getItem("currentIndex"));
+    } else  {
+        window.localStorage.setItem("currentIndex", 855);
+        return 858;
+    }
+}();
 
 async function getProductsByCategoryLinks(ccUtilities, categoryLinkObject) {
     let { apiRequest, toUrl, waitForSelector, queryStringToObject, objectToQueryString, moderator, slowDown, downloadEncodedText } = ccUtilities,
@@ -13928,7 +13937,9 @@ async function getProductsByCategoryLinks(ccUtilities, categoryLinkObject) {
 
     
     async function getProductsPerApiEndpoint(url)    {
-        let { itemList, itemCount, pagination, requestParams } = await apiRequest(url),
+
+        try {
+            let { itemList, itemCount, pagination, requestParams } = await apiRequest(url),
             { maxResults : productsPerPage } = requestParams,
             maxOffset = (Number(pagination.pageCount) * Number(productsPerPage)) - Number(productsPerPage),
             nextOffset,
@@ -13938,32 +13949,39 @@ async function getProductsByCategoryLinks(ccUtilities, categoryLinkObject) {
 
         
 
-        console.log({currentOffset, maxOffset, itemCount, url});
+            console.log({currentOffset, maxOffset, itemCount, url, currentIndex});
 
-        // we clean the productObject properties;
-        productObjects.push(...getProductObjects(itemList, categoryTags));
+            // we clean the productObject properties;
+            productObjects.push(...getProductObjects(itemList, categoryTags));
 
-        console.table(productObjects);
-        console.log(categoryTags);
-
-        // slowDown the request to make it more human-like;
-        await slowDown();
-        console.clear();
+            console.table(productObjects);
+            console.log(categoryTags);
+            console.log({currentOffset, currentIndex, maxOffset, itemCount, url});
 
 
-        // we get the next request;
-        if(pagination.pageCount > 1 && currentOffset < maxOffset && currentOffset < 720)    {
-            nextOffset = Number(currentOffset) + Number(productsPerPage);
-
-            queryObject.offset = nextOffset;
-
-            queryString = objectToQueryString(queryObject);
+            // slowDown the request to make it more human-like;
+            await slowDown();
+            console.clear();
 
 
-            await getProductsPerApiEndpoint(`${url.split("?").shift()}?${queryString}`);
-        } else if(maxOffset >= 720)  {
-            uncategorizedObjects.push(categoryLinkObject);
+            // we get the next request;
+            if(pagination.pageCount > 1 && currentOffset < maxOffset && currentOffset < 720)    {
+                nextOffset = Number(currentOffset) + Number(productsPerPage);
+
+                queryObject.offset = nextOffset;
+
+                queryString = objectToQueryString(queryObject);
+
+
+                await getProductsPerApiEndpoint(`${url.split("?").shift()}?${queryString}`);
+            } else if(maxOffset > 720)  {
+                uncategorizedObjects.push(categoryLinkObject);
+            }
+        } catch(err)    {
+            await slowDown();
+            await getProductsByCategoryLinks(ccUtilities, categoryLinkObject);
         }
+        
     }
 
     // slowDown the request to make it more human-like;
@@ -13972,6 +13990,11 @@ async function getProductsByCategoryLinks(ccUtilities, categoryLinkObject) {
     // initialize productScraping;
     await getProductsPerApiEndpoint(`https://www.lowes.com${originalUrl}`);
     console.table(productObjects);
+
+    console.log(currentIndex);
+    currentIndex += 1;
+
+    window.localStorage.setItem("currentIndex", currentIndex);
 
 
     // slowDown the request to make it more human-like;
@@ -13996,8 +14019,9 @@ async function initializeScript() {
 
     console.log(categoryLinkObjects);
 
+
     // // get the products through their api links
-    await moderator(categoryLinkObjects, async (slicedArr) => {
+    await moderator(categoryLinkObjects.slice(currentIndex), async (slicedArr) => {
 
         await slowDown();
 
@@ -14011,6 +14035,10 @@ async function initializeScript() {
         });
 
         await Promise.all(promises.map(item => item()));
+
+
+        
+
 
     }, 1);
     

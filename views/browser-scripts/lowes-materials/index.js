@@ -13857,6 +13857,63 @@ let linkObjectsUnparsed = [
 ];
 
 
+linkObjectsUnparsed = [
+    {
+        "url": "/pl/Cable-locks-Locks-Hardware/4294400564/products",
+        "categoryTags": [
+            "Hardware",
+            "Locks",
+            "Cable Locks"
+        ],
+        "itemCount": 23,
+        "pagination": {
+            "page": 1,
+            "pageCount": 1
+        }
+    },
+    {
+        "url": "/pl/Crown-moulding-Moulding-Moulding-millwork/4294518246/products",
+        "categoryTags": [
+            "Moulding & Millwork",
+            "Moulding",
+            "Crown Moulding"
+        ],
+        "itemCount": 3337,
+        "pagination": {
+            "page": 1,
+            "pageCount": 140
+        }
+    },
+    {
+        "url": "/pl/Entry-door-casing-accents-Moulding-accents-Moulding-Moulding-millwork/4294518221/products",
+        "categoryTags": [
+            "Moulding & Millwork",
+            "Moulding",
+            "Moulding Accents",
+            "Entry Door Casing Accents"
+        ],
+        "itemCount": 975,
+        "pagination": {
+            "page": 1,
+            "pageCount": 41
+        }
+    },
+    {
+        "url": "/pl/Braces-Brackets-braces-Moulding-millwork/2821716909412/products",
+        "categoryTags": [
+            "Moulding & Millwork",
+            "Brackets & Braces",
+            "Braces"
+        ],
+        "itemCount": 14,
+        "pagination": {
+            "page": 1,
+            "pageCount": 1
+        }
+    }
+];
+
+
 async function ccLoadScripts(...globals)  {
 
     let promises = globals.map(item => {
@@ -13922,8 +13979,8 @@ let currentIndex = function(){
     if(window.localStorage.getItem("currentIndex")) {
         return Number(localStorage.getItem("currentIndex"));
     } else  {
-        window.localStorage.setItem("currentIndex", 855);
-        return 858;
+        window.localStorage.setItem("currentIndex", 0);
+        return 0;
     }
 }();
 
@@ -13978,6 +14035,10 @@ async function getProductsByCategoryLinks(ccUtilities, categoryLinkObject) {
                 uncategorizedObjects.push(categoryLinkObject);
             }
         } catch(err)    {
+
+            console.log(err.message);
+
+
             await slowDown();
             await getProductsByCategoryLinks(ccUtilities, categoryLinkObject);
         }

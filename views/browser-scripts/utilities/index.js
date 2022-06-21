@@ -222,12 +222,12 @@ function __cc_getUtilities(authToken)  {
 
     async function downloadEncodedText(productObjects, productProps)   {
         let element = document.createElement("a"),
-            fileName = `${toUrl("encdd" + " " + Object.keys(productProps).reduce((a, b) => {
+            fileName = `${toUrl("enc" + " " + Object.keys(productProps).reduce((a, b) => {
                 if(productProps[b] && productProps[b].trim().length)   {
                     a.push(productProps[b].trim());
                 }
                 return a;
-            }, []).join(" ") + ` __date-${Date.now()}` + ` __total-${productObjects.length}`)}.txt`;
+            }, []).join(" ") + ` __dt-${Date.now()}` + ` __total-${productObjects.length}`)}.txt`;
     
         element.style.display = "none";
         element.setAttribute("href", `data:text/plain;charset=utf-8, ${btoa(encodeURIComponent(JSON.stringify(productObjects)))}`);

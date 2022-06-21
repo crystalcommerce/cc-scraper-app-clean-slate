@@ -1377,7 +1377,8 @@ async function getAllProductGcodes(ccUtilities, categoryLinkObject, pageCountLim
                         category, 
                         subcategory,
                     }
-                });
+                }), 
+                currentLinkObjectIndex = getCurrentLinkObjectIndex();
             
 
             for(let gcodeObject of gcodeObjects)    {
@@ -1388,13 +1389,13 @@ async function getAllProductGcodes(ccUtilities, categoryLinkObject, pageCountLim
 
             console.table(gcodeItems);
 
-            console.table({apiUrl, RSuccess, category, subcategory, totalPages, totalProducts, pagecnt, total : gcodeItems.length, currentLinkObjectIndex : getCurrentLinkObjectIndex()});
+            console.table({apiUrl, RSuccess, category, subcategory, totalPages, totalProducts, pagecnt, total : gcodeItems.length, currentLinkObjectIndex});
 
 
             await slowDown(3434);
 
 
-            await scrapeProductsByCategory(ccUtilities, gcodeItems, category, subcategory, pagecnt);
+            await scrapeProductsByCategory(ccUtilities, gcodeItems, category, subcategory, pagecnt, currentLinkObjectIndex);
             gcodeItems = [];
             
 
@@ -1431,7 +1432,7 @@ async function getAllProductGcodes(ccUtilities, categoryLinkObject, pageCountLim
 
 }
 
-async function scrapeProductsByCategory(ccUtilities, gcodeItems, category, subcategory, currentPageIndex)    {
+async function scrapeProductsByCategory(ccUtilities, gcodeItems, category, subcategory, currentPageIndex, currentLinkObjectIndex)    {
 
     let { moderator, downloadEncodedText, slowDown } = ccUtilities,
         productObjects = [],
@@ -1496,7 +1497,7 @@ async function scrapeProductsByCategory(ccUtilities, gcodeItems, category, subca
 
     // print data here;
 
-    await downloadEncodedText(productObjects, {category, subcategory, pageIndex : `page-${currentPageIndex}`});
+    await downloadEncodedText(productObjects, {category, subcategory, pageIndex : `pg-${currentPageIndex}`, linkObjectIndex : `loi-${currentLinkObjectIndex}` });
 
     
 }

@@ -1,11 +1,12 @@
 function __cc_getUtilities(authToken)  {
     
-    async function apiRequest(url, options = {})   {
+    async function apiRequest(url, options = {}, accessLocalHost = false)   {
         let headers = {
                 "Content-type" : "application/json",
                 "x-auth-token" : authToken,
             },
-            res = await fetch(url, {...options, headers}),
+            requestOptions = accessLocalHost ? {...options, headers} : options,
+            res = await fetch(url, requestOptions),
             data = await res.json();
     
         return data;
@@ -55,6 +56,16 @@ function __cc_getUtilities(authToken)  {
             }, 25);
         });
         
+    }
+
+    function isObjectInArray(object, array = []) {
+        return array.some(item => {
+            let results = [];
+            for(let key in object)    {
+                results.push(object[key] === item[key]);
+            }
+            return results.every(res => res);
+        });
     }
 
     async function scrollToTop()   {
@@ -181,7 +192,7 @@ function __cc_getUtilities(authToken)  {
                 let slicedArr = arr.slice(firstIndex, lastIndex);
                 
                 
-                await callback(slicedArr, ...args);
+                await callback(slicedArr, firstIndex, lastIndex);
     
                 if(i + bulkCount < arr.length)  {
                     i += bulkCount;
@@ -211,7 +222,7 @@ function __cc_getUtilities(authToken)  {
 
     async function downloadEncodedText(productObjects, productProps)   {
         let element = document.createElement("a"),
-            fileName = `${toUrl("encoded" + " " + Object.keys(productProps).reduce((a, b) => {
+            fileName = `${toUrl("encdd" + " " + Object.keys(productProps).reduce((a, b) => {
                 if(productProps[b] && productProps[b].trim().length)   {
                     a.push(productProps[b].trim());
                 }
@@ -247,6 +258,7 @@ function __cc_getUtilities(authToken)  {
         scrollToTop,
         moderator,
         slowDown,
+        isObjectInArray,
         downloadEncodedText
     }
 

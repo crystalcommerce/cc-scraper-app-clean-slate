@@ -1365,7 +1365,7 @@ async function getAllProductGcodes(ccUtilities, categoryLinkObject, pageCountLim
 
         async function getNextPages(pagecnt, categoryLinkObject)    {
 
-            await slowDown(4343);
+            await slowDown(5252);
             console.clear();
 
             let {category, subcategory, url} = categoryLinkObject,
@@ -1392,7 +1392,7 @@ async function getAllProductGcodes(ccUtilities, categoryLinkObject, pageCountLim
             console.table({apiUrl, RSuccess, category, subcategory, totalPages, totalProducts, pagecnt, total : gcodeItems.length, currentLinkObjectIndex});
 
 
-            await slowDown(3434);
+            await slowDown(5252);
 
 
             await scrapeProductsByCategory(ccUtilities, gcodeItems, category, subcategory, pagecnt, currentLinkObjectIndex);
@@ -1571,9 +1571,14 @@ async function initializeScript() {
 
     console.log("hello there... Michael Norward");
 
-    setCurrentLinkObjectIndex(8);
+    setCurrentLinkObjectIndex(110);
 
-    // setCurrentPageIndex();
+    setCurrentPageIndex(2702);
+
+    // to be worked on next
+    // pageIndex = 2585
+    // loi = 58
+
 
     await initializeScript();
 

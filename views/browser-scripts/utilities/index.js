@@ -2,7 +2,7 @@ function __cc_getUtilities(authToken)  {
     
     async function apiRequest(url, options = {}, accessLocalHost = false)   {
         let headers = {
-                "Content-type" : "application/json",
+                "Content-Type" : "application/json",
                 "x-auth-token" : authToken,
             },
             requestOptions = accessLocalHost ? {...options, headers} : options,
@@ -58,12 +58,19 @@ function __cc_getUtilities(authToken)  {
         
     }
 
-    function isObjectInArray(object, array = []) {
+    function isObjectInArray(object, array = [], keysToBeChecked = []) {
         return array.some(item => {
             let results = [];
-            for(let key in object)    {
-                results.push(object[key] === item[key]);
+            if(keysToBeChecked.length)  {
+                for(let key of keysToBeChecked)    {
+                    results.push(object[key] === item[key]);
+                }
+            } else  {
+                for(let key in object)    {
+                    results.push(object[key] === item[key]);
+                }
             }
+            
             return results.every(res => res);
         });
     }
@@ -243,6 +250,34 @@ function __cc_getUtilities(authToken)  {
     }
 
     
+    function getValidatedPropValues(obj, propNames = [], callback = (value) => {})    {
+
+        if(!obj)    {
+            return null;
+        }
+            
+        let objValue = null;
+        propNames.reduce((object, key) => {
+        
+            if(object[key]) {
+                object = object[key];
+                objValue = object;
+            } else  {
+                object = {};
+                objValue = null;
+            }
+
+            callback(objValue);
+            
+            return object;
+
+        }, obj);
+
+        return objValue;
+
+    }
+
+
 
     return  {
         apiRequest,
@@ -259,7 +294,8 @@ function __cc_getUtilities(authToken)  {
         moderator,
         slowDown,
         isObjectInArray,
-        downloadEncodedText
+        downloadEncodedText,
+        getValidatedPropValues
     }
 
 }

@@ -1464,21 +1464,29 @@ async function getNestedCategoryLinks(ccUtilities, categoryLinks) {
                 let payload = await getCategoryPayloadObjectFromUrl(item),
                     {payloadObject, type : urlType} = payload;
 
-                    console.log(urlType);
-                    console.table(payloadObject);
 
                 if(urlType === "buy")  {
                     let {descriptionForUrl, categoryId} = payloadObject,
                         linkObject = {descriptionForUrl, categoryId, pageNumber : 1, filters : []};
                     if(!isObjectInArray(linkObject, linkObjectsUnparsed, ["descriptionForUrl", "categoryId"]))    {
                         linkObjectsUnparsed.push(linkObject);
-                        console.log("\n\n\n===========================\n===========================\n===========================\n\n\n");
-                        
-                        console.table(linkObjectsUnparsed);
                         
                         
-
                     }
+                    
+
+                    if(!processedUrls.includes(item))    {
+                        processedUrls.push(item);
+                    }
+
+                    console.log({
+                        totalLinkObjects : linkObjectsUnparsed.length,
+                        totalProcessedUrls : processedUrls.length,
+                        urlType,
+                        payloadObject
+                    });
+
+
                 } else  {
                     try {
                         let res = await fetch(categoryUrl, {
@@ -1500,11 +1508,17 @@ async function getNestedCategoryLinks(ccUtilities, categoryLinks) {
                                     extractedCategoryPaths.push(url);
                                 }
                             }
+
+                            console.log({
+                                totalLinkObjects : linkObjectsUnparsed.length,
+                                totalProcessedUrls : processedUrls.length,
+                                totalExtractedCategoryPaths : extractedCategoryPaths.length,
+                            });
+
+
                         }
 
-                        if(!processedUrls.includes(item))    {
-                            processedUrls.push(item);
-                        }
+                        
 
 
                     } catch(err)    {
@@ -1516,6 +1530,8 @@ async function getNestedCategoryLinks(ccUtilities, categoryLinks) {
                     }
                     
                 }
+
+                
                 
             }
 
@@ -1527,16 +1543,15 @@ async function getNestedCategoryLinks(ccUtilities, categoryLinks) {
         await slowDown(3434);
 
         if(extractedCategoryPaths.length)  {
-            console.log({message : "This is the extracted Category Paths"})
-            console.table(extractedCategoryPaths);
             await getNestedCategoryLinks(ccUtilities, extractedCategoryPaths);
+
+
+            console.log({
+                totalLinkObjects : linkObjectsUnparsed.length,
+                totalProcessedUrls : processedUrls.length,
+                totalExtractedCategoryPaths : extractedCategoryPaths.length,
+            });
         }
-
-        console.log({message : "This is the extracted Category Paths"})
-        console.table(extractedCategoryPaths);
-
-        console.log("\n\n\n===========================\n===========================\n===========================\n\n\n");
-        console.table(linkObjectsUnparsed);
 
         clearInterval(interval);
 
@@ -1548,6 +1563,11 @@ async function getNestedCategoryLinks(ccUtilities, categoryLinks) {
             });
         }
     }, 1);
+
+
+    console.table(linkObjectsUnparsed);
+
+
 }
 
 
@@ -1965,10 +1985,10 @@ async function initializeScript(mainDirPath) {
 
     window.localStorage.removeItem("___cc_categoryLinkObjects");
 
-    weHaveLinkObjects = true;
+    // weHaveLinkObjects = true;
 
     if(!weHaveLinkObjects) {
-        // linkObjectsUnparsed = [];
+        linkObjectsUnparsed = [];
         primaryCategoryLinks = [
             "https://www.bhphotovideo.com/c/browse/Photography/ci/989/N/4294538916",
             "https://www.bhphotovideo.com/c/browse/Professional-Video/ci/3755/N/4294545851",

@@ -1,0 +1,1105 @@
+{
+    "itemKey": {
+        "skuNo": 1577838,
+        "itemSource": "REG"
+    },
+    "core": {
+        "shortDescription": "Sony a7S III Mirrorless Camera",
+        "itemCode": "SOA7S3",
+        "manufacturerCatalogNumber": "ILCE7SM3/B",
+        "multiPackCount": 1,
+        "multiPackText": "Pieces",
+        "isDownload": false,
+        "isBHKit": false,
+        "isJKit": false,
+        "isGiftCard": false,
+        "isMfrBundle": false,
+        "hasEssentialKits": false,
+        "isUsed": false,
+        "detailsUrl": "/c/product/1577838-REG/sony_ilce7sm3_b_alpha_a7s_iii_mirrorless.html",
+        "bitlyUrl": "https://bhpho.to/30u66OD",
+        "brandSeriesModel": "Sony Alpha A7S III"
+    },
+    "brand": {
+        "name": "Sony",
+        "isAuthorizedDealer": true,
+        "logo": "https://static.bhphoto.com/images/manufacturers/sony_80.gif",
+        "url": "/c/browse/Sony/ci/5806/N/4232860313"
+    },
+    "mainImage": {
+        "note": null,
+        "thumbnail": {
+            "url": "https://static.bhphoto.com/images/smallimages/1595930779_1577838.jpg",
+            "width": 55,
+            "height": 55
+        },
+        "listing": {
+            "url": "https://static.bhphoto.com/images/images150x150/1595930779_1577838.jpg",
+            "width": 150,
+            "height": 150
+        },
+        "default": {
+            "url": "https://static.bhphoto.com/images/images345x345/1595930779_1577838.jpg",
+            "width": 345,
+            "height": 345
+        },
+        "detail": {
+            "url": "https://static.bhphoto.com/images/images500x500/sony_ilce7sm3_b_alpha_a7s_iii_mirrorless_1595930779_1577838.jpg",
+            "width": 500,
+            "height": 500
+        },
+        "seo": {
+            "url": "https://www.bhphotovideo.com/images/images2500x2500/sony_ilce7sm3_b_alpha_a7s_iii_mirrorless_1577838.jpg",
+            "width": 2500,
+            "height": 2500
+        },
+        "largeImages": [
+            {
+                "url": "https://static.bhphoto.com/images/images500x500/1595930779_1577838.jpg",
+                "width": 500,
+                "height": 500
+            },
+            {
+                "url": "https://static.bhphoto.com/images/images750x750/1595930779_1577838.jpg",
+                "width": 750,
+                "height": 750
+            },
+            {
+                "url": "https://static.bhphoto.com/images/images1000x1000/1595930779_1577838.jpg",
+                "width": 1000,
+                "height": 1000
+            },
+            {
+                "url": "https://static.bhphoto.com/images/images1500x1500/1595930779_1577838.jpg",
+                "width": 1500,
+                "height": 1500
+            },
+            {
+                "url": "https://static.bhphoto.com/images/images2000x2000/1595930779_1577838.jpg",
+                "width": 2000,
+                "height": 2000
+            },
+            {
+                "url": "https://static.bhphoto.com/images/images2500x2500/1595930779_1577838.jpg",
+                "width": 2500,
+                "height": 2500
+            }
+        ],
+        "hasMainImage": true
+    },
+    "categoryInfo": {
+        "primaryCategoryRank": 11,
+        "categories": [
+            {
+                "id": 5860,
+                "isDirectParent": true
+            },
+            {
+                "id": 16158,
+                "isDirectParent": true
+            },
+            {
+                "id": 26789,
+                "isDirectParent": true
+            },
+            {
+                "id": 28624,
+                "isDirectParent": true
+            },
+            {
+                "id": 33288,
+                "isDirectParent": true
+            },
+            {
+                "id": 33505,
+                "isDirectParent": true
+            },
+            {
+                "id": 40050,
+                "isDirectParent": true
+            },
+            {
+                "id": 43750,
+                "isDirectParent": true
+            },
+            {
+                "id": 45465,
+                "isDirectParent": true
+            },
+            {
+                "id": 47603,
+                "isDirectParent": true
+            },
+            {
+                "id": 48030,
+                "isDirectParent": true
+            },
+            {
+                "id": 48189,
+                "isDirectParent": true
+            },
+            {
+                "id": 48864,
+                "isDirectParent": true
+            },
+            {
+                "id": 48969,
+                "isDirectParent": true
+            },
+            {
+                "id": 49234,
+                "isDirectParent": true
+            },
+            {
+                "id": 49839,
+                "isDirectParent": true
+            },
+            {
+                "id": 50154,
+                "isDirectParent": true
+            },
+            {
+                "id": 50939,
+                "isDirectParent": true
+            },
+            {
+                "id": 51477,
+                "isDirectParent": true
+            },
+            {
+                "id": 51478,
+                "isDirectParent": true
+            },
+            {
+                "id": 51579,
+                "isDirectParent": true
+            },
+            {
+                "id": 51581,
+                "isDirectParent": true
+            },
+            {
+                "id": 51797,
+                "isDirectParent": true
+            },
+            {
+                "id": 53058,
+                "isDirectParent": true
+            },
+            {
+                "id": 53171,
+                "isDirectParent": true
+            },
+            {
+                "id": 26709,
+                "isDirectParent": false
+            },
+            {
+                "id": 33282,
+                "isDirectParent": false
+            },
+            {
+                "id": 35562,
+                "isDirectParent": false
+            },
+            {
+                "id": 44981,
+                "isDirectParent": false
+            },
+            {
+                "id": 49632,
+                "isDirectParent": false
+            },
+            {
+                "id": 9811,
+                "isDirectParent": false
+            },
+            {
+                "id": 35629,
+                "isDirectParent": false
+            },
+            {
+                "id": 39138,
+                "isDirectParent": false
+            },
+            {
+                "id": 44983,
+                "isDirectParent": false
+            }
+        ],
+        "primaryCategoryPath": [
+            {
+                "id": 989,
+                "name": "Photography",
+                "url": "/c/browse/Photography/ci/989/N/4294538916"
+            },
+            {
+                "id": 9811,
+                "name": "Digital Cameras",
+                "url": "/c/buy/Digital-Cameras/ci/9811/N/4288586282"
+            },
+            {
+                "id": 16158,
+                "name": "Mirrorless Cameras",
+                "url": "/c/buy/Mirrorless-Cameras/ci/16158/N/4288586281"
+            }
+        ]
+    },
+    "priceInfo": {
+        "addToCartButton": "ADD_TO_CART",
+        "addToCartFunction": "ATC_LAYER",
+        "addToCartMessage": null,
+        "hidePriceAndCartSection": false,
+        "showPriceChangedInCart": false,
+        "showPriceWillChangeInCheckoutMessage": false,
+        "allowRemovingItemInCartLayer": false,
+        "nonOrderableType": null,
+        "showNotifyWhenInStock": false,
+        "showCallForPrice": false,
+        "priceNotYetAvailable": false,
+        "soldInKitOnly": false,
+        "showPrice": true,
+        "price": 3498,
+        "showStrikethroughPrice": false,
+        "strikethroughPrice": null,
+        "strikethroughPriceLabel": null,
+        "showGrayedOutPrice": false,
+        "grayedOutPrice": null,
+        "currencyPrice": null,
+        "currencyStrikethroughPrice": null,
+        "currencyGrayedOutPrice": null,
+        "mapMessage": null,
+        "quantityDiscount": null,
+        "savings": {
+            "instant": null,
+            "dealZone": null,
+            "threshold": null,
+            "coupon": null,
+            "portal": null,
+            "student": null,
+            "used": null,
+            "rebate": null,
+            "bundle": null,
+            "priceDrop": null,
+            "promo": null
+        },
+        "showCusmaNote": false,
+        "taxNote": null,
+        "pricingSlots": null,
+        "hasSessionPricing": false
+    },
+    "overview": {
+        "longDescription": null,
+        "writersBio": null,
+        "note": null,
+        "items": [
+            {
+                "shortDescription": "Sony a7S III Mirrorless Camera",
+                "hasThirdPartyContent": false,
+                "upc": null,
+                "overview": {
+                    "longDescription": "Optimized video, optimized sensitivity, optimized speed, the <b>Sony a7S III</b> raises the bar for what a full-frame mirrorless camera is capable of. A revised 12.1MP Exmor R BSI CMOS sensor and updated BIONZ XR image processor offer faster performance, improved noise reduction, and a wider dynamic range, along with UHD 4K 120p video recording and internal 10-bit 4:2:2 sampling.",
+                    "note": null
+                },
+                "featuresContentType": {
+                    "isRich": true,
+                    "isStandard": false
+                },
+                "featureGroups": [
+                    {
+                        "title": {
+                            "text": "For Visual Trailblazers",
+                            "headerLevel": {
+                                "isH2": false,
+                                "isH3": true,
+                                "isH4": false
+                            }
+                        },
+                        "features": [
+                            {
+                                "title": null,
+                                "note": null,
+                                "body": "Optimized video, optimized sensitivity, optimized speed, the <b>Sony a7S III</b> raises the bar for what a full-frame mirrorless camera is capable of. A revised 12.1MP Exmor R BSI CMOS sensor and updated BIONZ XR image processor offer faster performance, improved noise reduction, and a wider dynamic range, along with UHD 4K 120p video recording and internal 10-bit 4:2:2 sampling."
+                            },
+                            {
+                                "title": null,
+                                "note": null,
+                                "body": null,
+                                "featureMedia": {
+                                    "align": {
+                                        "isTop": false,
+                                        "isRight": false,
+                                        "isLeft": false,
+                                        "isNone": true
+                                    },
+                                    "mediaType": {
+                                        "isImage": false,
+                                        "isVideo": true,
+                                        "isAudioPlaylist": false,
+                                        "isAudioTrack": false
+                                    },
+                                    "mediaDescription": "Sony a7S III | Hands-on Review",
+                                    "mediaUrl": "https://www.youtube.com/embed/pcsHlajnQ68"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "title": {
+                            "text": "12.1MP Exmor RS BSI CMOS Sensor and BIONZ XR Processor",
+                            "headerLevel": {
+                                "isH2": false,
+                                "isH3": true,
+                                "isH4": false
+                            }
+                        },
+                        "features": [
+                            {
+                                "title": null,
+                                "note": null,
+                                "body": "A redesigned 12.1MP full-frame CMOS sensor now features a back-illuminated Exmor RS design in order to achieve improved clarity and reduced noise along with the expectedly impressive sensitivity, from ISO 80-102400 with an extended ISO 40-409600 range. The updated sensor design also yields 2x faster readout speeds than previous generations and, when coupled with the revised BIONZ XR image processor, greatly reduces rolling shutter by 3x and up to 8x faster processing and overall camera handling. The sensor and processor combination also helps to achieve a wide dynamic range, of up to approximately 14 stops for stills and 15 stops for video, and 10 fps continuous shooting for up to 1000 uncompressed raw files for stills.",
+                                "featureMedia": {
+                                    "align": {
+                                        "isTop": false,
+                                        "isRight": true,
+                                        "isLeft": false,
+                                        "isNone": false
+                                    },
+                                    "mediaType": {
+                                        "isImage": true,
+                                        "isVideo": false,
+                                        "isAudioPlaylist": false,
+                                        "isAudioTrack": false
+                                    },
+                                    "mediaDescription": null,
+                                    "mediaUrl": "https://static.bhphoto.com/images/rich_content/desktop/IMG_1763056.jpg"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "title": {
+                            "text": "Video Recording",
+                            "headerLevel": {
+                                "isH2": false,
+                                "isH3": true,
+                                "isH4": false
+                            }
+                        },
+                        "features": [
+                            {
+                                "title": {
+                                    "text": "UHD 4K 120p Video, 10-Bit 4:2:2 Internal Recording",
+                                    "headerLevel": {
+                                        "isH2": false,
+                                        "isH3": false,
+                                        "isH4": true
+                                    }
+                                },
+                                "note": null,
+                                "body": "<ul><li>\r\n\r\nUHD 4K recording is possible with frame rates up to 120p, using full 1:1 pixel readout without binning. Internal 10-bit 4:2:2 sampling is also possible in all recording modes and, if recording externally via the full-size HDMI A port, 16-bit raw output is also possible for even greater tonal reproduction and post-production flexibility.</li><li>\r\n\r\nTwo codecs have also been developed: XAVC HS, which uses HEVC/H.265 encoding to retain more detail at smaller bitrates, and XAVC S-I, which is an intraframe codec for consistent performance and quality at bitrates up to 600 Mb/s.</li></ul>",
+                                "featureMedia": {
+                                    "align": {
+                                        "isTop": false,
+                                        "isRight": true,
+                                        "isLeft": false,
+                                        "isNone": false
+                                    },
+                                    "mediaType": {
+                                        "isImage": false,
+                                        "isVideo": true,
+                                        "isAudioPlaylist": false,
+                                        "isAudioTrack": false
+                                    },
+                                    "mediaDescription": "Alpha 7S III Concept",
+                                    "mediaUrl": "https://www.youtube.com/embed/TQ6GS-JVQsM"
+                                }
+                            },
+                            {
+                                "title": {
+                                    "text": "Recording Flexibility",
+                                    "headerLevel": {
+                                        "isH2": false,
+                                        "isH3": false,
+                                        "isH4": true
+                                    }
+                                },
+                                "note": null,
+                                "body": "<ul><li>\r\n\r\nThe high-speed, 120 fps recording enables 4x and 5x slow-motion movie recording with the frame rate playback set to either 30p or 24p or, if moving down to Full HD resolution, an effective 240p frame rate is also available for even greater motion control.</li><li>\r\n\r\nSuiting long-form recording, the a7S III does not have any recording time limits to allow for unlimited clip lengths. The camera's physical design also features an improved heat-dissipating structure to promote longer possible recording times, up to an approximate 60-minute recording time at 4K60p.</li></ul>"
+                            },
+                            {
+                                "title": {
+                                    "text": "Advanced Color Control",
+                                    "headerLevel": {
+                                        "isH2": false,
+                                        "isH3": false,
+                                        "isH4": true
+                                    }
+                                },
+                                "note": null,
+                                "body": "<ul><li>\r\n\r\nS-Cinetone can be used to deliver distinct colors and healthy-looking skin tone rendering that matches the FX9 and FX6 cameras and is based on technology from the professional Cinema Line cameras, such as the VENICE. This color profile offers natural mid-tones, soft colors, and especially well-controlled highlights.</li><li>\r\n\r\nAffording extensive customizable color and gamma controls, the you can adjust the gamma, black level, knee, color level, and more. Also, users can use the same S-Log2 Gamma Curve that is found on high end Sony Cinema cameras that squeezes up to 1300% more dynamic range into the video signal then traditional REC709, for increased post-production flexibility.</li><li.\r\n\r\nHLG (Hybrid Log-Gamma) support is also available, along with the BT.2020 color space, for recording within a wide color gamut and, in addition to S-Log2, S-Log3 is also available for producing a 15+-stop dynamic range with increased grading control in the shadow to mid-tone regions of the image.</li></ul>",
+                                "featureMedia": {
+                                    "align": {
+                                        "isTop": false,
+                                        "isRight": false,
+                                        "isLeft": true,
+                                        "isNone": false
+                                    },
+                                    "mediaType": {
+                                        "isImage": true,
+                                        "isVideo": false,
+                                        "isAudioPlaylist": false,
+                                        "isAudioTrack": false
+                                    },
+                                    "mediaDescription": null,
+                                    "mediaUrl": "https://static.bhphoto.com/images/rich_content/desktop/IMG_1763024.jpg"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "title": {
+                            "text": "Autofocus and Image Stabilization",
+                            "headerLevel": {
+                                "isH2": false,
+                                "isH3": true,
+                                "isH4": false
+                            }
+                        },
+                        "features": [
+                            {
+                                "title": {
+                                    "text": "Fast Hybrid AF System",
+                                    "headerLevel": {
+                                        "isH2": false,
+                                        "isH3": false,
+                                        "isH4": true
+                                    }
+                                },
+                                "note": null,
+                                "body": "Covering 92% of the image area, a Fast Hybrid AF system incorporates 759 phase-detection points along with 425 contrast-detection areas for quick and precise focusing in a variety of lighting conditions with sensitivity down to -6 EV. This focusing system is available for use in all recording modes, to benefit both video and stills applications. Additionally, it is able to lock onto subjects quickly and can use Real-time Tracking for AI-based tracking on moving subjects or touch tracking for manual selection of the subject. Real-time Eye AF, suitable for both humans and animals, also ensures critical sharpness when shooting portraits. Helping to fine-tune how the focusing system performs, seven-step AF transition speed and five-step AF subject shift sensitivity controls let you refine how quickly focus shifts from point to point and how smoothly focusing shifts occur.",
+                                "featureMedia": {
+                                    "align": {
+                                        "isTop": false,
+                                        "isRight": true,
+                                        "isLeft": false,
+                                        "isNone": false
+                                    },
+                                    "mediaType": {
+                                        "isImage": true,
+                                        "isVideo": false,
+                                        "isAudioPlaylist": false,
+                                        "isAudioTrack": false
+                                    },
+                                    "mediaDescription": null,
+                                    "mediaUrl": "https://static.bhphoto.com/images/rich_content/desktop/IMG_1763040.jpg"
+                                }
+                            },
+                            {
+                                "title": {
+                                    "text": "5-Axis SteadyShot INSIDE Image Stabilization",
+                                    "headerLevel": {
+                                        "isH2": false,
+                                        "isH3": false,
+                                        "isH4": true
+                                    }
+                                },
+                                "note": null,
+                                "body": "The a7S III incorporates an enhanced 5.5-stop effective 5-axis SteadyShot INSIDE image stabilization system, which compensates for five different types of camera shake encountered during handheld shooting of stills and video. This allows users to confidently use any lens, even adapted lenses, for critical imaging without encountering blur from camera shake.<br><br>\r\n\r\nFor long focal lengths, the system will correct for pitch and yaw adjustments. Macro and high-magnification imagery, on the other hand, will benefit from the inclusion of horizontal and vertical shift compensation. All shooting styles will get usage out of the roll compensation. All 5 axes of stabilization will function at all times, even when used with third-party lenses and adapters or lenses with built-in optical stabilization.<br><br>\r\n\r\nAdditionally, specifically for video, there is also an Active IS mode that adds even more precise stabilization methods for even smoother footage straight out of camera.",
+                                "featureMedia": {
+                                    "align": {
+                                        "isTop": false,
+                                        "isRight": true,
+                                        "isLeft": false,
+                                        "isNone": false
+                                    },
+                                    "mediaType": {
+                                        "isImage": true,
+                                        "isVideo": false,
+                                        "isAudioPlaylist": false,
+                                        "isAudioTrack": false
+                                    },
+                                    "mediaDescription": null,
+                                    "mediaUrl": "https://static.bhphoto.com/images/rich_content/desktop/IMG_1763052.jpg"
+                                }
+                            },
+                            {
+                                "title": null,
+                                "note": null,
+                                "body": null,
+                                "featureMedia": {
+                                    "align": {
+                                        "isTop": false,
+                                        "isRight": false,
+                                        "isLeft": false,
+                                        "isNone": true
+                                    },
+                                    "mediaType": {
+                                        "isImage": false,
+                                        "isVideo": true,
+                                        "isAudioPlaylist": false,
+                                        "isAudioTrack": false
+                                    },
+                                    "mediaDescription": "Alpha 7S III PFV",
+                                    "mediaUrl": "https://www.youtube.com/embed/xRAP8uTHAqs"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "title": {
+                            "text": "Body Design and Connectivity",
+                            "headerLevel": {
+                                "isH2": false,
+                                "isH3": true,
+                                "isH4": false
+                            }
+                        },
+                        "features": [
+                            {
+                                "title": {
+                                    "text": "Tru-Finder EVF and Vari-Angle Touchscreen LCD",
+                                    "headerLevel": {
+                                        "isH2": false,
+                                        "isH3": false,
+                                        "isH4": true
+                                    }
+                                },
+                                "note": null,
+                                "body": "<ul><li>\r\n\r\nAn impressive QXGA OLED Tru-Finder EVF features a high 9.44m-dot resolution and 0.9x magnification for exceptionally bright, clear, and detailed eye-level viewing. This viewfinder has a dedicated 120 fps High Quality setting for smooth motion rendering and the finder's physical design has a long 25mm eye point, 41° field of view, and features a fluorine coating on the outermost viewfinder element to benefit cleaning.</li><li>\r\n\r\nA first for a7-series cameras, a side-opening 3.0\" 1.44m-dot vari-angle articulating screen benefits working from high and low angles as well as a front-facing position for vlogging or other self-recording needs. This LCD is a touchscreen, too, for intuitive shooting control and menu navigation.</li><li>\r\n\r\nRedesigned menu structure is more intuitive and complements having different workflows and settings selections for movie recording and stills shooting. The menu system also works in conjunction with the touchscreen design of the rear LCD.</li></ul>",
+                                "featureMedia": {
+                                    "align": {
+                                        "isTop": false,
+                                        "isRight": true,
+                                        "isLeft": false,
+                                        "isNone": false
+                                    },
+                                    "mediaType": {
+                                        "isImage": true,
+                                        "isVideo": false,
+                                        "isAudioPlaylist": false,
+                                        "isAudioTrack": false
+                                    },
+                                    "mediaDescription": null,
+                                    "mediaUrl": "https://static.bhphoto.com/images/rich_content/desktop/IMG_1763065.jpg"
+                                }
+                            },
+                            {
+                                "title": {
+                                    "text": "Versatile and Durable Design",
+                                    "headerLevel": {
+                                        "isH2": false,
+                                        "isH3": false,
+                                        "isH4": true
+                                    }
+                                },
+                                "note": null,
+                                "body": "<ul><li>\r\n\r\nDual memory card slots both accept either CFexpress Type A or SD-type memory cards. The dual slot design allows for flexible file saving and handling and can be configured to partition file types or can be used for overflow recording. Additionally, both of the card slots are rated to support UHS-II memory cards for faster transfer speeds.</li><li>\r\n\r\nMagnesium alloy chassis assures rigidity, durability, and stability while remaining lightweight. The lens mount has also been improved to better support heavy lenses, and the grip rigidity has been improved for more comfortable hand-holding.<li>\r\n\r\nExtensive weather-sealing, including enhanced sealing around the battery cover, terminal cover, and chassis joints, has been employed to resist dust and moisture for reliable operation in harsh weather conditions.<li>\r\n\r\nAccepts the high-capacity NP-FZ100 rechargeable lithium-ion battery, which provides approximately 510 shots/80 minutes of recording per charge when using the viewfinder or 600 shots/95 minutes of recording per charge when using the rear LCD.</li></ul>",
+                                "featureMedia": {
+                                    "align": {
+                                        "isTop": false,
+                                        "isRight": false,
+                                        "isLeft": true,
+                                        "isNone": false
+                                    },
+                                    "mediaType": {
+                                        "isImage": true,
+                                        "isVideo": false,
+                                        "isAudioPlaylist": false,
+                                        "isAudioTrack": false
+                                    },
+                                    "mediaDescription": null,
+                                    "mediaUrl": "https://static.bhphoto.com/images/rich_content/desktop/IMG_1763037.jpg"
+                                }
+                            },
+                            {
+                                "title": {
+                                    "text": "Ports and Connectivity",
+                                    "headerLevel": {
+                                        "isH2": false,
+                                        "isH3": false,
+                                        "isH4": true
+                                    }
+                                },
+                                "note": null,
+                                "body": "<ul><li>\r\n\r\nFull-size HDMI A port offers a more reliable connection when working with external recorders.</li><li>\r\n\r\nA USB 3.2 Gen 1 Type-C port has been added, in addition to a micro-USB port, for faster, more reliable tethering support. The USB Type-C connection allows the camera to be charged or powered from the host power source while connected.</li><li>\r\n\r\nBoth 3.5mm headphone and external microphone ports facilitate greater control over audio recording.</li><li>\r\n\r\nMulti Interface Shoe supports working with the optional ECM-B1M Shotgun Microphone or XLR-K3M XLR Adapter Kit, which provide improved, clear audio recording sound by sending a digital audio signal to the camera, opposed to an analog signal.</li><li>\r\n\r\nBuilt-in Wi-Fi enables the remote camera control and instant sharing of imagery to mobile devices for direct sharing online, and support for both 2.4 and 5 GHz bands also enables wireless tethered shooting support. This connectivity also provides remote camera control</li><li>\r\n\r\nUSB Type-C port can be paired with an optional Ethernet wired LAN adapter to provide 1000BASE-T connectivity, wired remote shooting, or FTP transferring.</li></ul>",
+                                "featureMedia": {
+                                    "align": {
+                                        "isTop": false,
+                                        "isRight": true,
+                                        "isLeft": false,
+                                        "isNone": false
+                                    },
+                                    "mediaType": {
+                                        "isImage": true,
+                                        "isVideo": false,
+                                        "isAudioPlaylist": false,
+                                        "isAudioTrack": false
+                                    },
+                                    "mediaDescription": null,
+                                    "mediaUrl": "https://static.bhphoto.com/images/rich_content/desktop/IMG_1763064.jpg"
+                                }
+                            },
+                            {
+                                "title": null,
+                                "note": null,
+                                "body": null,
+                                "featureMedia": {
+                                    "align": {
+                                        "isTop": false,
+                                        "isRight": false,
+                                        "isLeft": false,
+                                        "isNone": true
+                                    },
+                                    "mediaType": {
+                                        "isImage": false,
+                                        "isVideo": true,
+                                        "isAudioPlaylist": false,
+                                        "isAudioTrack": false
+                                    },
+                                    "mediaDescription": "Sony a7S III - Imagination in Motion | Panel Discussion",
+                                    "mediaUrl": "https://www.youtube.com/embed/t6ZUKsjGjig"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "specifications": {
+        "note": null,
+        "items": [
+            {
+                "shortDescription": "Sony a7S III Mirrorless Camera",
+                "upc": null,
+                "item": {
+                    "itemKey": {
+                        "skuNo": 1577838,
+                        "itemSource": "REG"
+                    },
+                    "core": {
+                        "shortDescription": "Sony a7S III Mirrorless Camera",
+                        "itemCode": "SOA7S3",
+                        "manufacturerCatalogNumber": "ILCE7SM3/B",
+                        "multiPackCount": 1,
+                        "multiPackText": "Pieces",
+                        "isDownload": false,
+                        "isBHKit": false,
+                        "isJKit": false,
+                        "isGiftCard": false,
+                        "isMfrBundle": false,
+                        "hasEssentialKits": false,
+                        "isUsed": false,
+                        "detailsUrl": "/c/product/1577838-REG/sony_ilce7sm3_b_alpha_a7s_iii_mirrorless.html",
+                        "bitlyUrl": "https://bhpho.to/30u66OD",
+                        "brandSeriesModel": "Sony Alpha A7S III"
+                    }
+                },
+                "groups": [
+                    {
+                        "name": "Imaging",
+                        "specs": [
+                            {
+                                "name": "Lens Mount",
+                                "value": "Sony E",
+                                "note": null
+                            },
+                            {
+                                "name": "Sensor Resolution",
+                                "value": "Actual: 12.9 Megapixel<br>Effective: 12.1 Megapixel (4240 x 2832)",
+                                "note": null
+                            },
+                            {
+                                "name": "Sensor Type",
+                                "value": "35.6 x 23.8 mm (Full-Frame) CMOS",
+                                "note": null
+                            },
+                            {
+                                "name": "Crop Factor",
+                                "value": "<i>None</i>",
+                                "note": null
+                            },
+                            {
+                                "name": "Image Stabilization",
+                                "value": "Sensor-Shift, 5-Axis",
+                                "note": null
+                            },
+                            {
+                                "name": "Built-In ND Filter",
+                                "value": "<i>None</i>",
+                                "note": null
+                            },
+                            {
+                                "name": "Capture Type",
+                                "value": "Stills & Video",
+                                "note": null
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Exposure Control",
+                        "specs": [
+                            {
+                                "name": "Shutter Type",
+                                "value": "Electronic Shutter, Mechanical Focal Plane Shutter",
+                                "note": null
+                            },
+                            {
+                                "name": "Shutter Speed",
+                                "value": "1/8000 to 30&nbsp;Second ",
+                                "note": null
+                            },
+                            {
+                                "name": "Bulb/Time Mode",
+                                "value": "Bulb Mode",
+                                "note": null
+                            },
+                            {
+                                "name": "ISO Sensitivity",
+                                "value": "<b>Photo</b><br>80 to 102,400 (Extended: 40 to 409,600)<b></b><br /><b>Video</b><br>80 to 102,400 (Extended: 80 to 409,600)<b></b>",
+                                "note": null
+                            },
+                            {
+                                "name": "Metering Method",
+                                "value": "Center-Weighted Average, Highlight Weighted, Multiple, Spot",
+                                "note": null
+                            },
+                            {
+                                "name": "Exposure Modes",
+                                "value": "Aperture Priority, Manual, Program, Shutter Priority",
+                                "note": null
+                            },
+                            {
+                                "name": "Exposure Compensation",
+                                "value": "-5 to +5 EV (1/3 EV Steps)",
+                                "note": null
+                            },
+                            {
+                                "name": "Metering Range",
+                                "value": "-3 to 20 EV",
+                                "note": null
+                            },
+                            {
+                                "name": "White Balance",
+                                "value": "2500 to 9900K<br><b>Presets: </b>Auto, Cloudy, Custom, Daylight, Flash, Fluorescent, Incandescent, Shade, Underwater",
+                                "note": null
+                            },
+                            {
+                                "name": "Continuous Shooting",
+                                "value": "Up to 10 fps at 12.1 MP for up to  1000 Frames (Raw) /  1000 Frames (JPEG)<br />Up to 8 fps at 12.1 MP<br />Up to 6 fps at 12.1 MP<br />Up to 3 fps at 12.1 MP",
+                                "note": null
+                            },
+                            {
+                                "name": "Interval Recording",
+                                "value": "Yes",
+                                "note": null
+                            },
+                            {
+                                "name": "Self-Timer",
+                                "value": "2/5/10-Second Delay",
+                                "note": null
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Still Image Capture",
+                        "specs": [
+                            {
+                                "name": "Image Sizes",
+                                "value": "<b>3:2</b><br>11 MP (3776 x 2832)<b></b><br>4.6 MP (2464 x 1848)<b></b><br>2.7 MP (1888 x 1416)<b></b><br>1.1 MP (1232 x 920)<b></b><br>8 MP (2832 x 2832)<b></b><br>3.4 MP (1840 x 1840)<b></b><br>2 MP (1408 x 1408)<b></b><br>0.8 MP (912 x 912)<b></b><br>10 MP (4240 x 2384)<b></b><br>4.3 MP (2768 x 1560)<b></b><br>2.6 MP (2128 x 1200)<b></b><br>4.3 MP (2768 x 1560)<b></b><br>1.1 MP (2128 x 1416)<b></b><br>12 MP (4240 x 2832)<b></b><br>5.1 MP (2768 x 1848)<b></b><br>3 MP (2128 x 1416)<b></b><br>5.1 MP (2768 x 1848)<b></b><br>1.3 MP (1376 x 920)<b></b>",
+                                "note": null
+                            },
+                            {
+                                "name": "Aspect Ratio",
+                                "value": "1:1, 3:2, 4:3, 16:9",
+                                "note": null
+                            },
+                            {
+                                "name": "Image File Format",
+                                "value": "HEIF, JPEG, Raw",
+                                "note": null
+                            },
+                            {
+                                "name": "Bit Depth",
+                                "value": "14-Bit",
+                                "note": null
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Internal Video Capture",
+                        "specs": [
+                            {
+                                "name": "Recording Modes",
+                                "value": "<b>H.265/XAVC HS 4:2:2 10-Bit</b><br>UHD 4K (3840 x 2160) at 23.98p/50p/59.94p/100p/119.88p [50 to 280 Mb/s] <br /><b>H.265/XAVC HS 4:2:0 10-Bit</b><br>UHD 4K (3840 x 2160) at 23.98p/50p/59.94p/100p/119.88p [30 to 200 Mb/s] <br /><b>H.264/XAVC S-I 4:2:2 10-Bit</b><br>UHD 4K (3840 x 2160) at 23.98p/25p/29.97p/50p/59.94p [240 to 600 Mb/s] <br>Full HD (1920 x 1080) at 23.98p/25p/29.97p/50p/59.94p [89 to 222 Mb/s] <br /><b>H.264/XAVC S 4:2:2 10-Bit</b><br>UHD 4K (3840 x 2160) at 23.98p/25p/29.97p/50p/59.94p/100p/119.88p [100 to 280 Mb/s] <br>Full HD (1920 x 1080) at 23.98p/25p/29.97p/50p/59.94p/100p/119.88p/200p/239.76p [50 Mb/s] <br /><b>H.264/XAVC S 4:2:0 8-Bit</b><br>UHD 4K (3840 x 2160) at 23.98p/25p/29.97p/50p/59.94p/100p/119.88p [60 to 200 Mb/s] <br>Full HD (1920 x 1080) at 23.98p/25p/29.97p/50p/59.94p/100p/119.88p/200p/239.76p [16 to 100 Mb/s] ",
+                                "note": null
+                            },
+                            {
+                                "name": "Sensor Crop Modes",
+                                "value": "<b>Super35 / APS-C</b><br> ",
+                                "note": null
+                            },
+                            {
+                                "name": "Gamma Curve",
+                                "value": "Sony S-Log 2, Sony S-Log 3",
+                                "note": null
+                            },
+                            {
+                                "name": "Recording Limit",
+                                "value": "Unlimited",
+                                "note": null
+                            },
+                            {
+                                "name": "Video System",
+                                "value": "NTSC/PAL",
+                                "note": null
+                            },
+                            {
+                                "name": "Built-In Microphone Type",
+                                "value": "Stereo",
+                                "note": null
+                            },
+                            {
+                                "name": "Audio Recording",
+                                "value": "XAVC: 2-Channel 16-Bit 48 kHz LPCM Audio<br />XAVC: 2-Channel 24-Bit 48 kHz LPCM Audio<br />XAVC: 4-Channel 24-Bit 48 kHz LPCM Audio<br />MP4: 2-Channel  AAC Audio",
+                                "note": null
+                            }
+                        ]
+                    },
+                    {
+                        "name": "External Video Capture",
+                        "specs": [
+                            {
+                                "name": "External Recording Modes",
+                                "value": "<b>Raw 16-Bit via HDMI</b><br>4.2K (4264 x 2408) up to 59.94p<br /><b>4:2:2 10-Bit via HDMI</b><br>UHD 4K (3840 x 2160) at 23.98p/25p/29.97p/50p/59.94p<br>Full HD (1920 x 1080) at 23.98p/50p/59.94p<br>Full HD (1920 x 1080) at 50i/59.94i<br /><b>4:2:0 8-Bit via HDMI</b><br>UHD 4K (3840 x 2160) at 23.98p/25p/29.97p/50p/59.94p<br>Full HD (1920 x 1080) at 23.98p/50p/59.94p<br>Full HD (1920 x 1080) at 50i/59.94i",
+                                "note": null
+                            },
+                            {
+                                "name": "IP Streaming",
+                                "value": "<i>None</i>",
+                                "note": null
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Interface",
+                        "specs": [
+                            {
+                                "name": "Media/Memory Card Slot",
+                                "value": "Dual Slot: CFexpress Type A / SD (UHS-II)",
+                                "note": null
+                            },
+                            {
+                                "name": "Video I/O",
+                                "value": "<b>1 x </b>HDMI Output",
+                                "note": null
+                            },
+                            {
+                                "name": "Audio I/O",
+                                "value": "<b>1 x </b>1/8\" / 3.5 mm TRS Stereo Microphone Input <br /><b>1 x </b>1/8\" / 3.5 mm TRS Stereo Headphone Output ",
+                                "note": null
+                            },
+                            {
+                                "name": "Other I/O",
+                                "value": "<b>1 x </b>USB Type-C (Gigabit Ethernet, USB 3.2 / 3.1 Gen 1) Data Input/Output (Shared with Power Input)<br /><b>1 x </b>Sony Multi/USB Micro-B Control ",
+                                "note": null
+                            },
+                            {
+                                "name": "Power I/O",
+                                "value": "<b>1 x </b>USB Type-C Input",
+                                "note": null
+                            },
+                            {
+                                "name": "Wireless",
+                                "value": "Wi-Fi, Bluetooth",
+                                "note": null
+                            },
+                            {
+                                "name": "Global Positioning (GPS, GLONASS, etc.)",
+                                "value": "<i>None</i>",
+                                "note": null
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Monitor",
+                        "specs": [
+                            {
+                                "name": "Size",
+                                "value": "3.0\"",
+                                "note": null
+                            },
+                            {
+                                "name": "Resolution",
+                                "value": "1,440,000 Dot",
+                                "note": null
+                            },
+                            {
+                                "name": "Display Type",
+                                "value": "Articulating Touchscreen LCD",
+                                "note": null
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Viewfinder",
+                        "specs": [
+                            {
+                                "name": "Type",
+                                "value": "Built-In Electronic (OLED)",
+                                "note": null
+                            },
+                            {
+                                "name": "Size",
+                                "value": "0.64\"",
+                                "note": null
+                            },
+                            {
+                                "name": "Resolution",
+                                "value": "9,437,184 Dot",
+                                "note": null
+                            },
+                            {
+                                "name": "Eye Point",
+                                "value": "25 mm",
+                                "note": null
+                            },
+                            {
+                                "name": "Coverage",
+                                "value": "100%",
+                                "note": null
+                            },
+                            {
+                                "name": "Magnification",
+                                "value": "Approx. 0.9x",
+                                "note": null
+                            },
+                            {
+                                "name": "Diopter Adjustment",
+                                "value": "-4 to +3",
+                                "note": null
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Focus",
+                        "specs": [
+                            {
+                                "name": "Focus Type",
+                                "value": "Auto and Manual Focus",
+                                "note": null
+                            },
+                            {
+                                "name": "Focus Mode",
+                                "value": "Continuous-Servo AF, Direct Manual Focus, Manual Focus, Single-Servo AF",
+                                "note": null
+                            },
+                            {
+                                "name": "Autofocus Points",
+                                "value": "Phase Detection: 759<br />Contrast Detection: 425",
+                                "note": null
+                            },
+                            {
+                                "name": "Autofocus Sensitivity",
+                                "value": "-6 to +20 EV",
+                                "note": null
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Flash",
+                        "specs": [
+                            {
+                                "name": "Built-In Flash",
+                                "value": "No",
+                                "note": null
+                            },
+                            {
+                                "name": "Flash Modes",
+                                "value": "Auto, Fill Flash, Hi-Speed Sync, Off, Rear Sync, Red-Eye Reduction, Slow Sync",
+                                "note": null
+                            },
+                            {
+                                "name": "Maximum Sync Speed",
+                                "value": "1/250 Second",
+                                "note": null
+                            },
+                            {
+                                "name": "Flash Compensation",
+                                "value": "-3 to +3 EV (1/3, 1/2 EV Steps)",
+                                "note": null
+                            },
+                            {
+                                "name": "Dedicated Flash System",
+                                "value": "TTL",
+                                "note": null
+                            },
+                            {
+                                "name": "External Flash Connection",
+                                "value": "Intelligent Hot Shoe",
+                                "note": null
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Environmental",
+                        "specs": [
+                            {
+                                "name": "Operating Temperature",
+                                "value": "32 to 104&deg;F / 0 to 40&deg;C",
+                                "note": null
+                            }
+                        ]
+                    },
+                    {
+                        "name": "General",
+                        "specs": [
+                            {
+                                "name": "Battery Type",
+                                "value": "<b>1 x </b>NP-FZ100&nbsp;Rechargeable Lithium-Ion, 7.2 VDC, 2280 mAh (Approx. 600 Shots)",
+                                "note": null
+                            },
+                            {
+                                "name": "Tripod Mounting Thread",
+                                "value": "<b>1 x </b>1/4\"-20 Female",
+                                "note": null
+                            },
+                            {
+                                "name": "Accessory Mount",
+                                "value": "<b>1 x </b>Intelligent Hot Shoe ",
+                                "note": null
+                            },
+                            {
+                                "name": "Dimensions (W x H x D)",
+                                "value": "5.07 x 3.81 x 2.74\" / 128.9 x 96.9 x 69.7&nbsp;mm",
+                                "note": null
+                            },
+                            {
+                                "name": "Weight",
+                                "value": "1.35&nbsp;lb / 614&nbsp;g (Body Only)",
+                                "note": null
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Packaging Info",
+                        "specs": [
+                            {
+                                "name": "Package Weight",
+                                "value": "3.15 lb",
+                                "note": null
+                            },
+                            {
+                                "name": "Box Dimensions (LxWxH)",
+                                "value": "9.6 x 6.1 x 5.6\"",
+                                "note": null
+                            }
+                        ]
+                    }
+                ],
+                "note": null
+            }
+        ]
+    }
+}

@@ -11,7 +11,7 @@ function getNameObjects(productObject, imageNameObject, imageDirPath, preferredE
 
     let { imageUris } = productObject,
         { shared, split } = imageNameObject,
-        fileNameLength = 255 - (imageDirPath.length + preferredExt.length + 1),
+        fileNameLength = 255 - (imageDirPath.length + preferredExt.length + 25),
         splitNames = function()    {
             let names = [];
             for(let prop of split) {

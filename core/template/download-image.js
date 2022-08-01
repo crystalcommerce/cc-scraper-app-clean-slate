@@ -11,7 +11,7 @@ function getNameObjects(productObject, imageNameObject, imageDirPath, preferredE
 
     let { imageUris } = productObject,
         { shared, split } = imageNameObject,
-        fileNameLength = 255 - (imageDirPath.length + preferredExt.length + 25),
+        fileNameLength = 255 - (imageDirPath.length + preferredExt.length + 7),
         splitNames = function()    {
             let names = [];
             for(let prop of split) {
@@ -34,9 +34,9 @@ function getNameObjects(productObject, imageNameObject, imageDirPath, preferredE
                 a += b.split("//").map(item => item.trim())[j];
                 return a;
             }, ""),
-            imageName = toUrl([`${i + 1} ${j + 1}`, nm, ...sharedNames].join(" ")),
+            imageName = toUrl([`${i + 1} ${j + 1}`, nm, ...sharedNames].join(" ").slice(0, fileNameLength)),
             imageUri = imageUris[j],
-            fileName = `${imageName.slice(0, fileNameLength)}.${preferredExt}`,
+            fileName = `${imageName}.${preferredExt}`,
             filePath = path.join(imageDirPath, fileName);
 
         nameObjects.push({imageName, imageUri, fileName, filePath});

@@ -11,6 +11,7 @@ function getNameObjects(productObject, imageNameObject, imageDirPath, preferredE
 
     let { imageUris } = productObject,
         { shared, split } = imageNameObject,
+        fileNameLength = 255 - (imageDirPath.length + preferredExt.length + 1),
         splitNames = function()    {
             let names = [];
             for(let prop of split) {
@@ -35,7 +36,7 @@ function getNameObjects(productObject, imageNameObject, imageDirPath, preferredE
             }, ""),
             imageName = toUrl([`${i + 1} ${j + 1}`, nm, ...sharedNames].join(" ")),
             imageUri = imageUris[j],
-            fileName = `${imageName}.${preferredExt}`,
+            fileName = `${imageName.slice(0, fileNameLength)}.${preferredExt}`,
             filePath = path.join(imageDirPath, fileName);
 
         nameObjects.push({imageName, imageUri, fileName, filePath});
@@ -50,8 +51,8 @@ module.exports = async function(productObject, imageDirPath, imagePropName, imag
     let nameObjects = getNameObjects(productObject, imageNameObject, imageDirPath, preferredExt, i);
 
     if(!nameObjects.length) {
-        productObject[imagePropName] = "NO IMAGE DOWNLOADED";
-        await callback({productObject, downloadResult : {statusOk : false, fileName : productObject[imagePropName]}});
+        productObject[imagePropName] = ["NO IMAGE DOWNLOADED"];
+        await callback({productObject, downloadResult : [{statusOk : false, fileName : productObject[imagePropName]}]});
         return;
     }
 

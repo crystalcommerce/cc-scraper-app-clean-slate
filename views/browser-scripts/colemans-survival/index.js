@@ -1,8 +1,6 @@
 console.log("We are firing it up");
 
 
-
-
 async function ccLoadScripts(...globals)  {
 
     let promises = globals.map(item => {
@@ -27,7 +25,49 @@ async function ccLoadScripts(...globals)  {
 }
 
 
+function getLinkObjects(linkObjectsUnparsed, linkObjectsKey) {
+
+    if(window.localStorage.getItem(linkObjectsKey)) {
+        return JSON.parse(window.localStorage.getItem(linkObjectsKey));
+    } else  {
+        window.localStorage.setItem(linkObjectsKey, JSON.stringify(linkObjectsUnparsed));
+
+        return linkObjectsUnparsed;
+    }
+}
+
+
+function initializeControlMechanism()   {
+    // reset mechanism
+    if(window.location.href.includes("cc-scraper-reset"))  {
+        Object.keys(window.localStorage).forEach(key => window.localStorage.removeItem(key));
+        window.location = window.location.origin;
+    }
+
+    // true reload;
+    if(window.location.href.includes("cc-scraper-reload"))    {
+        if(!window.localStorage.getItem("__cc_hasReloaded")) {
+            window.localStorage.setItem("__cc_hasReloaded", "true");
+            window.location.reload(true);
+        } else  {
+            window.localStorage.removeItem("__cc_hasReloaded");
+        }
+    }
+
+    // stop
+    if(window.location.href.includes("cc-scraper-stop"))   {
+        return;
+    }
+}
+
+
 async function ccScraperInitialize({linkObjectsUnparsed, evaluatorObjects, processedUrls, weHaveLinkObjects, totalNumberOfProducts, linkObjectIndex, productsPerCategory})    {
+
+    // controls the script to stop, reset, or reload by including this on the url;
+    // - cc-scraper-reset;
+    // - cc-scraper-reload;
+    // - cc-scraper-stop;
+    initializeControlMechanism();
 
 
     let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTM4ZjNmOTU1YTA1NDJjZDhmNTJiMjciLCJwZXJtaXNzaW9uTGV2ZWwiOjMsImlhdCI6MTY1OTY2MDU0MSwiZXhwIjoxNjYwMjY1MzQxfQ.bXH_aeWDPU0J5x8YJ3_wLeeVB41Ilu_lJnEYS3lTXU0",
@@ -267,6 +307,14 @@ async function ccScraperInitialize({linkObjectsUnparsed, evaluatorObjects, proce
 
                 },
                 type : "list",
+                paginated : false,
+                waitForSelector : []
+            },
+            {
+                callback : async () => {
+
+                },
+                type : "single",
                 paginated : false,
                 waitForSelector : []
             }

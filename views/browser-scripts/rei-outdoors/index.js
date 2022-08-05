@@ -681,13 +681,13 @@ function getLinkObjects(linkObjectsUnparsed, linkObjectsKey) {
 async function ccScraperInitialize() {
 
     // reset mechanism
-    if(window.location.href.includes("scraper-reset"))  {
+    if(window.location.href.includes("cc-scraper-reset"))  {
         Object.keys(window.localStorage).forEach(key => window.localStorage.removeItem(key));
         window.location = window.location.origin;
     }
 
     // true reload;
-    if(window.location.href.includes("reload=true"))    {
+    if(window.location.href.includes("cc-scraper-reload"))    {
         if(!window.localStorage.getItem("__cc_hasReloaded")) {
             window.localStorage.setItem("__cc_hasReloaded", "true");
             window.location.reload(true);
@@ -697,7 +697,7 @@ async function ccScraperInitialize() {
     }
 
     // stop
-    if(window.location.href.includes("stop"))   {
+    if(window.location.href.includes("cc-scraper-stop"))   {
         return;
     }
 

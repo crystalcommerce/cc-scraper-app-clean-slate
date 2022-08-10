@@ -146,19 +146,9 @@ function __cc_getUtilities(authToken)  {
         return str.split(" ").map(item => toCapitalize(item)).join(" ");
     }
     
-    function objectToQueryString(object, encoded = false) {
+    function objectToQueryString(object) {
     
         return Object.keys(object).reduce((a, b) => {
-
-            let encodedText;
-            
-            // if(encoded && object[b]) {
-            //     encodedText = encodeURIComponent(window.btoa(object[b]));
-            //     a.push(`${encodeURIComponent(b)}=${encodedText}`)
-            // } else if(typeof object[b] === "string")    {
-            //     encodedText = encodeURIComponent(object[b].replace(/\'/g, "__cc__apostrophe__cc__"));
-            //     a.push(`${encodeURIComponent(b)}=${encodedText}`)
-            // }
 
             if(object[b])   {
                 a.push(`${encodeURIComponent(b)}=${encodeURIComponent(object[b])}`)
@@ -169,20 +159,24 @@ function __cc_getUtilities(authToken)  {
         
     }
     
-    function queryStringToObject(urlString, encoded = false)   {
+    function queryStringToObject(urlString)   {
         let url = new URL(urlString),
             queryString = url.search.length ? url.search.slice(1) : "",
-            queryArr = queryString.length ? queryString.split("&") : [],
-            queryObject = queryArr.reduce((a,b) => {
-                let [key, val] = b.split("="),
-                    decodedText = encoded ? window.atob(decodeURIComponent(val)) : decodeURIComponent(val);
-
-
-                a[decodeURIComponent(key)] = encoded ? decodedText : decodedText ? decodedText.replaceAll("__cc__apostrophe__cc__", "'") : null;
-                return a;
-            }, {});
+            queryArr = queryString.length ? queryString.split("&") : [];
     
-        return Object.keys(queryObject).length ? queryObject : {};
+        return queryArr.reduce((a,b) => {
+            let [key, val] = b.split("=");
+            a[decodeURIComponent(key)] = decodeURIComponent(val);
+            return a;
+        }, {});
+    }
+
+    function ccEncodeObject(obj)   {
+        return encodeURIComponent(btoa(JSON.stringify(obj)));
+    }
+
+    function ccDecodeObject(str)    {
+        return JSON.parse(atob(decodeURIComponent(str)));
     }
 
     async function moderator(arr, callback, bulkCount = 5) {
@@ -248,7 +242,6 @@ function __cc_getUtilities(authToken)  {
         element.click();
         await slowDown(3434);
     }
-
     
     function getValidatedPropValues(obj, propNames = [], callback = (value) => {})    {
 
@@ -295,7 +288,9 @@ function __cc_getUtilities(authToken)  {
         slowDown,
         isObjectInArray,
         downloadEncodedText,
-        getValidatedPropValues
+        getValidatedPropValues,
+        ccEncodeObject,
+        ccDecodeObject,
     }
 
 }

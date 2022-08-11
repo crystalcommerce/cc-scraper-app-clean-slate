@@ -159,16 +159,25 @@ function __cc_getUtilities(authToken)  {
         
     }
     
-    function queryStringToObject(urlString)   {
+    function queryStringToObject(urlString, trailingSlash = true)   {
         let url = new URL(urlString),
             queryString = url.search.length ? url.search.slice(1) : "",
+            origin = url.origin.charAt(url.origin.length - 1) === "/" ? url.origin.slice(0, -1) : url.origin,
+            urlPath = url.pathname.split("/").filter(item => item.length > 0).join("/"),
+            pathname = trailingSlash ? `${urlPath}/` : urlPath,
             queryArr = queryString.length ? queryString.split("&") : [];
     
-        return queryArr.reduce((a,b) => {
-            let [key, val] = b.split("=");
-            a[decodeURIComponent(key)] = decodeURIComponent(val);
-            return a;
-        }, {});
+        return {
+            queryObject : queryArr.reduce((a,b) => {
+                let [key, val] = b.split("=");
+                a[decodeURIComponent(key)] = decodeURIComponent(val);
+                return a;
+            }, {}),
+            originalUrl : urlString,
+            origin,
+            pathname : pathname,
+            urlWithoutQueryString : [origin, pathname].join("/"),
+        };
     }
 
     function ccEncodeObject(obj)   {
@@ -205,7 +214,7 @@ function __cc_getUtilities(authToken)  {
                     lastIndex = arr.length;
                 }
     
-                console.log(firstIndex, lastIndex);
+                // console.log(firstIndex, lastIndex);
     
             }
     

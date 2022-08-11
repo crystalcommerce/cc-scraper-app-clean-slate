@@ -25,43 +25,7 @@ async function ccLoadScripts(...globals)  {
 }
 
 
-function getLinkObjects(linkObjectsUnparsed, linkObjectsKey) {
-
-    if(window.localStorage.getItem(linkObjectsKey)) {
-        return JSON.parse(window.localStorage.getItem(linkObjectsKey));
-    } else  {
-        window.localStorage.setItem(linkObjectsKey, JSON.stringify(linkObjectsUnparsed));
-
-        return linkObjectsUnparsed;
-    }
-}
-
-
-function initializeControlMechanism()   {
-    // reset mechanism
-    if(window.location.href.includes("cc-scraper-reset"))  {
-        Object.keys(window.localStorage).forEach(key => window.localStorage.removeItem(key));
-        window.location = window.location.origin;
-    }
-
-    // true reload;
-    if(window.location.href.includes("cc-scraper-reload"))    {
-        if(!window.localStorage.getItem("__cc_hasReloaded")) {
-            window.localStorage.setItem("__cc_hasReloaded", "true");
-            window.location.reload(true);
-        } else  {
-            window.localStorage.removeItem("__cc_hasReloaded");
-        }
-    }
-
-    // stop
-    if(window.location.href.includes("cc-scraper-stop"))   {
-        return;
-    }
-}
-
-
-async function ccScraperInitialize({linkObjectsUnparsed, evaluatorObjects, processedUrls, weHaveLinkObjects, totalNumberOfProducts, linkObjectIndex, productsPerCategory})    {
+async function ccScraperInitialize({categoryLinkObjects, evaluatorObjects, processedUrls, weHaveLinkObjects, totalNumberOfProducts, linkObjectIndex, productsPerCategory})    {
 
     // controls the script to stop, reset, or reload by including this on the url;
     // - cc-scraper-reset;
@@ -89,7 +53,11 @@ async function ccScraperInitialize({linkObjectsUnparsed, evaluatorObjects, proce
 (async function() {
 
 
-    let linkObjectsUnparsed = [
+    let { slowDown, scrollToBottom, queryStringToObject, objectToQueryString } = __cc_getUtilities(null),
+        categoryLinkObjects = [
+            {
+                "url" : "https://www.tcgplayer.com/search/digimon-card-game/x-record?view=grid&productLineName=digimon-card-game&setName=x-record&ProductTypeName=Cards&page=1"
+            },
             {
                 "url": "https://colemans.com/product-category/cold-weather-gear/",
                 "category": "Extreme Cold Weather Gear",
@@ -300,43 +268,163 @@ async function ccScraperInitialize({linkObjectsUnparsed, evaluatorObjects, proce
                 "category": "Military Aircraft Landing Mats and Material Handling",
                 "subcategory": null
             }
-        ],
+        ].filter(item => item.url === "https://www.tcgplayer.com/search/digimon-card-game/x-record?view=grid&productLineName=digimon-card-game&setName=x-record&ProductTypeName=Cards&page=1") //.filter(item => item.url === "https://colemans.com/product-category/clothing/head-gear/"),
         evaluatorObjects = [
             {
+                // callback : async () => {
+
+
+                //     async function getProductObjects(total){
+
+                //         let nodeList = document.querySelectorAll(".products.list.items.product-items .item.product.product-item");
+
+                //         if(nodeList.length < total) {
+                //             await scrollToBottom();
+
+                //             await slowDown();
+
+                //             await getProductObjects(total);
+                //         }
+
+
+                //         return Array.from(document.querySelectorAll(".products.list.items.product-items .item.product.product-item")).map(item => {
+                //             return {
+                //                 productName : item.querySelector(".product-item-link") ? item.querySelector(".product-item-link").innerText.trim() : null,
+                //                 productImage : null,
+                //                 description : null,
+                //                 price : null,
+                //                 imageUris : [],
+                //                 productUri : item.querySelector(".product-item-link") ? item.querySelector(".product-item-link").href : null,
+                //             }
+                //         });
+                        
+                //     }
+                    
+                //     let total = Number(document.querySelector(".toolbar-number").innerText.trim()),
+
+                //         productObjects = await getProductObjects(total),
+                //         newUrl = null;
+
+                //     console.log({productObjects, newUrl});
+
+
+                //     return {productObjects, newUrl}
+                // },
+
                 callback : async () => {
 
+                    let productObjects = Array.from(document.querySelectorAll(".search-results .search-result")).map(item => {
+                            return {
+                                productUri : item.querySelector(".search-result__content a").href,
+                                productName : item.querySelector(".search-result__title").innerText.trim(),
+                            }
+                        }),
+                        newUrl = function() {
+
+                            let {queryObject, urlWithoutQueryString} = queryStringToObject(window.location.href),
+                                {page} = queryObject,
+                                nextPage = !document.querySelector("#nextButton").classList.contains("prev-next-button__disabled") ? true : false;
+
+                            if(nextPage)    {
+                                queryObject.page = Number(page) + 1;
+
+                                return `${urlWithoutQueryString}?${objectToQueryString(queryObject)}`;
+                            } else  {
+                                return null;
+                            }
+
+                        }();
+
+
+                    return {productObjects, newUrl};
                 },
                 type : "list",
-                paginated : false,
-                waitForSelector : []
+                dataSource : "on-page",
+                // waitForSelectors : [".products.list.items.product-items"],
+                waitForSelectors : [".search-results"]
             },
             {
                 callback : async () => {
 
                 },
                 type : "single",
-                paginated : false,
-                waitForSelector : []
+                dataSource : "on-page",
+                waitForSelectors : []
             }
-        ],
-        processedUrls = [],
-        weHaveLinkObjects = false,
-        totalNumberOfProducts = 0,
-        linkObjectIndex = 0,
-        productsPerCategory = 0;
+        ];
 
 
     await ccLoadScripts("__cc_getUtilities", "__cc_getScraperFactory");
     
 
-    await ccScraperInitialize({
-        linkObjectsUnparsed,
-        evaluatorObjects,
-        processedUrls,
-        weHaveLinkObjects,
-        totalNumberOfProducts,
-        linkObjectIndex,
-        productsPerCategory
-    });
+    let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTM4ZjNmOTU1YTA1NDJjZDhmNTJiMjciLCJwZXJtaXNzaW9uTGV2ZWwiOjMsImlhdCI6MTY1OTY2MDU0MSwiZXhwIjoxNjYwMjY1MzQxfQ.bXH_aeWDPU0J5x8YJ3_wLeeVB41Ilu_lJnEYS3lTXU0",
+        CcScraper = __cc_getScraperFactory(__cc_getUtilities, authToken),
+        scraperObject = new CcScraper({
+            categoryLinkObjects, 
+            evaluatorObjects, 
+            resultsDirPath : null, 
+            timeDelay : null, 
+            getResultsBy : null, 
+            deleteCookiesPerCategory : null,
+            executeSingleProductEvaluator : false,
+        });
+
+    window.__ccScraperObject = scraperObject;
+
+    // part of the initialization process;
+
+    scraperObject.getLocallyStoredProps();
+
+    scraperObject.getCurrentProcess();
+
+
+    console.log(scraperObject.currentProcess);
+
+    if(!scraperObject.currentProcess.scraperRunning) {
+        
+        scraperObject.setCurrentProcess({type : "list", dataSource : "on-page"});
+
+
+        let newUrl = scraperObject.getNexCategoryLinkUrl();
+
+
+        console.log(newUrl);
+
+        if(newUrl)  {
+            window.location = newUrl;
+        }
+
+
+    } else {
+        
+
+        // check if the url is correct;
+        if(scraperObject.checkCorrectUrl(false))   {
+            console.log("We are at the correct url");
+
+            await slowDown();
+
+            await scraperObject.productsListScraping();
+
+            if(scraperObject.executeSingleProductEvaluator) {
+                await scraperObject.singleProductScraping();
+            }
+
+            // either download the products or save it to the apiRoute of our server;
+
+            // once we have the products;
+
+            // we can look for another 
+
+        } else  {
+            console.log({
+                currentUrl : window.location.href,
+                correctUrl : scraperObject.getNexCategoryLinkUrl(scraperObject.currentProcess.currentLinkObject.url),
+            });
+
+            console.log(window.location.href === scraperObject.getNexCategoryLinkUrl(scraperObject.currentProcess.currentLinkObject.url));
+        }
+    }
+    
 
 }());

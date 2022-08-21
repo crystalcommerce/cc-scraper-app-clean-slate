@@ -220,6 +220,8 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
                 window.location = nextUrl;
 
             }
+
+            
             
         }
 

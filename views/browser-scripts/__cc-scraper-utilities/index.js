@@ -57,7 +57,7 @@ function __cc_getUtilities(authToken)  {
         });
         
     }
-
+    
     function isObjectInArray(object, array = [], keysToBeChecked = []) {
         return array.some(item => {
             let results = [];
@@ -74,7 +74,7 @@ function __cc_getUtilities(authToken)  {
             return results.every(res => res);
         });
     }
-
+    
     async function scrollToTop()   {
         let totalHeight = document.body.offsetHeight - window.innerHeight,
             currentScroll = window.scrollY;
@@ -99,6 +99,16 @@ function __cc_getUtilities(authToken)  {
         });
     }
     
+    function generateUuid(){
+        let dt = new Date().getTime();
+            
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            let r = (dt + Math.random()*16)%16 | 0;
+            dt = Math.floor(dt/16);
+            return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+        });
+    }
+    
     function isInArray(arr, data)    {
         return arr.find(item => {
             let result = [],
@@ -113,17 +123,19 @@ function __cc_getUtilities(authToken)  {
         });
     }
     
-    async function waitForSelector(selector)  {
+    async function waitForSelector(selector, numberOfWaits = 140)  {
         await new Promise(resolve => {
             if(selector)    {
                 resolve();
             }
-            let interval = setInterval(function(){
-                if(selector)    {
-                    clearInterval(interval);
-                    resolve();
-                }
-            }, 500);
+            let i = 0,
+                interval = setInterval(function(){
+                    if(selector || i >= numberOfWaits)    {
+                        clearInterval(interval);
+                        resolve();
+                    }
+                    i++;
+                }, 500);
     
         });
         return selector;
@@ -149,7 +161,7 @@ function __cc_getUtilities(authToken)  {
     function objectToQueryString(object) {
     
         return Object.keys(object).reduce((a, b) => {
-
+    
             if(object[b])   {
                 a.push(`${encodeURIComponent(b)}=${encodeURIComponent(object[b])}`)
             }
@@ -179,17 +191,17 @@ function __cc_getUtilities(authToken)  {
             urlWithoutQueryString : [origin, pathname].join("/"),
         };
     }
-
+    
     function ccEncodeObject(obj)   {
         return encodeURIComponent(btoa(JSON.stringify(obj)));
     }
-
+    
     function ccDecodeObject(str)    {
         return JSON.parse(atob(decodeURIComponent(str)));
     }
-
+    
     async function moderator(arr, callback, bulkCount = 5) {
-
+    
         let firstIndex = 0,
             lastIndex = bulkCount;
         
@@ -224,12 +236,12 @@ function __cc_getUtilities(authToken)  {
         
         
     }
-
+    
     async function slowDown(timeDelay = false)  {
         let delay = timeDelay ? timeDelay : 7747;
         await new Promise(resolve => setTimeout(resolve, delay));
     }
-
+    
     async function downloadEncodedText(productObjects, productProps)   {
         let element = document.createElement("a"),
             fileName = `${toUrl("enc" + " " + Object.keys(productProps).reduce((a, b) => {
@@ -253,7 +265,7 @@ function __cc_getUtilities(authToken)  {
     }
     
     function getValidatedPropValues(obj, propNames = [], callback = (value) => {})    {
-
+    
         if(!obj)    {
             return null;
         }
@@ -268,15 +280,35 @@ function __cc_getUtilities(authToken)  {
                 object = {};
                 objValue = null;
             }
-
+    
             callback(objValue);
             
             return object;
-
+    
         }, obj);
-
+    
         return objValue;
-
+    
+    }
+    
+    function toNormalString(str, previousFormat = "camel-case")    {
+        if(previousFormat === "camel-case") {
+            str = str.replace(/([A-Z])/g, (char) => ` ${char.toUpperCase()}`);
+        } else if(previousFormat === "underscored") {
+            str = str.split("_").map(item => toCapitalize(item)).join(" ");
+        } else  {
+            str = str.split("-").map(item => toCapitalize(item)).join(" ");
+        }
+        return toCapitalize(str);
+    }
+    
+    function getInitials(str)  {
+        return typeof str === "string" && str.length ? toNormalString(str.trim()).split(" ").map(word => word.charAt(0).toUpperCase()).join("") : null;
+    }
+    
+    function toCamelCase(str, url=false, initialCap=false)  {
+        let separator = url ? "-" : " ";
+        return str.toLowerCase().split(`${separator}`).map((item, index) => index === 0 && !initialCap ? item : toCapitalize(item)).join("");
     }
 
 
@@ -300,6 +332,10 @@ function __cc_getUtilities(authToken)  {
         getValidatedPropValues,
         ccEncodeObject,
         ccDecodeObject,
+        generateUuid,
+        getInitials,
+        toNormalString,
+        toCamelCase
     }
 
 }

@@ -12,10 +12,7 @@
 
 (async function(){
 
-    await waitForSelector(window.___cc__CcScraperGlobalObject);
-
-
-    let { SingleProductScraper, waitForSelector, ProductsSetScraper, UrlProcess, scrollToBottom, urlprocessExecutor, generateUuid, toUrl, toCamelCase, slowDown, getValidatedPropValues } = window.___cc__CcScraperGlobalObject,
+    let { SingleProductScraper, waitForSelector, ProductsSetScraper, UrlProcess, scrollToBottom, scrollToTop, urlprocessExecutor, generateUuid, toUrl, toCamelCase, slowDown, getValidatedPropValues } = window.___cc__CcScraperGlobalObject,
         { currentProcess, decodedProcessFromUrl, initializeScraping } = urlprocessExecutor();
 
     
@@ -23,6 +20,15 @@
         set : [
             {
                 callback : async () => {
+
+                    await scrollToBottom();
+
+                    await slowDown(2525);
+
+                    await scrollToTop();
+
+                    await slowDown(2525);
+
                     let productObjects = Array.from(document.querySelectorAll(".products-list-container .product-item .product-container")).map(item => {
 
                             let productName = item.querySelector(".product-title").innerText.trim(),
@@ -48,8 +54,6 @@
                     
                     console.log(decodedProcessFromUrl);
                     
-
-                    await slowDown(2525);
 
                     return {productObjects, newUrl}
                 },
@@ -91,7 +95,11 @@
 
                     await scrollToBottom();
 
-                    await slowDown(3434);
+                    await slowDown(2525);
+
+                    await scrollToTop();
+
+                    await slowDown(2525);
                     
                     let productDescription = document.querySelector(".product-description").innerText.trim(),
                         imageUris = Array.from(document.querySelectorAll(".product-image")).map(item => item.src);
@@ -114,7 +122,7 @@
     
 
 
-    window.___cc__CcScraperGlobalObject.initialize = function() {
+    window.___cc__CcScraperGlobalObject.initialize = async function() {
         if(!currentProcess)  {
             console.log(getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]));
     
@@ -135,23 +143,23 @@
     
             // console.log(window.___cc__CcScraperGlobalObject.evaluatorObject);
             await productSetScraperObject.getProductObjects();
-        } else  {
-            await initializeScraping(currentProcess);
-            let scraperObject = currentProcess.scraperObject;
-    
-            window.scraperObject= currentProcess.scraperObject;
-            if(currentProcess.type === "set" && scraperObject.allProductsSetEvaluatorsDone)    {
-                console.table(productSetScraperObject.productObjects);
-    
-                // productSetScraperObject.sendToChildren({
-                //     messsage : "Hello there"
-                // })
-            }
-            
+        }
+    }
+
+    if(currentProcess)  {
+        await initializeScraping(currentProcess);
+        let scraperObject = currentProcess.scraperObject;
+
+        window.___cc__scraperObject = scraperObject;
+        if(currentProcess.type === "set" && scraperObject.allProductsSetEvaluatorsDone)    {
+            console.table(scraperObject.productObjects);
         }
     }
     
-    
+    console.log({
+        message : "Hello there, Michael Norward!",
+        source : "scraper-application-test-scripts"
+    })
 
     
 }());

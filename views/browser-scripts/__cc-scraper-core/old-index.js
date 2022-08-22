@@ -403,7 +403,7 @@ function __cc_getScraperFactory(getCcUtilities, authToken)    {
                 }, "") + ` __date-${Date.now()}` + ` __total-${this.productObjects.length}`)}.json`;
 
             element.style.display = "none";
-            element.setAttribute("href", `data:application/json;charset=utf-8, ${JSON.stringify(this.productObjects)}`);
+            element.setAttribute("href", `data:application/json;charset=utf-8, ${encodeURIComponent(JSON.stringify(this.productObjects))}`);
             element.setAttribute("target", "_blank");
             element.setAttribute("download", fileName);
             element.setAttribute("class", "__cc_downloadJson_button");

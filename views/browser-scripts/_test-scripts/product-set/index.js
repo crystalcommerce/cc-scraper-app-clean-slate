@@ -12,11 +12,56 @@
 
 (async function(){
 
-    let { SingleProductScraper, waitForSelector, ProductsSetScraper, UrlProcess, scrollToBottom, scrollToTop, urlprocessExecutor, generateUuid, toUrl, toCamelCase, slowDown, getValidatedPropValues } = window.___cc__CcScraperGlobalObject,
-        { currentProcess, decodedProcessFromUrl, initializeScraping } = urlprocessExecutor();
+    let {
+            waitForSelector, 
+            scrollToBottom, 
+            scrollToTop, 
+            urlProcessInitializer, 
+            generateUuid, 
+            toUrl,
+            toCamelCase, 
+            slowDown,
+            getValidatedPropValues,
+            zipData,
+            
+            SingleProductScraper,
+            ProductsSetScraper,
+            MultiSingleProductInitializer,
+            MultiProductsSetInitializer,
+            CategorizedSetsScraper,
+            UrlProcess,
+            Results,
+            CcBrowserWindow,
+            CcScraperChannel,
+        } = window.___cc__CcScraperGlobalObject,
+        { decodedProcessFromUrl, currentProcess, initializeScraping } = urlProcessInitializer();
 
     
     window.___cc__CcScraperGlobalObject.evaluatorObject = {
+        categorizedSets : [
+            {
+                callback : () => {
+                    let categorizedSets = Array.from(document.querySelectorAll(".categories-list .set-link")).map(item => {
+
+                        let url = item.href,
+                            category = item.innerText.trim();
+
+                        return {
+                            url,
+                            setData : {
+                                category
+                            },
+                        }
+                    })
+
+                    return categorizedSets; // array of objects
+                },
+                dataSource : "on-page",
+                waitForSelectors : [
+                    ".categories-list .set-link",
+                ],
+            }
+        ],
         set : [
             {
                 callback : async () => {
@@ -59,10 +104,7 @@
                 },
                 dataSource : "on-page",
                 waitForSelectors : [
-                    {
-                        selector : ".product-item .product-image",
-                        type : "node-list",
-                    }
+                    ".product-item .product-image",
                 ],
             },
             {
@@ -111,10 +153,7 @@
                 },
                 dataSource : "on-page",
                 waitForSelectors : [
-                    {
-                        selector : ".single-product-container .product-image",
-                        type : "single-node",
-                    }
+                    ".single-product-container .product-image"
                 ],
             }
         ]
@@ -123,26 +162,32 @@
 
 
     window.___cc__CcScraperGlobalObject.initialize = async function() {
+
+        console.log({
+            message : "Hello there, Michael Norward!",
+            source : "scraper-application-test-scripts"
+        })
+
         if(!currentProcess)  {
             console.log(getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]));
-    
-            let productSetScraperObject = new ProductsSetScraper({
-                setData : {setName : "2021 US Stamps"},
-                evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]),
-                executeSingleProductEvaluators : true,
-                parentChannelId : null,
-                parentChannelName : null,
+
+
+            let categorizedSetsScraperObject = new CategorizedSetsScraper({
+                evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
+                executeMultiProductsSetsInitializer : true, 
+                executeMultiSingleProductInitializer : false, 
+                addSetDataToProductProps : true, 
                 uniqueProductObjProp : "originalUri",
                 productUrlPropName : "productUri",
                 removeProductsWithoutUriPropName : true,
                 callbacksOnDone : [],
             });
-    
-            console.log(productSetScraperObject);
-            window.productSetScraperObject = productSetScraperObject;
-    
-            // console.log(window.___cc__CcScraperGlobalObject.evaluatorObject);
-            await productSetScraperObject.getProductObjects();
+
+            console.log(categorizedSetsScraperObject);
+            
+            await categorizedSetsScraperObject.getCategorizedSets();
+            await categorizedSetsScraperObject.checkScraperDone();
+            
         }
     }
 
@@ -154,12 +199,10 @@
         if(currentProcess.type === "set" && scraperObject.allProductsSetEvaluatorsDone)    {
             console.table(scraperObject.productObjects);
         }
+        
     }
     
-    console.log({
-        message : "Hello there, Michael Norward!",
-        source : "scraper-application-test-scripts"
-    })
+    
 
     
 }());

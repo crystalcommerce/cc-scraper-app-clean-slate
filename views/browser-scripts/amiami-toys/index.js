@@ -1176,17 +1176,17 @@ async function initializeScript() {
 
     console.log("hello there... Michael Norward");
 
-    setCurrentLinkObjectIndex(154);
+    // setCurrentLinkObjectIndex(154);
 
     // setCurrentPageIndex(2702);
-    setCurrentPageIndex(12);
+    // setCurrentPageIndex(12);
 
     // to be worked on next
     // pageIndex = 2585
     // loi = 58
 
 
-    await initializeScript();
+    // await initializeScript();
 
 
     console.log({message : "Well Done, Michael Norward!", scraperType : "Browser Scraper", website : "https://www.Amiami.com", author : "Michael Norward"});

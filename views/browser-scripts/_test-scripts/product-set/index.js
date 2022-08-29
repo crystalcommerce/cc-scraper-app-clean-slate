@@ -1,16 +1,17 @@
-// const { ProductsSetScraper } = require("../../scraper");
-// const {generateUuid, toUrl, toCamelCase, slowDown, getValidatedPropValues} = require("../../utilities");
-
-
-
-
-
-// we set the evaluatorObject 
-// and we add it as part of the property of the cc scraper global object;
-
-
+async function awaitGlobal({condition}) {
+    await new Promise(resolve => {
+        let interval = setInterval(() => {
+                if(condition())   {
+                    clearInterval(interval);
+                    resolve();
+                }
+            }, 10);
+    });
+}
 
 (async function(){
+
+    await awaitGlobal({condition : () => window.hasOwnProperty("___cc__CcScraperGlobalObject")});
 
     let {
             waitForSelector, 
@@ -175,17 +176,19 @@
             let categorizedSetsScraperObject = new CategorizedSetsScraper({
                 evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
                 executeMultiProductsSetsInitializer : true, 
-                executeMultiSingleProductInitializer : false, 
-                addSetDataToProductProps : true, 
+                executeMultiSingleProductInitializer : true, 
+                addSetDataToProductProps : true,
                 uniqueProductObjProp : "originalUri",
                 productUrlPropName : "productUri",
                 removeProductsWithoutUriPropName : true,
                 callbacksOnDone : [],
+                downloadZippedData : true,
             });
 
-            console.log(categorizedSetsScraperObject);
+            console.log(categorizedSetsScraperObject.categorizedSetsEvaluatorDone);
             
             await categorizedSetsScraperObject.getCategorizedSets();
+            
             await categorizedSetsScraperObject.checkScraperDone();
             
         }

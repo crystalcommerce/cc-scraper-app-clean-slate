@@ -1,0 +1,84 @@
+[
+    {
+        "src": "http://localhost:8080/browser-scripts/__cc-scraper-core/index.js",
+        "url": [
+            ""
+        ],
+        "attributes" : [
+            {
+                "key" : "async",
+                "val" : ""
+            }
+        ],
+        "method" : "prepend",
+        "htmlTagPosition": "head",
+        "active" : false
+    },
+    {
+        "src": "http://localhost:7747/index.js",
+        "url": [
+            ""
+        ],
+        "attributes" : [
+            {
+                "key" : "async",
+                "val" : ""
+            }
+        ],
+        "method" : "prepend",
+        "htmlTagPosition": "head",
+        "active" : true
+    },
+
+
+    {
+        "src": "http://localhost:8080/browser-scripts/_test-scripts/product-set/index.js",
+        "url": [
+            "localhost:5500/",
+            "http://127.0.0.1:5500/"
+        ],
+        "attributes" : [
+            {
+                "key" : "defer",
+                "val" : ""
+            }
+        ],
+        "method" : "append",
+        "htmlTagPosition": "body",
+        "active" : true
+    },
+    {
+        "src": "http://localhost:8080/browser-scripts/amiami-toys/index.js",
+        "url": [
+            "amiami.com/"
+        ],
+        "attributes" : [
+            {
+                "key" : "defer",
+                "val" : ""
+            }
+        ],
+        "method" : "append",
+        "htmlTagPosition": "body",
+        "active" : true
+    },
+    {
+        "src": "http://localhost:8080/browser-scripts/example/index.js",
+        "url": [
+            "facebook.com"
+        ],
+        "attributes" : [
+            {
+                "key" : "defer",
+                "val" : ""
+            }
+        ],
+        "method" : "append",
+        "htmlTagPosition": "body",
+        "active" : true
+    }
+
+    
+
+    
+]

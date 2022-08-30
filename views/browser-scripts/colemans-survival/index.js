@@ -289,7 +289,9 @@ async function awaitGlobal({condition}) {
 
                         let nodeList = document.querySelectorAll(".products.list.items.product-items .item.product.product-item");
 
-                        if(nodeList.length < total) {
+                        await scrollToBottom();
+
+                        if(total && nodeList.length < total) {
                             await scrollToBottom();
 
                             await slowDown();
@@ -306,7 +308,7 @@ async function awaitGlobal({condition}) {
                         
                     }
                     
-                    let total = Number(document.querySelector(".toolbar-number").innerText.trim()),
+                    let total = document.querySelector(".toolbar-number") ? Number(document.querySelector(".toolbar-number").innerText.trim()) : null,
 
                         productObjects = await getProductObjects(total),
                         newUrl = null;
@@ -384,6 +386,7 @@ async function awaitGlobal({condition}) {
                 removeProductsWithoutUriPropName : true,
                 callbacksOnDone : [],
                 downloadZippedData : true,
+                startingIndex : 13,
             });
 
             console.log(categorizedSetsScraperObject.categorizedSetsEvaluatorDone);
@@ -394,6 +397,7 @@ async function awaitGlobal({condition}) {
             
         }
     }
+
 
     if(currentProcess)  {
         await initializeScraping(currentProcess);

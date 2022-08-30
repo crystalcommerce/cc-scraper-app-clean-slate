@@ -76,9 +76,24 @@
         "method" : "append",
         "htmlTagPosition": "body",
         "active" : true
-    }
+    },
 
-    
+
+    {
+        "src": "http://localhost:8080/browser-scripts/colemans-survival/index.js",
+        "url": [
+            "colemans.com"
+        ],
+        "attributes" : [
+            {
+                "key" : "defer",
+                "val" : ""
+            }
+        ],
+        "method" : "append",
+        "htmlTagPosition": "body",
+        "active" : true
+    }
 
     
 ]

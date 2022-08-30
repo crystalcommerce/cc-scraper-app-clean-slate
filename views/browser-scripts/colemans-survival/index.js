@@ -336,7 +336,7 @@ async function awaitGlobal({condition}) {
                     let productNameContainer = document.querySelector(".product-info-main .page-title span"),
                         productName = productNameContainer ? productNameContainer.textContent.trim() : null,
                         imageUris = Array.from(document.querySelectorAll(".product.media .fotorama__stage__frame[data-active=true] img[aria-hidden=false]")).map(item => item.src),
-                        priceContainer = document.querySelector(".product-info-main .product-info-price .price-box price-final_price"),
+                        priceContainer = document.querySelector(".price-container .price"),
                         price = priceContainer ? priceContainer.textContent.trim() : null,
                         descriptionContainer = document.querySelector(".product.attribute.description .value p"),
                         description = descriptionContainer ? descriptionContainer.textContent.trim() : null;

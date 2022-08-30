@@ -256,7 +256,7 @@ async function awaitGlobal({condition}) {
                                 "category": "Military Aircraft Landing Mats and Material Handling",
                                 "subcategory": null
                             }
-                        ].slice(0, 1),
+                        ],
                         categorizedSets = setObjects.map(item => {
                             let obj = {};
                             obj.setData = {};

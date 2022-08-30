@@ -57,73 +57,73 @@ async function ccScraperInitialize({categoryLinkObjects, evaluatorObjects, proce
         
         evaluatorObjects = [
             {
-                // callback : async () => {
+                callback : async () => {
 
 
-                //     async function getProductObjects(total){
+                    async function getProductObjects(total){
 
-                //         let nodeList = document.querySelectorAll(".products.list.items.product-items .item.product.product-item");
+                        let nodeList = document.querySelectorAll(".products.list.items.product-items .item.product.product-item");
 
-                //         if(nodeList.length < total) {
-                //             await scrollToBottom();
+                        if(nodeList.length < total) {
+                            await scrollToBottom();
 
-                //             await slowDown();
+                            await slowDown();
 
-                //             await getProductObjects(total);
-                //         }
+                            await getProductObjects(total);
+                        }
 
 
-                        // return Array.from(document.querySelectorAll(".products.list.items.product-items .item.product.product-item")).map(item => {
-                        //     return {
-                        //         productName : item.querySelector(".product-item-link") ? item.querySelector(".product-item-link").innerText.trim() : null,
-                        //         productImage : null,
-                        //         description : null,
-                        //         price : null,
-                        //         imageUris : [],
-                        //         productUri : item.querySelector(".product-item-link") ? item.querySelector(".product-item-link").href : null,
-                        //     }
-                        // });
+                        return Array.from(document.querySelectorAll(".products.list.items.product-items .item.product.product-item")).map(item => {
+                            return {
+                                productName : item.querySelector(".product-item-link") ? item.querySelector(".product-item-link").innerText.trim() : null,
+                                productImage : null,
+                                description : null,
+                                price : null,
+                                imageUris : [],
+                                productUri : item.querySelector(".product-item-link") ? item.querySelector(".product-item-link").href : null,
+                            }
+                        });
                         
-                //     }
+                    }
                     
-                //     let total = Number(document.querySelector(".toolbar-number").innerText.trim()),
+                    let total = Number(document.querySelector(".toolbar-number").innerText.trim()),
 
-                //         productObjects = await getProductObjects(total),
-                //         newUrl = null;
+                        productObjects = await getProductObjects(total),
+                        newUrl = null;
 
-                //     console.log({productObjects, newUrl});
-
-
-                //     return {productObjects, newUrl}
-                // },
-
-                // callback : async () => {
-
-                //     let productObjects = Array.from(document.querySelectorAll(".search-results .search-result")).map(item => {
-                //             return {
-                //                 productUri : item.querySelector(".search-result__content a").href,
-                //                 productName : item.querySelector(".search-result__title").innerText.trim(),
-                //             }
-                //         }),
-                //         newUrl = function() {
-
-                //             let {queryObject, urlWithoutQueryString} = queryStringToObject(window.location.href),
-                //                 {page} = queryObject,
-                //                 nextPage = !document.querySelector("#nextButton").classList.contains("prev-next-button__disabled") ? true : false;
-
-                //             if(nextPage)    {
-                //                 queryObject.page = Number(page) + 1;
-
-                //                 return `${urlWithoutQueryString}?${objectToQueryString(queryObject)}`;
-                //             } else  {
-                //                 return null;
-                //             }
-
-                //         }();
+                    console.log({productObjects, newUrl});
 
 
-                //     return {productObjects, newUrl};
-                // },
+                    return {productObjects, newUrl}
+                },
+
+                callback : async () => {
+
+                    let productObjects = Array.from(document.querySelectorAll(".search-results .search-result")).map(item => {
+                            return {
+                                productUri : item.querySelector(".search-result__content a").href,
+                                productName : item.querySelector(".search-result__title").innerText.trim(),
+                            }
+                        }),
+                        newUrl = function() {
+
+                            let {queryObject, urlWithoutQueryString} = queryStringToObject(window.location.href),
+                                {page} = queryObject,
+                                nextPage = !document.querySelector("#nextButton").classList.contains("prev-next-button__disabled") ? true : false;
+
+                            if(nextPage)    {
+                                queryObject.page = Number(page) + 1;
+
+                                return `${urlWithoutQueryString}?${objectToQueryString(queryObject)}`;
+                            } else  {
+                                return null;
+                            }
+
+                        }();
+
+
+                    return {productObjects, newUrl};
+                },
                 // type : "list",
                 // dataSource : "on-page",
                 // // waitForSelectors : [".products.list.items.product-items"],

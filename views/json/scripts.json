@@ -65,7 +65,24 @@
     {
         "src": "http://localhost:8080/browser-scripts/example/index.js",
         "url": [
-            "facebook.com"
+            ""
+        ],
+        "attributes" : [
+            {
+                "key" : "defer",
+                "val" : ""
+            }
+        ],
+        "method" : "append",
+        "htmlTagPosition": "body",
+        "active" : false
+    },
+
+
+    {
+        "src": "http://localhost:8080/browser-scripts/colemans-survival/index.js",
+        "url": [
+            "colemans.com"
         ],
         "attributes" : [
             {
@@ -79,10 +96,28 @@
     },
 
 
+
+    
     {
-        "src": "http://localhost:8080/browser-scripts/colemans-survival/index.js",
+        "src": "http://localhost:8080/browser-scripts/__cc-scraper-ui/index.js",
         "url": [
-            "colemans.com"
+            ""
+        ],
+        "attributes" : [
+            {
+                "key" : "defer",
+                "val" : ""
+            }
+        ],
+        "method" : "append",
+        "htmlTagPosition": "body",
+        "active" : false
+    },
+
+    {
+        "src": "http://localhost:7757/index.js",
+        "url": [
+            ""
         ],
         "attributes" : [
             {

@@ -1,3 +1,14 @@
+// let scriptTag = document.createElement("script");
+
+// scriptTag.innerHTML = `alert("Hello World");`
+
+// document.body.append(scriptTag)
+
+// in this example we injected script a different way;
+// and the script executed fine...
+// this became an inline script;
+
+
 (async function(){
 
     let siteUrl = "http://localhost:8080",
@@ -56,7 +67,7 @@
         });
     }
 
-    async function createInlineScript(scriptObject, index)   {
+    async function createInlineScript(scriptObject)   {
         let script = document.createElement("script"),
             method = scriptObject.method ? scriptObject.method : "append",
             response = await fetch(scriptObject.src),
@@ -73,7 +84,7 @@
 
     }
 
-    function createOutsourcedScript(scriptObject, index)   {
+    function createOutsourcedScript(scriptObject)   {
         let script = document.createElement("script"),
             method = scriptObject.method ? scriptObject.method : "append";
             // method = "prepend";
@@ -92,8 +103,8 @@
                 callback : async function() {
                     try {
                                                         
-                        // let {script, method} = await createInlineScript(scriptObject, index);
-                        let {script, method} = createOutsourcedScript(scriptObject, index);
+                        let {script, method} = await createInlineScript(scriptObject);
+                        // let {script, method} = createOutsourcedScript(scriptObject);
 
                 
                         scriptObject.attributes.forEach(item => {
@@ -153,3 +164,4 @@
 
 
 }());
+

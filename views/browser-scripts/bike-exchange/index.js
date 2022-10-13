@@ -297,6 +297,11 @@ async function awaitGlobal({condition}) {
 
                     await slowDown(2525);
 
+                    await scrollToBottom();
+
+                    await scrollToTop();
+
+
                     let descriptionContainer = document.querySelector(".PageProduct-details .MRevealText .MAccordionContent-inner"),
                         productDescription = descriptionContainer ? descriptionContainer.textContent.trim() : null,
                         additionalProductDetailsContainer = document.querySelector(".PageProduct-details > div:first-child > p"),

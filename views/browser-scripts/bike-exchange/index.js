@@ -357,7 +357,7 @@ async function awaitGlobal({condition}) {
                 executeMultiSingleProductInitializer : true, 
                 addSetDataToProductProps : true,
                 uniqueProductObjProp : "productUri",
-                productUrlPropName : "productUri",
+                productUriPropName : "productUri",
                 removeProductsWithoutUriPropName : true,
                 callbacksOnDone : [],
                 downloadZippedData : true,

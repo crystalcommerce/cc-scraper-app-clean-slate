@@ -295,11 +295,11 @@ async function awaitGlobal({condition}) {
             {
                 callback : async () => {
 
+                    // await scrollToBottom();
+
                     await slowDown(2525);
 
-                    await scrollToBottom();
-
-                    await scrollToTop();
+                    // await scrollToTop();
 
 
                     let descriptionContainer = document.querySelector(".PageProduct-details .MRevealText .MAccordionContent-inner"),

@@ -366,6 +366,7 @@ async function awaitGlobal({condition}) {
                 removeProductsWithoutUriPropName : true,
                 callbacksOnDone : [],
                 downloadZippedData : true,
+                startingIndex : 114, // retry category index 113; product index 2100
             });
 
             console.log(categorizedSetsScraperObject.categorizedSetsEvaluatorDone);

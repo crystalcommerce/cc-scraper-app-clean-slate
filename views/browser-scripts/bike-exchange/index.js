@@ -358,7 +358,7 @@ async function awaitGlobal({condition}) {
 
             let categorizedSetsScraperObject = new CategorizedSetsScraper({
                 evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
-                executeMultiProductsSetsInitializer : false, 
+                executeMultiProductsSetsInitializer : true, 
                 executeMultiSingleProductInitializer : true, 
                 addSetDataToProductProps : true,
                 uniqueProductObjProp : "productUri",
@@ -366,7 +366,14 @@ async function awaitGlobal({condition}) {
                 removeProductsWithoutUriPropName : true,
                 callbacksOnDone : [],
                 downloadZippedData : true,
-                startingIndex : 114, // retry category index 113; product index 2100
+                categorizedSetsIndices : {
+                    startingIndex : 0,
+                    lastIndex : null,
+                },
+                completeSingleScrapingEverySet : true,
+                filteredIndices : [4, 6],
+
+                // filteredIndices : [41, 120, 113]
             });
 
             console.log(categorizedSetsScraperObject.categorizedSetsEvaluatorDone);
@@ -380,8 +387,8 @@ async function awaitGlobal({condition}) {
                 These code are used for testing purposes only.
             
             */
-            // let productsSet = await categorizedSetsOfflineDb.getOneById(`036cb48d-53bb-49dc-a66d-df749cea03ae`),
-            //     productObjects = await productsOfflineDb.getAllFilteredData({setId : productsSet.setId}),
+            // let productsSet = await categorizedSetsOfflineDb.getOneById(`50529102-711d-4770-8d5a-5cf853f08b86`),
+            //     productObjects = await productsOfflineDb.getAllFilteredData({category : "Bikes", subcategory : "BMX Bikes"}),
             //     multiSingleProductScraper = new MultiSingleProductInitializer({
             //         setData : productsSet.setData, 
             //         evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 

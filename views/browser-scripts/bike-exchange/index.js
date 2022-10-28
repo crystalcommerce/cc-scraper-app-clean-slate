@@ -374,7 +374,7 @@ async function awaitGlobal({condition}) {
                 completeSingleScrapingEverySet : true,
                 // filteredCategorizedSetsIndices : [4, 6],
 
-                filteredIndices : [41, 120, 113],
+                filteredCategorizedSetsIndices : [41, 120, 113],
             });
 
             console.log(categorizedSetsScraperObject.categorizedSetsEvaluatorDone);

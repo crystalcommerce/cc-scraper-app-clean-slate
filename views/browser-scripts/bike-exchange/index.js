@@ -366,14 +366,15 @@ async function awaitGlobal({condition}) {
                 removeProductsWithoutUriPropName : true,
                 callbacksOnDone : [],
                 downloadZippedData : true,
+                // this can be used to slice the array of categorized sets
                 categorizedSetsIndices : {
                     startingIndex : 0,
                     lastIndex : null,
                 },
                 completeSingleScrapingEverySet : true,
-                filteredIndices : [4, 6],
+                // filteredCategorizedSetsIndices : [4, 6],
 
-                // filteredIndices : [41, 120, 113]
+                filteredIndices : [41, 120, 113],
             });
 
             console.log(categorizedSetsScraperObject.categorizedSetsEvaluatorDone);

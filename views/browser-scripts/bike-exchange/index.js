@@ -216,7 +216,7 @@ async function awaitGlobal({condition}) {
 
                     async function recursiveApiCall(categorizedSet) {
 
-                        let {label, setData} = categorizedSet,
+                        let {label, setData, setId} = categorizedSet,
                             currentScrapedProducts = 0,
                             page = 1,
                             productsTotal = 0;
@@ -238,16 +238,21 @@ async function awaitGlobal({condition}) {
                                         imageUris = [getValidatedPropValues(item, ["node", "displayImage", "url"])].filter(item => item && item !== "");
 
                                     return {
+                                        // remember to add this when using saveProductObjectsToStorageByChunk
+                                        setId,
+                                        ...setData,
+
                                         productUri,
                                         productName,
                                         brandName,
                                         imageUris,
-                                        ...setData,
                                     }
                                 });
                                 console.table(scrapedProducts);
                                 console.log({scrapedProducts, newCursor, currentScrapedProducts, productsTotal, page});
 
+                                // make sure setId and setData is already present 
+                                // on each of the scraped products
                                 await saveProductObjectsToStorageByChunk(scrapedProducts);
 
                                 page++;
@@ -371,6 +376,7 @@ async function awaitGlobal({condition}) {
                     lastIndex : null,
                 },
                 completeSingleScrapingEverySet : true,
+                // filteredCategorizedSetsIndices : [8],
                 // filteredCategorizedSetsIndices : [8, 10, 11],
 
                 filteredCategorizedSetsIndices : [113],

@@ -164,7 +164,7 @@ async function awaitGlobal({condition}) {
         ],
         set : [
             {
-                callback : async (categorizedSet) => {
+                callback : async (categorizedSet, saveProductObjectsToStorageByChunk) => {
                     let productObjects = [];
 
                     async function getProductsByCursor(label, endCursor = null)    {
@@ -198,6 +198,7 @@ async function awaitGlobal({condition}) {
                                 body : JSON.stringify(graphRequest.body)
                             }),
                             data = await response.json();
+                            
 
                             console.log(data);
                         let [graphResponse] = data,
@@ -216,10 +217,9 @@ async function awaitGlobal({condition}) {
                     async function recursiveApiCall(categorizedSet) {
 
                         let {label, setData} = categorizedSet,
-                            allProductObjects = [],
                             currentScrapedProducts = 0,
                             page = 1,
-                            productsTotal = null;
+                            productsTotal = 0;
 
                         async function getAllProductObjects(label, endCursor)   {
 
@@ -247,7 +247,9 @@ async function awaitGlobal({condition}) {
                                 });
                                 console.table(scrapedProducts);
                                 console.log({scrapedProducts, newCursor, currentScrapedProducts, productsTotal, page});
-                                allProductObjects.push(...scrapedProducts);
+
+                                await saveProductObjectsToStorageByChunk(scrapedProducts);
+
                                 page++;
                                 if(newCursor)   {
                                     await getAllProductObjects(label, newCursor);
@@ -260,21 +262,17 @@ async function awaitGlobal({condition}) {
                         
                         await getAllProductObjects(label, null);
 
-                        return {allProductObjects, currentScrapedProducts, productsTotal, page};
+                        return {currentScrapedProducts, productsTotal, page};
 
                     }
 
                     let scrapingResult = await recursiveApiCall(categorizedSet),
-                        {allProductObjects, productsTotal, currentScrapedProducts, page} = scrapingResult;
+                        {productsTotal, currentScrapedProducts, page} = scrapingResult;
 
-                    productObjects = allProductObjects;
-
-                    console.table(productObjects);
+                    // productObjects = allProductObjects;
 
                     console.log({categorizedSet, productsTotal, currentScrapedProducts, page});
                     await slowDown();
-
-                    
 
                     return {
                         productObjects,
@@ -288,6 +286,7 @@ async function awaitGlobal({condition}) {
                 ],
                 args : [
                     "categorizedSet",
+                    "saveProductObjectsToStorageByChunk"
                 ]
             },
         ],
@@ -372,9 +371,9 @@ async function awaitGlobal({condition}) {
                     lastIndex : null,
                 },
                 completeSingleScrapingEverySet : true,
-                // filteredCategorizedSetsIndices : [4, 6],
+                filteredCategorizedSetsIndices : [8, 10, 11],
 
-                filteredCategorizedSetsIndices : [41, 120, 113],
+                // filteredCategorizedSetsIndices : [113],
             });
 
             console.log(categorizedSetsScraperObject.categorizedSetsEvaluatorDone);

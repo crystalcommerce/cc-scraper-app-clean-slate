@@ -104,7 +104,7 @@ async function awaitGlobal({condition}) {
                             index = 0,
                             categories = await getCategories("-");
 
-                        console.log(categories);
+                        // console.log(categories);
 
                         await moderator(categories, async (slicedArr) => {
 
@@ -114,7 +114,7 @@ async function awaitGlobal({condition}) {
                                         let subcategories = await getCategories(category.value),
                                             categoryName = category.label;
                                         
-                                        console.log({categoryName, subcategories});
+                                        // console.log({categoryName, subcategories});
         
                                         subcategories.forEach(sub => {
                                             if(sub.value !== category.value)    {
@@ -153,7 +153,7 @@ async function awaitGlobal({condition}) {
                     
                     let categorizedSets = await getAllCategorizedSets();
 
-                    console.table(categorizedSets);
+                    // console.table(categorizedSets);
 
                     return categorizedSets;
 
@@ -171,7 +171,7 @@ async function awaitGlobal({condition}) {
                         
                         await slowDown();
 
-                        console.clear();
+                        // console.clear();
 
                         let graphRequest = {
                                 url : "https://www.bikeexchange.com/graphql",
@@ -200,14 +200,14 @@ async function awaitGlobal({condition}) {
                             data = await response.json();
                             
 
-                            console.log(data);
+                            // console.log(data);
                         let [graphResponse] = data,
                             scrapedProducts = getValidatedPropValues(graphResponse, ["data", "advertSearch", "adverts", "edges"]),
                             hasNextPage = getValidatedPropValues(graphResponse, ["data", "advertSearch", "adverts", "pageInfo", "hasNextPage"]),
                             totalProducts = getValidatedPropValues(graphResponse, ["data", "advertSearch", "adverts", "totalCount"]),
                             newCursor = hasNextPage ? getValidatedPropValues(graphResponse, ["data", "advertSearch", "adverts", "pageInfo", "endCursor"]) : null;
                         
-                        console.log({graphResponse, scrapedProducts, newCursor});
+                        // console.log({graphResponse, scrapedProducts, newCursor});
                         
                         return {scrapedProducts, newCursor, totalProducts};    
 
@@ -248,8 +248,8 @@ async function awaitGlobal({condition}) {
                                         imageUris,
                                     }
                                 });
-                                console.table(scrapedProducts);
-                                console.log({scrapedProducts, newCursor, currentScrapedProducts, productsTotal, page});
+                                // console.table(scrapedProducts);
+                                // console.log({scrapedProducts, newCursor, currentScrapedProducts, productsTotal, page});
 
                                 // make sure setId and setData is already present 
                                 // on each of the scraped products
@@ -260,7 +260,7 @@ async function awaitGlobal({condition}) {
                                     await getAllProductObjects(label, newCursor);
                                 }
                             } catch(err)    {
-                                console.log(err);
+                                // console.log(err);
                             }
                             
                         }
@@ -276,7 +276,7 @@ async function awaitGlobal({condition}) {
 
                     // productObjects = allProductObjects;
 
-                    console.log({categorizedSet, productsTotal, currentScrapedProducts, page});
+                    // console.log({categorizedSet, productsTotal, currentScrapedProducts, page});
                     await slowDown();
 
                     return {
@@ -351,13 +351,13 @@ async function awaitGlobal({condition}) {
 
     window.___cc__CcScraperGlobalObject.initialize = async function() {
 
-        console.log({
-            message : "Hello there, Michael Norward!",
-            source : "scraper-application-test-scripts"
-        })
+        // console.log({
+        //     message : "Hello there, Michael Norward!",
+        //     source : "scraper-application-test-scripts"
+        // })
 
         if(!currentProcess)  {
-            console.log(getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]));
+            // console.log(getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]));
 
 
             let categorizedSetsScraperObject = new CategorizedSetsScraper({
@@ -377,12 +377,12 @@ async function awaitGlobal({condition}) {
                 },
                 completeSingleScrapingEverySet : true,
                 // filteredCategorizedSetsIndices : [8],
-                // filteredCategorizedSetsIndices : [8, 10, 11],
+                filteredCategorizedSetsIndices : [8, 10, 11],
 
-                filteredCategorizedSetsIndices : [113],
+                // filteredCategorizedSetsIndices : [113],
             });
 
-            console.log(categorizedSetsScraperObject.categorizedSetsEvaluatorDone);
+            // console.log(categorizedSetsScraperObject.categorizedSetsEvaluatorDone);
             
             await categorizedSetsScraperObject.getCategorizedSets();
             
@@ -420,7 +420,7 @@ async function awaitGlobal({condition}) {
 
         window.___cc__scraperObject = scraperObject;
         if(currentProcess.type === "set" && scraperObject.allProductsSetEvaluatorsDone)    {
-            console.table(scraperObject.productObjects);
+            // console.table(scraperObject.productObjects);
         }
         
     }

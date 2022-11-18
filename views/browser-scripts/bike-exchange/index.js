@@ -38,6 +38,8 @@ async function awaitGlobal({condition}) {
         CcScraperChannel,
         categorizedSetsOfflineDb,
         productsOfflineDb,
+        ccScrapingEventInstance,
+        wrapUp,
     } = window.___cc__CcScraperGlobalObject,
     { decodedProcessFromUrl, currentProcess, initializeScraping } = urlProcessInitializer();
 
@@ -171,8 +173,6 @@ async function awaitGlobal({condition}) {
                         
                         await slowDown();
 
-                        // console.clear();
-
                         let graphRequest = {
                                 url : "https://www.bikeexchange.com/graphql",
                                 method : "POST",
@@ -200,14 +200,14 @@ async function awaitGlobal({condition}) {
                             data = await response.json();
                             
 
-                            // console.log(data);
+                            // ccScrapingEventInstance.log(data);
                         let [graphResponse] = data,
                             scrapedProducts = getValidatedPropValues(graphResponse, ["data", "advertSearch", "adverts", "edges"]),
                             hasNextPage = getValidatedPropValues(graphResponse, ["data", "advertSearch", "adverts", "pageInfo", "hasNextPage"]),
                             totalProducts = getValidatedPropValues(graphResponse, ["data", "advertSearch", "adverts", "totalCount"]),
                             newCursor = hasNextPage ? getValidatedPropValues(graphResponse, ["data", "advertSearch", "adverts", "pageInfo", "endCursor"]) : null;
                         
-                        // console.log({graphResponse, scrapedProducts, newCursor});
+                        // ccScrapingEventInstance.log({graphResponse, scrapedProducts, newCursor});
                         
                         return {scrapedProducts, newCursor, totalProducts};    
 
@@ -248,8 +248,8 @@ async function awaitGlobal({condition}) {
                                         imageUris,
                                     }
                                 });
-                                // console.table(scrapedProducts);
-                                // console.log({scrapedProducts, newCursor, currentScrapedProducts, productsTotal, page});
+                                // ccScrapingEventInstance.table(scrapedProducts);
+                                // ccScrapingEventInstance.log({scrapedProducts, newCursor, currentScrapedProducts, productsTotal, page});
 
                                 // make sure setId and setData is already present 
                                 // on each of the scraped products
@@ -260,7 +260,7 @@ async function awaitGlobal({condition}) {
                                     await getAllProductObjects(label, newCursor);
                                 }
                             } catch(err)    {
-                                // console.log(err);
+                                // ccScrapingEventInstance.log(err);
                             }
                             
                         }
@@ -276,7 +276,7 @@ async function awaitGlobal({condition}) {
 
                     // productObjects = allProductObjects;
 
-                    // console.log({categorizedSet, productsTotal, currentScrapedProducts, page});
+                    // ccScrapingEventInstance.log({categorizedSet, productsTotal, currentScrapedProducts, page});
                     await slowDown();
 
                     return {
@@ -351,13 +351,16 @@ async function awaitGlobal({condition}) {
 
     window.___cc__CcScraperGlobalObject.initialize = async function() {
 
-        // console.log({
-        //     message : "Hello there, Michael Norward!",
-        //     source : "scraper-application-test-scripts"
-        // })
-
         if(!currentProcess)  {
             // console.log(getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]));
+
+            window.addEventListener("cc-scraping-event", (e) => {
+                let scrapedData = e.detail.eventData.scrapedData; getValidatedPropValues(e, ["detail", "eventData", "scrapedData"]);
+                if(e.detail.dataType === "scraped-data" && scrapedData)    {
+                    ccScrapingEventInstance.table(scrapedData);
+                }
+                ccScrapingEventInstance.log(e.detail);
+            });
 
 
             let categorizedSetsScraperObject = new CategorizedSetsScraper({
@@ -376,8 +379,8 @@ async function awaitGlobal({condition}) {
                     lastIndex : null,
                 },
                 completeSingleScrapingEverySet : true,
-                // filteredCategorizedSetsIndices : [8],
-                filteredCategorizedSetsIndices : [8, 10, 11],
+                filteredCategorizedSetsIndices : [8],
+                // filteredCategorizedSetsIndices : [8, 10, 11],
 
                 // filteredCategorizedSetsIndices : [113],
             });
@@ -387,6 +390,11 @@ async function awaitGlobal({condition}) {
             await categorizedSetsScraperObject.getCategorizedSets();
             
             await categorizedSetsScraperObject.checkScraperDone();
+
+            console.log(wrapUp);
+
+            await wrapUp();
+            
 
             /*
 
@@ -411,6 +419,8 @@ async function awaitGlobal({condition}) {
             // await multiSingleProductScraper.checkScraperDone();
             
         }
+
+        
     }
 
 
@@ -422,6 +432,5 @@ async function awaitGlobal({condition}) {
         if(currentProcess.type === "set" && scraperObject.allProductsSetEvaluatorsDone)    {
             // console.table(scraperObject.productObjects);
         }
-        
     }
 }())

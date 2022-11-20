@@ -366,7 +366,7 @@ async function awaitGlobal({condition}) {
             let categorizedSetsScraperObject = new CategorizedSetsScraper({
                 evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
                 executeMultiProductsSetsInitializer : true, 
-                executeMultiSingleProductInitializer : true, 
+                executeMultiSingleProductInitializer : false, 
                 addSetDataToProductProps : true,
                 uniqueProductObjProp : "productUri",
                 productUriPropName : "productUri",
@@ -375,11 +375,12 @@ async function awaitGlobal({condition}) {
                 downloadZippedData : true,
                 // this can be used to slice the array of categorized sets
                 categorizedSetsIndices : {
-                    startingIndex : 0,
-                    lastIndex : null,
+                    startingIndex : 10,
+                    lastIndex : 12,
                 },
-                completeSingleScrapingEverySet : true,
-                filteredCategorizedSetsIndices : [8],
+                // completeSingleScrapingEverySet : true,
+                completeSingleScrapingEverySet : false,
+                // filteredCategorizedSetsIndices : [8],
                 // filteredCategorizedSetsIndices : [8, 10, 11],
 
                 // filteredCategorizedSetsIndices : [113],
@@ -389,11 +390,13 @@ async function awaitGlobal({condition}) {
             
             await categorizedSetsScraperObject.getCategorizedSets();
             
-            await categorizedSetsScraperObject.checkScraperDone();
+            // await categorizedSetsScraperObject.checkScraperDone();
 
-            console.log(wrapUp);
+            // await wrapUp();
 
-            await wrapUp();
+            let relatedEvents = await ccScrapingEventInstance.groupRelatedEvents();
+
+            console.log(relatedEvents);
             
 
             /*

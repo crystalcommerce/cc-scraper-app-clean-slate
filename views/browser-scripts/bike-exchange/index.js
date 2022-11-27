@@ -365,7 +365,7 @@ async function awaitGlobal({condition}) {
 
             let categorizedSetsScraperObject = new CategorizedSetsScraper({
                 evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
-                executeMultiProductsSetsInitializer : true, 
+                executeMultiProductsSetsInitializer : false, 
                 executeMultiSingleProductInitializer : true, 
                 addSetDataToProductProps : true,
                 uniqueProductObjProp : "productUri",
@@ -378,6 +378,7 @@ async function awaitGlobal({condition}) {
                     startingIndex : 10,
                     lastIndex : 12,
                 },
+                csvRowsLimit : 7,
                 // completeSingleScrapingEverySet : false,
                 completeSingleScrapingEverySet : true,
                 // filteredCategorizedSetsIndices : [8, 11],

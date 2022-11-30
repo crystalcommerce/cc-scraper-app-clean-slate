@@ -106,7 +106,7 @@ async function awaitGlobal({condition}) {
                             index = 0,
                             categories = await getCategories("-");
 
-                        // console.log(categories);
+                        console.log(categories);
 
                         await moderator(categories, async (slicedArr) => {
 
@@ -116,7 +116,7 @@ async function awaitGlobal({condition}) {
                                         let subcategories = await getCategories(category.value),
                                             categoryName = category.label;
                                         
-                                        // console.log({categoryName, subcategories});
+                                        console.log({categoryName, subcategories});
         
                                         subcategories.forEach(sub => {
                                             if(sub.value !== category.value)    {
@@ -155,7 +155,7 @@ async function awaitGlobal({condition}) {
                     
                     let categorizedSets = await getAllCategorizedSets();
 
-                    // console.table(categorizedSets);
+                    console.table(categorizedSets);
 
                     return categorizedSets;
 
@@ -365,6 +365,7 @@ async function awaitGlobal({condition}) {
 
             let categorizedSetsScraperObject = new CategorizedSetsScraper({
                 evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
+                executeCategorizedSetScraping : false,
                 executeMultiProductsSetsInitializer : false, 
                 executeMultiSingleProductInitializer : true, 
                 addSetDataToProductProps : true,
@@ -378,7 +379,7 @@ async function awaitGlobal({condition}) {
                     startingIndex : 10,
                     lastIndex : 12,
                 },
-                csvRowsLimit : 7,
+                csvRowsLimit : 500,
                 // completeSingleScrapingEverySet : false,
                 completeSingleScrapingEverySet : true,
                 // filteredCategorizedSetsIndices : [8, 11],

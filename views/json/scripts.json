@@ -30,7 +30,6 @@
         "active" : false
     },
 
-
     {
         "src": "http://localhost:8080/browser-scripts/_test-scripts/product-set/index.js",
         "url": [

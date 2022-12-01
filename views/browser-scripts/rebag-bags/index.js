@@ -40,6 +40,8 @@ async function awaitGlobal({condition}) {
         productsOfflineDb,
         ccScrapingEventInstance,
         wrapUp,
+        queryStringToObject,
+        objectToQueryString,
     } = window.___cc__CcScraperGlobalObject,
     { decodedProcessFromUrl, currentProcess, initializeScraping } = urlProcessInitializer();
 
@@ -93,8 +95,25 @@ async function awaitGlobal({condition}) {
 
                     ccScrapingEventInstance.clear();
 
-                    let newUrl = document.querySelector(".pagination a[rel=next]").href,
-                        {setData, setId} = categorizedSet,
+                    let {setData, setId, url} = categorizedSet,
+                        newUrl = function(){
+                            let nextUrl = document.querySelector(".pagination a[rel=next]");
+
+                            if(!nextUrl)    {
+                                return null;
+                            }
+                            let nextUrlQueryObj = queryStringToObject(nextUrl.href),
+                                { page } = nextUrlQueryObj.queryObject,
+                                urlQueryObject = queryStringToObject(url),
+                                {urlWithoutQueryString, queryObject} = urlQueryObject;
+
+                            queryObject.page = page;
+
+                            let queryString = objectToQueryString(queryObject);
+
+                            return `${urlWithoutQueryString}?${queryString}`;
+                            
+                        }(),
                         productObjects = Array.from(document.querySelectorAll(".plp-product")).map(container => {
                             let imageUris = Array.from(container.querySelectorAll(".product-image-wrap img")).map(img => {
                                     let src = img.src,
@@ -135,8 +154,6 @@ async function awaitGlobal({condition}) {
                                 originalPrice
                             }
                         });
-
-                    console.table(productObjects);
 
                     return {
                         productObjects,
@@ -223,7 +240,7 @@ async function awaitGlobal({condition}) {
 
             let categorizedSetsScraperObject = new CategorizedSetsScraper({
                 evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
-                executeCategorizedSetScraping : true,
+                executeCategorizedSetScraping : false,
                 executeMultiProductsSetsInitializer : true, 
                 executeMultiSingleProductInitializer : true, 
                 addSetDataToProductProps : true,

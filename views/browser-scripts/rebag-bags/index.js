@@ -142,7 +142,8 @@ async function awaitGlobal({condition}) {
                                 productBrand = container.querySelector(".product-vendor") ? container.querySelector(".product-vendor").innerText.trim("").replace(/\r\n+/g, ' <br />') : null,
                                 productName = productBrand && container.querySelector(".product-title") ?`${productBrand} - ${container.querySelector(".product-title").innerText.trim("").replace(/\r\n+/g, ' <br />')}` : productBrand ? productBrand : null,
                                 productCondition = container.querySelector(".product-condition") ? container.querySelector(".product-condition").innerText.trim("").replace(/\r\n+/g, ' <br />') : null,
-                                originalPrice = container.querySelector(".product-price .bc-sf-filter-product-item-original-price") ? container.querySelector(".product-price .bc-sf-filter-product-item-original-price").innerText.trim("").replace(/\r\n+/g, ' <br />') : null;
+                                originalPrice = container.querySelector(".product-price .bc-sf-filter-product-item-original-price") ? container.querySelector(".product-price .bc-sf-filter-product-item-original-price").innerText.trim("").replace(/\r\n+/g, ' <br />') : null,
+                                regularPrice = container.querySelector(".product-price .bc-sf-filter-product-item-regular-price") ? container.querySelector(".product-price .bc-sf-filter-product-item-regular-price").innerText.trim("").replace(/\r\n+/g, ' <br />') : null;
 
                             return {
                                 setId,
@@ -151,7 +152,8 @@ async function awaitGlobal({condition}) {
                                 productBrand,
                                 imageUris,
                                 productUri,
-                                originalPrice
+                                originalPrice,
+                                regularPrice
                             }
                         });
 
@@ -241,7 +243,7 @@ async function awaitGlobal({condition}) {
             let categorizedSetsScraperObject = new CategorizedSetsScraper({
                 evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
                 executeCategorizedSetScraping : false,
-                executeMultiProductsSetsInitializer : true, 
+                executeMultiProductsSetsInitializer : false, 
                 executeMultiSingleProductInitializer : true, 
                 addSetDataToProductProps : true,
                 uniqueProductObjProp : "productUri",
@@ -251,7 +253,7 @@ async function awaitGlobal({condition}) {
                 downloadZippedData : true,
                 
                 csvRowsLimit : 500,
-                completeSingleScrapingEverySet : false,
+                completeSingleScrapingEverySet : true,
                 maxOpenedWindows : 5,
                 // completeSingleScrapingEverySet : true,
                 // verifySingleProductUrl : false,
@@ -262,8 +264,8 @@ async function awaitGlobal({condition}) {
 
                 // filteredCategorizedSetsIndices : [8, 11],
                 // categorizedSetsIndices : {
-                //     startingIndex : 10,
-                //     lastIndex : 12,
+                //     startingIndex : 1,
+                //     // lastIndex : 12,
                 // },
             });
             

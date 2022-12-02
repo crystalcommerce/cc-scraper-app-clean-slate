@@ -244,7 +244,7 @@ async function awaitGlobal({condition}) {
                 evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
                 executeCategorizedSetScraping : false,
                 executeMultiProductsSetsInitializer : false, 
-                executeMultiSingleProductInitializer : true, 
+                executeMultiSingleProductInitializer : false, 
                 addSetDataToProductProps : true,
                 uniqueProductObjProp : "productUri",
                 productUriPropName : "productUri",
@@ -262,7 +262,7 @@ async function awaitGlobal({condition}) {
 
                 // this can be used to slice the array of categorized sets || filter them by categorized set index in the offline db;
 
-                // filteredCategorizedSetsIndices : [8, 11],
+                filteredCategorizedSetsIndices : [1],
                 // categorizedSetsIndices : {
                 //     startingIndex : 1,
                 //     // lastIndex : 12,

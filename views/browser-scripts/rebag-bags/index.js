@@ -224,7 +224,7 @@ async function awaitGlobal({condition}) {
         ]
     }
 
-    window.___cc__CcScraperGlobalObject.ccScrapingEventInstance.showConsoleLogs = false;
+    window.___cc__CcScraperGlobalObject.ccScrapingEventInstance.showConsoleLogs = true;
 
     window.___cc__CcScraperGlobalObject.initialize = async function() {
 
@@ -242,9 +242,9 @@ async function awaitGlobal({condition}) {
 
             let categorizedSetsScraperObject = new CategorizedSetsScraper({
                 evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
-                executeCategorizedSetScraping : false,
-                executeMultiProductsSetsInitializer : false, 
-                executeMultiSingleProductInitializer : false, 
+                executeCategorizedSetScraping : true,
+                executeMultiProductsSetsInitializer : true, 
+                executeMultiSingleProductInitializer : true, 
                 addSetDataToProductProps : true,
                 uniqueProductObjProp : "productUri",
                 productUriPropName : "productUri",
@@ -253,8 +253,9 @@ async function awaitGlobal({condition}) {
                 downloadZippedData : true,
                 
                 csvRowsLimit : 500,
-                completeSingleScrapingEverySet : true,
+                completeSingleScrapingEverySet : false,
                 maxOpenedWindows : 5,
+                continuousScraping : true,
                 // completeSingleScrapingEverySet : true,
                 // verifySingleProductUrl : false,
                 // verifyProductSetUrl : false,
@@ -262,7 +263,8 @@ async function awaitGlobal({condition}) {
 
                 // this can be used to slice the array of categorized sets || filter them by categorized set index in the offline db;
 
-                filteredCategorizedSetsIndices : [1],
+                filteredCategorizedSetsIndices : [6, 12, 15],
+                // filteredCategorizedSetsIndices : [10],
                 // categorizedSetsIndices : {
                 //     startingIndex : 1,
                 //     // lastIndex : 12,

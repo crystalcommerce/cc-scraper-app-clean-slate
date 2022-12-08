@@ -12,7 +12,7 @@
         ],
         "method" : "prepend",
         "htmlTagPosition": "head",
-        "active" : true
+        "active" : false
     },
     {
         "src": "http://localhost:7747/index.js",
@@ -27,7 +27,7 @@
         ],
         "method" : "prepend",
         "htmlTagPosition": "head",
-        "active" : false
+        "active" : true
     },
 
     {
@@ -114,6 +114,23 @@
         "src": "http://localhost:8080/browser-scripts/rebag-bags/index.js",
         "url": [
             "rebag.com"
+        ],
+        "attributes" : [
+            {
+                "key" : "defer",
+                "val" : ""
+            }
+        ],
+        "method" : "append",
+        "htmlTagPosition": "body",
+        "active" : true
+    },
+
+
+    {
+        "src": "http://localhost:8080/browser-scripts/test-yt/index.js",
+        "url": [
+            "youtube.com"
         ],
         "attributes" : [
             {

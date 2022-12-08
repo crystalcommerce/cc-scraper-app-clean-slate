@@ -12,7 +12,7 @@
         ],
         "method" : "prepend",
         "htmlTagPosition": "head",
-        "active" : false
+        "active" : true
     },
     {
         "src": "http://localhost:7747/index.js",
@@ -27,7 +27,7 @@
         ],
         "method" : "prepend",
         "htmlTagPosition": "head",
-        "active" : true
+        "active" : false
     },
 
     {

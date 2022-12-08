@@ -254,7 +254,7 @@ async function awaitGlobal({condition}) {
                 
                 csvRowsLimit : 500,
                 completeSingleScrapingEverySet : false,
-                maxOpenedWindows : 5,
+                maxOpenedWindows : 10,
                 continuousScraping : true,
                 // completeSingleScrapingEverySet : true,
                 // verifySingleProductUrl : false,
@@ -263,7 +263,7 @@ async function awaitGlobal({condition}) {
 
                 // this can be used to slice the array of categorized sets || filter them by categorized set index in the offline db;
 
-                filteredCategorizedSetsIndices : [6, 12, 15],
+                // filteredCategorizedSetsIndices : [6, 12, 15],
                 // filteredCategorizedSetsIndices : [10],
                 // categorizedSetsIndices : {
                 //     startingIndex : 1,

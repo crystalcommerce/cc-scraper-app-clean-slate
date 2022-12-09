@@ -242,8 +242,8 @@ async function awaitGlobal({condition}) {
 
             let categorizedSetsScraperObject = new CategorizedSetsScraper({
                 evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
-                executeCategorizedSetScraping : false,
-                executeMultiProductsSetsInitializer : false, 
+                executeCategorizedSetScraping : true,
+                executeMultiProductsSetsInitializer : true, 
                 executeMultiSingleProductInitializer : true, 
                 addSetDataToProductProps : true,
                 uniqueProductObjProp : "productUri",
@@ -253,8 +253,8 @@ async function awaitGlobal({condition}) {
                 downloadZippedData : true,
                 
                 csvRowsLimit : 500,
-                completeSingleScrapingEverySet : true,
-                maxOpenedWindows : 5,
+                completeSingleScrapingEverySet : false,
+                maxOpenedWindows : 10,
                 continuousScraping : true,
                 // completeSingleScrapingEverySet : true,
                 // verifySingleProductUrl : false,
@@ -263,8 +263,8 @@ async function awaitGlobal({condition}) {
 
                 // this can be used to slice the array of categorized sets || filter them by categorized set index in the offline db;
 
-                filteredCategorizedSetsIndices : [6, 12, 15],
-                // filteredCategorizedSetsIndices : [10],
+                // filteredCategorizedSetsIndices : [6, 12, 15],
+                // filteredCategorizedSetsIndices : [3, 10, 13],
                 // categorizedSetsIndices : {
                 //     startingIndex : 1,
                 //     // lastIndex : 12,

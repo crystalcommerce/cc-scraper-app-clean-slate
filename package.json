@@ -4,7 +4,7 @@
   "description": "A new scraper application for Crystal Commerce.",
   "main": "index.js",
   "scripts": {
-    "dev": "node index.js",
+    "dev": "node open-index.js",
     "start": "node index.js"
   },
   "author": "Michael Norward Miranda",

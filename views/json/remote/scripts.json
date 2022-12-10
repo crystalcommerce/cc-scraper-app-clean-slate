@@ -1,21 +1,6 @@
 [
     {
-        "src": "http://localhost:8080/browser-scripts/__cc-scraper-core/index.js",
-        "url": [
-            ""
-        ],
-        "attributes" : [
-            {
-                "key" : "async",
-                "val" : ""
-            }
-        ],
-        "method" : "prepend",
-        "htmlTagPosition": "head",
-        "active" : true
-    },
-    {
-        "src": "http://localhost:7747/index.js",
+        "src": "http://192.168.86.21:8080/browser-scripts/__cc-scraper-core/index.js",
         "url": [
             ""
         ],
@@ -29,11 +14,26 @@
         "htmlTagPosition": "head",
         "active" : false
     },
+    {
+        "src": "http://192.168.86.21:7747/index.js",
+        "url": [
+            ""
+        ],
+        "attributes" : [
+            {
+                "key" : "async",
+                "val" : ""
+            }
+        ],
+        "method" : "prepend",
+        "htmlTagPosition": "head",
+        "active" : true
+    },
 
     {
-        "src": "http://localhost:8080/browser-scripts/_test-scripts/product-set/index.js",
+        "src": "http://192.168.86.21:8080/browser-scripts/_test-scripts/product-set/index.js",
         "url": [
-            "localhost:5500/",
+            "192.168.86.21:5500/",
             "http://127.0.0.1:5500/"
         ],
         "attributes" : [
@@ -47,7 +47,7 @@
         "active" : true
     },
     {
-        "src": "http://localhost:8080/browser-scripts/amiami-toys/index.js",
+        "src": "http://192.168.86.21:8080/browser-scripts/amiami-toys/index.js",
         "url": [
             "amiami.com/"
         ],
@@ -62,7 +62,7 @@
         "active" : true
     },
     {
-        "src": "http://localhost:8080/browser-scripts/example/index.js",
+        "src": "http://192.168.86.21:8080/browser-scripts/example/index.js",
         "url": [
             ""
         ],
@@ -79,7 +79,7 @@
 
 
     {
-        "src": "http://localhost:8080/browser-scripts/colemans-survival/index.js",
+        "src": "http://192.168.86.21:8080/browser-scripts/colemans-survival/index.js",
         "url": [
             "bikeexchange.com"
         ],
@@ -95,7 +95,7 @@
     },
 
     {
-        "src": "http://localhost:8080/browser-scripts/bike-exchange/index.js",
+        "src": "http://192.168.86.21:8080/browser-scripts/bike-exchange/index.js",
         "url": [
             "bikeexchange.com"
         ],
@@ -111,7 +111,7 @@
     },
 
     {
-        "src": "http://localhost:8080/browser-scripts/rebag-bags/index.js",
+        "src": "http://192.168.86.21:8080/browser-scripts/rebag-bags/index.js",
         "url": [
             "rebag.com"
         ],
@@ -128,7 +128,7 @@
 
 
     {
-        "src": "http://localhost:8080/browser-scripts/test-yt/index.js",
+        "src": "http://192.168.86.21:8080/browser-scripts/test-yt/index.js",
         "url": [
             "youtube.com"
         ],
@@ -146,7 +146,7 @@
 
     
     {
-        "src": "http://localhost:8080/browser-scripts/__cc-scraper-ui/index.js",
+        "src": "http://192.168.86.21:8080/browser-scripts/__cc-scraper-ui/index.js",
         "url": [
             ""
         ],
@@ -162,7 +162,7 @@
     },
 
     {
-        "src": "http://localhost:7757/index.js",
+        "src": "http://192.168.86.21:7757/index.js",
         "url": [
             ""
         ],

@@ -184,7 +184,7 @@ async function awaitGlobal({condition}) {
                     ccScrapingEventInstance.clear();
 
                     let container = document.querySelector(".pdp__section--overview"),
-                        excludedKeys = ["Store Location", "store location"]
+                        excludedKeys = ["Store Location", "store location"],
                         additionalProductDetails = function(){
                             let productObject = {};
 

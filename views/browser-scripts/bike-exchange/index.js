@@ -381,8 +381,8 @@ async function awaitGlobal({condition}) {
                 // },
                 csvRowsLimit : 500,
                 completeSingleScrapingEverySet : true,
-                maxOpenedWindows : 5,
-                continuousScraping : false,
+                maxOpenedWindows : 10,
+                continuousScraping : true,
                 // filteredCategorizedSetsIndices : [8],
                 filteredCategorizedSetsIndices : [8, 10, 11],
 

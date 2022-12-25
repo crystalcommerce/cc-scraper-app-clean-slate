@@ -126,6 +126,22 @@
         "active" : true
     },
 
+    {
+        "src": "http://localhost:8080/browser-scripts/plants-daves-garden/index.js",
+        "url": [
+            "davesgarden.com"
+        ],
+        "attributes" : [
+            {
+                "key" : "defer",
+                "val" : ""
+            }
+        ],
+        "method" : "append",
+        "htmlTagPosition": "body",
+        "active" : true
+    },
+
 
     {
         "src": "http://localhost:8080/browser-scripts/test-yt/index.js",

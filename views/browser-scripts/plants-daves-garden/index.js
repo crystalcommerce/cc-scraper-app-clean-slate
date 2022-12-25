@@ -258,7 +258,25 @@ async function awaitGlobal({condition}) {
                                 productUri,
                             }
                         }),
-                        newUrl = document.querySelector(".site-pagination-step-next") ? document.querySelector(".site-pagination-step-next").href : null;
+                        newUrl = function(){
+                            let nextButton = document.querySelector(".site-pagination-step-next");
+
+                            if(!nextButton)  {
+                                return null;
+                            }
+
+                            let url = nextButton.href,
+                                {urlWithoutQueryString, queryObject} = queryStringToObject(url);
+
+                            queryObject["__cc-scraper-data"] = null;
+
+                            delete(queryObject["__cc-scraper-data"]);
+
+                            let queryString = objectToQueryString(queryObject, true);
+
+                            return `${urlWithoutQueryString}?${queryString}`;
+
+                        }();
         
                     console.log({
                         productObjects, newUrl

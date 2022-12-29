@@ -217,7 +217,7 @@ async function awaitGlobal({condition}) {
         ],
         set : [
             {
-                callback : async () => {
+                callback : async (categorizedSet) => {
 
                     await scrollToBottom(700);
 
@@ -227,12 +227,14 @@ async function awaitGlobal({condition}) {
 
                     ccScrapingEventInstance.clear();
 
-                    let productObjects = Array.from(document.querySelectorAll(".plant-info-block")).map(item => {
+                    let {setData} = categorizedSet,
+                        {category} = setData,
+                        productObjects = Array.from(document.querySelectorAll(".plant-info-block")).map(item => {
                             let productName = item.querySelector(".plant-info-title a") ? item.querySelector(".plant-info-title a").innerText.trim() : null,
                                 scientificName = item.querySelector(".plant-info-title p") ? item.querySelector(".plant-info-title p").innerText.trim() : null,
                                 imageUris = function(){
                                     return Array.from(item.querySelectorAll(".plant-info-block-img")).map(div => {
-                                        let queryObject = queryStringToObject(`https://davesgarden.com${div.getAttribute("style").slice(div.getAttribute("style").indexOf("url(") + 4, -2)}`);
+                                        let {queryObject} = queryStringToObject(`https://davesgarden.com${div.getAttribute("style").slice(div.getAttribute("style").indexOf("url(") + 4, -2)}`);
                         
                                         return queryObject.image ? `https://pics.davesgarden.com/pics/${queryObject.image}` : null;
                                     }).filter(item => item !== null);
@@ -253,6 +255,7 @@ async function awaitGlobal({condition}) {
                             return {
                                 productName,
                                 scientificName,
+                                category,
                                 imageUris,
                                 ...additionalProps,
                                 productUri,
@@ -287,10 +290,30 @@ async function awaitGlobal({condition}) {
                 },
                 dataSource : "on-page",
                 waitForSelectors : [".site-pagination", ".plant-info-block"],
-                args : []
+                args : ["categorizedSet"]
             },
         ],
-        single : []
+        single : [
+            {
+                callback : async () => {
+
+                    // await scrollToBottom();
+
+                    await slowDown(2525);
+
+                    // await scrollToTop();
+
+                    await slowDown(5252);
+
+                    return {}
+                },
+                dataSource : "api",
+                waitForSelectors : [
+                    // ".single-product-container .product-image"
+                    // ".PageProduct-details"
+                ],
+            }
+        ]
     }
 
     window.___cc__CcScraperGlobalObject.ccScrapingEventInstance.showConsoleLogs = true;
@@ -298,7 +321,7 @@ async function awaitGlobal({condition}) {
     window.___cc__CcScraperGlobalObject.initialize = async function() {
 
         if(!currentProcess)  {
-            // console.log(getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]));
+            console.log(getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]));
 
             window.addEventListener("cc-scraping-event", (e) => {
                 let scrapedData = e.detail.eventData.scrapedData; getValidatedPropValues(e, ["detail", "eventData", "scrapedData"]);
@@ -309,38 +332,71 @@ async function awaitGlobal({condition}) {
             });
 
 
-            let categorizedSetsScraperObject = new CategorizedSetsScraper({
-                evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
-                executeCategorizedSetScraping : true,
-                executeMultiProductsSetsInitializer : true, 
-                executeMultiSingleProductInitializer : true, 
-                addSetDataToProductProps : true,
-                uniqueProductObjProp : "productUri",
-                productUriPropName : "productUri",
-                removeProductsWithoutUriPropName : true,
-                callbacksOnDone : [],
-                downloadZippedData : true,
+            // let categorizedSetsScraperObject = new CategorizedSetsScraper({
+            //     evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
+            //     executeCategorizedSetScraping : false,
+            //     executeMultiProductsSetsInitializer : false, 
+            //     executeMultiSingleProductInitializer : false, 
+            //     addSetDataToProductProps : true,
+            //     uniqueProductObjProp : "productUri",
+            //     productUriPropName : "productUri",
+            //     removeProductsWithoutUriPropName : true,
+            //     callbacksOnDone : [],
+            //     downloadZippedData : true,
                 
-                csvRowsLimit : 500,
-                completeSingleScrapingEverySet : false,
-                maxOpenedWindows : 5,
-                continuousScraping : true,
-                // completeSingleScrapingEverySet : true,
-                // verifySingleProductUrl : false,
-                // verifyProductSetUrl : false,
+            //     csvRowsLimit : 500,
+            //     completeSingleScrapingEverySet : false,
+            //     maxOpenedWindows : 2,
+            //     continuousScraping : false,
+            //     // completeSingleScrapingEverySet : true,
+            //     // verifySingleProductUrl : false,
+            //     // verifyProductSetUrl : false,
 
 
-                // this can be used to slice the array of categorized sets || filter them by categorized set index in the offline db;
+            //     // this can be used to slice the array of categorized sets || filter them by categorized set index in the offline db;
 
-                // filteredCategorizedSetsIndices : [6, 12, 15],
-                // filteredCategorizedSetsIndices : [3, 10, 13],
-                // categorizedSetsIndices : {
-                //     startingIndex : 1,
-                //     // lastIndex : 12,
-                // },
-            });
+            //     // filteredCategorizedSetsIndices : [6, 12, 15],
+            //     // filteredCategorizedSetsIndices : [3, 10, 13],
+            //     // categorizedSetsIndices : {
+            //     //     startingIndex : 1,
+            //     //     // lastIndex : 12,
+            //     // },
+            // });
             
-            await categorizedSetsScraperObject.getCategorizedSets();
+            // await categorizedSetsScraperObject.getCategorizedSets();
+
+            let categorizedSets = await categorizedSetsOfflineDb.getAll();
+
+            // await moderator(categorizedSets, async (slicedArr) => {
+
+            //     let promises = slicedArr.map(categorizedSet => {
+            //         return async function(){
+
+            //             let {setData} = categorizedSet,
+            //                 productObjects = await productsOfflineDb.getAllFilteredData(setData),
+            //                 resultsObject = new Results({setData, productObjects, includeJson : true});
+
+            //             console.log({
+            //                 ...setData,
+            //                 total : productObjects.length,
+            //             })    
+
+            //             // await resultsObject.downloadZippedFile();
+
+            //             await resultsObject.downloadJsonFile();
+
+            //         }
+            //     });
+
+            //     await Promise.all(promises.map(item => item()));
+
+            // }, 1);
+
+
+            // downloading the categorized-sets;
+            let resultsObject = new Results({setData : {}, productObjects : categorizedSets});
+
+            await resultsObject.downloadJsonFile();
 
             let relatedEvents = await ccScrapingEventInstance.groupRelatedEvents();
 

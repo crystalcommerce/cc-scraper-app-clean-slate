@@ -2,7 +2,8 @@
     {
         "src": "http://localhost:8080/browser-scripts/__cc-scraper-core/index.js",
         "url": [
-            ""
+            "",
+            "chrome://newtab"
         ],
         "attributes" : [
             {
@@ -17,7 +18,8 @@
     {
         "src": "http://localhost:7747/index.js",
         "url": [
-            ""
+            "",
+            "chrome://newtab"
         ],
         "attributes" : [
             {
@@ -142,6 +144,22 @@
         "active" : true
     },
 
+    {
+        "src": "http://localhost:8080/browser-scripts/wikipedia/index.js",
+        "url": [
+            "wikipedia.org"
+        ],
+        "attributes" : [
+            {
+                "key" : "defer",
+                "val" : ""
+            }
+        ],
+        "method" : "append",
+        "htmlTagPosition": "body",
+        "active" : true
+    },
+
 
     {
         "src": "http://localhost:8080/browser-scripts/test-yt/index.js",
@@ -180,7 +198,8 @@
     {
         "src": "http://localhost:7757/index.js",
         "url": [
-            ""
+            "",
+            "chrome://newtab"
         ],
         "attributes" : [
             {

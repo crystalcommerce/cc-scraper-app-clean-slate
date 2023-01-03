@@ -381,10 +381,10 @@ async function awaitGlobal({condition}) {
                 // },
                 csvRowsLimit : 500,
                 completeSingleScrapingEverySet : true,
-                maxOpenedWindows : 10,
+                maxOpenedWindows : 5,
                 continuousScraping : true,
                 // filteredCategorizedSetsIndices : [8],
-                filteredCategorizedSetsIndices : [8, 10, 11],
+                // filteredCategorizedSetsIndices : [8, 10, 11],
 
                 // filteredCategorizedSetsIndices : [113],
             });

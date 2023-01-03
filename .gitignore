@@ -8,6 +8,7 @@ data/products/*
 data/zipped-files/*
 data/videos/*
 data/audios/*
+cert/
 
 # models/dynamic/*
 # routes/dynamic/*

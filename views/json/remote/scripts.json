@@ -1,181 +1,201 @@
 [
     {
-        "src": "http://192.168.86.21:8080/browser-scripts/__cc-scraper-core/index.js",
+        "src": "https://192.168.86.27:8080/browser-scripts/__cc-scraper-core/index.js",
         "url": [
-            ""
+            "",
+            "chrome://newtab"
         ],
-        "attributes" : [
+        "attributes": [
             {
-                "key" : "async",
-                "val" : ""
+                "key": "async",
+                "val": ""
             }
         ],
-        "method" : "prepend",
+        "method": "prepend",
         "htmlTagPosition": "head",
-        "active" : false
+        "active": false
     },
     {
-        "src": "http://192.168.86.21:7747/index.js",
+        "src": "https://192.168.86.27:7747/index.js",
         "url": [
-            ""
+            "",
+            "chrome://newtab"
         ],
-        "attributes" : [
+        "attributes": [
             {
-                "key" : "async",
-                "val" : ""
+                "key": "async",
+                "val": ""
             }
         ],
-        "method" : "prepend",
+        "method": "prepend",
         "htmlTagPosition": "head",
-        "active" : true
+        "active": true
     },
-
     {
-        "src": "http://192.168.86.21:8080/browser-scripts/_test-scripts/product-set/index.js",
+        "src": "https://192.168.86.27:8080/browser-scripts/_test-scripts/product-set/index.js",
         "url": [
-            "192.168.86.21:5500/",
+            "localhost:5500/",
             "http://127.0.0.1:5500/"
         ],
-        "attributes" : [
+        "attributes": [
             {
-                "key" : "defer",
-                "val" : ""
+                "key": "defer",
+                "val": ""
             }
         ],
-        "method" : "append",
+        "method": "append",
         "htmlTagPosition": "body",
-        "active" : true
+        "active": true
     },
     {
-        "src": "http://192.168.86.21:8080/browser-scripts/amiami-toys/index.js",
+        "src": "https://192.168.86.27:8080/browser-scripts/amiami-toys/index.js",
         "url": [
             "amiami.com/"
         ],
-        "attributes" : [
+        "attributes": [
             {
-                "key" : "defer",
-                "val" : ""
+                "key": "defer",
+                "val": ""
             }
         ],
-        "method" : "append",
+        "method": "append",
         "htmlTagPosition": "body",
-        "active" : true
+        "active": true
     },
     {
-        "src": "http://192.168.86.21:8080/browser-scripts/example/index.js",
+        "src": "https://192.168.86.27:8080/browser-scripts/example/index.js",
         "url": [
             ""
         ],
-        "attributes" : [
+        "attributes": [
             {
-                "key" : "defer",
-                "val" : ""
+                "key": "defer",
+                "val": ""
             }
         ],
-        "method" : "append",
+        "method": "append",
         "htmlTagPosition": "body",
-        "active" : false
+        "active": false
     },
-
-
     {
-        "src": "http://192.168.86.21:8080/browser-scripts/colemans-survival/index.js",
+        "src": "https://192.168.86.27:8080/browser-scripts/colemans-survival/index.js",
         "url": [
             "bikeexchange.com"
         ],
-        "attributes" : [
+        "attributes": [
             {
-                "key" : "defer",
-                "val" : ""
+                "key": "defer",
+                "val": ""
             }
         ],
-        "method" : "append",
+        "method": "append",
         "htmlTagPosition": "body",
-        "active" : false
+        "active": false
     },
-
     {
-        "src": "http://192.168.86.21:8080/browser-scripts/bike-exchange/index.js",
+        "src": "https://192.168.86.27:8080/browser-scripts/bike-exchange/index.js",
         "url": [
             "bikeexchange.com"
         ],
-        "attributes" : [
+        "attributes": [
             {
-                "key" : "defer",
-                "val" : ""
+                "key": "defer",
+                "val": ""
             }
         ],
-        "method" : "append",
+        "method": "append",
         "htmlTagPosition": "body",
-        "active" : true
+        "active": true
     },
-
     {
-        "src": "http://192.168.86.21:8080/browser-scripts/rebag-bags/index.js",
+        "src": "https://192.168.86.27:8080/browser-scripts/rebag-bags/index.js",
         "url": [
             "rebag.com"
         ],
-        "attributes" : [
+        "attributes": [
             {
-                "key" : "defer",
-                "val" : ""
+                "key": "defer",
+                "val": ""
             }
         ],
-        "method" : "append",
+        "method": "append",
         "htmlTagPosition": "body",
-        "active" : true
+        "active": true
     },
-
-
     {
-        "src": "http://192.168.86.21:8080/browser-scripts/test-yt/index.js",
+        "src": "https://192.168.86.27:8080/browser-scripts/plants-daves-garden/index.js",
+        "url": [
+            "davesgarden.com"
+        ],
+        "attributes": [
+            {
+                "key": "defer",
+                "val": ""
+            }
+        ],
+        "method": "append",
+        "htmlTagPosition": "body",
+        "active": true
+    },
+    {
+        "src": "https://192.168.86.27:8080/browser-scripts/wikipedia/index.js",
+        "url": [
+            "wikipedia.org"
+        ],
+        "attributes": [
+            {
+                "key": "defer",
+                "val": ""
+            }
+        ],
+        "method": "append",
+        "htmlTagPosition": "body",
+        "active": true
+    },
+    {
+        "src": "https://192.168.86.27:8080/browser-scripts/test-yt/index.js",
         "url": [
             "youtube.com"
         ],
-        "attributes" : [
+        "attributes": [
             {
-                "key" : "defer",
-                "val" : ""
+                "key": "defer",
+                "val": ""
             }
         ],
-        "method" : "append",
+        "method": "append",
         "htmlTagPosition": "body",
-        "active" : true
+        "active": true
     },
-
-
-    
     {
-        "src": "http://192.168.86.21:8080/browser-scripts/__cc-scraper-ui/index.js",
+        "src": "https://192.168.86.27:8080/browser-scripts/__cc-scraper-ui/index.js",
         "url": [
             ""
         ],
-        "attributes" : [
+        "attributes": [
             {
-                "key" : "defer",
-                "val" : ""
+                "key": "defer",
+                "val": ""
             }
         ],
-        "method" : "append",
+        "method": "append",
         "htmlTagPosition": "body",
-        "active" : false
+        "active": false
     },
-
     {
-        "src": "http://192.168.86.21:7757/index.js",
+        "src": "https://192.168.86.27:7757/index.js",
         "url": [
-            ""
+            "",
+            "chrome://newtab"
         ],
-        "attributes" : [
+        "attributes": [
             {
-                "key" : "defer",
-                "val" : ""
+                "key": "defer",
+                "val": ""
             }
         ],
-        "method" : "append",
+        "method": "append",
         "htmlTagPosition": "body",
-        "active" : false
+        "active": false
     }
-
-    
 ]

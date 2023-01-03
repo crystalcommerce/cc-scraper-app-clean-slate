@@ -1,3 +1,9 @@
+const fileSystemUtilities = require("./file-system");
+const objectsArrayUtilities = require("./objects-array");
+const stringUtilities = require("./string");
+const urlUtilities = require("./url");
+const createJsonFileObject = require("./json");
+
 function getRequestResult(result, status = 200, contentType = "application/json") {
     let obj = {
         contentType,
@@ -27,4 +33,13 @@ function dynamicRequire(filePath)   {
     return module;
 }
 
-module.exports = { getRequestResult, filterObjectsByMethodName, dynamicRequire };
+module.exports = {
+    ...fileSystemUtilities,
+    ...objectsArrayUtilities,
+    ...stringUtilities,
+    ...urlUtilities,
+    createJsonFileObject,
+    getRequestResult, 
+    filterObjectsByMethodName, 
+    dynamicRequire 
+};

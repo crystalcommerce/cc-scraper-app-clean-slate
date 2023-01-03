@@ -332,40 +332,40 @@ async function awaitGlobal({condition}) {
             });
 
 
-            // let categorizedSetsScraperObject = new CategorizedSetsScraper({
-            //     evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
-            //     executeCategorizedSetScraping : false,
-            //     executeMultiProductsSetsInitializer : false, 
-            //     executeMultiSingleProductInitializer : false, 
-            //     addSetDataToProductProps : true,
-            //     uniqueProductObjProp : "productUri",
-            //     productUriPropName : "productUri",
-            //     removeProductsWithoutUriPropName : true,
-            //     callbacksOnDone : [],
-            //     downloadZippedData : true,
+            let categorizedSetsScraperObject = new CategorizedSetsScraper({
+                evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
+                executeCategorizedSetScraping : false,
+                executeMultiProductsSetsInitializer : false, 
+                executeMultiSingleProductInitializer : false, 
+                addSetDataToProductProps : true,
+                uniqueProductObjProp : "productUri",
+                productUriPropName : "productUri",
+                removeProductsWithoutUriPropName : true,
+                callbacksOnDone : [],
+                downloadZippedData : true,
                 
-            //     csvRowsLimit : 500,
-            //     completeSingleScrapingEverySet : false,
-            //     maxOpenedWindows : 2,
-            //     continuousScraping : false,
-            //     // completeSingleScrapingEverySet : true,
-            //     // verifySingleProductUrl : false,
-            //     // verifyProductSetUrl : false,
+                csvRowsLimit : 500,
+                completeSingleScrapingEverySet : false,
+                maxOpenedWindows : 2,
+                continuousScraping : false,
+                // completeSingleScrapingEverySet : true,
+                // verifySingleProductUrl : false,
+                // verifyProductSetUrl : false,
 
 
-            //     // this can be used to slice the array of categorized sets || filter them by categorized set index in the offline db;
+                // this can be used to slice the array of categorized sets || filter them by categorized set index in the offline db;
 
-            //     // filteredCategorizedSetsIndices : [6, 12, 15],
-            //     // filteredCategorizedSetsIndices : [3, 10, 13],
-            //     // categorizedSetsIndices : {
-            //     //     startingIndex : 1,
-            //     //     // lastIndex : 12,
-            //     // },
-            // });
+                // filteredCategorizedSetsIndices : [6, 12, 15],
+                // filteredCategorizedSetsIndices : [3, 10, 13],
+                // categorizedSetsIndices : {
+                //     startingIndex : 1,
+                //     // lastIndex : 12,
+                // },
+            });
             
-            // await categorizedSetsScraperObject.getCategorizedSets();
+            await categorizedSetsScraperObject.getCategorizedSets();
 
-            let categorizedSets = await categorizedSetsOfflineDb.getAll();
+            // let categorizedSets = await categorizedSetsOfflineDb.getAll();
 
             // await moderator(categorizedSets, async (slicedArr) => {
 
@@ -394,13 +394,13 @@ async function awaitGlobal({condition}) {
 
 
             // downloading the categorized-sets;
-            let resultsObject = new Results({setData : {}, productObjects : categorizedSets});
+            // let resultsObject = new Results({setData : {}, productObjects : categorizedSets});
 
-            await resultsObject.downloadJsonFile();
+            // await resultsObject.downloadJsonFile();
 
-            let relatedEvents = await ccScrapingEventInstance.groupRelatedEvents();
+            // let relatedEvents = await ccScrapingEventInstance.groupRelatedEvents();
 
-            console.log(relatedEvents);
+            // console.log(relatedEvents);
             
         }
 
@@ -417,4 +417,4 @@ async function awaitGlobal({condition}) {
             // console.table(scraperObject.productObjects);
         }
     }
-}())
+}());

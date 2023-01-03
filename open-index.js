@@ -11,6 +11,21 @@ const sockectController = require("./controllers/socket");
 const autoSmrRewrite = require("./config/auto-smr-rewrite");
 
 
+const fs = require("fs");
+const getIpAddress = require("./server/get-ip-address");
+const ipAddress = getIpAddress();
+const rewriteJson = require('./server/rewrite-json');
+
+const options = {
+    key : fs.readFileSync(path.join(__dirname, "cert", "key.pem")),
+    cert : fs.readFileSync(path.join(__dirname, "cert", "cert.pem")),
+}
+
+rewriteJson(ipAddress);
+
+
+
+
 /***************************
  * 
  *  app and env instances
@@ -29,13 +44,14 @@ const autoSmrRewrite = require("./config/auto-smr-rewrite");
 ***********************/
 
     const http = require('http');
+    const https = require('https');
     const socketOptions = {
         cors: {
             origin: "*",
             methods: ["GET", "POST"],
         }
     };
-    const server = http.createServer(app);
+    const server = https.createServer(options, app);
     const io = new Server(server, socketOptions);
     // we're adding custom object props here...
     io.customEvent = new EventEmitter();
@@ -77,7 +93,7 @@ const autoSmrRewrite = require("./config/auto-smr-rewrite");
         .then(() => {
 
 
-            server.listen(port, "192.168.86.21", async () => {
+            server.listen(port, ipAddress, async () => {
 
                 await autoSmrRewrite();
                 console.log(`Server has initialized at port ${port}`);

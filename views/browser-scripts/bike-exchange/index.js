@@ -362,6 +362,13 @@ async function awaitGlobal({condition}) {
                 ccScrapingEventInstance.log(e.detail);
             });
 
+            setTimeout(() => {
+
+                console.clear();
+
+
+            }, 300000);
+
 
             let categorizedSetsScraperObject = new CategorizedSetsScraper({
                 evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
@@ -384,7 +391,7 @@ async function awaitGlobal({condition}) {
                 maxOpenedWindows : 5,
                 continuousScraping : true,
                 // filteredCategorizedSetsIndices : [8],
-                // filteredCategorizedSetsIndices : [8, 10, 11],
+                filteredCategorizedSetsIndices : [1],
 
                 // filteredCategorizedSetsIndices : [113],
             });
@@ -440,3 +447,5 @@ async function awaitGlobal({condition}) {
         }
     }
 }())
+
+

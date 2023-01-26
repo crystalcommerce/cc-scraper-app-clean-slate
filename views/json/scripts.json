@@ -145,6 +145,22 @@
     },
 
     {
+        "src": "http://localhost:8080/browser-scripts/skills-exchange/index.js",
+        "url": [
+            "mymajors.com"
+        ],
+        "attributes" : [
+            {
+                "key" : "defer",
+                "val" : ""
+            }
+        ],
+        "method" : "append",
+        "htmlTagPosition": "body",
+        "active" : true
+    },
+
+    {
         "src": "http://localhost:8080/browser-scripts/wikipedia/index.js",
         "url": [
             "wikipedia.org"

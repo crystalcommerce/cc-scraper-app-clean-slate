@@ -390,8 +390,8 @@ async function awaitGlobal({condition}) {
                 completeSingleScrapingEverySet : true,
                 maxOpenedWindows : 5,
                 continuousScraping : true,
-                // filteredCategorizedSetsIndices : [8],
-                filteredCategorizedSetsIndices : [1],
+                filteredCategorizedSetsIndices : [6, 7, 8],
+                // filteredCategorizedSetsIndices : [1],
 
                 // filteredCategorizedSetsIndices : [113],
             });

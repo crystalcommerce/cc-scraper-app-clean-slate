@@ -61,7 +61,7 @@ async function awaitGlobal({condition}) {
 
                     ccScrapingEventInstance.clear();
 
-                    let categorizedSets = Array.from(document.querySelectorAll(".bc-sf-filter-option-block-style .bc-sf-filter-option-multiple-list li > a")).map(item => {
+                    let categorizedSets = Array.from(document.querySelectorAll(".bc-sf-filter-option-block-bag-type .bc-sf-filter-option-multiple-list li > a")).map(item => {
                         let url = item.href.trim(),
                             productsTotal = item.querySelector(".bc-sf-filter-option-amount") ? Number(item.querySelector(".bc-sf-filter-option-amount").innerText.trim().replace(/[^\w\s]/gi, "")) : null,
                             setData = {
@@ -80,7 +80,7 @@ async function awaitGlobal({condition}) {
 
                 },
                 dataSource : "on-page",
-                waitForSelectors : [".bc-sf-filter-option-block-style .bc-sf-filter-option-multiple-list", ".product-view-details"],
+                waitForSelectors : [".bc-sf-filter-option-block-bag-type .bc-sf-filter-option-multiple-list", ".product-view-details"],
             }
         ],
         set : [
@@ -264,7 +264,8 @@ async function awaitGlobal({condition}) {
                 // this can be used to slice the array of categorized sets || filter them by categorized set index in the offline db;
 
                 // filteredCategorizedSetsIndices : [6, 12, 15],
-                filteredCategorizedSetsIndices : [3, 10, 13],
+                // filteredCategorizedSetsIndices : [10, 13, 16],
+                // filteredCategorizedSetsIndices : [10],
                 // categorizedSetsIndices : {
                 //     startingIndex : 1,
                 //     // lastIndex : 12,

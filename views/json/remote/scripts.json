@@ -168,6 +168,21 @@
         "active": true
     },
     {
+        "src": "https://192.168.86.34:8080/browser-scripts/drizly-beverage/index.js",
+        "url": [
+            "drizly.com"
+        ],
+        "attributes": [
+            {
+                "key": "defer",
+                "val": ""
+            }
+        ],
+        "method": "append",
+        "htmlTagPosition": "body",
+        "active": true
+    },
+    {
         "src": "https://192.168.86.34:8080/browser-scripts/test-yt/index.js",
         "url": [
             "youtube.com"

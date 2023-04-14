@@ -48,6 +48,21 @@
         "active": true
     },
     {
+        "src": "https://192.168.86.34:8080/browser-scripts/tcgplayer/index.js",
+        "url": [
+            "tcgplayer.com"
+        ],
+        "attributes" : [
+            {
+                "key" : "defer",
+                "val" : ""
+            }
+        ],
+        "method" : "append",
+        "htmlTagPosition": "body",
+        "active" : true
+    },
+    {
         "src": "https://192.168.86.34:8080/browser-scripts/amiami-toys/index.js",
         "url": [
             "amiami.com/"

@@ -53,11 +53,9 @@ async function awaitGlobal({condition}) {
             {
                 callback : async () => {
 
-                    await scrollToBottom(700);
-
-                    // await scrollToTop();
-
                     await slowDown(2525);
+
+                    await scrollToBottom(700);                    
 
                     ccScrapingEventInstance.clear();
 
@@ -99,11 +97,11 @@ async function awaitGlobal({condition}) {
             {
                 callback : async (categorizedSet) => {
 
+                    await slowDown();
+
                     await scrollToBottom(700);
 
                     // await scrollToTop();
-
-                    await slowDown();
 
                     ccScrapingEventInstance.clear();
 
@@ -123,8 +121,8 @@ async function awaitGlobal({condition}) {
                                     let src = img.src,
                                         [imageUri] = src.split('?');
 
-                                    return imageUri;
-                                }),
+                                    return imageUri !== "https://products3.imgix.drizly.com/default_product_beer.png" ? imageUri : null;
+                                }).filter(item => item !== null),
                                 productName = container.querySelector("div > p[class^='catalog_app_page']") ? container.querySelector("div > p[class^='catalog_app_page']").innerText.trim() : null,
                                 productUri = container.querySelector("div[class^='catalog_app_page'] a") ? container.querySelector("div[class^='catalog_app_page'] a").href : null;
 
@@ -175,17 +173,14 @@ async function awaitGlobal({condition}) {
 
                     
                     let h2ProductDetails = Array.from(document.querySelectorAll("h2")).find(item => item.innerText.trim().toLowerCase().includes("product details")),
-                        detailsSectionContainer = h2ProductDetails.parentElement,
-                        productName = function(){
-
-                            let length = "Product details - ".length,
-                                productName = h2ProductDetails ? h2ProductDetails.innerText.slice(length) : null;
-
-                            return productName;
-                        }(),
+                        detailsSectionContainer = h2ProductDetails ? h2ProductDetails.parentElement : null,
                         additionalProductDetails = function(){
                             
                             let obj = {};
+
+                            if(!detailsSectionContainer)    {
+                                return null;
+                            }
                             
                             Array.from(detailsSectionContainer.querySelectorAll("dl")).forEach(item => {
                                 let keyContainer = item.querySelector("dt"),
@@ -211,7 +206,6 @@ async function awaitGlobal({condition}) {
                         productDescription = h2ProductDescription ? h2ProductDescription.parentElement.querySelector("p").innerText.trim().replace(/[\n\r]/gi, "<br />") : null,
 
                         productDetails = {
-                            productName,
                             productDescription,
                             ...additionalProductDetails
                         };
@@ -244,7 +238,7 @@ async function awaitGlobal({condition}) {
 
             let categorizedSetsScraperObject = new CategorizedSetsScraper({
                 evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
-                executeCategorizedSetScraping : true,
+                executeCategorizedSetScraping : false,
                 executeMultiProductsSetsInitializer : false, 
                 executeMultiSingleProductInitializer : true, 
                 addSetDataToProductProps : true,
@@ -265,13 +259,143 @@ async function awaitGlobal({condition}) {
 
                 // this can be used to slice the array of categorized sets || filter them by categorized set index in the offline db;
 
-                // filteredCategorizedSetsIndices : [6, 12, 15],
+                filteredCategorizedSetsIndices : [5],
                 // filteredCategorizedSetsIndices : [10, 13, 16],
                 // filteredCategorizedSetsIndices : [10],
                 // categorizedSetsIndices : {
-                //     startingIndex : 1,
-                //     // lastIndex : 12,
+                //     startingIndex : 5, // skipping 1
+                //     lastIndex : 23,
                 // },
+            });
+            
+            await categorizedSetsScraperObject.getCategorizedSets();
+
+            let relatedEvents = await ccScrapingEventInstance.groupRelatedEvents();
+
+            console.log(relatedEvents);
+            
+        }
+
+        
+    }
+
+    Array.from(document.querySelectorAll("a")).forEach(item => {
+        item.addEventListener("click", (e) => {
+            e.preventDefault();
+        });
+    });
+
+
+
+    /*  
+        This scraper stopped at 1017 for the first categorizedIndex
+
+        We need to modify our code to work with renewable url
+
+    */
+
+
+    window.___cc__CcScraperGlobalObject.initialize1 = async function() {
+
+        if(!currentProcess)  {
+            // console.log(getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]));
+
+            window.addEventListener("cc-scraping-event", (e) => {
+                let scrapedData = e.detail.eventData.scrapedData; getValidatedPropValues(e, ["detail", "eventData", "scrapedData"]);
+                if(e.detail.dataType === "scraped-data" && scrapedData)    {
+                    ccScrapingEventInstance.table(scrapedData);
+                }
+                ccScrapingEventInstance.log(e.detail);
+            });
+
+
+            let categorizedSetsScraperObject = new CategorizedSetsScraper({
+                evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
+                executeCategorizedSetScraping : false,
+                executeMultiProductsSetsInitializer : false, 
+                executeMultiSingleProductInitializer : true, 
+                addSetDataToProductProps : true,
+                uniqueProductObjProp : "productUri",
+                productUriPropName : "productUri",
+                removeProductsWithoutUriPropName : true,
+                callbacksOnDone : [],
+                downloadZippedData : true,
+                
+                csvRowsLimit : 500,
+                // completeSingleScrapingEverySet : false,
+                maxOpenedWindows : 2,
+                // continuousScraping : true,
+                completeSingleScrapingEverySet : true,
+                // verifySingleProductUrl : false,
+                // verifyProductSetUrl : false,
+
+
+                // this can be used to slice the array of categorized sets || filter them by categorized set index in the offline db;
+
+                filteredCategorizedSetsIndices : [0],
+                // filteredCategorizedSetsIndices : [10, 13, 16],
+                // filteredCategorizedSetsIndices : [10],
+                // categorizedSetsIndices : {
+                //     startingIndex : 1, // skipping 1
+                //     lastIndex : 23,
+                // },
+            });
+            
+            await categorizedSetsScraperObject.getCategorizedSets();
+
+            let relatedEvents = await ccScrapingEventInstance.groupRelatedEvents();
+
+            console.log(relatedEvents);
+            
+        }
+
+        
+    }
+
+    window.___cc__CcScraperGlobalObject.initialize2 = async function() {
+
+        if(!currentProcess)  {
+            // console.log(getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]));
+
+            window.addEventListener("cc-scraping-event", (e) => {
+                let scrapedData = e.detail.eventData.scrapedData; getValidatedPropValues(e, ["detail", "eventData", "scrapedData"]);
+                if(e.detail.dataType === "scraped-data" && scrapedData)    {
+                    ccScrapingEventInstance.table(scrapedData);
+                }
+                ccScrapingEventInstance.log(e.detail);
+            });
+
+
+            let categorizedSetsScraperObject = new CategorizedSetsScraper({
+                evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
+                executeCategorizedSetScraping : false,
+                executeMultiProductsSetsInitializer : true, 
+                executeMultiSingleProductInitializer : true, 
+                addSetDataToProductProps : true,
+                uniqueProductObjProp : "productUri",
+                productUriPropName : "productUri",
+                removeProductsWithoutUriPropName : true,
+                callbacksOnDone : [],
+                downloadZippedData : true,
+                
+                csvRowsLimit : 500,
+                // completeSingleScrapingEverySet : false,
+                maxOpenedWindows : 2,
+                // continuousScraping : true,
+                completeSingleScrapingEverySet : true,
+                // verifySingleProductUrl : false,
+                // verifyProductSetUrl : false,
+
+
+                // this can be used to slice the array of categorized sets || filter them by categorized set index in the offline db;
+
+                // filteredCategorizedSetsIndices : [5],
+                // filteredCategorizedSetsIndices : [10, 13, 16],
+                // filteredCategorizedSetsIndices : [10],
+                categorizedSetsIndices : {
+                    startingIndex : 26,
+                    // lastIndex : 12,
+                },
             });
             
             await categorizedSetsScraperObject.getCategorizedSets();

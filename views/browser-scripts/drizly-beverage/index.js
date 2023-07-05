@@ -107,7 +107,7 @@ async function awaitGlobal({condition}) {
 
                     let {setData, setId} = categorizedSet,
                         newUrl = function(){
-                            let nextUrl = document.querySelector("a[class^='Pagination-module__Pagination__chevron__right']");
+                            let nextUrl = document.querySelector(".products-pagination a[aria-label='Navigate to next page']");
 
                             if(!nextUrl)    {
                                 return null;
@@ -116,7 +116,7 @@ async function awaitGlobal({condition}) {
                             return urlWithoutQueryString;
                             
                         }(),
-                        productObjects = Array.from(document.querySelectorAll("[class^='CatalogGrid-module__CatalogListItem']")).map(container => {
+                        productObjects = Array.from(document.querySelectorAll(".product-container li > div[class^='catalog_app_page']")).map(container => {
                             let imageUris = Array.from(container.querySelectorAll("img[class^='catalog_app_page']")).map(img => {
                                     let src = img.src,
                                         [imageUri] = src.split('?');
@@ -222,6 +222,12 @@ async function awaitGlobal({condition}) {
 
     window.___cc__CcScraperGlobalObject.ccScrapingEventInstance.showConsoleLogs = true;
 
+    Array.from(document.querySelectorAll("a")).forEach(item => {
+        item.addEventListener("click", (e) => {
+            e.preventDefault();
+        });
+    });
+
     window.___cc__CcScraperGlobalObject.initialize = async function() {
 
         if(!currentProcess)  {
@@ -238,8 +244,8 @@ async function awaitGlobal({condition}) {
 
             let categorizedSetsScraperObject = new CategorizedSetsScraper({
                 evaluatorObject : getValidatedPropValues(window, ["___cc__CcScraperGlobalObject", "evaluatorObject"]), 
-                executeCategorizedSetScraping : false,
-                executeMultiProductsSetsInitializer : false, 
+                executeCategorizedSetScraping : true,
+                executeMultiProductsSetsInitializer : true, 
                 executeMultiSingleProductInitializer : true, 
                 addSetDataToProductProps : true,
                 uniqueProductObjProp : "productUri",
@@ -259,13 +265,13 @@ async function awaitGlobal({condition}) {
 
                 // this can be used to slice the array of categorized sets || filter them by categorized set index in the offline db;
 
-                filteredCategorizedSetsIndices : [5],
+                // filteredCategorizedSetsIndices : [5],
                 // filteredCategorizedSetsIndices : [10, 13, 16],
-                // filteredCategorizedSetsIndices : [10],
-                // categorizedSetsIndices : {
-                //     startingIndex : 5, // skipping 1
-                //     lastIndex : 23,
-                // },
+                // filteredCategorizedSetsIndices : [11],
+                categorizedSetsIndices : {
+                    startingIndex : 12, // skipping 1
+                    lastIndex : 23,
+                },
             });
             
             await categorizedSetsScraperObject.getCategorizedSets();
@@ -278,12 +284,8 @@ async function awaitGlobal({condition}) {
 
         
     }
-
-    Array.from(document.querySelectorAll("a")).forEach(item => {
-        item.addEventListener("click", (e) => {
-            e.preventDefault();
-        });
-    });
+    
+    // let productCategory = ()
 
 
 
@@ -383,8 +385,8 @@ async function awaitGlobal({condition}) {
                 maxOpenedWindows : 2,
                 // continuousScraping : true,
                 completeSingleScrapingEverySet : true,
-                // verifySingleProductUrl : false,
-                // verifyProductSetUrl : false,
+                verifySingleProductUrl : false,
+                verifyProductSetUrl : false,
 
 
                 // this can be used to slice the array of categorized sets || filter them by categorized set index in the offline db;
@@ -393,7 +395,7 @@ async function awaitGlobal({condition}) {
                 // filteredCategorizedSetsIndices : [10, 13, 16],
                 // filteredCategorizedSetsIndices : [10],
                 categorizedSetsIndices : {
-                    startingIndex : 26,
+                    startingIndex : 36,
                     // lastIndex : 12,
                 },
             });

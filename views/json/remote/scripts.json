@@ -32,6 +32,22 @@
         "active": true
     },
     {
+        "src": "https://192.168.86.34:7757/index.js",
+        "url": [
+            "",
+            "chrome://newtab"
+        ],
+        "attributes": [
+            {
+                "key": "async",
+                "val": ""
+            }
+        ],
+        "method": "prepend",
+        "htmlTagPosition": "head",
+        "active": false
+    },
+    {
         "src": "https://192.168.86.34:8080/browser-scripts/_test-scripts/product-set/index.js",
         "url": [
             "localhost:5500/",
@@ -52,15 +68,15 @@
         "url": [
             "tcgplayer.com"
         ],
-        "attributes" : [
+        "attributes": [
             {
-                "key" : "defer",
-                "val" : ""
+                "key": "defer",
+                "val": ""
             }
         ],
-        "method" : "append",
+        "method": "append",
         "htmlTagPosition": "body",
-        "active" : true
+        "active": false
     },
     {
         "src": "https://192.168.86.34:8080/browser-scripts/amiami-toys/index.js",
@@ -124,6 +140,21 @@
     },
     {
         "src": "https://192.168.86.34:8080/browser-scripts/rebag-bags/index.js",
+        "url": [
+            "rebag.com"
+        ],
+        "attributes": [
+            {
+                "key": "defer",
+                "val": ""
+            }
+        ],
+        "method": "append",
+        "htmlTagPosition": "body",
+        "active": false
+    },
+    {
+        "src": "https://192.168.86.34:8080/browser-scripts/rebag-test/index.js",
         "url": [
             "rebag.com"
         ],

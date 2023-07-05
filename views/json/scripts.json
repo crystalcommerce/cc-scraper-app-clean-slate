@@ -29,7 +29,7 @@
         ],
         "method" : "prepend",
         "htmlTagPosition": "head",
-        "active" : false
+        "active" : true
     },
 
     {
@@ -46,7 +46,7 @@
         ],
         "method" : "prepend",
         "htmlTagPosition": "head",
-        "active" : true
+        "active" : false
     },
 
     {
